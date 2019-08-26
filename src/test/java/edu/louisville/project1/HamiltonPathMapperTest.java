@@ -3,7 +3,6 @@ package edu.louisville.project1;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,27 +23,10 @@ public class HamiltonPathMapperTest {
   }
 
   @Test
-  public void returnsHashMapWithAllCityRouteCombinationsFromAllStartingPoints() {
-    HashMap<List<City>, Float> expectedHashMap = new HashMap<>();
-    expectedHashMap.put(List.of(city1, city2, city3, city1), 0f);
-    expectedHashMap.put(List.of(city1, city3, city2, city1), 0f);
-    expectedHashMap.put(List.of(city2, city1, city3, city2), 0f);
-    expectedHashMap.put(List.of(city2, city3, city1, city2), 0f);
-    expectedHashMap.put(List.of(city3, city1, city2, city3), 0f);
-    expectedHashMap.put(List.of(city3, city2, city1, city3), 0f);
-
-    assertEquals(expectedHashMap, subject.map(List.of(city1, city2, city3)));
-  }
-
-  @Test
   public void returnsHashMapWithAllCityWeights() {
     HashMap<List<City>, Float> expectedWeightedMap = new HashMap<>();
     expectedWeightedMap.put(List.of(city1, city2, city3, city1), 18f);
     expectedWeightedMap.put(List.of(city1, city3, city2, city1), 18f);
-    expectedWeightedMap.put(List.of(city2, city1, city3, city2), 18f);
-    expectedWeightedMap.put(List.of(city2, city3, city1, city2), 18f);
-    expectedWeightedMap.put(List.of(city3, city1, city2, city3), 18f);
-    expectedWeightedMap.put(List.of(city3, city2, city1, city3), 18f);
 
     assertEquals(expectedWeightedMap, subject.weightedMap(List.of(city1, city2, city3)));
   }
