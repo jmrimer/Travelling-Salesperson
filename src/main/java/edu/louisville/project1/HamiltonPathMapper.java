@@ -6,15 +6,15 @@ import java.awt.geom.Point2D;
 import java.util.*;
 
 class HamiltonPathMapper {
-  LinkedHashMap<List<City>, Float> weightedRoutes(List<City> cities) {
-    LinkedHashMap<List<City>, Float> weightedMap = this.mapRoutes(cities);
+  LinkedHashMap<List<City>, Float> mapWeightedRoutes(List<City> cities) {
+    LinkedHashMap<List<City>, Float> weightedMap = this.mapUnweightedRoutes(cities);
     for (Map.Entry<List<City>, Float> route : weightedMap.entrySet()) {
-      weightedMap.replace(route.getKey(), getWeight(route.getKey()));
+      weightedMap.replace(route.getKey(), calculateWeight(route.getKey()));
     }
     return weightedMap;
   }
 
-  private LinkedHashMap<List<City>, Float> mapRoutes(List<City> cities) {
+  private LinkedHashMap<List<City>, Float> mapUnweightedRoutes(List<City> cities) {
     LinkedHashMap<List<City>, Float> routes = new LinkedHashMap<>();
     Generator.permutation(cities)
       .simple()
@@ -53,7 +53,7 @@ class HamiltonPathMapper {
     return map;
   }
 
-  private float getWeight(List<City> route) {
+  private float calculateWeight(List<City> route) {
     float weight = 0f;
     for (int cityIndex = 0; cityIndex < route.size() - 1; cityIndex++) {
       weight += getDistance(route, cityIndex);

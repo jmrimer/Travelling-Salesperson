@@ -37,7 +37,7 @@ public class HamiltonPathMapperTest {
     expectedWeightedMap.put(route2, 24f);
     expectedWeightedMap.put(route3, 24f);
 
-    assertEquals(expectedWeightedMap, subject.weightedRoutes(List.of(city1, city2, city3, city4)));
+    assertEquals(expectedWeightedMap, subject.mapWeightedRoutes(List.of(city1, city2, city3, city4)));
   }
 
 }
