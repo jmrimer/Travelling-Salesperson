@@ -1,62 +1,63 @@
-import * as React from 'react';
+import React from 'react';
+import { CityModel } from './models/CityModel';
+import { connect } from 'react-redux';
+import { RouteModel } from './models/RouteModel';
+import { setRoute } from './actions';
 
 interface Props {
-  className?: string;
+  route: RouteModel,
+  setRoute: (data: any) => void
 }
 
-class CityModel {
-  constructor(
-    public name: string = '',
-    public latitude: number = 0,
-    public longitude: number = 0,
-  ) {
-
-  }
-}
-
-class RouteModel {
-  constructor(
-    public route: CityModel[] = [],
-    public weight: number = 0
-  ) {
-  }
-}
-
-interface State {
-  route: RouteModel;
-}
-
-export class HomePage extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      route: new RouteModel()
-    }
-  }
-
+export class HomePage extends React.Component<Props> {
   componentDidMount(): void {
     fetch('http://localhost:8080/api/map')
       .then(response => response.json())
       .then(data => {
-        this.setState({route: data});
+        this.props.setRoute(data);
       });
   }
 
   render() {
+    const {route} = this.props;
+
     return (
-      <div className={this.props.className}>
-        {`Hello\n${this.state.route.weight}`}
-        {`City\n${this.state.route.route}`}
-        {
-          this.state.route.route
-            ?
-            this.state.route.route.map((city: CityModel, index: number) => {
-              return <div key={index}>{city.name}</div>;
-            })
-            :
-            <div>Loading...</div>
-        }
+      <div className={'route'}>
+        <span>Weight: {this.props.route.weight}</span>
+        {this.displayRoute(this.props.route)}
       </div>
     );
   }
+
+  private displayRoute(route: RouteModel) {
+    if (route) {
+      return (
+        <div>
+          Route:
+          {
+            route.route.map((city: CityModel, index: number) => {
+              return <div key={index}>{city.name}</div>;
+            })
+          }
+        </div>
+      );
+    }
+    return <div>Loading...</div>;
+  }
 }
+
+const mapStateToProps = (state: any) => {
+  return {
+    route: state.route
+  }
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setRoute: (route: RouteModel) => {
+      dispatch(setRoute(route))
+    }
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
