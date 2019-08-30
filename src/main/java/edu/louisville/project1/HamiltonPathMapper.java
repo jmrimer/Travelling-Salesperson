@@ -8,7 +8,7 @@ import java.util.*;
 class HamiltonPathMapper {
   LinkedHashMap<List<City>, Float> mapWeightedRoutes(List<City> cities) {
     LinkedHashMap<List<City>, Float> weightedMap = this.mapUnweightedRoutes(cities);
-    for (Map.Entry<List<City>, Float> route : weightedMap.entrySet()) {
+    for (HashMap.Entry<List<City>, Float> route : weightedMap.entrySet()) {
       weightedMap.replace(route.getKey(), calculateWeight(route.getKey()));
     }
     return weightedMap;

@@ -17,4 +17,9 @@ public class MappingService {
       )
     );
   }
+
+  public WeightedRoute routeFromMap(Map map) {
+    TravelingSalespersonProblemSolver solver = new TravelingSalespersonProblemSolver();
+    return solver.calculateShortestPath(map.getCities());
+  }
 }

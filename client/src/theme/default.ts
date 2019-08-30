@@ -1,0 +1,10 @@
+export const theme = {
+  background: 'linear-gradient(360deg,#1E222A 0%,#39414E 100%)',
+  fontFamily: 'Righteous',
+  color: {
+    fontWhite: '#e6e5e5',
+    foreground: '#c4c4c4',
+    lavender: '#443D7C',
+    talcum: '#50819B'
+  }
+};
