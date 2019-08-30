@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/classnames": "^2.2.9",
     "@types/enzyme": "^3.10.3",
     "@types/fetch-mock": "^7.3.1",
     "@types/jest": "^24.0.18",
@@ -10,6 +11,8 @@
     "@types/react": "^16.9.2",
     "@types/redux-mock-store": "^1.0.1",
     "@types/redux-thunk": "^2.1.0",
+    "@types/styled-components": "^4.1.18",
+    "classnames": "^2.2.6",
     "cross-fetch": "^3.0.4",
     "enzyme": "^3.10.0",
     "fetch-mock": "^7.3.9",
@@ -21,6 +24,7 @@
     "redux": "^4.0.4",
     "redux-mock-store": "^1.5.3",
     "redux-thunk": "^2.3.0",
+    "styled-components": "^4.3.2",
     "typescript": "^3.5.3"
   },
   "scripts": {

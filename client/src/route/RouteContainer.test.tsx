@@ -3,6 +3,7 @@ import React from 'react';
 import { RouteContainer } from './RouteContainer';
 import { RouteInfo } from './RouteInfo';
 import { RouteModel } from '../models/RouteModel';
+import { MapInput } from './MapInput';
 
 describe('RouteContainer', () => {
   let routeContainer: ShallowWrapper;
@@ -40,5 +41,13 @@ describe('RouteContainer', () => {
       />
     );
     expect(routeContainer.find('.loading').exists()).toBeTruthy();
+  });
+
+  it('should display and facilitate map input', () => {
+    expect(routeContainer.find(MapInput).exists()).toBeTruthy();
+  });
+
+  it('should provide a button to calculate route from input', () => {
+    expect(routeContainer.find('button').exists()).toBeTruthy();
   });
 });
