@@ -16,8 +16,8 @@ public class MapController {
   }
 
   @CrossOrigin(origins = "http://localhost:3000")
-  @RequestMapping("/api/map")
-  public @ResponseBody WeightedRoute map() {
+  @RequestMapping("/api/weightedRoute")
+  public @ResponseBody WeightedRoute weightedRoute() {
     return this.mappingService.route();
   }
 }

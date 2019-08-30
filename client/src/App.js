@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
-import HomePage from './route/RouteInfo';
+import RouteContainer from './route/RouteContainer';
 
 function App() {
   return (
-    <HomePage/>
+    <RouteContainer/>
   );
 }
 
