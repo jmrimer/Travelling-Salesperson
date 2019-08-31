@@ -13,7 +13,6 @@
     "@types/redux-thunk": "^2.1.0",
     "@types/styled-components": "^4.1.18",
     "classnames": "^2.2.6",
-    "cross-fetch": "^3.0.4",
     "enzyme": "^3.10.0",
     "fetch-mock": "^7.3.9",
     "node-fetch": "^2.6.0",

@@ -3,19 +3,23 @@ import React from 'react';
 import { RouteContainer } from './RouteContainer';
 import { RouteInfo } from './RouteInfo';
 import { RouteModel } from '../models/RouteModel';
-import { MapInput } from './MapInput';
+import { StyledMapInput } from './MapInput';
 
 describe('RouteContainer', () => {
   let routeContainer: ShallowWrapper;
   let weightedRoute: RouteModel;
+  let getNewRoute = () => {
+    return null;
+  };
 
   beforeEach(() => {
     weightedRoute = new RouteModel();
 
     routeContainer = shallow(
       <RouteContainer
-        getRoute={() => {
+        getStaticRoute={() => {
         }}
+        getNewRoute={getNewRoute}
         weightedRoute={weightedRoute}
         loading={false}/>
     );
@@ -34,8 +38,9 @@ describe('RouteContainer', () => {
     expect(routeContainer.find('.loading').exists()).toBeFalsy();
     routeContainer = shallow(
       <RouteContainer
-        getRoute={() => {
+        getStaticRoute={() => {
         }}
+        getNewRoute={getNewRoute}
         weightedRoute={weightedRoute}
         loading={true}
       />
@@ -44,10 +49,7 @@ describe('RouteContainer', () => {
   });
 
   it('should display and facilitate map input', () => {
-    expect(routeContainer.find(MapInput).exists()).toBeTruthy();
-  });
-
-  it('should provide a button to calculate route from input', () => {
-    expect(routeContainer.find('button').exists()).toBeTruthy();
+    expect(routeContainer.find(StyledMapInput).exists()).toBeTruthy();
+    expect(routeContainer.find(StyledMapInput).prop('getNewRoute')).toBe(getNewRoute);
   });
 });

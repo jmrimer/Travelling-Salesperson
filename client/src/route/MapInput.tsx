@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import classNames from 'classnames';
+import { MapModel } from '../actions/MapModel';
 
 interface Props {
+  getNewRoute: (map: MapModel) => void;
   className?: string;
 }
 
@@ -14,7 +16,7 @@ export class MapInput extends Component<Props> {
         <textarea>
           {MapInput.example()}
         </textarea>
-        <button>Calculate Shortest Route to all Cities</button>
+        <button onClick={this.props.getNewRoute(this.buildMap())}>Calculate Shortest Route to all Cities</button>
       </div>
     );
   }
@@ -38,6 +40,10 @@ export class MapInput extends Component<Props> {
       '3 91.778314 53.807184\n' +
       '4 20.526749 47.633290'
     );
+  }
+
+  private buildMap(): MapModel {
+    return new MapModel();
   }
 }
 

@@ -2,28 +2,30 @@ import React from 'react';
 import { RouteInfo } from './RouteInfo';
 import { RouteModel } from '../models/RouteModel';
 import { connect } from 'react-redux';
-import { fetchWeightedRoute } from '../actions/RouteActions';
+import { fetchNewRoute, fetchWeightedRoute } from '../actions/RouteActions';
 import { StyledMapInput } from './MapInput';
 import styled from 'styled-components';
 import classNames from 'classnames';
+import { MapModel } from '../actions/MapModel';
 
 
 interface Props {
   weightedRoute: RouteModel;
   loading: boolean;
-  getRoute: () => void;
+  getStaticRoute: () => void;
+  getNewRoute: (map: MapModel) => void;
   className?: string;
 }
 
 export class RouteContainer extends React.Component<Props> {
   componentDidMount(): void {
-    this.props.getRoute();
+    this.props.getStaticRoute();
   }
 
   render() {
     return (
       <div className={classNames('routeContainer', this.props.className)}>
-        {RouteContainer.renderMapInput()}
+        {this.renderMapInput()}
         {this.renderRouteOutput()}
       </div>
     );
@@ -39,8 +41,8 @@ export class RouteContainer extends React.Component<Props> {
     </>;
   }
 
-  private static renderMapInput() {
-    return <StyledMapInput/>;
+  private renderMapInput() {
+    return <StyledMapInput getNewRoute={this.props.getNewRoute}/>;
   }
 }
 
@@ -50,7 +52,8 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = {
-  getRoute: fetchWeightedRoute
+  getStaticRoute: fetchWeightedRoute,
+  getNewRoute: fetchNewRoute
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(styled(RouteContainer)`

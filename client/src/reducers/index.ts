@@ -17,6 +17,8 @@ const reducer = (state = initState, action: any) => {
   switch (action.type) {
     case ActionTypes.FETCH_WEIGHTED_ROUTE_REQUEST:
       return {...state, loading: true};
+    case ActionTypes.POST_NEW_ROUTE_REQUEST:
+      return {...state, loading: true};
     case ActionTypes.FETCH_WEIGHTED_ROUTE_SUCCESS:
       return {...state, weightedRoute: serializeJSONtoRoute(action.body), loading: false};
     default:
