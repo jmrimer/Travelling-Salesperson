@@ -6,14 +6,19 @@ import { CityModel } from '../models/CityModel';
 
 describe('MapInput', () => {
   let mapInput: ShallowWrapper;
+  let mapText = 'city1 2 3';
   let newRouteSpy: any;
+  let mapTextUpdateSpy: any;
 
   beforeEach(() => {
     newRouteSpy = jest.fn();
+    mapTextUpdateSpy = jest.fn();
+
     mapInput = shallow(
       <MapInput
         getNewRoute={newRouteSpy}
-        mapText={'city1 2 3'}
+        mapText={mapText}
+        updateMapText={mapTextUpdateSpy}
       />);
 
   });
@@ -33,26 +38,22 @@ describe('MapInput', () => {
   });
 
   it('should provide an example as placeholder text', () => {
-    expect(mapInput.find('textarea').text()).toBe('city1 2 3');
+    expect(mapInput.find('textarea').prop('value')).toBe('city1 2 3');
   });
 
   it('should provide a button to trigger a route calculation from the map input', () => {
     let newRouteButton = mapInput.find('button');
     expect(newRouteButton.exists()).toBeTruthy();
 
-    let map = new MapModel([
-      new CityModel('city1', 2, 3),
-    ]);
     newRouteButton.simulate('click');
-    expect(newRouteSpy).toHaveBeenCalledWith(map);
+    expect(newRouteSpy).toHaveBeenCalledWith(mapText);
   });
 
   it('should trigger a state change of map text when input field changes', () => {
     let input = mapInput.find('textarea');
     input.simulate('change', {target: {action: 'city1'}});
-
+    expect(mapTextUpdateSpy).toHaveBeenCalledWith({target: {action: 'city1'}});
   });
-
 });
 
 export default function () {

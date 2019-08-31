@@ -29,6 +29,13 @@ function postNewRouteRequest() {
   };
 }
 
+export function updateMapText(event: any) {
+  return {
+    type: ActionTypes.UPDATE_MAP_TEXT,
+    event
+  }
+}
+
 export function fetchWeightedRoute() {
   return function (dispatch: any) {
     dispatch(fetchWeightedRouteRequest());

@@ -2,7 +2,7 @@ import React from 'react';
 import { RouteInfo } from './RouteInfo';
 import { RouteModel } from '../models/RouteModel';
 import { connect } from 'react-redux';
-import { fetchNewRouteFromText, fetchWeightedRoute } from '../actions/RouteActions';
+import { fetchNewRouteFromText, fetchWeightedRoute, updateMapText } from '../actions/RouteActions';
 import { StyledMapInput } from './MapInput';
 import styled from 'styled-components';
 import classNames from 'classnames';
@@ -11,8 +11,10 @@ import classNames from 'classnames';
 interface Props {
   weightedRoute: RouteModel;
   loading: boolean;
+  mapText: string;
   getStaticRoute: () => void;
   getNewRoute: (mapText: string) => void;
+  updateMapText: (e: any) => void;
   className?: string;
 }
 
@@ -43,28 +45,22 @@ export class RouteContainer extends React.Component<Props> {
   private renderMapInput() {
     return <StyledMapInput
       getNewRoute={this.props.getNewRoute}
-      mapText={RouteContainer.exampleMap()}
+      updateMapText={this.props.updateMapText}
+      mapText={this.props.mapText}
     />;
-  }
-
-  private static exampleMap() {
-    return (
-      '1 87.951292 2.658162\n' +
-      '2 33.466597 66.682943\n' +
-      '3 91.778314 53.807184\n' +
-      '4 20.526749 47.633290'
-    );
   }
 }
 
 const mapStateToProps = (state: any) => ({
   weightedRoute: state.weightedRoute,
-  loading: state.loading
+  loading: state.loading,
+  mapText: state.mapText
 });
 
 const mapDispatchToProps = {
   getStaticRoute: fetchWeightedRoute,
-  getNewRoute: fetchNewRouteFromText
+  getNewRoute: fetchNewRouteFromText,
+  updateMapText: updateMapText
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(styled(RouteContainer)`

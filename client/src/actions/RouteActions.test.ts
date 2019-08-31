@@ -85,4 +85,8 @@ describe('RouteActions', () => {
         expect(store.getActions()).toEqual(expectedActions);
       })
   });
+
+  it('should update the state for map text', () => {
+
+  });
 });
