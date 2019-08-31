@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import classNames from 'classnames';
-import { MapModel } from '../actions/MapModel';
 
 interface Props {
-  getNewRoute: (map: MapModel) => void;
+  getNewRoute: (mapText: string) => void;
   mapText: string;
   className?: string;
 }
@@ -13,35 +12,43 @@ export class MapInput extends Component<Props> {
   render() {
     return (
       <div className={classNames('map-input', this.props.className)}>
-        <div>{MapInput.instructions()}</div>
-        <textarea>
-          {this.props.mapText}
-        </textarea>
-        <button
-          onClick={() => this.props.getNewRoute(this.buildMap())}
-        >
-          Calculate Shortest Route to all Cities
-        </button>
+        {this.renderInstructions()}
+        {this.renderMapInput()}
+        {this.renderSubmitButton()}
       </div>
     );
   }
 
-  private static instructions() {
+  private renderSubmitButton() {
     return (
-      <span className={'instructions'}>
+      <button onClick={this.handleClick()}>
+        Calculate Shortest Route to all Cities
+      </button>
+    );
+  }
+
+  private renderMapInput() {
+    return (
+      <textarea>
+        {this.props.mapText}
+      </textarea>
+    );
+  }
+
+  private renderInstructions() {
+    return (
+      <div className={'instructions'}>
         Type your map coordinates into this box in the following format:
         <div className={'exampleList'}>CityNumber Latitude Longitude</div>
         <div className={'exampleList'}>CityNumber Latitude Longitude</div>
         <div className={'exampleList'}>CityNumber Latitude Longitude</div>
         *no spaces per column, only between columns
-      </span>
+      </div>
     );
   }
 
-  private buildMap(): MapModel {
-    let map = new MapModel();
-    map.serialize(this.props.mapText);
-    return map;
+  private handleClick() {
+    return () => this.props.getNewRoute(this.props.mapText);
   }
 }
 
@@ -55,6 +62,7 @@ export const StyledMapInput = styled(MapInput)`
     font-size: 16px;
     font-style: italic;
   }
+  
   textarea {
     font-size: 16px;
     resize: vertical;

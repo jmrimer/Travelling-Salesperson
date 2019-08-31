@@ -1,5 +1,5 @@
 import { ActionTypes } from './ActionTypes';
-import { MapModel } from './MapModel';
+import { MapModel } from '../route/MapModel';
 
 function fetchWeightedRouteRequest() {
   return {
@@ -32,21 +32,31 @@ function postNewRouteRequest() {
 export function fetchWeightedRoute() {
   return function (dispatch: any) {
     dispatch(fetchWeightedRouteRequest());
-    return fetch('http://localhost:8080/api/weightedRoute')
+    return fetch('http://localhost:8080/api/weighted-route')
       .then(response => response.json())
       .then(body => dispatch(fetchWeightedRouteSuccess(body)))
       .catch(exception => dispatch(fetchWeightRouteFailure(exception)));
   };
 }
 
-export function fetchNewRoute(map: MapModel) {
+export function fetchNewRouteFromText(mapText: string) {
+  let map = new MapModel();
+  map.serialize(mapText);
+  return fetchNewRoute(map);
+}
+
+function fetchNewRoute(map: MapModel) {
   return function (dispatch: any) {
     dispatch(postNewRouteRequest());
     return fetch(
-      'http://localhost:8080/api/weightedRoute',
+      'http://localhost:8080/api/weighted-route',
       {
         method: 'post',
-        body: JSON.stringify(map)
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(map),
       }
     )
       .then(response => response.json())

@@ -6,8 +6,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
 
@@ -37,8 +39,34 @@ public class MapControllerTest {
 
     String routeJSON = new ObjectMapper().writeValueAsString(route);
 
-    this.mockMvc.perform(get("/api/map"))
+    this.mockMvc.perform(get("/api/weighted-route"))
       .andExpect(status().isOk())
       .andExpect(content().string(routeJSON));
   }
+
+  @Test
+  public void postReturnsRouteAndWeight() throws Exception {
+    WeightedRoute route = new WeightedRoute(
+      List.of(new City(1, 0f, 0f)),
+      0f
+    );
+
+
+    Map map = new Map(List.of(new City(1, 1f, 1f), new City(2, 2f, 2f)));
+
+    when(mappingService.routeFromMap(map))
+      .thenReturn(route);
+
+    String mapJSON = new ObjectMapper().writeValueAsString(map);
+    String routeJSON = new ObjectMapper().writeValueAsString(route);
+
+    this.mockMvc.perform(MockMvcRequestBuilders
+      .post("/api/weighted-route")
+      .content(mapJSON)
+      .contentType(MediaType.APPLICATION_JSON)
+      .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andExpect(content().string(routeJSON));
+  }
+
 }

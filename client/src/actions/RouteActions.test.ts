@@ -3,7 +3,7 @@ import { ActionTypes } from './ActionTypes';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import * as actions from './RouteActions';
-import { MapModel } from './MapModel';
+import { MapModel } from '../route/MapModel';
 import { RouteModel } from '../models/RouteModel';
 import { CityModel } from '../models/CityModel';
 
@@ -30,7 +30,7 @@ describe('RouteActions', () => {
 
   it('should fetch a weighted route and succeed on completion', () => {
 
-    fetchMock.getOnce('http://localhost:8080/api/weightedRoute', {
+    fetchMock.getOnce('http://localhost:8080/api/weighted-route', {
       body: JSON.stringify(route),
       headers: {'content-type': 'application/json'},
     });
@@ -62,7 +62,7 @@ describe('RouteActions', () => {
       ]
     );
 
-    fetchMock.post('http://localhost:8080/api/weightedRoute', {
+    fetchMock.post('http://localhost:8080/api/weighted-route', {
       body: JSON.stringify(route),
       headers: {'content-type': 'application/json'},
     });
@@ -80,7 +80,7 @@ describe('RouteActions', () => {
     const store = mockStore({});
 
     // @ts-ignore
-    return store.dispatch(actions.fetchNewRoute(new MapModel()))
+    return store.dispatch(actions.fetchNewRouteFromText('city1 1 1\ncity2 2 2'))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
       })

@@ -2,18 +2,17 @@ import React from 'react';
 import { RouteInfo } from './RouteInfo';
 import { RouteModel } from '../models/RouteModel';
 import { connect } from 'react-redux';
-import { fetchNewRoute, fetchWeightedRoute } from '../actions/RouteActions';
+import { fetchNewRouteFromText, fetchWeightedRoute } from '../actions/RouteActions';
 import { StyledMapInput } from './MapInput';
 import styled from 'styled-components';
 import classNames from 'classnames';
-import { MapModel } from '../actions/MapModel';
 
 
 interface Props {
   weightedRoute: RouteModel;
   loading: boolean;
   getStaticRoute: () => void;
-  getNewRoute: (map: MapModel) => void;
+  getNewRoute: (mapText: string) => void;
   className?: string;
 }
 
@@ -65,7 +64,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = {
   getStaticRoute: fetchWeightedRoute,
-  getNewRoute: fetchNewRoute
+  getNewRoute: fetchNewRouteFromText
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(styled(RouteContainer)`

@@ -2,9 +2,7 @@ package edu.louisville.project1;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class MapController {
@@ -16,8 +14,16 @@ public class MapController {
   }
 
   @CrossOrigin(origins = "http://localhost:3000")
-  @RequestMapping("/api/weightedRoute")
-  public @ResponseBody WeightedRoute weightedRoute() {
+  @RequestMapping("/api/weighted-route")
+  public @ResponseBody WeightedRoute staticWeightedRoute() {
     return this.mappingService.route();
+  }
+
+  @CrossOrigin(origins = "http://localhost:3000")
+  @PostMapping("/api/weighted-route")
+  public @ResponseBody WeightedRoute newWeightedRoute(
+    @RequestBody Map map
+  ) {
+    return this.mappingService.routeFromMap(map);
   }
 }

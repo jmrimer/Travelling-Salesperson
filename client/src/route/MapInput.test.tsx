@@ -1,7 +1,7 @@
 import { shallow, ShallowWrapper } from 'enzyme';
 import { MapInput } from './MapInput';
 import React from 'react';
-import { MapModel } from '../actions/MapModel';
+import { MapModel } from './MapModel';
 import { CityModel } from '../models/CityModel';
 
 describe('MapInput', () => {
@@ -41,14 +41,18 @@ describe('MapInput', () => {
     expect(newRouteButton.exists()).toBeTruthy();
 
     let map = new MapModel([
-      new CityModel('1', 87.951292, 2.658162),
-      new CityModel('2', 33.466597, 66.682943),
-      new CityModel('3', 91.778314, 53.807184),
-      new CityModel('4', 20.526749, 47.633290),
+      new CityModel('city1', 2, 3),
     ]);
     newRouteButton.simulate('click');
     expect(newRouteSpy).toHaveBeenCalledWith(map);
   });
+
+  it('should trigger a state change of map text when input field changes', () => {
+    let input = mapInput.find('textarea');
+    input.simulate('change', {target: {action: 'city1'}});
+
+  });
+
 });
 
 export default function () {
