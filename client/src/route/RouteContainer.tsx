@@ -42,7 +42,19 @@ export class RouteContainer extends React.Component<Props> {
   }
 
   private renderMapInput() {
-    return <StyledMapInput getNewRoute={this.props.getNewRoute}/>;
+    return <StyledMapInput
+      getNewRoute={this.props.getNewRoute}
+      mapText={RouteContainer.exampleMap()}
+    />;
+  }
+
+  private static exampleMap() {
+    return (
+      '1 87.951292 2.658162\n' +
+      '2 33.466597 66.682943\n' +
+      '3 91.778314 53.807184\n' +
+      '4 20.526749 47.633290'
+    );
   }
 }
 

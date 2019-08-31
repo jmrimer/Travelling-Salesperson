@@ -5,6 +5,7 @@ import { MapModel } from '../actions/MapModel';
 
 interface Props {
   getNewRoute: (map: MapModel) => void;
+  mapText: string;
   className?: string;
 }
 
@@ -14,9 +15,13 @@ export class MapInput extends Component<Props> {
       <div className={classNames('map-input', this.props.className)}>
         <div>{MapInput.instructions()}</div>
         <textarea>
-          {MapInput.example()}
+          {this.props.mapText}
         </textarea>
-        <button onClick={this.props.getNewRoute(this.buildMap())}>Calculate Shortest Route to all Cities</button>
+        <button
+          onClick={() => this.props.getNewRoute(this.buildMap())}
+        >
+          Calculate Shortest Route to all Cities
+        </button>
       </div>
     );
   }
@@ -33,17 +38,10 @@ export class MapInput extends Component<Props> {
     );
   }
 
-  private static example() {
-    return (
-      '1 87.951292 2.658162\n' +
-      '2 33.466597 66.682943\n' +
-      '3 91.778314 53.807184\n' +
-      '4 20.526749 47.633290'
-    );
-  }
-
   private buildMap(): MapModel {
-    return new MapModel();
+    let map = new MapModel();
+    map.serialize(this.props.mapText);
+    return map;
   }
 }
 

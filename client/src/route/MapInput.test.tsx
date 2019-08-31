@@ -10,7 +10,11 @@ describe('MapInput', () => {
 
   beforeEach(() => {
     newRouteSpy = jest.fn();
-    mapInput = shallow(<MapInput getNewRoute={newRouteSpy}/>);
+    mapInput = shallow(
+      <MapInput
+        getNewRoute={newRouteSpy}
+        mapText={'city1 2 3'}
+      />);
 
   });
 
@@ -29,12 +33,7 @@ describe('MapInput', () => {
   });
 
   it('should provide an example as placeholder text', () => {
-    expect(mapInput.find('textarea').text()).toBe(
-      '1 87.951292 2.658162\n' +
-      '2 33.466597 66.682943\n' +
-      '3 91.778314 53.807184\n' +
-      '4 20.526749 47.633290'
-    );
+    expect(mapInput.find('textarea').text()).toBe('city1 2 3');
   });
 
   it('should provide a button to trigger a route calculation from the map input', () => {
