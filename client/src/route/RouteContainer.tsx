@@ -1,5 +1,5 @@
 import React from 'react';
-import { RouteInfo } from './RouteInfo';
+import { StyledRouteInfo } from './RouteInfo';
 import { RouteModel } from '../models/RouteModel';
 import { connect } from 'react-redux';
 import { fetchNewRouteFromText, fetchWeightedRoute, updateMapText } from '../actions/RouteActions';
@@ -27,27 +27,35 @@ export class RouteContainer extends React.Component<Props> {
     return (
       <div className={classNames('routeContainer', this.props.className)}>
         {this.renderMapInput()}
+        {this.renderDividingLine()}
         {this.renderRouteOutput()}
       </div>
     );
   }
 
   private renderRouteOutput() {
-    return <>
-      {
-        this.props.loading
-          ? <div className={'loading'}>Loading route...</div>
-          : <RouteInfo weightedRoute={this.props.weightedRoute}/>
-      }
-    </>;
+    return <div className={'output'}>
+      OUTPUT
+      <StyledRouteInfo
+        weightedRoute={this.props.weightedRoute}
+        loading={this.props.loading}
+      />
+    </div>;
   }
 
   private renderMapInput() {
-    return <StyledMapInput
-      getNewRoute={this.props.getNewRoute}
-      updateMapText={this.props.updateMapText}
-      mapText={this.props.mapText}
-    />;
+    return <div className={'input'}>
+      INPUT
+      <StyledMapInput
+        getNewRoute={this.props.getNewRoute}
+        updateMapText={this.props.updateMapText}
+        mapText={this.props.mapText}
+      />
+    </div>
+  }
+
+  private renderDividingLine() {
+    return <div className={'divide'}>&nbsp;</div>
   }
 }
 
@@ -67,4 +75,16 @@ export default connect(mapStateToProps, mapDispatchToProps)(styled(RouteContaine
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  
+  .input, .output {
+    font-family: Righteous, cursive;
+    font-size: 36px;
+    color: ${(props) => props.theme.color.fontWhite};
+  }
+  
+  .divide {
+    width: 2px;
+    border: 2px solid ${(props) => props.theme.color.fontWhite};
+    margin: 8px 0;
+  }
 `);

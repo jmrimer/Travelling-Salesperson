@@ -64,6 +64,7 @@ export const StyledMapInput = styled(MapInput)`
   font-family: 'Righteous', cursive;
   max-width: 600px;
   white-space: normal;
+  margin-top: 24px;
   
   .instructions {
     text-align: justify;

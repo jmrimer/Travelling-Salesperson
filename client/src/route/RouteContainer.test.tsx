@@ -1,7 +1,7 @@
 import { shallow, ShallowWrapper } from 'enzyme';
 import React from 'react';
 import { RouteContainer } from './RouteContainer';
-import { RouteInfo } from './RouteInfo';
+import { StyledRouteInfo } from './RouteInfo';
 import { RouteModel } from '../models/RouteModel';
 import { StyledMapInput } from './MapInput';
 
@@ -35,9 +35,10 @@ describe('RouteContainer', () => {
   it('should have a div', () => {
     expect(routeContainer.find('div').exists()).toBeTruthy();
   });
+
   it('should setup and display weightedRoute info', () => {
-    expect(routeContainer.find(RouteInfo).props().weightedRoute).toBe(weightedRoute);
-    expect(routeContainer.find(RouteInfo).exists()).toBeTruthy();
+    expect(routeContainer.find(StyledRouteInfo).props().weightedRoute).toBe(weightedRoute);
+    expect(routeContainer.find(StyledRouteInfo).exists()).toBeTruthy();
   });
 
   it('should display loading info', () => {
