@@ -2,41 +2,40 @@ package edu.louisville.project1;
 
 import org.paukov.combinatorics3.Generator;
 
-import java.awt.geom.Point2D;
 import java.util.*;
 
 class HamiltonPathMapper {
-  LinkedHashMap<List<City>, Float> mapWeightedRoutes(List<City> cities) {
-    LinkedHashMap<List<City>, Float> weightedMap = this.mapUnweightedRoutes(cities);
-    for (HashMap.Entry<List<City>, Float> route : weightedMap.entrySet()) {
-      weightedMap.replace(route.getKey(), calculateWeight(route.getKey()));
-    }
-    return weightedMap;
-  }
-
-  private LinkedHashMap<List<City>, Float> mapUnweightedRoutes(List<City> cities) {
-    LinkedHashMap<List<City>, Float> routes = new LinkedHashMap<>();
-    Generator.permutation(cities)
+  HashSet<List<City>> mapRoutes(List<City> cities) {
+    List<City> citiesBeyondTheFirst = this.citiesBeyondTheFirst(cities);
+    HashSet<List<City>> routes = new HashSet<>();
+    Generator.permutation(citiesBeyondTheFirst)
       .simple()
       .stream()
       .forEach(
         route -> {
-          route.add(route.get(0));
-          routes.put(route, 0f);
+          route.add(0, cities.get(0));
+          route.add(cities.get(0));
+          routes.add(route);
         }
       );
     return removeMirrorRoutes(dedupe(routes));
   }
 
-  private LinkedHashMap<List<City>, Float> removeMirrorRoutes(LinkedHashMap<List<City>, Float> map) {
-    Iterator<List<City>> routes = map.keySet().iterator();
-    while (routes.hasNext()) {
-      List<City> mirrorRoute = mirrorRoute(routes.next());
-      if (map.keySet().contains(mirrorRoute)) {
-        routes.remove();
+  private List<City> citiesBeyondTheFirst(List<City> cities) {
+    List<City> citiesBeyondTheFirst = new LinkedList<>(cities);
+    citiesBeyondTheFirst.remove(0);
+    return citiesBeyondTheFirst;
+  }
+
+  private HashSet<List<City>> removeMirrorRoutes(HashSet<List<City>> routes) {
+    Iterator<List<City>> iterator = routes.iterator();
+    while (iterator.hasNext()) {
+      List<City> mirrorRoute = mirrorRoute(iterator.next());
+      if (routes.contains(mirrorRoute)) {
+        iterator.remove();
       }
     }
-    return map;
+    return routes;
   }
 
   private List<City> mirrorRoute(List<City> route) {
@@ -47,28 +46,9 @@ class HamiltonPathMapper {
     return mirrorRoute;
   }
 
-  private LinkedHashMap<List<City>, Float> dedupe(LinkedHashMap<List<City>, Float> map) {
-    City startingCity = map.entrySet().iterator().next().getKey().get(0);
-    map.keySet().removeIf(route -> route.get(0) != startingCity);
-    return map;
-  }
-
-  private float calculateWeight(List<City> route) {
-    float weight = 0f;
-    for (int cityIndex = 0; cityIndex < route.size() - 1; cityIndex++) {
-      weight += getDistance(route, cityIndex);
-    }
-    return weight;
-  }
-
-  private double getDistance(List<City> route, int cityIndex) {
-    City startingCity = route.get(cityIndex);
-    City endingCity = route.get(cityIndex + 1);
-    return Point2D.distance(
-      startingCity.latitude,
-      startingCity.longitude,
-      endingCity.latitude,
-      endingCity.longitude
-    );
+  private HashSet<List<City>> dedupe(HashSet<List<City>> routes) {
+    City startingCity = routes.iterator().next().get(0);
+    routes.removeIf(route -> route.get(0) != startingCity);
+    return routes;
   }
 }

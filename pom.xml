@@ -12,11 +12,24 @@
   <artifactId>project1</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>project1</name>
+  <packaging>jar</packaging>
   <description>Brute force solution for traveling salesperson problem</description>
 
   <properties>
     <java.version>12</java.version>
   </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <mainClass>edu.louisville.project1.Application</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
   <dependencies>
     <dependency>
@@ -48,3 +61,4 @@
     </dependency>
   </dependencies>
 </project>
+
