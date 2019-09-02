@@ -15,14 +15,19 @@ class HamiltonPathMapper {
   }
 
   private LinkedHashMap<List<City>, Float> mapUnweightedRoutes(List<City> cities) {
+    List<City> citiesBeyondTheFirst = new LinkedList<>();
+    citiesBeyondTheFirst.addAll(cities);
+    citiesBeyondTheFirst.remove(0);
+
     LinkedHashMap<List<City>, Float> routes = new LinkedHashMap<>();
-    Generator.permutation(cities)
+    Generator.permutation(citiesBeyondTheFirst)
       .simple()
       .stream()
       .forEach(
         route -> {
-          route.add(route.get(0));
-          routes.put(route, 0f);
+            route.add(0, cities.get(0));
+            route.add(cities.get(0));
+            routes.put(route, 0f);
         }
       );
     return removeMirrorRoutes(dedupe(routes));

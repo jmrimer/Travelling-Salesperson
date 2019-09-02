@@ -3,7 +3,6 @@ import { RouteInfo } from './RouteInfo';
 import { RouteModel } from '../models/RouteModel';
 import { CityModel } from '../models/CityModel';
 import { shallow, ShallowWrapper } from 'enzyme';
-import { RouteContainer } from './RouteContainer';
 
 describe('RouteInfo', () => {
   let homePage: ShallowWrapper;

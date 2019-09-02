@@ -85,6 +85,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(styled(RouteContaine
   .divide {
     width: 2px;
     border: 2px solid ${(props) => props.theme.color.fontWhite};
-    margin: 8px 0;
+    margin: 8px 16px;
   }
 `);
