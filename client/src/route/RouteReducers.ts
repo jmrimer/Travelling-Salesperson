@@ -1,5 +1,5 @@
-import { RouteModel } from '../models/RouteModel';
-import { CityModel } from '../models/CityModel';
+import { RouteModel } from './RouteModel';
+import { CityModel } from './models/CityModel';
 import { ActionTypes } from '../actions/ActionTypes';
 
 let startingMap = '1 87.951292 2.658162\n' +

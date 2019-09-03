@@ -5,6 +5,8 @@ export const theme = {
     fontWhite: '#e6e5e5',
     foreground: '#c4c4c4',
     lavender: '#443D7C',
-    talcum: '#50819B'
+    talcum: '#50819B',
+    midnight: '#09132d',
+    plum: '#230a27'
   }
 };

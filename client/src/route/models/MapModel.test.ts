@@ -1,5 +1,5 @@
 import { MapModel } from './MapModel';
-import { CityModel } from '../models/CityModel';
+import { CityModel } from './CityModel';
 
 describe('MapModel', () => {
   it('should serialize text into a map', () => {

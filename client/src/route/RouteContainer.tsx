@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyledRouteInfo } from './RouteInfo';
-import { RouteModel } from '../models/RouteModel';
+import { RouteModel } from './RouteModel';
 import { connect } from 'react-redux';
-import { fetchNewRouteFromText, fetchWeightedRoute, updateMapText } from '../actions/RouteActions';
+import { fetchNewRouteFromText, fetchWeightedRoute, updateMapText } from './RouteActions';
 import { StyledMapInput } from './MapInput';
 import styled from 'styled-components';
 import classNames from 'classnames';

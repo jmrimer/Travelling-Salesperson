@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import classNames from 'classnames';
+import CoordinateExtractor from '../uploader/CoordinateExtractor';
+import { StyledMapFileDropzone } from '../uploader/MapFileDropzone';
 
 interface Props {
   getNewRoute: (mapText: string) => void;
   mapText: string;
-  updateMapText: (update: string) => void;
+  updateMapText: (e: any) => void;
   className?: string;
 }
 
@@ -13,6 +15,7 @@ export class MapInput extends Component<Props> {
   render() {
     return (
       <div className={classNames('map-input', this.props.className)}>
+        {this.renderDropzone()}
         {this.renderInstructions()}
         {this.renderMapInput()}
         {this.renderSubmitButton()}
@@ -29,18 +32,16 @@ export class MapInput extends Component<Props> {
   }
 
   private renderMapInput() {
-    return (
-      <textarea
-        onChange={(e: any) => this.props.updateMapText(e)}
-        value={this.props.mapText}
-      />
-    );
+    return <textarea
+          onChange={(e: any) => this.props.updateMapText(e)}
+          value={this.props.mapText}
+        />;
   }
 
   private renderInstructions() {
     return (
       <div className={'instructions'}>
-        Type your map coordinates using the following format, only typing spaces between columns:
+        Or... type your map coordinates using the following format, only typing spaces between columns:
         <div className={'exampleList'}>
           <div>CityNumber Latitude Longitude</div>
           <div>CityNumber Latitude Longitude</div>
@@ -52,6 +53,18 @@ export class MapInput extends Component<Props> {
 
   private handleClick() {
     return () => this.props.getNewRoute(this.props.mapText);
+  }
+
+  private fileHandler(fileText: string) {
+    let event = {target: {value: CoordinateExtractor(fileText)}};
+    this.props.updateMapText(event);
+  }
+
+  private renderDropzone() {
+    return <StyledMapFileDropzone
+      className={'dropzone'}
+      fileHandler={(fileText: string) => this.fileHandler(fileText)}
+    />
   }
 }
 
@@ -68,6 +81,7 @@ export const StyledMapInput = styled(MapInput)`
   
   .instructions {
     text-align: justify;
+    margin-top: 64px
   }
   
   .exampleList {
@@ -105,5 +119,8 @@ export const StyledMapInput = styled(MapInput)`
     :hover {
       background: ${(props) => props.theme.color.lavender};
     }
+  }
+  
+  .dropzone {
   }
 `;

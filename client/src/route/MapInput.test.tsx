@@ -1,14 +1,15 @@
 import { shallow, ShallowWrapper } from 'enzyme';
 import { MapInput } from './MapInput';
 import React from 'react';
-import { MapModel } from './MapModel';
-import { CityModel } from '../models/CityModel';
 
 describe('MapInput', () => {
   let mapInput: ShallowWrapper;
   let mapText = 'city1 2 3';
   let newRouteSpy: any;
   let mapTextUpdateSpy: any;
+  let fileHandler = () => {
+    return null;
+  };
 
   beforeEach(() => {
     newRouteSpy = jest.fn();
@@ -52,6 +53,11 @@ describe('MapInput', () => {
     let input = mapInput.find('textarea');
     input.simulate('change', {target: {action: 'city1'}});
     expect(mapTextUpdateSpy).toHaveBeenCalledWith({target: {action: 'city1'}});
+  });
+
+  it('should render a dropzone', () => {
+    expect(mapInput.find('.dropzone').exists()).toBeTruthy();
+    expect(mapInput.find('.dropzone').prop('fileHandler')).toBe(fileHandler);
   });
 });
 

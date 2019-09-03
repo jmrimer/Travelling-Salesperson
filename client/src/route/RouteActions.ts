@@ -1,5 +1,5 @@
-import { ActionTypes } from './ActionTypes';
-import { MapModel } from '../route/MapModel';
+import { ActionTypes } from '../actions/ActionTypes';
+import { MapModel } from './models/MapModel';
 
 function fetchWeightedRouteRequest() {
   return {

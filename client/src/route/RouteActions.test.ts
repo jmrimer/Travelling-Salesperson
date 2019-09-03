@@ -1,11 +1,11 @@
 import fetchMock from 'fetch-mock';
-import { ActionTypes } from './ActionTypes';
+import { ActionTypes } from '../actions/ActionTypes';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import * as actions from './RouteActions';
-import { MapModel } from '../route/MapModel';
-import { RouteModel } from '../models/RouteModel';
-import { CityModel } from '../models/CityModel';
+import { MapModel } from './models/MapModel';
+import { RouteModel } from './RouteModel';
+import { CityModel } from './models/CityModel';
 
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
