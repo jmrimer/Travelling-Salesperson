@@ -36,6 +36,7 @@ export const StyledHeader = styled(Header)`
     font-family: 'Kaushan Script', cursive;
     margin-left: 16px;
     font-size: 64px;
-    color: ${(props) => props.theme.color.talcum}
+    color: ${(props) => props.theme.color.talcum};
+    font-weight: 600;
   }
 `;
