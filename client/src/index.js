@@ -5,7 +5,7 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
-import reducer from './route/RouteReducers';
+import reducer from './shortest-path-through-map/reducers';
 import thunk from 'redux-thunk';
 
 const store = createStore(reducer, applyMiddleware(thunk));
