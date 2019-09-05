@@ -64,7 +64,7 @@ public class BreadthFirstSearcherTest {
     graph.addEdge(nodeH, nodeI);
 
     assertEquals(
-      List.of(nodeA, nodeB, nodeC, nodeD, nodeE, nodeF, nodeH, nodeI, nodeG),
+      List.of(nodeA, nodeB, nodeC, nodeD, nodeE, nodeF, nodeG, nodeH, nodeI),
       new BreadthFirstSearcher().traverseGraph(graph, nodeA)
     );
   }
