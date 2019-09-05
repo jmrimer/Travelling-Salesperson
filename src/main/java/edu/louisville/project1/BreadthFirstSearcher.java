@@ -22,6 +22,13 @@ class BreadthFirstSearcher {
     return traveledPath;
   }
 
+  Deque<Node> findShortestPath(Graph graph, Node startingNode) {
+    List<Node> traversedGraphSequence = this.traverseGraph(graph, startingNode);
+    int maxDepth = calculateMaxDepth(traversedGraphSequence);
+    Node lastNode = extractLastNode(traversedGraphSequence, maxDepth);
+    return backtrackParentNodes(lastNode, maxDepth);
+  }
+
   private List<Node> addVisitedNodeToPath(Node visitedNode, List<Node> traveledPath) {
     visitedNode.setVisited(true);
     List<Node> path = new ArrayList<>(traveledPath);
@@ -61,6 +68,7 @@ class BreadthFirstSearcher {
         if (!discoveredNode.isDiscovered()) {
           discoveredNode.setDiscovered(true);
           discoveredNode.setDepth(nodeBeingVisited.getDepth() + 1);
+          discoveredNode.setParentNode(nodeBeingVisited);
           oldAndNewNodes.push(discoveredNode);
         }
       }
@@ -70,5 +78,32 @@ class BreadthFirstSearcher {
 
   private boolean exists(List<Node> nodes) {
     return nodes != null;
+  }
+
+  private Deque<Node> backtrackParentNodes(Node lastNode, int maxDepth) {
+    Deque<Node> shortestPath = new LinkedList<>();
+    shortestPath.add(lastNode);
+    while (maxDepth > 0) {
+      maxDepth--;
+      shortestPath.addFirst(shortestPath.getFirst().getParentNode());
+    }
+    return shortestPath;
+  }
+
+  private int calculateMaxDepth(List<Node> fullGraphTraversalSequence) {
+    int maxDepth = 0;
+    for (Node node : fullGraphTraversalSequence) {
+      maxDepth = Math.max(node.getDepth(), maxDepth);
+    }
+    return maxDepth;
+  }
+
+  private Node extractLastNode(List<Node> traversedGraphSequence, int maxDepth) {
+    for (Node node : traversedGraphSequence) {
+      if (node.getDepth() == maxDepth) {
+        return node;
+      }
+    }
+    return null;
   }
 }

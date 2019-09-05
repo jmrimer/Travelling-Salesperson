@@ -10,6 +10,7 @@ public class Node implements Comparable<Node>{
   private int depth = 0;
   private boolean visited = false;
   private boolean discovered = false;
+  private Node parentNode;
 
   public Node(String name) {
     this.name = name;

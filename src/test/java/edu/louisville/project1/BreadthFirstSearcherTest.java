@@ -26,58 +26,6 @@ public class BreadthFirstSearcherTest {
   @Before
   public void setup() {
     graph = new Graph();
-  }
-
-  @Test
-  public void returnsSequentialNodeList() {
-    graph.addEdge(node1, node2);
-    graph.addEdge(node1, node3);
-    graph.addEdge(node2, node4);
-    graph.addEdge(node3, node5);
-    graph.addEdge(node3, node6);
-
-    assertEquals(
-      List.of(node1, node2, node3, node4, node5, node6),
-      new BreadthFirstSearcher().traverseGraph(graph, node1)
-    );
-  }
-
-  @Test
-  public void returnsSequentialNodeListWithAlphabeticalTieBreaks() {
-    graph.addEdge(node1, node2);
-    graph.addEdge(node1, node3);
-    graph.addEdge(node2, node4);
-    graph.addEdge(node3, node6);
-    graph.addEdge(node3, node5);
-
-    assertEquals(
-      List.of(node1, node2, node3, node4, node5, node6),
-      new BreadthFirstSearcher().traverseGraph(graph, node1)
-    );
-  }
-
-  @Test
-  public void returnsSequentialNodeListWithAlphabeticalTieBreaksAndMultipleEdgesToSameNode() {
-    graph.addEdge(node1, node2);
-    graph.addEdge(node1, node3);
-    graph.addEdge(node2, node4);
-    graph.addEdge(node3, node6);
-    graph.addEdge(node3, node5);
-
-    graph.addEdge(node4, node8);
-    graph.addEdge(node5, node9);
-    graph.addEdge(node6, node7);
-
-    graph.addEdge(node8, node9);
-
-    assertEquals(
-      List.of(node1, node2, node3, node4, node5, node6, node7, node8, node9),
-      new BreadthFirstSearcher().traverseGraph(graph, node1)
-    );
-  }
-
-  @Test
-  public void returnsSequenceFromProject2PromptWithoutWeights() {
     graph.addEdge(node1, node2);
     graph.addEdge(node1, node3);
     graph.addEdge(node1, node4);
@@ -106,10 +54,21 @@ public class BreadthFirstSearcherTest {
     graph.addEdge(node9, node11);
 
     graph.addEdge(node10, node11);
+  }
 
+  @Test
+  public void returnsFullGraphTraversalSequenceFromProject2Prompt() {
     assertEquals(
       List.of(node1, node2, node3, node4, node5, node6, node7, node8, node9, node10, node11),
       new BreadthFirstSearcher().traverseGraph(graph, node1)
+    );
+  }
+
+  @Test
+  public void calculatesShortestPath() {
+    assertEquals(
+      List.of(node1, node3, node5, node8, node11),
+      new BreadthFirstSearcher().findShortestPath(graph, node1)
     );
   }
 }
