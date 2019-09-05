@@ -2,57 +2,51 @@ package edu.louisville.project1;
 
 import edu.louisville.project1.graphs.Graph;
 import edu.louisville.project1.graphs.Node;
-import edu.louisville.project1.graphs.NodeComparator;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class DepthFirstSearcher {
-  List<List<Node>> allPathsFromStartToEnd = new ArrayList<>();
-
-  List<List<Node>> traverseGraphToEnd(Graph graph, Node start, Node end) {
-    Node rootNode = start;
-    List<Node> traveledPath = new ArrayList<>();
-    traveledPath.add(start);
-    recursiveExploration(graph, rootNode, end, traveledPath);
-    return this.allPathsFromStartToEnd;
+class DepthFirstSearcher {
+  List<Node> findShortestPath(Graph graph, Node start, Node end) {
+    List<List<Node>> allPathsFromStartToEnd = this.traverseGraphToEnd(graph, start, end);
+    return extractShortestPath(allPathsFromStartToEnd);
   }
 
-  private void recursiveExploration(Graph graph, Node rootNode, Node end, List<Node> traveledPath) {
-    List<Node> children = discoverChildren(graph, rootNode);
+  private List<List<Node>> traverseGraphToEnd(Graph graph, Node start, Node end) {
+    List<List<Node>> pathCollector = new ArrayList<>(new ArrayList<>());
+    return recursiveExploration(graph, pathCollector, new ArrayList<>(), start, end);
+  }
+
+  private List<List<Node>> recursiveExploration(
+    Graph graph,
+    List<List<Node>> pathCollector,
+    List<Node> traveledPath,
+    Node start,
+    Node end
+  ) {
+    traveledPath.add(start);
+    List<Node> children = discoverChildren(graph, start);
     if (!exists(children)) {
-      rootNode.setVisited(true);
-      if (traveledPath.get(traveledPath.size() - 1).equals(end)) {
-        this.allPathsFromStartToEnd.add(traveledPath);
+      if (lastNodeIn(traveledPath).equals(end)) {
+        pathCollector.add(traveledPath);
       }
-      return;
+      return pathCollector;
     }
     for (Node child : children) {
       List<Node> pathForChild = new ArrayList<>(traveledPath);
-      pathForChild.add(child);
-      this.recursiveExploration(graph, child, end, pathForChild);
+      pathCollector = this.recursiveExploration(graph, pathCollector, pathForChild, child, end);
     }
+    return pathCollector;
   }
 
-  private List<Node> exploreDepth(Graph graph, Node rootNode, Node endNode) {
-    List<Node> traveledPath = new ArrayList<>();
-    traveledPath.add(rootNode);
-    while (exists(discoverChildren(graph, rootNode))) {
-      List<Node> adjacentNodes = discoverChildren(graph, rootNode);
-      adjacentNodes.sort(new NodeComparator());
-      rootNode = adjacentNodes.get(0);
-      traveledPath.add(rootNode);
-      if (rootNode.equals(endNode)) {
-        break;
-      }
-    }
-    return traveledPath;
+  private Node lastNodeIn(List<Node> traveledPath) {
+    return traveledPath.get(traveledPath.size() - 1);
   }
 
   private List<Node> discoverChildren(
     Graph graph,
     Node rootNode
   ) {
-    @SuppressWarnings("unchecked")
     List<Node> adjacentNodes = graph.getEdges().get(rootNode);
     if (exists(adjacentNodes)) {
       for (Node discoveredNode : adjacentNodes) {
@@ -70,33 +64,46 @@ public class DepthFirstSearcher {
     return nodes != null;
   }
 
-  List<Node> findShortestPath(List<List<Node>> allPathsFromStartToEnd) {
-    int bestPathLength = Integer.MAX_VALUE;
-    for (List<Node> path : allPathsFromStartToEnd) {
-      bestPathLength = Math.min(path.size(), bestPathLength);
+  private int shortestPathLength(List<List<Node>> paths) {
+    int shortestPathLength = Integer.MAX_VALUE;
+    for (List<Node> path : paths) {
+      shortestPathLength = Math.min(path.size(), shortestPathLength);
     }
+    return shortestPathLength;
+  }
 
-    Iterator<List<Node>> iterator = allPathsFromStartToEnd.iterator();
-    while (iterator.hasNext()) {
-      if (iterator.next().size() != bestPathLength) {
-        iterator.remove();
-      }
+  private List<Node> extractShortestPath(List<List<Node>> allPathsFromStartToEnd) {
+    int shortestPathLength = this.shortestPathLength(allPathsFromStartToEnd);
+    List<List<Node>> shortestPaths = keepOnlyShortestPaths(allPathsFromStartToEnd, shortestPathLength);
+    return breakSameLengthTiesByNodeNameOrder(shortestPaths);
+  }
+
+  private List<Node> breakSameLengthTiesByNodeNameOrder(List<List<Node>> paths) {
+    for (int depth = 0; depth < paths.get(0).size(); depth++) {
+      int lesserNodeValue = determineLeastNodeAtLevel(paths, depth);
+      paths = removeAllPathsThatLoseTieBreaker(paths, depth, lesserNodeValue);
     }
+    return paths.get(0);
+  }
 
-    for (int i = 0; i < bestPathLength; i++) {
-      int lesserNodeValue = Integer.MAX_VALUE;
-      iterator = allPathsFromStartToEnd.iterator();
-      while (iterator.hasNext()) {
-        lesserNodeValue = Math.min(Integer.parseInt(iterator.next().get(i).getName()), lesserNodeValue);
-      }
+  private List<List<Node>> removeAllPathsThatLoseTieBreaker(List<List<Node>> paths, int depth, int leastNodeName) {
+    List<List<Node>> winningPaths = new ArrayList<>(paths);
+    winningPaths.removeIf(path -> Integer.parseInt(path.get(depth).getName()) != leastNodeName);
+    return winningPaths;
+  }
 
-      iterator = allPathsFromStartToEnd.iterator();
-      while (iterator.hasNext()) {
-        if (Integer.parseInt(iterator.next().get(i).getName()) != lesserNodeValue) {
-          iterator.remove();
-        }
-      }
+  private int determineLeastNodeAtLevel(List<List<Node>> paths, int depth) {
+    int leastNodeName = Integer.MAX_VALUE;
+    for (List<Node> path : paths) {
+      int nodeName = Integer.parseInt(path.get(depth).getName());
+      leastNodeName = Math.min(nodeName, leastNodeName);
     }
-    return allPathsFromStartToEnd.get(0);
+    return leastNodeName;
+  }
+
+  private List<List<Node>> keepOnlyShortestPaths(List<List<Node>> paths, int shortestPathLength) {
+    List<List<Node>> shortestPaths = new ArrayList<>(paths);
+    shortestPaths.removeIf(nodes -> nodes.size() != shortestPathLength);
+    return shortestPaths;
   }
 }
