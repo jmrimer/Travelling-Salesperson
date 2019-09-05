@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class WeightAssignerTest extends BaseTest {
+public class WeightAssignerBruteForceTest extends BaseBruteForceTest {
   @Test
   public void assignsWeightsToAllRoutes() {
     WeightAssigner subject = new WeightAssigner();

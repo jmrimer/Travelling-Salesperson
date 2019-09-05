@@ -7,7 +7,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class BaseTest {
+public class BaseBruteForceTest {
   City city1;
   City city2;
   City city3;

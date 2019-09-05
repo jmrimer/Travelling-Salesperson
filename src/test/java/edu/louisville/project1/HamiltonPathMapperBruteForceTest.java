@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class HamiltonPathMapperTest extends BaseTest {
+public class HamiltonPathMapperBruteForceTest extends BaseBruteForceTest {
   private HamiltonPathMapper subject;
 
   @Before

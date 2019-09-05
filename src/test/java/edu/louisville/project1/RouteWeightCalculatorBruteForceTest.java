@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class RouteWeightCalculatorTest extends BaseTest {
+public class RouteWeightCalculatorBruteForceTest extends BaseBruteForceTest {
   private RouteWeightCalculator subject;
 
   @Before

@@ -1,5 +1,7 @@
-package edu.louisville.project1.graphs;
+package edu.louisville.project1;
 
+import edu.louisville.project1.graphs.Graph;
+import edu.louisville.project1.graphs.Node;
 import org.junit.Test;
 
 import java.util.List;
