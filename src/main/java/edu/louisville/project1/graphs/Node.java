@@ -35,4 +35,9 @@ public class Node implements Comparable<Node>{
 
     return this.compareTo(node) == 0;
   }
+
+  @Override
+  public String toString() {
+    return this.getName();
+  }
 }
