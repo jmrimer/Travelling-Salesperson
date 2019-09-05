@@ -58,8 +58,11 @@ class BreadthFirstSearcher {
     List<Node> adjacentNodes = graph.getEdges().get(nodeBeingVisited);
     if (exists(adjacentNodes)) {
       for (Node discoveredNode : adjacentNodes) {
-        discoveredNode.setDepth(nodeBeingVisited.getDepth() + 1);
-        oldAndNewNodes.push(discoveredNode);
+        if (!discoveredNode.isDiscovered()) {
+          discoveredNode.setDiscovered(true);
+          discoveredNode.setDepth(nodeBeingVisited.getDepth() + 1);
+          oldAndNewNodes.push(discoveredNode);
+        }
       }
     }
     return oldAndNewNodes;
