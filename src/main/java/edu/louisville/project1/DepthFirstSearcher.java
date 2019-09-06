@@ -86,19 +86,19 @@ class DepthFirstSearcher {
     return paths.get(0);
   }
 
-  private List<List<Node>> removeAllPathsThatLoseTieBreaker(List<List<Node>> paths, int depth, int leastNodeName) {
+  private List<List<Node>> removeAllPathsThatLoseTieBreaker(List<List<Node>> paths, int depth, int leastNodeID) {
     List<List<Node>> winningPaths = new ArrayList<>(paths);
-    winningPaths.removeIf(path -> Integer.parseInt(path.get(depth).getName()) != leastNodeName);
+    winningPaths.removeIf(path -> path.get(depth).getId() != leastNodeID);
     return winningPaths;
   }
 
   private int determineLeastNodeAtLevel(List<List<Node>> paths, int depth) {
-    int leastNodeName = Integer.MAX_VALUE;
+    int leastNodeID = Integer.MAX_VALUE;
     for (List<Node> path : paths) {
-      int nodeName = Integer.parseInt(path.get(depth).getName());
-      leastNodeName = Math.min(nodeName, leastNodeName);
+      int nodeName = path.get(depth).getId();
+      leastNodeID = Math.min(nodeName, leastNodeID);
     }
-    return leastNodeName;
+    return leastNodeID;
   }
 
   private List<List<Node>> keepOnlyShortestPaths(List<List<Node>> paths, int shortestPathLength) {

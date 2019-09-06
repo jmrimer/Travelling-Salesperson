@@ -59,16 +59,16 @@ public class BaseGraphSearchTest {
   }
 
   private void instantiateNodes() {
-    node1 = new Node("01");
-    node2 = new Node("02");
-    node3 = new Node("03");
-    node4 = new Node("04");
-    node5 = new Node("05");
-    node6 = new Node("06");
-    node7 = new Node("07");
-    node8 = new Node("08");
-    node9 = new Node("09");
-    node10 = new Node("10");
-    node11 = new Node("11");
+    node1 = new Node(1);
+    node2 = new Node(2);
+    node3 = new Node(3);
+    node4 = new Node(4);
+    node5 = new Node(5);
+    node6 = new Node(6);
+    node7 = new Node(7);
+    node8 = new Node(8);
+    node9 = new Node(9);
+    node10 = new Node(10);
+    node11 = new Node(11);
   }
 }

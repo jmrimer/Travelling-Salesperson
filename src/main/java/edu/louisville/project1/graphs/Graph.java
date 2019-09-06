@@ -23,4 +23,8 @@ public class Graph {
       this.edges.put(start, new ArrayList<>(List.of(end)));
     }
   }
+
+  public void translateAdjacencyMatrixToEdges(boolean[][] adjacencyMatrix) {
+
+  }
 }

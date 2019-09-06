@@ -5,20 +5,20 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Node implements Comparable<Node>{
-  private String name;
+public class Node implements Comparable<Node> {
+  private int id;
   private int depth = 0;
   private boolean visited = false;
   private boolean discovered = false;
   private Node parentNode;
 
-  public Node(String name) {
-    this.name = name;
+  public Node(int id) {
+    this.id = id;
   }
 
   @Override
   public int compareTo(Node node) {
-    return this.name.compareTo(node.name);
+    return this.getId() == node.getId() ? 0 : -1;
   }
 
   @Override
@@ -38,6 +38,6 @@ public class Node implements Comparable<Node>{
 
   @Override
   public String toString() {
-    return this.getName();
+    return String.valueOf(this.getId());
   }
 }

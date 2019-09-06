@@ -9,7 +9,7 @@ public class NodeComparator implements Comparator<Node> {
   public int compare(Node n1, Node n2) {
     return new CompareToBuilder()
       .append(n1.getDepth(), n2.getDepth())
-      .append(n1.getName(), n2.getName())
+      .append(n1.getId(), n2.getId())
       .toComparison();
   }
 }
