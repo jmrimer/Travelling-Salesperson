@@ -1,4 +1,7 @@
-package edu.louisville.project1;
+package edu.louisville.project1.maps;
+
+import edu.louisville.project1.maps.City;
+import edu.louisville.project1.maps.RouteWeightCalculator;
 
 import java.util.HashMap;
 import java.util.HashSet;

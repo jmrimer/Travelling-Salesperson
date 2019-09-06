@@ -1,8 +1,4 @@
-package edu.louisville.project1;
-
-import edu.louisville.project1.graphs.Graph;
-import edu.louisville.project1.graphs.Node;
-import edu.louisville.project1.graphs.NodeComparator;
+package edu.louisville.project1.graphs;
 
 import java.util.*;
 

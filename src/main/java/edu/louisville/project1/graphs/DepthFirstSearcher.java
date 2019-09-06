@@ -1,4 +1,4 @@
-package edu.louisville.project1;
+package edu.louisville.project1.graphs;
 
 import edu.louisville.project1.graphs.Graph;
 import edu.louisville.project1.graphs.Node;

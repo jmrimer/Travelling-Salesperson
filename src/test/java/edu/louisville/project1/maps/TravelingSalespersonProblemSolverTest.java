@@ -1,5 +1,8 @@
-package edu.louisville.project1;
+package edu.louisville.project1.maps;
 
+import edu.louisville.project1.maps.City;
+import edu.louisville.project1.maps.TravelingSalespersonProblemSolver;
+import edu.louisville.project1.maps.WeightedRoute;
 import org.junit.Test;
 
 import java.util.List;

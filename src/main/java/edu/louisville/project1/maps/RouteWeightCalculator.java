@@ -1,4 +1,6 @@
-package edu.louisville.project1;
+package edu.louisville.project1.maps;
+
+import edu.louisville.project1.maps.City;
 
 import java.awt.geom.Point2D;
 import java.util.List;

@@ -1,11 +1,9 @@
-package edu.louisville.project1;
+package edu.louisville.project1.maps;
 
-import org.junit.After;
+import edu.louisville.project1.maps.City;
 import org.junit.Before;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class BaseBruteForceTest {
   City city1;

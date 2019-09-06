@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import edu.louisville.project1.graphs.Node;
-
 @Data
 @AllArgsConstructor
 public class Graph {
@@ -37,11 +35,11 @@ public class Graph {
 
   public void translateAdjacencyMatrixToEdges(boolean[][] adjacencyMatrix) {
     for (int i = 0; i < adjacencyMatrix.length; i++) {
-      Node nodeAtIndex = this.getNodeWithID(i + 1);
+      Node fromNode = this.getNodeWithID(i + 1);
       for (int j = 0; j < adjacencyMatrix.length; j++) {
         if (adjacencyMatrix[i][j]) {
-          Node nodeAtNextIndex = this.getNodeWithID(j + 1);
-          this.addEdge(nodeAtIndex, nodeAtNextIndex);
+          Node toNode = this.getNodeWithID(j + 1);
+          this.addEdge(fromNode, toNode);
         }
       }
     }

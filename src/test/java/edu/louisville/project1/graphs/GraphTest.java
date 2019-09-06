@@ -1,4 +1,4 @@
-package edu.louisville.project1;
+package edu.louisville.project1.graphs;
 
 import edu.louisville.project1.graphs.Graph;
 import edu.louisville.project1.graphs.Node;
@@ -6,11 +6,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class GraphTest {
 
@@ -69,6 +68,5 @@ public class GraphTest {
     expectedEdges.put(node3, List.of(node4));
     expectedEdges.put(node4, new ArrayList<>());
     assertEquals(expectedEdges, graph.getEdges());
-
   }
 }

@@ -1,4 +1,4 @@
-package edu.louisville.project1;
+package edu.louisville.project1.maps;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,8 @@ public class MapController {
 
   @CrossOrigin(origins = "http://localhost:3000")
   @RequestMapping("/api/weighted-route")
-  public @ResponseBody WeightedRoute staticWeightedRoute() {
+  public @ResponseBody
+  WeightedRoute staticWeightedRoute() {
     return this.mappingService.route();
   }
 

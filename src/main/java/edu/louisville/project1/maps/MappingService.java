@@ -1,4 +1,4 @@
-package edu.louisville.project1;
+package edu.louisville.project1.maps;
 
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ public class MappingService {
     );
   }
 
-  public WeightedRoute routeFromMap(Map map) {
+  WeightedRoute routeFromMap(Map map) {
     TravelingSalespersonProblemSolver solver = new TravelingSalespersonProblemSolver();
     return solver.calculateShortestPath(map.getCities());
   }

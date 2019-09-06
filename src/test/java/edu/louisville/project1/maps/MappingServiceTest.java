@@ -1,10 +1,10 @@
-package edu.louisville.project1;
+package edu.louisville.project1.maps;
 
 import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class MappingServiceTest {
   @Test

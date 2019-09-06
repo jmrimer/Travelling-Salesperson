@@ -1,4 +1,4 @@
-package edu.louisville.project1;
+package edu.louisville.project1.graphs;
 
 import org.junit.Test;
 

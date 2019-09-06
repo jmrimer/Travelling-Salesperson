@@ -1,4 +1,4 @@
-package edu.louisville.project1;
+package edu.louisville.project1.maps;
 
 import org.junit.Before;
 import org.junit.Test;

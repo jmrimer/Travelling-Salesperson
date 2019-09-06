@@ -2,9 +2,11 @@ package edu.louisville.project1.graphs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Node implements Comparable<Node> {
   private int id;
   private int depth = 0;
