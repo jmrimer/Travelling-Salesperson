@@ -7,10 +7,21 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import edu.louisville.project1.graphs.Node;
+
 @Data
 @AllArgsConstructor
 public class Graph {
+  private List<Node> nodes;
   private LinkedHashMap<Node, List<Node>> edges;
+
+  public Graph(List<Node> nodes) {
+    edges = new LinkedHashMap<>();
+    this.nodes = nodes;
+    for (Node node : nodes) {
+      this.edges.put(node, new ArrayList<>());
+    }
+  }
 
   public Graph(){
     edges = new LinkedHashMap<>();
@@ -25,6 +36,23 @@ public class Graph {
   }
 
   public void translateAdjacencyMatrixToEdges(boolean[][] adjacencyMatrix) {
+    for (int i = 0; i < adjacencyMatrix.length; i++) {
+      Node nodeAtIndex = this.getNodeWithID(i + 1);
+      for (int j = 0; j < adjacencyMatrix.length; j++) {
+        if (adjacencyMatrix[i][j]) {
+          Node nodeAtNextIndex = this.getNodeWithID(j + 1);
+          this.addEdge(nodeAtIndex, nodeAtNextIndex);
+        }
+      }
+    }
+  }
 
+  private Node getNodeWithID(int id) {
+    for (Node node : this.nodes) {
+      if (node.getId() == id) {
+        return node;
+      }
+    }
+    return new Node(id);
   }
 }

@@ -5,6 +5,7 @@ import edu.louisville.project1.graphs.Node;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -20,7 +21,7 @@ public class GraphTest {
   private Graph graph;
 
   @Before
-  public void setup(){
+  public void setup() {
     graph = new Graph();
     node1 = new Node(1);
     node2 = new Node(2);
@@ -53,6 +54,7 @@ public class GraphTest {
 
   @Test
   public void convertsAdjacencyMatrixToEdges() {
+    graph = new Graph(List.of(node1, node2, node3, node4));
     boolean[][] adjacencyMatrix = new boolean[4][4];
     adjacencyMatrix[0][1] = true;
     adjacencyMatrix[0][2] = true;
@@ -61,13 +63,12 @@ public class GraphTest {
     adjacencyMatrix[2][3] = true;
     graph.translateAdjacencyMatrixToEdges(adjacencyMatrix);
 
-    HashMap<Node, List<Node>> expectedEdges = new LinkedHashMap<>();
+    LinkedHashMap<Node, List<Node>> expectedEdges = new LinkedHashMap<>();
     expectedEdges.put(node1, List.of(node2, node3));
     expectedEdges.put(node2, List.of(node3, node4));
     expectedEdges.put(node3, List.of(node4));
-    assertEquals(
-      expectedEdges,
-      graph.getEdges()
-    );
-   }
+    expectedEdges.put(node4, new ArrayList<>());
+    assertEquals(expectedEdges, graph.getEdges());
+
+  }
 }
