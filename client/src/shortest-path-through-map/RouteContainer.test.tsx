@@ -4,7 +4,6 @@ import { RouteContainer } from './RouteContainer';
 import { StyledRouteInfo } from './RouteInfo';
 import { RouteModel } from './RouteModel';
 import { StyledMapInput } from './MapInput';
-import MapFileDropdown from '../uploader/MapFileDropzone';
 
 describe('RouteContainer', () => {
   let routeContainer: ShallowWrapper;

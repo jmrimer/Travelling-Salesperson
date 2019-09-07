@@ -18,9 +18,9 @@ const MapFileDropdown = (props: any) => {
     acceptedFiles.forEach((file: Blob) => {
       reader.readAsBinaryString(file);
     });
-  }, []);
+  }, [props]);
 
-  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
+  const {getRootProps, getInputProps} = useDropzone({onDrop});
 
   return (
     <div className={props.className} {...getRootProps()}>

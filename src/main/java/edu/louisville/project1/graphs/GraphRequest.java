@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 class GraphRequest {
   private boolean[][] adjacencyMatrix;
   private Node start;
-  private Node end;
 }

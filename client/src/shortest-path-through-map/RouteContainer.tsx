@@ -2,7 +2,7 @@ import React from 'react';
 import { StyledRouteInfo } from './RouteInfo';
 import { RouteModel } from './RouteModel';
 import { connect } from 'react-redux';
-import { fetchNewRouteFromText, fetchWeightedRoute, updateMapText } from './RouteActions';
+import { fetchNewRouteFromText, fetchWeightedRoute, updateMapText } from './actions';
 import { StyledMapInput } from './MapInput';
 import styled from 'styled-components';
 import classNames from 'classnames';
@@ -27,7 +27,7 @@ export class RouteContainer extends React.Component<Props> {
     return (
       <div className={classNames('routeContainer', this.props.className)}>
         {this.renderMapInput()}
-        {this.renderDividingLine()}
+        {RouteContainer.renderDividingLine()}
         {this.renderRouteOutput()}
       </div>
     );
@@ -54,7 +54,7 @@ export class RouteContainer extends React.Component<Props> {
     </div>
   }
 
-  private renderDividingLine() {
+  private static renderDividingLine() {
     return <div className={'divide'}>&nbsp;</div>
   }
 }

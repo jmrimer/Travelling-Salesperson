@@ -1,9 +1,11 @@
 import React from 'react';
-import RouteContainer from './route/RouteContainer';
+import RouteContainer from './shortest-path-through-map/RouteContainer';
 import styled, { ThemeProvider } from 'styled-components';
 import classNames from 'classnames';
-import { theme } from './theme/default';
-import { StyledHeader } from './Header';
+import { theme } from './website-styling/default';
+import { StyledHeader } from './website-styling/Header';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import GraphContainer from './shortest-path-through-graph/GraphContainer';
 
 interface Props {
   className?: string
@@ -13,14 +15,15 @@ class App extends React.Component<Props> {
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <div className={classNames('app', this.props.className)}>
-          <div className={'header'}>
-            <StyledHeader/>
+        <Router>
+          <div className={classNames('app', this.props.className)}>
+            <div className={'header'}>
+              <StyledHeader/>
+            </div>
+            <Route exact path={'/'} component={RouteContainer}/>
+            <Route exact path={'/graphs'} component={GraphContainer}/>
           </div>
-          <div className={'container'} style={{height: 'auto'}}>
-          <RouteContainer/>
-        </div>
-      </div>
+      </Router>
       </ThemeProvider>
     );
   }

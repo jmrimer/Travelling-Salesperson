@@ -1,5 +1,6 @@
 import { ActionTypes } from '../actions/ActionTypes';
 import { MapModel } from './models/MapModel';
+import { GraphRequestModel } from '../shortest-path-through-graph/GraphRequestModel';
 
 function fetchWeightedRouteRequest() {
   return {
@@ -69,5 +70,45 @@ function fetchNewRoute(map: MapModel) {
       .then(response => response.json())
       .then(body => dispatch(fetchWeightedRouteSuccess(body)))
       .catch(exception => dispatch(fetchWeightRouteFailure(exception)));
+  };
+}
+
+function postBFSRequest() {
+  return {
+    type: ActionTypes.POST_BFS_REQUEST
+  };
+}
+
+function postBFSSuccess(body: any) {
+  return {
+    type: ActionTypes.POST_BFS_SUCCESS,
+    body
+  }
+}
+
+function postBFSFailure(exception: any) {
+  return {
+    type: ActionTypes.POST_BFS_FAILURE,
+    exception
+  }
+}
+
+export function fetchShortestPathUsingBFS(graphRequest: GraphRequestModel) {
+  return function (dispatch: any) {
+    dispatch(postBFSRequest());
+    return fetch(
+      'http://localhost:8080/api/traverse-graph-with-bfs',
+      {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(graphRequest),
+      }
+    )
+      .then(response => response.json())
+      .then(body => dispatch(postBFSSuccess(body)))
+      .catch(exception => dispatch(postBFSFailure(exception)));
   };
 }

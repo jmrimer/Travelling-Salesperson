@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import classNames from 'classnames';
-import CoordinateExtractor from '../uploader/CoordinateExtractor';
-import { StyledMapFileDropzone } from '../uploader/MapFileDropzone';
+import CoordinateExtractor from './uploader/CoordinateExtractor';
+import { StyledMapFileDropzone } from './uploader/MapFileDropzone';
 
 interface Props {
   getNewRoute: (mapText: string) => void;

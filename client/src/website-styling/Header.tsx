@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import classNames from 'classnames';
 
-const logo = require('./theme/logo.svg');
+const logo = require('./logo.svg');
 
 interface Props {
   className?: string;
@@ -12,7 +12,7 @@ class Header extends React.Component<Props> {
     return (
       <div className={classNames('header', this.props.className)}>
         <span className={'logo'}>
-          <img src={logo}/>
+          <img src={logo} alt={'Logo not found'}/>
         </span>
         <span className={'title'}>
           Traveler
