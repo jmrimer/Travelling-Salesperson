@@ -3,7 +3,7 @@ import { ActionTypes } from '../actions/ActionTypes';
 import { NodeModel } from './NodeModel';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import * as actions from '.';
+import * as actions from '../shortest-path-through-map/actions';
 import { GraphRequestModel } from './GraphRequestModel';
 
 const middleware = [thunk];

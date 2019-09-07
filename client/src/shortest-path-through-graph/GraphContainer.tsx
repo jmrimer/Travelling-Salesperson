@@ -9,7 +9,7 @@ import { fetchShortestPathUsingBFS } from '../shortest-path-through-map/actions'
 
 interface Props {
   postBFS: (graphRequest: GraphRequestModel) => void;
-  shortestPath: number[];
+  shortestPath: NodeModel[];
   adjacencyMatrix: boolean[][];
   className?: string;
 }
@@ -40,8 +40,13 @@ export class GraphContainer extends React.Component<Props> {
       : null;
   }
 
-  private pathString(shortestPath: number[]) {
-    return shortestPath.join(', ');
+  private pathString(shortestPath: NodeModel[]): string {
+    let pathIDs: string[] = [];
+    shortestPath.map((node) => {
+        pathIDs.push(node.id.toString());
+      }
+    );
+    return pathIDs.join(', ');
   }
 
   private handleClick() {

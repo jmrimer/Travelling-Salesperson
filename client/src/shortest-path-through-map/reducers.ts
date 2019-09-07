@@ -30,7 +30,7 @@ const initState = {
     0
   ),
   mapText: startingMap,
-  shortestPath: [1,2],
+  shortestPath: [new NodeModel(1)],
   adjacencyMatrix: createInitialMatrix()
 };
 
@@ -41,7 +41,9 @@ function serializeJSONtoRoute(json: any) {
 function serializeJSONToPath(body: any) {
   let path: NodeModel[];
   path = [];
-  body.map((id: number) => path.push(new NodeModel(id)));
+  body.map((node: NodeModel) => {
+    return path.push(node);
+  });
   return path;
 }
 
