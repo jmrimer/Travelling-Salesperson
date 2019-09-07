@@ -5,18 +5,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -26,30 +22,25 @@ public class GraphControllerTest {
   @Autowired
   private MockMvc mockMvc;
 
-  @MockBean
-  private GraphService graphService;
-
   @Test
   public void postReturnsBFSRouteFromAdjacencyMatrix() throws Exception {
     boolean[][] adjacencyMatrix = new boolean[3][3];
+    adjacencyMatrix[0][1] = true;
+    adjacencyMatrix[1][2] = true;
+
     Node startingNode = new Node(1);
-    List<Node> path = List.of(startingNode, new Node(2));
+    GraphRequest graphRequest = new GraphRequest(adjacencyMatrix, startingNode, new Node());
 
-    when(graphService.bfsPathFromMatrix(adjacencyMatrix, startingNode))
-      .thenReturn(path);
-
-    String matrixJSON = new ObjectMapper().writeValueAsString(adjacencyMatrix);
-    String nodeJSON = new ObjectMapper().writeValueAsString(startingNode);
-    String putJSON = matrixJSON.concat("," + nodeJSON);
-    String pathJSON = new ObjectMapper().writeValueAsString(path);
+    String graphRequestJSON = new ObjectMapper().writeValueAsString(graphRequest);
 
     this.mockMvc.perform(MockMvcRequestBuilders
       .post("/api/traverse-graph-with-bfs")
-      .content(putJSON)
+      .content(graphRequestJSON)
       .contentType(MediaType.APPLICATION_JSON)
-      .accept(MediaType.APPLICATION_JSON)
-    )
+      .accept(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk())
-      .andExpect(content().string(pathJSON));
+      .andExpect(jsonPath("[0].id", is(1)))
+      .andExpect(jsonPath("[1].id", is(2)))
+      .andExpect(jsonPath("[2].id", is(3)));
   }
 }

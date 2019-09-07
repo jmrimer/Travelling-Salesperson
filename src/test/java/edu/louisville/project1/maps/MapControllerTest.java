@@ -1,14 +1,9 @@
 package edu.louisville.project1.maps;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.louisville.project1.maps.City;
-import edu.louisville.project1.maps.Map;
-import edu.louisville.project1.maps.MappingService;
-import edu.louisville.project1.maps.WeightedRoute;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;

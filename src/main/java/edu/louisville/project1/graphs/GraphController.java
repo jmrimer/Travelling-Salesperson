@@ -3,8 +3,9 @@ package edu.louisville.project1.graphs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -18,11 +19,10 @@ public class GraphController {
   }
 
   @CrossOrigin(origins = "http://localhost:3000")
-  @RequestMapping("api/traverse-graph-with-bfs")
-  List<Node> shortestPathViaBFS(
-    @RequestBody boolean[][] adjacencyMatrix,
-    Node start
+  @PostMapping("/api/traverse-graph-with-bfs")
+  public @ResponseBody List<Node> shortestPathViaBFS(
+    @RequestBody GraphRequest graphRequest
   ) {
-    return this.graphService.bfsPathFromMatrix(adjacencyMatrix, start);
+    return this.graphService.bfsPathFromMatrix(graphRequest.getAdjacencyMatrix(), graphRequest.getStart());
   }
 }
