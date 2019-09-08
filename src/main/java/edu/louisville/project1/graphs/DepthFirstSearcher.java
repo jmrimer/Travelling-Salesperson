@@ -61,7 +61,7 @@ class DepthFirstSearcher {
   }
 
   private boolean exists(List<Node> nodes) {
-    return nodes != null;
+    return nodes != null && nodes.size() > 0;
   }
 
   private int shortestPathLength(List<List<Node>> paths) {
@@ -79,11 +79,14 @@ class DepthFirstSearcher {
   }
 
   private List<Node> breakSameLengthTiesByNodeNameOrder(List<List<Node>> paths) {
-    for (int depth = 0; depth < paths.get(0).size(); depth++) {
-      int lesserNodeValue = determineLeastNodeAtLevel(paths, depth);
-      paths = removeAllPathsThatLoseTieBreaker(paths, depth, lesserNodeValue);
+    if (paths.size() > 0) {
+      for (int depth = 0; depth < paths.get(0).size(); depth++) {
+        int lesserNodeValue = determineLeastNodeAtLevel(paths, depth);
+        paths = removeAllPathsThatLoseTieBreaker(paths, depth, lesserNodeValue);
+      }
+      return paths.get(0);
     }
-    return paths.get(0);
+    return null;
   }
 
   private List<List<Node>> removeAllPathsThatLoseTieBreaker(List<List<Node>> paths, int depth, int leastNodeID) {

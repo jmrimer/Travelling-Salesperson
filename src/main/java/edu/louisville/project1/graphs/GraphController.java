@@ -25,4 +25,16 @@ public class GraphController {
   ) {
     return this.graphService.bfsPathFromMatrix(graphRequest.getAdjacencyMatrix(), graphRequest.getStart());
   }
+
+  @CrossOrigin(origins = "http://localhost:3000")
+  @PostMapping("/api/traverse-graph-with-dfs")
+  public @ResponseBody List<Node> shortestPathViaDFS(
+    @RequestBody GraphRequest graphRequest
+  ) {
+    return this.graphService.dfsPathFromMatrix(
+      graphRequest.getAdjacencyMatrix(),
+      graphRequest.getStart(),
+      graphRequest.getEnd()
+    );
+  }
 }
