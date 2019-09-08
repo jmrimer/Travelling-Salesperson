@@ -75,6 +75,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(styled(RouteContaine
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  margin-top: 24px;
   
   .input, .output {
     font-family: Righteous, cursive;

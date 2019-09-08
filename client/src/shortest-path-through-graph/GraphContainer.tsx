@@ -144,6 +144,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(styled(GraphContaine
   justify-content: space-around;
   align-items: center;
   height: 576px;
+  margin-top: 24px;
   
   .buttons {
     display: flex;
@@ -162,7 +163,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(styled(GraphContaine
     
     button {
       height: 144px;
-      background: ${(props) => props.theme.color.talcum};
+      background: ${(props) => props.theme.color.wedgewood};
       cursor: pointer;
       font-family: Righteous, cursive;
       color: ${(props) => props.theme.color.fontWhite};
