@@ -30,7 +30,7 @@ const initState = {
     0
   ),
   mapText: startingMap,
-  shortestPath: [new NodeModel(1)],
+  shortestPath: [],
   adjacencyMatrix: createInitialMatrix()
 };
 
@@ -45,6 +45,14 @@ function serializeJSONToPath(body: any) {
     return path.push(node);
   });
   return path;
+}
+
+function toggleMatrix(matrix: any, keyValuePair: any) {
+  let newMatrix = Object.assign([], matrix);
+  let start = keyValuePair.startId;
+  let end = keyValuePair.endId;
+  newMatrix[start][end] = !newMatrix[start][end];
+  return newMatrix;
 }
 
 const reducer = (state = initState, action: any) => {
@@ -65,6 +73,8 @@ const reducer = (state = initState, action: any) => {
       return {...state, loading: true};
     case ActionTypes.POST_BFS_SUCCESS:
       return {...state, shortestPath: serializeJSONToPath(action.body), loading: false};
+    case ActionTypes.TOGGLE_MATRIX:
+      return {...state, adjacencyMatrix: toggleMatrix(state.adjacencyMatrix, action.body)};
     default:
       return state;
   }

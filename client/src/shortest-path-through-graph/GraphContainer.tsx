@@ -5,12 +5,13 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { GraphRequestModel } from './GraphRequestModel';
 import { NodeModel } from './NodeModel';
-import { fetchShortestPathUsingBFS } from '../shortest-path-through-map/actions';
+import { fetchShortestPathUsingBFS, toggleMatrix } from '../shortest-path-through-map/actions';
 
 interface Props {
   postBFS: (graphRequest: GraphRequestModel) => void;
   shortestPath: NodeModel[];
   adjacencyMatrix: boolean[][];
+  toggleMatrix: (keyValuePair: any) => void;
   className?: string;
 }
 
@@ -18,7 +19,10 @@ export class GraphContainer extends React.Component<Props> {
   render() {
     return (
       <div className={classNames('graph-container', this.props.className)}>
-        <InteractiveAdjacencyMatrix graphSize={11}/>
+        <InteractiveAdjacencyMatrix
+          adjacencyMatrix={this.props.adjacencyMatrix}
+          toggleMatrix={this.props.toggleMatrix}
+        />
         <button
           className={'bfs-button'}
           onClick={() => this.handleClick()}
@@ -64,7 +68,8 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = {
-  postBFS: fetchShortestPathUsingBFS
+  postBFS: fetchShortestPathUsingBFS,
+  toggleMatrix: toggleMatrix
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(styled(GraphContainer)`

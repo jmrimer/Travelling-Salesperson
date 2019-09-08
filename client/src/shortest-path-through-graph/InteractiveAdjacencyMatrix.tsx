@@ -4,35 +4,39 @@ import InteractiveCell from './InteractiveCell';
 import styled from 'styled-components';
 
 type Props = {
-  graphSize: number;
+  adjacencyMatrix: boolean[][];
+  toggleMatrix: (keyValuePair: any) => void;
   className?: string;
 }
-const createMatrix = (graphSize: number) => {
-  let gridSize = graphSize + 1;
-  let table = [];
-  for (let row = 0; row < gridSize; row++) {
-    let cells = [];
-    for (let column = 0; column < gridSize; column++) {
-      cells.push(
-        <InteractiveCell
-          key={`${row + 1}-${column + 1}`}
-        />
-      );
+
+
+export const InteractiveAdjacencyMatrix: React.FC<Props> = props => {
+  const createMatrix = (matrix: boolean[][]) => {
+    let gridSize = matrix.length;
+    let table = [];
+    for (let row = 0; row < gridSize; row++) {
+      let cells = [];
+      for (let column = 0; column < gridSize; column++) {
+        cells.push(
+          <InteractiveCell
+            keyValuePair={{startId: row, endId: column}}
+            connected={matrix[row][column]}
+            callback={props.toggleMatrix}
+            key={`${row + 1}-${column + 1}`}
+          />
+        );
+      }
+      table.push(<div
+        className={classNames('row', `row--${row + 1}`)}
+        key={row}>{cells}
+      </div>);
     }
-    table.push(<div
-      className={classNames('row', `row--${row + 1}`)}
-      key={row}>{cells}
-    </div>);
-  }
-  return table;
-};
-
-const InteractiveAdjacencyMatrix: React.FC<Props> = props => {
-
+    return table;
+  };
 
   return (
     <div className={classNames('interactive-adjacency-matrix', props.className)}>
-      {createMatrix(props.graphSize)}
+      {createMatrix(props.adjacencyMatrix)}
     </div>
   );
 };

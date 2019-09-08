@@ -15,7 +15,6 @@ describe('GraphTraversalActions', () => {
   });
 
   it('should fetch the shortest path using breadth first search', () => {
-    // let shortestPathJSON = JSON.stringify([new NodeModel(1), new NodeModel(2)]);
     let shortestPathJSON = [{id: 1}, {id: 2}];
 
     fetchMock.post('http://localhost:8080/api/traverse-graph-with-bfs', {
@@ -45,4 +44,9 @@ describe('GraphTraversalActions', () => {
         expect(store.getActions()).toEqual(expectedActions);
       })
   });
+
+  // it('should change the state of a cell in the adjacency matrix', () => {
+  //
+  //   actions.toggleMatrixCell(keyValuePair);
+  // });
 });

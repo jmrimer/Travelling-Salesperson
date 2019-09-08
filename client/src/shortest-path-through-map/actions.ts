@@ -16,7 +16,6 @@ function fetchWeightedRouteSuccess(body: any) {
   }
 }
 
-
 function fetchWeightRouteFailure(exception: any) {
   return {
     type: ActionTypes.FETCH_WEIGHTED_ROUTE_FAILURE,
@@ -51,6 +50,13 @@ export function fetchNewRouteFromText(mapText: string) {
   let map = new MapModel();
   map.serialize(mapText);
   return fetchNewRoute(map);
+}
+
+export function toggleMatrix(body: any) {
+  return {
+    type: ActionTypes.TOGGLE_MATRIX,
+    body
+  }
 }
 
 function fetchNewRoute(map: MapModel) {
