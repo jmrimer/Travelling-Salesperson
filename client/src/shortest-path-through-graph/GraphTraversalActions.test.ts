@@ -36,7 +36,8 @@ describe('GraphTraversalActions', () => {
 
     let adjacencyMatrix = [[true, true], [true, true]];
     let start = new NodeModel(1);
-    let graphRequest = new GraphRequestModel(adjacencyMatrix, start);
+    let end = new NodeModel(11);
+    let graphRequest = new GraphRequestModel(adjacencyMatrix, start, end);
 
     // @ts-ignore
     return store.dispatch(actions.fetchShortestPathUsingBFS(graphRequest))
@@ -44,9 +45,4 @@ describe('GraphTraversalActions', () => {
         expect(store.getActions()).toEqual(expectedActions);
       })
   });
-
-  // it('should change the state of a cell in the adjacency matrix', () => {
-  //
-  //   actions.toggleMatrixCell(keyValuePair);
-  // });
 });

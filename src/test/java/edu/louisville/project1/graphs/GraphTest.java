@@ -1,15 +1,13 @@
 package edu.louisville.project1.graphs;
 
-import edu.louisville.project1.graphs.Graph;
-import edu.louisville.project1.graphs.Node;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class GraphTest {
 
@@ -53,20 +51,18 @@ public class GraphTest {
 
   @Test
   public void convertsAdjacencyMatrixToEdges() {
-    graph = new Graph(List.of(node1, node2, node3, node4));
     boolean[][] adjacencyMatrix = new boolean[4][4];
     adjacencyMatrix[0][1] = true;
     adjacencyMatrix[0][2] = true;
     adjacencyMatrix[1][2] = true;
     adjacencyMatrix[1][3] = true;
     adjacencyMatrix[2][3] = true;
-    graph.translateAdjacencyMatrixToEdges(adjacencyMatrix);
+    graph = new Graph(adjacencyMatrix);
 
     LinkedHashMap<Node, List<Node>> expectedEdges = new LinkedHashMap<>();
     expectedEdges.put(node1, List.of(node2, node3));
     expectedEdges.put(node2, List.of(node3, node4));
     expectedEdges.put(node3, List.of(node4));
-    expectedEdges.put(node4, new ArrayList<>());
-    assertEquals(expectedEdges, graph.getEdges());
+    assertTrue(graph.edgesAreEqual(expectedEdges));
   }
 }

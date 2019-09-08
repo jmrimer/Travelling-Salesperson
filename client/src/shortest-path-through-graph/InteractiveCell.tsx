@@ -44,6 +44,6 @@ export default (styled(InteractiveCell)`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${(props) => props.theme.color.talcum};
+  background: ${(props) => props.theme.color.wedgewood};
   border-radius: 4px;
 `);

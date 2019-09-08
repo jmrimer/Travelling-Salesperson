@@ -4,25 +4,24 @@ import java.util.*;
 
 class BreadthFirstSearcher {
 
-  List<Node> traverseGraph(Graph graph, Node start) {
+  List<Node> findShortestPath(Graph graph, Node start, Node end) {
+    List<Node> traversedGraphSequence = this.traverseGraph(graph, start);
+    int maxDepth = calculateMaxDepth(traversedGraphSequence);
+    return (List<Node>) backtrackParentNodes(end, maxDepth);
+  }
+
+  private List<Node> traverseGraph(Graph graph, Node start) {
     Node nodeBeingVisited;
     List<Node> traveledPath = new ArrayList<>();
     Stack<Node> nodesToVisit = initializePathQueue(start);
 
     while (unvisitedNodesRemain(nodesToVisit)) {
-      nodesToVisit = sortNodesAlphabeticallyByLevel(nodesToVisit);
+      nodesToVisit = sortNodesByLevel(nodesToVisit);
       nodeBeingVisited = nodesToVisit.remove(0);
       traveledPath = addVisitedNodeToPath(nodeBeingVisited, traveledPath);
       nodesToVisit = discoverAdjacentNodes(graph, nodesToVisit, nodeBeingVisited);
     }
     return traveledPath;
-  }
-
-  Deque<Node> findShortestPath(Graph graph, Node startingNode) {
-    List<Node> traversedGraphSequence = this.traverseGraph(graph, startingNode);
-    int maxDepth = calculateMaxDepth(traversedGraphSequence);
-    Node lastNode = extractLastNode(traversedGraphSequence, maxDepth);
-    return backtrackParentNodes(lastNode, maxDepth);
   }
 
   private List<Node> addVisitedNodeToPath(Node visitedNode, List<Node> traveledPath) {
@@ -44,7 +43,7 @@ class BreadthFirstSearcher {
     return nodeQueue;
   }
 
-  private Stack<Node> sortNodesAlphabeticallyByLevel(Stack<Node> nodesToVisit) {
+  private Stack<Node> sortNodesByLevel(Stack<Node> nodesToVisit) {
     @SuppressWarnings("unchecked")
     Stack<Node> sortedNodes = (Stack<Node>) nodesToVisit.clone();
     sortedNodes.sort(new NodeComparator());
@@ -81,7 +80,8 @@ class BreadthFirstSearcher {
     shortestPath.add(lastNode);
     while (maxDepth > 0) {
       maxDepth--;
-      shortestPath.addFirst(shortestPath.getFirst().getParentNode());
+      Node parentNode = shortestPath.getFirst().getParentNode();
+      shortestPath.addFirst(parentNode);
     }
     return shortestPath;
   }
@@ -92,14 +92,5 @@ class BreadthFirstSearcher {
       maxDepth = Math.max(node.getDepth(), maxDepth);
     }
     return maxDepth;
-  }
-
-  private Node extractLastNode(List<Node> traversedGraphSequence, int maxDepth) {
-    for (Node node : traversedGraphSequence) {
-      if (node.getDepth() == maxDepth) {
-        return node;
-      }
-    }
-    return null;
   }
 }

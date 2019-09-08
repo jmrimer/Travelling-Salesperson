@@ -11,72 +11,87 @@ type Props = {
 
 
 export const InteractiveAdjacencyMatrix: React.FC<Props> = props => {
-  const createMatrix = (matrix: boolean[][]) => {
-    let gridSize = matrix.length;
-    let table = [];
+  return (
+    <div className={classNames('interactive-adjacency-matrix', props.className)}>
+      {instructions()}
+      {createMatrix(props.adjacencyMatrix, props.toggleMatrix)}
+    </div>
+  );
+};
 
-    function createHeaderOrCell(row: number, column: number) {
-      if (row === -1 && column === -1) {
-        return (
-          <div
-            className={classNames('empty--header', 'table-header')}
-            key={`${row + 1}-${column + 1}`}
-          >
-            &nbsp;
-          </div>
-        );
-      }
+function instructions() {
+  return (
+    <div className={'matrix-instructions'}>
+      <span>Click each cell to create paths in an 11-node graph.</span>
+      <span>Rows are Start nodes & columns are End nodes.</span>
+      <span>(e.g. [5, 8] goes from 5 to 8)</span>
+    </div>
+  )
+}
 
-      if (row === -1) {
-        return (
-          <div
-            className={classNames('column--header', 'table-header')}
-            key={`${row + 1}-${column + 1}`}
-          >
-            {column + 1}
-          </div>
-        )
-      }
+const createMatrix = (matrix: boolean[][], toggleMatrix: (keyValuePair: any) => void) => {
+  let gridSize = matrix.length;
+  let table = [];
 
-      if (column === -1) {
-        return (
-          <div
-            className={classNames('row--header', 'table-header')}
-            key={`${row + 1}-${column + 1}`}
-          >
-            {row + 1}
-          </div>
-        )
-      }
-
-      return <InteractiveCell
-        keyValuePair={{startId: row, endId: column}}
-        connected={matrix[row][column]}
-        callback={props.toggleMatrix}
-        key={`${row + 1}-${column + 1}`}
-      />;
-    }
-
-    for (let row = -1; row < gridSize; row++) {
-      let cells = [];
-      for (let column = -1; column < gridSize; column++) {
-        cells.push(
-          createHeaderOrCell(row, column)
-        );
-      }
-      table.push(
+  function createHeaderOrCell(row: number, column: number) {
+    if (row === -1 && column === -1) {
+      return (
         <div
-          className={classNames('row', `row--${row + 1}`)}
-          key={row}>{cells}
+          className={classNames('empty--header', 'table-header')}
+          key={`${row + 1}-${column + 1}`}
+        >
+          &nbsp;
         </div>
       );
     }
-    return table;
-  };
 
+    if (row === -1) {
+      return (
+        <div
+          className={classNames('column--header', 'table-header')}
+          key={`${row + 1}-${column + 1}`}
+        >
+          {column + 1}
+        </div>
+      )
+    }
+
+    if (column === -1) {
+      return (
+        <div
+          className={classNames('row--header', 'table-header')}
+          key={`${row + 1}-${column + 1}`}
+        >
+          {row + 1}
+        </div>
+      )
+    }
+
+    return <InteractiveCell
+      keyValuePair={{startId: row, endId: column}}
+      connected={matrix[row][column]}
+      callback={toggleMatrix}
+      key={`${row + 1}-${column + 1}`}
+    />;
+  }
+
+  for (let row = -1; row < gridSize; row++) {
+    let cells = [];
+    for (let column = -1; column < gridSize; column++) {
+      cells.push(
+        createHeaderOrCell(row, column)
+      );
+    }
+    table.push(
+      <div
+        className={classNames('row', `row--${row + 1}`)}
+        key={row}>{cells}
+      </div>
+    );
+  }
   return (
-    <div className={classNames('interactive-adjacency-matrix', props.className)}>
-      {createMatrix(props.adjacencyMatrix)}
+    <div className={'matrix-table'}>
+      {table}
     </div>
   );
 };
@@ -84,8 +99,26 @@ export const InteractiveAdjacencyMatrix: React.FC<Props> = props => {
 export default styled(InteractiveAdjacencyMatrix)`
   display: flex;
   flex-direction: column;
-  background: ${(props) => props.theme.color.lavender};
   border-radius: 8px;
+  
+  .matrix-instructions {
+    display: flex;
+    flex-direction: column;
+    background: none ;
+    font-size: 24px;
+    font-family: Righteous, cursive;
+    color: ${(props) => props.theme.color.fontWhite};
+    margin-bottom: 16px;
+    
+    > span {
+      text-align: center;
+      margin-bottom: 4px;
+    }
+  }
+  
+  .matrix-table {
+    background: ${(props) => props.theme.color.lavender};
+  }
   
   .row {
     display: flex;

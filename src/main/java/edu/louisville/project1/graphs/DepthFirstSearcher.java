@@ -1,25 +1,21 @@
 package edu.louisville.project1.graphs;
 
-import edu.louisville.project1.graphs.Graph;
-import edu.louisville.project1.graphs.Node;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 class DepthFirstSearcher {
   List<Node> findShortestPath(Graph graph, Node start, Node end) {
-    List<List<Node>> allPathsFromStartToEnd = this.traverseGraphToEnd(graph, start, end);
+    LinkedHashSet<List<Node>> allPathsFromStartToEnd = this.traverseGraphToEnd(graph, start, end);
     return extractShortestPath(allPathsFromStartToEnd);
   }
 
-  private List<List<Node>> traverseGraphToEnd(Graph graph, Node start, Node end) {
-    List<List<Node>> pathCollector = new ArrayList<>(new ArrayList<>());
+  private LinkedHashSet<List<Node>> traverseGraphToEnd(Graph graph, Node start, Node end) {
+    LinkedHashSet<List<Node>> pathCollector = new LinkedHashSet<>(new ArrayList<>());
     return recursiveExploration(graph, pathCollector, new ArrayList<>(), start, end);
   }
 
-  private List<List<Node>> recursiveExploration(
+  private LinkedHashSet<List<Node>> recursiveExploration(
     Graph graph,
-    List<List<Node>> pathCollector,
+    LinkedHashSet<List<Node>> pathCollector,
     List<Node> traveledPath,
     Node start,
     Node end
@@ -64,7 +60,7 @@ class DepthFirstSearcher {
     return nodes != null && nodes.size() > 0;
   }
 
-  private int shortestPathLength(List<List<Node>> paths) {
+  private int shortestPathLength(LinkedHashSet<List<Node>> paths) {
     int shortestPathLength = Integer.MAX_VALUE;
     for (List<Node> path : paths) {
       shortestPathLength = Math.min(path.size(), shortestPathLength);
@@ -72,30 +68,36 @@ class DepthFirstSearcher {
     return shortestPathLength;
   }
 
-  private List<Node> extractShortestPath(List<List<Node>> allPathsFromStartToEnd) {
+  private List<Node> extractShortestPath(LinkedHashSet<List<Node>> allPathsFromStartToEnd) {
     int shortestPathLength = this.shortestPathLength(allPathsFromStartToEnd);
-    List<List<Node>> shortestPaths = keepOnlyShortestPaths(allPathsFromStartToEnd, shortestPathLength);
+    LinkedHashSet<List<Node>> shortestPaths = keepOnlyShortestPaths(allPathsFromStartToEnd, shortestPathLength);
+    System.out.println(shortestPaths.size());
     return breakSameLengthTiesByNodeNameOrder(shortestPaths);
   }
 
-  private List<Node> breakSameLengthTiesByNodeNameOrder(List<List<Node>> paths) {
+  private List<Node> firstList(LinkedHashSet<List<Node>> paths) {
+    Iterator<List<Node>> iterator = paths.iterator();
+    return iterator.next();
+  }
+
+  private List<Node> breakSameLengthTiesByNodeNameOrder(LinkedHashSet<List<Node>> paths) {
     if (paths.size() > 0) {
-      for (int depth = 0; depth < paths.get(0).size(); depth++) {
+      for (int depth = 0; depth < firstList(paths).size(); depth++) {
         int lesserNodeValue = determineLeastNodeAtLevel(paths, depth);
         paths = removeAllPathsThatLoseTieBreaker(paths, depth, lesserNodeValue);
       }
-      return paths.get(0);
+      return firstList(paths);
     }
     return null;
   }
 
-  private List<List<Node>> removeAllPathsThatLoseTieBreaker(List<List<Node>> paths, int depth, int leastNodeID) {
-    List<List<Node>> winningPaths = new ArrayList<>(paths);
+  private LinkedHashSet<List<Node>> removeAllPathsThatLoseTieBreaker(LinkedHashSet<List<Node>> paths, int depth, int leastNodeID) {
+    LinkedHashSet<List<Node>> winningPaths = new LinkedHashSet<>(new ArrayList<>(paths));
     winningPaths.removeIf(path -> path.get(depth).getId() != leastNodeID);
     return winningPaths;
   }
 
-  private int determineLeastNodeAtLevel(List<List<Node>> paths, int depth) {
+  private int determineLeastNodeAtLevel(LinkedHashSet<List<Node>> paths, int depth) {
     int leastNodeID = Integer.MAX_VALUE;
     for (List<Node> path : paths) {
       int nodeName = path.get(depth).getId();
@@ -104,8 +106,8 @@ class DepthFirstSearcher {
     return leastNodeID;
   }
 
-  private List<List<Node>> keepOnlyShortestPaths(List<List<Node>> paths, int shortestPathLength) {
-    List<List<Node>> shortestPaths = new ArrayList<>(paths);
+  private LinkedHashSet<List<Node>> keepOnlyShortestPaths(LinkedHashSet<List<Node>> paths, int shortestPathLength) {
+    LinkedHashSet<List<Node>> shortestPaths = new LinkedHashSet<>(paths);
     shortestPaths.removeIf(nodes -> nodes.size() != shortestPathLength);
     return shortestPaths;
   }

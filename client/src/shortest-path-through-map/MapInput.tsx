@@ -109,7 +109,7 @@ export const StyledMapInput = styled(MapInput)`
     font-size: 24px;
     margin-top: 16px;
     flex: 1;
-    background: ${(props) => props.theme.color.talcum};
+    background: ${(props) => props.theme.color.wedgewood};
     border: 1px solid ${(props) => props.theme.color.foreground};
     border-radius: 8px;
     color: white;

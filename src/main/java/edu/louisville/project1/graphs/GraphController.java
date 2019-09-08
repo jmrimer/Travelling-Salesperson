@@ -25,7 +25,8 @@ public class GraphController {
   ) {
     return this.graphService.bfsPathFromMatrix(
       graphRequest.getAdjacencyMatrix(),
-      graphRequest.getStart()
+      graphRequest.getStart(),
+      graphRequest.getEnd()
     );
   }
 
