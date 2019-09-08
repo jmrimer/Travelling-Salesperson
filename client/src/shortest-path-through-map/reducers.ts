@@ -30,7 +30,7 @@ const initState = {
     0
   ),
   mapText: startingMap,
-  shortestPath: [],
+  shortestPath: null,
   adjacencyMatrix: createInitialMatrix()
 };
 

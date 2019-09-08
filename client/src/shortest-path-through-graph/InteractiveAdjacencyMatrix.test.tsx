@@ -23,12 +23,19 @@ describe('InteractiveAdjacencyMatrix', () => {
     subject = shallow(
       <InteractiveAdjacencyMatrix
         adjacencyMatrix={adjacencyMatrix}
+        toggleMatrix={() => {}}
       />
     )
   });
 
   it('should render an interactive grid with enough cells for each pair of the graph size', () => {
     expect(subject.find(InteractiveCell).length).toBe(121);
+  });
+
+  it('should render row and column headers', () => {
+    expect(subject.find('.empty--header').length).toBe(1);
+    expect(subject.find('.row--header').length).toBe(11);
+    expect(subject.find('.column--header').length).toBe(11);
   });
 });
 
