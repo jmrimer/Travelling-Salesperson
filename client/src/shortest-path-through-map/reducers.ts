@@ -30,7 +30,8 @@ const initState = {
     0
   ),
   mapText: startingMap,
-  shortestPath: null,
+  shortestBFSPath: null,
+  shortestDFSPath: null,
   adjacencyMatrix: createInitialMatrix()
 };
 
@@ -72,7 +73,11 @@ const reducer = (state = initState, action: any) => {
     case ActionTypes.POST_BFS_REQUEST:
       return {...state, loading: true};
     case ActionTypes.POST_BFS_SUCCESS:
-      return {...state, shortestPath: serializeJSONToPath(action.body), loading: false};
+      return {...state, shortestBFSPath: serializeJSONToPath(action.body), loading: false};
+    case ActionTypes.POST_DFS_REQUEST:
+      return {...state, loading: true};
+    case ActionTypes.POST_DFS_SUCCESS:
+      return {...state, shortestDFSPath: serializeJSONToPath(action.body), loading: false};
     case ActionTypes.TOGGLE_MATRIX:
       return {...state, adjacencyMatrix: toggleMatrix(state.adjacencyMatrix, action.body)};
     default:

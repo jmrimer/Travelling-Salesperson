@@ -5,11 +5,17 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { GraphRequestModel } from './GraphRequestModel';
 import { NodeModel } from './NodeModel';
-import { fetchShortestPathUsingBFS, toggleMatrix } from '../shortest-path-through-map/actions';
+import {
+  fetchShortestPathUsingBFS,
+  fetchShortestPathUsingDFS,
+  toggleMatrix
+} from '../shortest-path-through-map/actions';
 
 interface Props {
   postBFS: (graphRequest: GraphRequestModel) => void;
-  shortestPath: NodeModel[];
+  postDFS: (graphRequest: GraphRequestModel) => void;
+  shortestBFSPath: NodeModel[];
+  shortestDFSPath: NodeModel[];
   adjacencyMatrix: boolean[][];
   toggleMatrix: (keyValuePair: any) => void;
   className?: string;
@@ -19,37 +25,45 @@ export class GraphContainer extends React.Component<Props> {
   render() {
     return (
       <div className={classNames('graph-container', this.props.className)}>
-        <InteractiveAdjacencyMatrix
-          adjacencyMatrix={this.props.adjacencyMatrix}
-          toggleMatrix={this.props.toggleMatrix}
-        />
-        <div className={'buttons'}>
-          <button
-            className={'bfs-button'}
-            onClick={() => this.handleClick()}
-          >
-            Breadth First Search
-          </button>
-          <button
-            className={'dfs-button'}
-            onClick={() => this.handleClick()}
-          >
-            Depth First Search
-          </button>
-        </div>
+        {this.renderMatrix()}
+        {this.renderButtons()}
         {this.renderShortestPaths()}
       </div>
     )
   }
 
+  private renderMatrix() {
+    return <InteractiveAdjacencyMatrix
+      adjacencyMatrix={this.props.adjacencyMatrix}
+      toggleMatrix={this.props.toggleMatrix}
+    />;
+  }
+
+  private renderButtons() {
+    return <div className={'buttons'}>
+      <button
+        className={'bfs-button'}
+        onClick={() => this.handleBFSClick()}
+      >
+        Breadth First Search
+      </button>
+      <button
+        className={'dfs-button'}
+        onClick={() => this.handleDFSClick()}
+      >
+        Depth First Search
+      </button>
+    </div>;
+  }
+
   private renderShortestPaths() {
     const bfsShortestPath = () => {
       return (
-        this.props.shortestPath ?
+        this.props.shortestBFSPath ?
           <div
             className={classNames('shortest-path--bfs', 'shortest-path')}
           >
-            Shortest path: {this.pathString(this.props.shortestPath)}
+            Shortest path: {this.pathString(this.props.shortestBFSPath)}
           </div>
           :
           <div
@@ -62,11 +76,11 @@ export class GraphContainer extends React.Component<Props> {
 
     const dfsShortestPath = () => {
       return (
-        this.props.shortestPath ?
+        this.props.shortestDFSPath ?
           <div
             className={classNames('shortest-path--dfs', 'shortest-path')}
           >
-            Shortest path: {this.pathString(this.props.shortestPath)}
+            Shortest path: {this.pathString(this.props.shortestDFSPath)}
           </div>
           :
           <div
@@ -94,22 +108,33 @@ export class GraphContainer extends React.Component<Props> {
     return pathIDs.join(', ');
   }
 
-  private handleClick() {
+  private handleBFSClick() {
     let graphRequest: GraphRequestModel = new GraphRequestModel(
       this.props.adjacencyMatrix,
       new NodeModel(1)
     );
     this.props.postBFS(graphRequest);
   }
+
+  private handleDFSClick() {
+    let graphRequest: GraphRequestModel = new GraphRequestModel(
+      this.props.adjacencyMatrix,
+      new NodeModel(1),
+      new NodeModel(11)
+    );
+    this.props.postDFS(graphRequest);
+  }
 }
 
 const mapStateToProps = (state: any) => ({
-  shortestPath: state.shortestPath,
+  shortestBFSPath: state.shortestBFSPath,
+  shortestDFSPath: state.shortestDFSPath,
   adjacencyMatrix: state.adjacencyMatrix
 });
 
 const mapDispatchToProps = {
   postBFS: fetchShortestPathUsingBFS,
+  postDFS: fetchShortestPathUsingDFS,
   toggleMatrix: toggleMatrix
 };
 

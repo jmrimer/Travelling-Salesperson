@@ -23,7 +23,10 @@ public class GraphController {
   public @ResponseBody List<Node> shortestPathViaBFS(
     @RequestBody GraphRequest graphRequest
   ) {
-    return this.graphService.bfsPathFromMatrix(graphRequest.getAdjacencyMatrix(), graphRequest.getStart());
+    return this.graphService.bfsPathFromMatrix(
+      graphRequest.getAdjacencyMatrix(),
+      graphRequest.getStart()
+    );
   }
 
   @CrossOrigin(origins = "http://localhost:3000")

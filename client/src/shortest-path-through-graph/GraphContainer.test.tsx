@@ -15,7 +15,11 @@ describe('GraphContainer', () => {
       <GraphContainer
         adjacencyMatrix={[]}
         postBFS={postBFS}
-        shortestPath={[]}
+        shortestBFSPath={[]}
+        postDFS={() => {
+        }}
+        shortestDFSPath={[]}
+        toggleMatrix={() => []}
       />);
   });
 
@@ -33,8 +37,12 @@ describe('GraphContainer', () => {
       <GraphContainer
         postBFS={postBFS}
         adjacencyMatrix={[]}
-        shortestPath={[new NodeModel(1), new NodeModel(3), new NodeModel(5), new NodeModel(8), new NodeModel(11)]}
+        shortestBFSPath={[new NodeModel(1), new NodeModel(3), new NodeModel(5), new NodeModel(8), new NodeModel(11)]}
+        postDFS={() => {
+        }}
+        shortestDFSPath={[]}
+        toggleMatrix={() => []}
       />);
-    expect(subject.find('.route').text()).toBe('Shortest path: 1, 3, 5, 8, 11')
+    expect(subject.find('.shortest-path--bfs').text()).toBe('Shortest path: 1, 3, 5, 8, 11')
   });
 });
