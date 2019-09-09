@@ -63,7 +63,8 @@ export class GraphContainer extends React.Component<Props> {
           <div
             className={classNames('shortest-path--bfs', 'shortest-path')}
           >
-            Shortest path: {this.pathString(this.props.shortestBFSPath)}
+            <span>Shortest path:</span>
+            <span>{this.pathString(this.props.shortestBFSPath)}</span>
           </div>
           :
           <div
@@ -80,7 +81,8 @@ export class GraphContainer extends React.Component<Props> {
           <div
             className={classNames('shortest-path--dfs', 'shortest-path')}
           >
-            Shortest path: {this.pathString(this.props.shortestDFSPath)}
+            <span>Shortest path:</span>
+            <span>{this.pathString(this.props.shortestDFSPath)}</span>
           </div>
           :
           <div
@@ -144,18 +146,18 @@ export default connect(mapStateToProps, mapDispatchToProps)(styled(GraphContaine
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  height: 576px;
   margin-top: 24px;
   
   .buttons {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%;
     margin: 0 16px;
+    height: 694px;
+    padding-top: 119px;
     
     .bfs-button {
-      //border-radius: 0 8px 0 0;
+      border-radius: 0 8px 0 0;
     }
     
     .dfs-button {
@@ -170,7 +172,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(styled(GraphContaine
       color: ${(props) => props.theme.color.fontWhite};
       font-size: 36px;
       border: solid 1px ${(props) => props.theme.color.fontWhite};
-      
     }
   }
   
@@ -178,12 +179,16 @@ export default connect(mapStateToProps, mapDispatchToProps)(styled(GraphContaine
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%;
+    height: 694px;
+    padding-top: 119px;
   }
   
   .shortest-path {
     font-family: Righteous, cursive;
     font-size: 36px;
     color: ${(props) => props.theme.color.fontWhite};
+    min-width: 264px;
+    display: flex;
+    flex-direction: column;
   }
 `);
