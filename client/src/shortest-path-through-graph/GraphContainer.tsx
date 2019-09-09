@@ -111,7 +111,8 @@ export class GraphContainer extends React.Component<Props> {
   private handleBFSClick() {
     let graphRequest: GraphRequestModel = new GraphRequestModel(
       this.props.adjacencyMatrix,
-      new NodeModel(1)
+      new NodeModel(1),
+      new NodeModel(11)
     );
     this.props.postBFS(graphRequest);
   }
@@ -171,7 +172,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(styled(GraphContaine
       border: solid 1px ${(props) => props.theme.color.fontWhite};
       
     }
-    
   }
   
   .paths {
