@@ -3,29 +3,33 @@ package edu.louisville.project1.graphs;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 @Data
 @AllArgsConstructor
-public class Graph {
+class Graph {
   private List<Node> nodes;
   private LinkedHashMap<Node, List<Node>> edges;
 
-  public Graph(List<Node> nodes) {
+  Graph(){
     edges = new LinkedHashMap<>();
-    this.nodes = nodes;
-    for (Node node : nodes) {
-      this.edges.put(node, new ArrayList<>());
+  }
+
+  Graph(boolean[][] adjacencyMatrix) {
+    this();
+    this.nodes = adjacencyMatrixToNodeList(adjacencyMatrix);
+    this.translateAdjacencyMatrixToEdges(adjacencyMatrix);
+  }
+
+  private static List<Node> adjacencyMatrixToNodeList(boolean[][] adjacencyMatrix) {
+    List<Node> nodes = new ArrayList<>();
+    for (int i = 0; i < adjacencyMatrix.length; i++) {
+      nodes.add(new Node(i + 1));
     }
+    return nodes;
   }
 
-  public Graph(){
-    edges = new LinkedHashMap<>();
-  }
-
-  public void addEdge(Node start, Node end) {
+  void addEdge(Node start, Node end) {
     if (this.edges.containsKey(start)) {
       this.edges.get(start).add(end);
     } else {
@@ -33,7 +37,7 @@ public class Graph {
     }
   }
 
-  public void translateAdjacencyMatrixToEdges(boolean[][] adjacencyMatrix) {
+  void translateAdjacencyMatrixToEdges(boolean[][] adjacencyMatrix) {
     for (int i = 0; i < adjacencyMatrix.length; i++) {
       Node fromNode = this.getNodeWithID(i + 1);
       for (int j = 0; j < adjacencyMatrix.length; j++) {
@@ -45,12 +49,46 @@ public class Graph {
     }
   }
 
-  private Node getNodeWithID(int id) {
+  Node getNodeWithID(int id) {
     for (Node node : this.nodes) {
       if (node.getId() == id) {
         return node;
       }
     }
     return new Node(id);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+
+    if (!(o instanceof Graph)) {
+      return false;
+    }
+
+    return nodesAreEqual((Graph) o) && edgesAreEqual(((Graph) o).getEdges());
+  }
+
+  boolean edgesAreEqual(LinkedHashMap<Node, List<Node>> first) {
+    LinkedHashMap<Node, List<Node>> second = this.getEdges();
+    if (first.size() != second.size()) {
+      return false;
+    }
+
+    for (Map.Entry<Node, List<Node>> entry : first.entrySet()) {
+      Node key = entry.getKey();
+      List<Node> value = entry.getValue();
+      if (!second.get(this.getNodeWithID(key.getId())).equals(value)) {
+        return false;
+      };
+    }
+
+    return true;
+  }
+
+  private boolean nodesAreEqual(Graph o) {
+    return o.getNodes().equals(this.getNodes());
   }
 }

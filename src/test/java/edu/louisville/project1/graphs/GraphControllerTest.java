@@ -29,7 +29,8 @@ public class GraphControllerTest {
     adjacencyMatrix[1][2] = true;
 
     Node startingNode = new Node(1);
-    GraphRequest graphRequest = new GraphRequest(adjacencyMatrix, startingNode);
+    Node endingNode = new Node(3);
+    GraphRequest graphRequest = new GraphRequest(adjacencyMatrix, startingNode, endingNode);
 
     String graphRequestJSON = new ObjectMapper().writeValueAsString(graphRequest);
 

@@ -33,9 +33,7 @@ public class Node implements Comparable<Node> {
       return false;
     }
 
-    Node node = (Node) o;
-
-    return this.compareTo(node) == 0;
+    return this.compareTo((Node) o) == 0;
   }
 
   @Override

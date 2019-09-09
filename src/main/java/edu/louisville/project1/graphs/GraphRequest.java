@@ -11,12 +11,4 @@ class GraphRequest {
   private boolean[][] adjacencyMatrix;
   private Node start;
   private Node end;
-
-  public GraphRequest(
-    boolean[][] adjacencyMatrix,
-    Node start
-  ){
-    this.adjacencyMatrix = adjacencyMatrix;
-    this.start = start;
-  }
 }
