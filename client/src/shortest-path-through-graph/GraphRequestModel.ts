@@ -1,4 +1,4 @@
-import { NodeModel } from './NodeModel';
+import { NodeModel } from './models/NodeModel';
 
 export class GraphRequestModel {
   constructor(

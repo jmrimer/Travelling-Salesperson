@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyledRouteInfo } from './RouteInfo';
-import { RouteModel } from './RouteModel';
+import { RouteModel } from './models/RouteModel';
 import { connect } from 'react-redux';
 import { fetchNewRouteFromText, fetchWeightedRoute, updateMapText } from './actions';
 import { StyledMapInput } from './MapInput';
 import styled from 'styled-components';
 import classNames from 'classnames';
-
+import VisualGraph from '../visual-grapher/VisualGraph';
 
 interface Props {
   weightedRoute: RouteModel;
@@ -15,14 +15,11 @@ interface Props {
   getStaticRoute: () => void;
   getNewRoute: (mapText: string) => void;
   updateMapText: (e: any) => void;
+  points: any[];
   className?: string;
 }
 
 export class RouteContainer extends React.Component<Props> {
-  componentDidMount(): void {
-    this.props.getStaticRoute();
-  }
-
   render() {
     return (
       <div className={classNames('routeContainer', this.props.className)}>
@@ -40,6 +37,7 @@ export class RouteContainer extends React.Component<Props> {
         weightedRoute={this.props.weightedRoute}
         loading={this.props.loading}
       />
+      {this.renderMap()}
     </div>;
   }
 
@@ -57,12 +55,22 @@ export class RouteContainer extends React.Component<Props> {
   private static renderDividingLine() {
     return <div className={'divide'}>&nbsp;</div>
   }
+
+  private renderMap() {
+    return (
+      <VisualGraph
+        points={this.props.points}
+        tour={this.props.weightedRoute ? this.props.weightedRoute.route : null}
+      />
+    );
+  }
 }
 
 const mapStateToProps = (state: any) => ({
   weightedRoute: state.weightedRoute,
   loading: state.loading,
-  mapText: state.mapText
+  mapText: state.mapText,
+  points: state.points
 });
 
 const mapDispatchToProps = {

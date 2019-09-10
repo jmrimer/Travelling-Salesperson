@@ -7,6 +7,7 @@ export const theme = {
     lavender: '#443D7C',
     wedgewood: '#50819B',
     midnight: '#09132d',
-    plum: '#230a27'
+    plum: '#230a27',
+    maroon5: '#6D2234'
   }
 };

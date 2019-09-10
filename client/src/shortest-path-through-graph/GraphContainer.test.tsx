@@ -2,7 +2,7 @@ import { shallow, ShallowWrapper } from 'enzyme';
 import React from 'react';
 import InteractiveAdjacencyMatrix from './InteractiveAdjacencyMatrix';
 import { GraphContainer } from './GraphContainer';
-import { NodeModel } from './NodeModel';
+import { NodeModel } from './models/NodeModel';
 
 describe('GraphContainer', () => {
   let subject: ShallowWrapper;

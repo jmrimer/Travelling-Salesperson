@@ -41,11 +41,8 @@ export class MapInput extends Component<Props> {
   private renderInstructions() {
     return (
       <div className={'instructions'}>
-        Or... type your map coordinates using the following format, only typing spaces between columns:
         <div className={'exampleList'}>
-          <div>CityNumber Latitude Longitude</div>
-          <div>CityNumber Latitude Longitude</div>
-          <div>CityNumber Latitude Longitude</div>
+          <div>Format: city# latitude longitude</div>
         </div>
       </div>
     );
@@ -96,7 +93,7 @@ export const StyledMapInput = styled(MapInput)`
     background: ${(props) => props.theme.color.foreground};
     padding-top: 8px;
     padding-left: 8px;
-    margin-top: 16px;
+    margin-top: 8px;
     font-size: 16px;
     resize: vertical;
     border-radius: 4px;
