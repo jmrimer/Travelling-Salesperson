@@ -20,6 +20,7 @@
     "fetch-mock": "^7.3.9",
     "node-fetch": "^2.6.0",
     "react": "^16.9.0",
+    "react-cytoscapejs": "^1.2.0",
     "react-dom": "^16.9.0",
     "react-dropzone": "^10.1.8",
     "react-redux": "^7.1.1",

@@ -6,7 +6,7 @@ import { fetchNewRouteFromText, fetchWeightedRoute, updateMapText } from './acti
 import { StyledMapInput } from './MapInput';
 import styled from 'styled-components';
 import classNames from 'classnames';
-
+import CytoscapeComponent from 'react-cytoscapejs';
 
 interface Props {
   weightedRoute: RouteModel;
@@ -29,6 +29,7 @@ export class RouteContainer extends React.Component<Props> {
         {this.renderMapInput()}
         {RouteContainer.renderDividingLine()}
         {this.renderRouteOutput()}
+        {this.renderMap()}
       </div>
     );
   }
@@ -56,6 +57,23 @@ export class RouteContainer extends React.Component<Props> {
 
   private static renderDividingLine() {
     return <div className={'divide'}>&nbsp;</div>
+  }
+
+  private renderMap() {
+    const elements = [
+      {data: {id: 'one', label: 'Node 1'}, position: {x: 0, y: 0}},
+      {data: {id: 'two', label: 'Node 2'}, position: {x: 100, y: 0}},
+      {data: {source: 'one', target: 'two', label: 'Edge from Node1 to Node2'}}
+    ];
+
+    return (
+      <div>
+      <CytoscapeComponent
+        elements={elements}
+        style={{width: '600px', height: '600px'}}
+      />
+      </div>
+    )
   }
 }
 
