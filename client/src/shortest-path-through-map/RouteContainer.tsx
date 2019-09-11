@@ -12,6 +12,7 @@ import {
   rotate180AroundCenterOf,
   translatePointsToNewCenter
 } from '../visual-grapher/GraphTranslator';
+import { theme } from '../website-styling/default';
 
 interface Props {
   weightedRoute: RouteModel;
@@ -94,7 +95,25 @@ export class RouteContainer extends React.Component<Props> {
               style: {
                 width: 10,
                 height: 10,
-                shape: 'rectangle'
+                shape: 'circle',
+                'background-color': theme.color.fontWhite,
+                color: theme.color.wedgewood,
+                label: 'data(label)',
+                'font-size': 10,
+                'font-weight': 'bold',
+                'min-zoomed-font-size': 10,
+                'text-valign': 'center',
+                'text-halign': 'center',
+                'text-outline-color': theme.color.midnight,
+                'text-outline-width': 0.4
+                // label: {
+                // }
+              }
+            },
+            {
+              select: 'label',
+              style: {
+                color: 'pink'
               }
             }
           ]}
