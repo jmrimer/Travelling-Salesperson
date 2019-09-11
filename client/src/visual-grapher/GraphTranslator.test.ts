@@ -1,4 +1,9 @@
-import { centerOf, rotate180AroundCenterOf, translatePointsToNewCenter } from './GraphTranslator';
+import {
+  centerOf,
+  flipVerticallyAroundCenterOf,
+  rotate180AroundCenterOf,
+  translatePointsToNewCenter
+} from './GraphTranslator';
 
 describe('GraphTranslator', () => {
   let points: any[];
@@ -31,6 +36,17 @@ describe('GraphTranslator', () => {
         {x: 4, y: 2},
         {x: -4, y: 5},
         {x: 4, y: 8},
+        {x: 8, y: 5},
+      ]
+    );
+  });
+
+  it('should flip points vertically around their center', () => {
+    expect(flipVerticallyAroundCenterOf(points)).toEqual(
+      [
+        {x: 4, y: 8},
+        {x: -4, y: 5},
+        {x: 4, y: 2},
         {x: 8, y: 5},
       ]
     );

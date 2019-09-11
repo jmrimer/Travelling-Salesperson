@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import { StyledRouteInfo } from './RouteInfo';
 import { RouteModel } from './models/RouteModel';
 import { connect } from 'react-redux';
@@ -7,6 +7,11 @@ import { StyledMapInput } from './MapInput';
 import styled from 'styled-components';
 import classNames from 'classnames';
 import CytoscapeComponent from 'react-cytoscapejs';
+import {
+  flipVerticallyAroundCenterOf,
+  rotate180AroundCenterOf,
+  translatePointsToNewCenter
+} from '../visual-grapher/GraphTranslator';
 
 interface Props {
   weightedRoute: RouteModel;
@@ -15,11 +20,15 @@ interface Props {
   getStaticRoute: () => void;
   getNewRoute: (mapText: string) => void;
   updateMapText: (e: any) => void;
+  points: any[];
   className?: string;
 }
 
 export class RouteContainer extends React.Component<Props> {
+  cyRef: any;
+
   componentDidMount(): void {
+    this.cyRef = createRef();
     this.props.getStaticRoute();
   }
 
@@ -60,11 +69,14 @@ export class RouteContainer extends React.Component<Props> {
   }
 
   private renderMap() {
-    const elements = [
-      {data: {id: 'one', label: 'Node 1'}, position: {x: 10, y: 10}},
-      {data: {id: 'two', label: 'Node 2'}, position: {x: 590 , y: 590}},
-      {data: {source: 'one', target: 'two', label: 'Edge from Node1 to Node2'}}
-    ];
+    let points = translatePointsToNewCenter(
+      this.props.points,
+      {x: 300, y: 300}
+    );
+
+    const elements = points.map((point) => {
+      return {data: {id: point.name, label: point.name}, position: {x: point.x, y: point.y}}
+    });
 
     return (
       <div>
@@ -86,6 +98,9 @@ export class RouteContainer extends React.Component<Props> {
               }
             }
           ]}
+          cy={(cy: any) => {
+            cy.fit();
+          }}
         />
       </div>
     );
@@ -95,7 +110,8 @@ export class RouteContainer extends React.Component<Props> {
 const mapStateToProps = (state: any) => ({
   weightedRoute: state.weightedRoute,
   loading: state.loading,
-  mapText: state.mapText
+  mapText: state.mapText,
+  points: state.points
 });
 
 const mapDispatchToProps = {

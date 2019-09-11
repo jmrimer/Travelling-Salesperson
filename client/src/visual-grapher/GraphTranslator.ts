@@ -36,3 +36,11 @@ export const rotate180AroundCenterOf: any = (points: any[]) => {
   });
   return points;
 };
+
+export const flipVerticallyAroundCenterOf: any = (points: any[]) => {
+  const center = centerOf(points);
+  points.map((point) => {
+    point.x = center.x + (center.x - point.x);
+  });
+  return points;
+};
