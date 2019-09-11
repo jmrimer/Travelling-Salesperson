@@ -1,7 +1,7 @@
-import { RouteModel } from './RouteModel';
+import { RouteModel } from './models/RouteModel';
 import { CityModel } from './models/CityModel';
 import { ActionTypes } from '../actions/ActionTypes';
-import { NodeModel } from '../shortest-path-through-graph/NodeModel';
+import { NodeModel } from '../shortest-path-through-graph/models/NodeModel';
 
 function createInitialMatrix() {
   return [

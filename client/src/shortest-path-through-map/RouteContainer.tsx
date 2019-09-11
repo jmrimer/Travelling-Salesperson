@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyledRouteInfo } from './RouteInfo';
-import { RouteModel } from './RouteModel';
+import { RouteModel } from './models/RouteModel';
 import { connect } from 'react-redux';
 import { fetchNewRouteFromText, fetchWeightedRoute, updateMapText } from './actions';
 import { StyledMapInput } from './MapInput';
@@ -61,19 +61,34 @@ export class RouteContainer extends React.Component<Props> {
 
   private renderMap() {
     const elements = [
-      {data: {id: 'one', label: 'Node 1'}, position: {x: 0, y: 0}},
-      {data: {id: 'two', label: 'Node 2'}, position: {x: 100, y: 0}},
+      {data: {id: 'one', label: 'Node 1'}, position: {x: 10, y: 10}},
+      {data: {id: 'two', label: 'Node 2'}, position: {x: 590 , y: 590}},
       {data: {source: 'one', target: 'two', label: 'Edge from Node1 to Node2'}}
     ];
 
     return (
       <div>
-      <CytoscapeComponent
-        elements={elements}
-        style={{width: '600px', height: '600px'}}
-      />
+        <CytoscapeComponent
+          elements={elements}
+          style={
+            {
+              width: '600px',
+              height: '600px',
+            }
+          }
+          stylesheet={[
+            {
+              selector: 'node',
+              style: {
+                width: 10,
+                height: 10,
+                shape: 'rectangle'
+              }
+            }
+          ]}
+        />
       </div>
-    )
+    );
   }
 }
 

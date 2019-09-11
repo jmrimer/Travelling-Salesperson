@@ -2,7 +2,7 @@ import { shallow, ShallowWrapper } from 'enzyme';
 import React from 'react';
 import { RouteContainer } from './RouteContainer';
 import { StyledRouteInfo } from './RouteInfo';
-import { RouteModel } from './RouteModel';
+import { RouteModel } from './models/RouteModel';
 import { StyledMapInput } from './MapInput';
 
 describe('RouteContainer', () => {

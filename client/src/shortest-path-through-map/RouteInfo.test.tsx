@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RouteInfo } from './RouteInfo';
-import { RouteModel } from './RouteModel';
+import { RouteModel } from './models/RouteModel';
 import { CityModel } from './models/CityModel';
 import { shallow, ShallowWrapper } from 'enzyme';
 

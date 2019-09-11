@@ -1,6 +1,6 @@
 import React from 'react';
 import { CityModel } from './models/CityModel';
-import { RouteModel } from './RouteModel';
+import { RouteModel } from './models/RouteModel';
 import styled from 'styled-components';
 import classNames from 'classnames';
 

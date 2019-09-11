@@ -1,4 +1,4 @@
-import { CityModel } from './models/CityModel';
+import { CityModel } from './CityModel';
 
 export class RouteModel {
   constructor(

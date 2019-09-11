@@ -4,7 +4,7 @@ import InteractiveAdjacencyMatrix from './InteractiveAdjacencyMatrix';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { GraphRequestModel } from './GraphRequestModel';
-import { NodeModel } from './NodeModel';
+import { NodeModel } from './models/NodeModel';
 import {
   fetchShortestPathUsingBFS,
   fetchShortestPathUsingDFS,
