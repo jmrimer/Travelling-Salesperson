@@ -1,5 +1,4 @@
 import { RouteModel } from './models/RouteModel';
-import { CityModel } from './models/CityModel';
 import { ActionTypes } from '../actions/ActionTypes';
 import { NodeModel } from '../shortest-path-through-graph/models/NodeModel';
 import { flipVerticallyAroundCenterOf, rotate180AroundCenterOf } from '../visual-grapher/GraphTranslator';

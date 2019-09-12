@@ -1,4 +1,4 @@
-import React, { createRef } from 'react';
+import React from 'react';
 import { StyledRouteInfo } from './RouteInfo';
 import { RouteModel } from './models/RouteModel';
 import { connect } from 'react-redux';
@@ -6,10 +6,7 @@ import { fetchNewRouteFromText, fetchWeightedRoute, updateMapText } from './acti
 import { StyledMapInput } from './MapInput';
 import styled from 'styled-components';
 import classNames from 'classnames';
-import CytoscapeComponent from 'react-cytoscapejs';
-import { translatePointsToNewCenter } from '../visual-grapher/GraphTranslator';
-import { theme } from '../website-styling/default';
-import { VisualGraph } from '../visual-grapher/VisualGraph';
+import VisualGraph from '../visual-grapher/VisualGraph';
 
 interface Props {
   weightedRoute: RouteModel;

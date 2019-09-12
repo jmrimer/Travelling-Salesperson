@@ -27,7 +27,7 @@ export const VisualGraph: React.FC<Props> = props => {
       elements.push({data: {source: route[i].name, target: route[i+1].name}});
     }
   }
-  
+
   return (
     <div>
       <CytoscapeComponent
@@ -72,3 +72,5 @@ export const VisualGraph: React.FC<Props> = props => {
     </div>
   );
 };
+
+export default VisualGraph;
