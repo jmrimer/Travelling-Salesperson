@@ -7,11 +7,7 @@ import { StyledMapInput } from './MapInput';
 import styled from 'styled-components';
 import classNames from 'classnames';
 import CytoscapeComponent from 'react-cytoscapejs';
-import {
-  flipVerticallyAroundCenterOf,
-  rotate180AroundCenterOf,
-  translatePointsToNewCenter
-} from '../visual-grapher/GraphTranslator';
+import { translatePointsToNewCenter } from '../visual-grapher/GraphTranslator';
 import { theme } from '../website-styling/default';
 
 interface Props {
@@ -26,20 +22,12 @@ interface Props {
 }
 
 export class RouteContainer extends React.Component<Props> {
-  cyRef: any;
-
-  componentDidMount(): void {
-    this.cyRef = createRef();
-    this.props.getStaticRoute();
-  }
-
   render() {
     return (
       <div className={classNames('routeContainer', this.props.className)}>
         {this.renderMapInput()}
         {RouteContainer.renderDividingLine()}
         {this.renderRouteOutput()}
-        {this.renderMap()}
       </div>
     );
   }
@@ -51,6 +39,7 @@ export class RouteContainer extends React.Component<Props> {
         weightedRoute={this.props.weightedRoute}
         loading={this.props.loading}
       />
+      {this.renderMap()}
     </div>;
   }
 
@@ -74,10 +63,20 @@ export class RouteContainer extends React.Component<Props> {
       this.props.points,
       {x: 300, y: 300}
     );
+    let elements: any[];
 
-    const elements = points.map((point) => {
+    elements = points.map((point) => {
       return {data: {id: point.name, label: point.name}, position: {x: point.x, y: point.y}}
     });
+
+    if (this.props.weightedRoute) {
+      let route = this.props.weightedRoute.route;
+      for (let i = 0; i < route.length - 1; i++) {
+        console.log(route[i].name);
+        elements.push({data: {source: route[i].name, target: route[i+1].name}});
+      }
+    }
+
 
     return (
       <div>
@@ -93,27 +92,26 @@ export class RouteContainer extends React.Component<Props> {
             {
               selector: 'node',
               style: {
-                width: 10,
-                height: 10,
+                width: 4,
+                height: 4,
                 shape: 'circle',
                 'background-color': theme.color.fontWhite,
                 color: theme.color.wedgewood,
                 label: 'data(label)',
-                'font-size': 10,
+                'font-size': 2,
                 'font-weight': 'bold',
-                'min-zoomed-font-size': 10,
+                'min-zoomed-font-size': 2,
                 'text-valign': 'center',
                 'text-halign': 'center',
-                'text-outline-color': theme.color.midnight,
-                'text-outline-width': 0.4
-                // label: {
-                // }
+                'text-outline-color': theme.color.plum,
+                'text-outline-width': 0.15
               }
             },
             {
-              select: 'label',
+              selector: 'edge',
               style: {
-                color: 'pink'
+                'line-color': theme.color.lavender,
+                width: 0.5,
               }
             }
           ]}

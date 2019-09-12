@@ -41,10 +41,7 @@ export function translateCoordinateTextToGraphReadyPoints(mapText: string) {
 }
 
 const initState = {
-  weightedRoute: new RouteModel(
-    [new CityModel("no map added...", 0, 0)],
-    0
-  ),
+  weightedRoute: null,
   mapText: startingMap,
   shortestBFSPath: null,
   shortestDFSPath: null,
@@ -89,7 +86,8 @@ const reducer = (state = initState, action: any) => {
       return {
         ...state,
         mapText: textFromBody(action.event),
-        points: translateCoordinateTextToGraphReadyPoints(textFromBody(action.event))
+        points: translateCoordinateTextToGraphReadyPoints(textFromBody(action.event)),
+        weightedRoute: null
       };
     case ActionTypes.POST_BFS_REQUEST:
       return {...state, loading: true};
