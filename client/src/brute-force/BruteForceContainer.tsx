@@ -1,9 +1,9 @@
 import React from 'react';
-import { RouteModel } from './models/RouteModel';
+import { RouteModel } from '../shared-models/RouteModel';
 import { connect } from 'react-redux';
-import { fetchNewRouteFromText, updateMapText } from './actions';
 import classNames from 'classnames';
 import TourDisplayer from '../shared-graphic-components/TourDisplayer';
+import { fetchNewRouteFromText, updateMapText } from '../redux/actions';
 
 interface Props {
   weightedRoute: RouteModel;

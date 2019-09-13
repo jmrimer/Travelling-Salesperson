@@ -1,8 +1,8 @@
 import { shallow, ShallowWrapper } from 'enzyme';
-import { RouteModel } from '../brute-force/models/RouteModel';
-import { StyledRouteInfo } from '../brute-force/RouteInfo';
-import { StyledMapInput } from '../brute-force/MapInput';
-import { VisualGraph } from '../visual-grapher/VisualGraph';
+import { RouteModel } from '../shared-models/RouteModel';
+import { StyledRouteInfo } from './RouteInfo';
+import { StyledMapInput } from './MapInput';
+import { VisualGraph } from './visual-grapher/VisualGraph';
 import React from 'react';
 import { HeuristicInsertionContainer } from '../heuristic-instertion/HeuristicInsertionContainer';
 import { TourDisplayer } from './TourDisplayer';

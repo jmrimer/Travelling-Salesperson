@@ -1,9 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
-import { StyledRouteInfo } from '../brute-force/RouteInfo';
-import { StyledMapInput } from '../brute-force/MapInput';
-import VisualGraph from '../visual-grapher/VisualGraph';
-import { RouteModel } from '../brute-force/models/RouteModel';
+import { StyledRouteInfo } from './RouteInfo';
+import { StyledMapInput } from './MapInput';
+import VisualGraph from './visual-grapher/VisualGraph';
+import { RouteModel } from '../shared-models/RouteModel';
 import styled from 'styled-components';
 
 interface Props {

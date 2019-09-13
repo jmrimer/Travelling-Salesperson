@@ -1,4 +1,4 @@
-import { NodeModel } from './models/NodeModel';
+import { NodeModel } from '../shared-models/NodeModel';
 
 export class GraphRequestModel {
   constructor(

@@ -1,9 +1,9 @@
 import React from 'react';
-import { RouteModel } from '../brute-force/models/RouteModel';
+import { RouteModel } from '../shared-models/RouteModel';
 import classNames from 'classnames';
 import TourDisplayer from '../shared-graphic-components/TourDisplayer';
-import { fetchNewRouteFromText, updateMapText } from '../brute-force/actions';
 import { connect } from 'react-redux';
+import { fetchNewRouteFromText, updateMapText } from '../redux/actions';
 
 interface Props {
   weightedRoute: RouteModel;
@@ -40,7 +40,7 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = {
-  getNewRoute: fetchNewRouteFromText,
+  // getNewRoute: fetchNewTourViaInsertionFromText,
   updateMapText: updateMapText
 };
 

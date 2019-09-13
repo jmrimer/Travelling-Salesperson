@@ -1,6 +1,6 @@
 import fetchMock from 'fetch-mock';
-import { ActionTypes } from '../actions/ActionTypes';
-import { NodeModel } from './models/NodeModel';
+import { ActionTypes } from '../redux/actions/types';
+import { NodeModel } from '../shared-models/NodeModel';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as actions from '../brute-force/actions';

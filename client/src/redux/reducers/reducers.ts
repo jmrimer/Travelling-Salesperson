@@ -1,7 +1,7 @@
-import { RouteModel } from './models/RouteModel';
-import { ActionTypes } from '../actions/ActionTypes';
-import { NodeModel } from '../bfs-and-dfs/models/NodeModel';
-import { flipVerticallyAroundCenterOf, rotate180AroundCenterOf } from '../visual-grapher/GraphTranslator';
+import { RouteModel } from '../../shared-models/RouteModel';
+import { ActionTypes } from '../actions/types';
+import { NodeModel } from '../../shared-models/NodeModel';
+import { flipVerticallyAroundCenterOf, rotate180AroundCenterOf } from '../../shared-graphic-components/visual-grapher/GraphTranslator';
 
 function createInitialMatrix() {
   return [

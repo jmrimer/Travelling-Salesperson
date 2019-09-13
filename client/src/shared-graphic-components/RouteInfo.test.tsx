@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteInfo } from './RouteInfo';
-import { RouteModel } from './models/RouteModel';
-import { CityModel } from './models/CityModel';
+import { RouteModel } from '../shared-models/RouteModel';
+import { CityModel } from '../shared-models/CityModel';
 import { shallow, ShallowWrapper } from 'enzyme';
 
 describe('RouteInfo', () => {

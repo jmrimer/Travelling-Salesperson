@@ -1,7 +1,7 @@
 import React from 'react';
 import { translatePointsToNewCenter } from './GraphTranslator';
 import CytoscapeComponent from "react-cytoscapejs";
-import { theme } from '../website-styling/default';
+import { theme } from '../../website-styling/default';
 
 interface Props {
   points: any[];
