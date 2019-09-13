@@ -9,7 +9,7 @@ import {
   fetchShortestPathUsingBFS,
   fetchShortestPathUsingDFS,
   toggleMatrix
-} from '../shortest-path-through-map/actions';
+} from '../brute-force/actions';
 
 interface Props {
   postBFS: (graphRequest: GraphRequestModel) => void;

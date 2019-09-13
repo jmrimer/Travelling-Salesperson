@@ -1,6 +1,6 @@
 import { ActionTypes } from '../actions/ActionTypes';
 import { MapModel } from './models/MapModel';
-import { GraphRequestModel } from '../shortest-path-through-graph/GraphRequestModel';
+import { GraphRequestModel } from '../bfs-and-dfs/GraphRequestModel';
 
 function fetchWeightedRouteRequest() {
   return {

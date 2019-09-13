@@ -1,6 +1,6 @@
 import { RouteModel } from './models/RouteModel';
 import { ActionTypes } from '../actions/ActionTypes';
-import { NodeModel } from '../shortest-path-through-graph/models/NodeModel';
+import { NodeModel } from '../bfs-and-dfs/models/NodeModel';
 import { flipVerticallyAroundCenterOf, rotate180AroundCenterOf } from '../visual-grapher/GraphTranslator';
 
 function createInitialMatrix() {

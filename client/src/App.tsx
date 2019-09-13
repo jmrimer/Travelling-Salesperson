@@ -1,11 +1,11 @@
 import React from 'react';
-import RouteContainer from './shortest-path-through-map/RouteContainer';
+import RouteContainer from './brute-force/BruteForceContainer';
 import styled, { ThemeProvider } from 'styled-components';
 import classNames from 'classnames';
 import { theme } from './website-styling/default';
 import { StyledHeader } from './website-styling/Header';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import GraphContainer from './shortest-path-through-graph/GraphContainer';
+import GraphContainer from './bfs-and-dfs/GraphContainer';
 
 interface Props {
   className?: string
