@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class WeightedRoute {
+class WeightedRoute {
   List<City> route;
-  float weight;
+  double weight;
 }

@@ -10,4 +10,8 @@ import lombok.NoArgsConstructor;
 public class Edge {
   private City start;
   private City end;
+
+  public double getWeight() {
+    return new MapHelpers().calculateDistance(this.start, this.end);
+  }
 }

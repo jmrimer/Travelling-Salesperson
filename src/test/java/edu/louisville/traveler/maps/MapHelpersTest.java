@@ -26,8 +26,8 @@ public class MapHelpersTest {
   public void getNearestCityFromEdges() {
     City city1 = new City(1, 0, 0);
     City city2 = new City(2, 1, 1);
-    City city3 = new City(3, 0, 2);
-    City city4 = new City(3, 0, 2);
+    City city3 = new City(3, 0, 1);
+    City city4 = new City(4, 1, 1.8);
 
     List<City> cities = List.of(city3, city4);
     HashSet<Edge> edges = new HashSet<>(List.of(new Edge(city1, city2)));
@@ -43,7 +43,7 @@ public class MapHelpersTest {
   public void calculatesDistanceFromCityToEdge() {
     assertEquals(
       Math.sqrt(2) / 2,
-      new MapHelpers().getDistance(
+      new MapHelpers().calculateDistance(
         new City(3, 0, 1),
         new Edge(
           new City(1, 0, 0),
@@ -54,7 +54,7 @@ public class MapHelpersTest {
     );
     assertEquals(
       1,
-      new MapHelpers().getDistance(
+      new MapHelpers().calculateDistance(
         new City(3, 1, 2),
         new Edge(
           new City(1, 0, 0),

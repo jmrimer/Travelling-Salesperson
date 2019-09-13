@@ -12,8 +12,9 @@ class MapHelpers {
     List<City> citiesWithoutStartingCity = new ArrayList<>(cities);
     citiesWithoutStartingCity.remove(start);
     for (City city : citiesWithoutStartingCity) {
-      if (getDistance(start, city) < bestDistance) {
-        bestDistance = (float) getDistance(start, city);
+      double distance = calculateDistance(start, city);
+      if (distance < bestDistance) {
+        bestDistance = (float) distance;
         nearestCity = city;
       }
     }
@@ -21,10 +22,21 @@ class MapHelpers {
   }
 
   City findNearestCity(HashSet<Edge> edges, List<City> cities) {
-    return null;
+    City nearestCity = null;
+    float bestDistance = Float.MAX_VALUE;
+    for (City city : cities) {
+      for (Edge edge : edges) {
+        double currDistance = calculateDistance(city, edge);
+        if (currDistance < bestDistance) {
+          bestDistance = (float) currDistance;
+          nearestCity = city;
+        }
+      }
+    }
+    return nearestCity;
   }
 
-  private double getDistance(City start, City end) {
+  public double calculateDistance(City start, City end) {
     return Point2D.distance(
       start.latitude,
       start.longitude,
@@ -35,7 +47,7 @@ class MapHelpers {
 
   //  https://stackoverflow.com/questions/849211/shortest-distance-between-a-point-and-a-line-segment
 //  answer by Joshua
-  double getDistance(City city, Edge edge) {
+  double calculateDistance(City city, Edge edge) {
     double x0 = city.latitude;
     double y0 = city.longitude;
     double x1 = edge.getStart().latitude;
