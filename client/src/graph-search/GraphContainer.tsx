@@ -4,12 +4,8 @@ import InteractiveAdjacencyMatrix from './InteractiveAdjacencyMatrix';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { GraphRequestModel } from './GraphRequestModel';
-import { NodeModel } from './models/NodeModel';
-import {
-  fetchShortestPathUsingBFS,
-  fetchShortestPathUsingDFS,
-  toggleMatrix
-} from '../shortest-path-through-map/actions';
+import { NodeModel } from '../shared-models/NodeModel';
+import { fetchShortestPathUsingBFS, fetchShortestPathUsingDFS, toggleMatrix } from '../redux/actions';
 
 interface Props {
   postBFS: (graphRequest: GraphRequestModel) => void;

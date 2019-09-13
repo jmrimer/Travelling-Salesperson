@@ -2,7 +2,7 @@ import { shallow, ShallowWrapper } from 'enzyme';
 import React from 'react';
 import InteractiveAdjacencyMatrix from './InteractiveAdjacencyMatrix';
 import { GraphContainer } from './GraphContainer';
-import { NodeModel } from './models/NodeModel';
+import { NodeModel } from '../shared-models/NodeModel';
 
 describe('GraphContainer', () => {
   let subject: ShallowWrapper;
@@ -43,6 +43,6 @@ describe('GraphContainer', () => {
         shortestDFSPath={[]}
         toggleMatrix={() => []}
       />);
-    expect(subject.find('.shortest-path--bfs').text()).toBe('Shortest path: 1, 3, 5, 8, 11')
+    expect(subject.find('.shortest-path--bfs').text()).toContain('1, 3, 5, 8, 11')
   });
 });

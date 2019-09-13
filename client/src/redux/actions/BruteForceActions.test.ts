@@ -1,13 +1,13 @@
 import fetchMock from 'fetch-mock';
-import { ActionTypes } from '../actions/ActionTypes';
+import { ActionTypes } from './types';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import * as actions from './actions';
+import { fetchNewRouteFromText } from './index';
 
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
 
-describe('RouteActions', () => {
+describe('BruteForceActions', () => {
   let weightedRouteJSON = {
     route: [
       {name: '1', latitude: 0, longitude: 0}
@@ -38,7 +38,7 @@ describe('RouteActions', () => {
     const store = mockStore({});
 
     // @ts-ignore
-    return store.dispatch(actions.fetchNewRouteFromText('city1 1 1\ncity2 2 2'))
+    return store.dispatch(fetchNewRouteFromText('city1 1 1\ncity2 2 2'))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
       })

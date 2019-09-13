@@ -1,10 +1,10 @@
 import fetchMock from 'fetch-mock';
-import { ActionTypes } from '../actions/ActionTypes';
-import { NodeModel } from './models/NodeModel';
+import { ActionTypes } from './types';
+import { NodeModel } from '../../shared-models/NodeModel';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import * as actions from '../shortest-path-through-map/actions';
-import { GraphRequestModel } from './GraphRequestModel';
+import * as actions from '../brute-force/actions';
+import { GraphRequestModel } from '../../graph-search/GraphRequestModel';
 
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);

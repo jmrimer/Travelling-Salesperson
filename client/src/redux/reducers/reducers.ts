@@ -1,7 +1,8 @@
-import { RouteModel } from './models/RouteModel';
-import { ActionTypes } from '../actions/ActionTypes';
-import { NodeModel } from '../shortest-path-through-graph/models/NodeModel';
-import { flipVerticallyAroundCenterOf, rotate180AroundCenterOf } from '../visual-grapher/GraphTranslator';
+import { RouteModel } from '../../shared-models/RouteModel';
+import { ActionTypes } from '../actions/types';
+import { NodeModel } from '../../shared-models/NodeModel';
+import { flipVerticallyAroundCenterOf, rotate180AroundCenterOf } from '../../shared-graphic-components/visual-grapher/GraphTranslator';
+import { Page } from '../../website-styling/Header';
 
 function createInitialMatrix() {
   return [
@@ -19,7 +20,8 @@ function createInitialMatrix() {
   ]
 }
 
-let startingMap = '1 87.951292 2.658162\n' +
+let startingMap =
+  '1 87.951292 2.658162\n' +
   '2 33.466597 66.682943\n' +
   '3 91.778314 53.807184\n' +
   '4 20.526749 47.633290';
@@ -45,7 +47,8 @@ const initState = {
   shortestBFSPath: null,
   shortestDFSPath: null,
   adjacencyMatrix: createInitialMatrix(),
-  points: translateCoordinateTextToGraphReadyPoints(startingMap)
+  points: translateCoordinateTextToGraphReadyPoints(startingMap),
+  currentPage: Page.BRUTE_FORCE
 };
 
 function serializeJSONtoRoute(json: any) {
@@ -98,6 +101,10 @@ const reducer = (state = initState, action: any) => {
       return {...state, shortestDFSPath: serializeJSONToPath(action.body), loading: false};
     case ActionTypes.TOGGLE_MATRIX:
       return {...state, adjacencyMatrix: toggleMatrix(state.adjacencyMatrix, action.body)};
+    case ActionTypes.POST_NEW_TOUR_VIA_INSERTION_REQUEST:
+      return {...state, loading: true};
+    case ActionTypes.UPDATE_PAGE:
+      return {...state, currentPage: action.page};
     default:
       return state;
   }
