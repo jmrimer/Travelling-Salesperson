@@ -22,4 +22,9 @@ public class MappingService {
     TravelingSalespersonProblemSolver solver = new TravelingSalespersonProblemSolver();
     return solver.calculateShortestPath(map.getCities());
   }
+
+  WeightedRoute routeFromMapViaInsertion(Map map) {
+    ClosestEdgeInserter closestEdgeInserter = new ClosestEdgeInserter();
+    return closestEdgeInserter.generateTour(map.getCities());
+  }
 }

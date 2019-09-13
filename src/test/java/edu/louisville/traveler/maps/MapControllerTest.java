@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
@@ -26,41 +27,18 @@ public class MapControllerTest {
   @Autowired
   private MockMvc mockMvc;
 
-  @MockBean
-  private MappingService mappingService;
-
-  @Test
-  public void getReturnsRouteAndWeight() throws Exception {
-    WeightedRoute route = new WeightedRoute(
-      List.of(new City(1, 0f, 0f)),
-      0f
-    );
-
-    when(mappingService.route())
-      .thenReturn(route);
-
-    String routeJSON = new ObjectMapper().writeValueAsString(route);
-
-    this.mockMvc.perform(get("/api/weighted-route"))
-      .andExpect(status().isOk())
-      .andExpect(content().string(routeJSON));
-  }
-
   @Test
   public void postReturnsRouteAndWeight() throws Exception {
-    WeightedRoute route = new WeightedRoute(
-      List.of(new City(1, 0f, 0f)),
-      0f
-    );
-
-
-    Map map = new Map(List.of(new City(1, 1f, 1f), new City(2, 2f, 2f)));
-
-    when(mappingService.routeFromMap(map))
-      .thenReturn(route);
+    City city1 = new City(1, 0.0d, 0.0d);
+    City city2 = new City(2, 3.0d, 4.0d);
+    City city3 = new City(3, 0d, 8.0d);
+    City city4 = new City(4, -3.0d, 4.0d);
+    List<City> route = List.of(city1, city4, city3, city2, city1);
+    WeightedRoute weightedRoute = new WeightedRoute(route, 20f);
+    Map map = new Map(List.of(city1, city2, city3, city4));
 
     String mapJSON = new ObjectMapper().writeValueAsString(map);
-    String routeJSON = new ObjectMapper().writeValueAsString(route);
+    String weightedRouteJSON = new ObjectMapper().writeValueAsString(weightedRoute);
 
     this.mockMvc.perform(MockMvcRequestBuilders
       .post("/api/weighted-route")
@@ -68,7 +46,33 @@ public class MapControllerTest {
       .contentType(MediaType.APPLICATION_JSON)
       .accept(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk())
-      .andExpect(content().string(routeJSON));
+      .andExpect(content().string(weightedRouteJSON));
   }
 
+  @Test
+  public void postReturnsRouteAndWeightFromInsertionTour() throws Exception {
+    City city1 = new City(1, 0, 0);
+    City city2 = new City(2, 1, 1);
+    City city3 = new City(3, 0, 2);
+    City city4 = new City(4, 1, 3);
+    List<City> cities = List.of(city1, city2, city3, city4);
+    Map map = new Map(cities);
+
+    List<City> route = new ArrayList<>(List.of(city1, city2, city3, city4, city1));
+    WeightedRoute weigh = new WeightedRoute(
+      route,
+      7.404918347287666
+    );
+
+    String mapJSON = new ObjectMapper().writeValueAsString(map);
+    String expectedRouteJSON = new ObjectMapper().writeValueAsString(weigh);
+
+    this.mockMvc.perform(MockMvcRequestBuilders
+      .post("/api/weighted-route-via-insertion")
+      .content(mapJSON)
+      .contentType(MediaType.APPLICATION_JSON)
+      .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andExpect(content().string(expectedRouteJSON));
+  }
 }

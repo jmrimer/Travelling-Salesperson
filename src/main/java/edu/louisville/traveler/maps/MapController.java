@@ -14,17 +14,18 @@ public class MapController {
   }
 
   @CrossOrigin(origins = "http://localhost:3000")
-  @RequestMapping("/api/weighted-route")
-  public @ResponseBody
-  WeightedRoute staticWeightedRoute() {
-    return this.mappingService.route();
-  }
-
-  @CrossOrigin(origins = "http://localhost:3000")
   @PostMapping("/api/weighted-route")
-  public @ResponseBody WeightedRoute newWeightedRoute(
+  public @ResponseBody WeightedRoute newWeightedRouteViaBruteForce(
     @RequestBody Map map
   ) {
     return this.mappingService.routeFromMap(map);
+  }
+
+  @CrossOrigin(origins = "http://localhost:3000")
+  @PostMapping("/api/weighted-route-via-insertion")
+  public @ResponseBody WeightedRoute newWeightedRouteViaInsertion(
+    @RequestBody Map map
+  ) {
+    return this.mappingService.routeFromMapViaInsertion(map);
   }
 }
