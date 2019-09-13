@@ -23,7 +23,11 @@ I designed this application with `Chrome` users in mind. While the site itself g
   
 ### Project 1
 ![Traveler Screenshot](./screenshot-project-1.png)
+*Beware: 12-city routes take nearly 2 minutes to calculate on a machine with 32GB of memory.
 
 ### Project 2
 ![Traveler Screenshot](./screenshot-project-2.png)
-*Beware: 12-city routes take nearly 2 minutes to calculate on a machine with 32GB of memory.
+
+### Project 3
+![Traveler Screenshot](./screenshot-project-3.png)
+
