@@ -2,7 +2,7 @@ import React from 'react';
 import { StyledRouteInfo } from './RouteInfo';
 import { RouteModel } from './models/RouteModel';
 import { connect } from 'react-redux';
-import { fetchNewRouteFromText, fetchWeightedRoute, updateMapText } from './actions';
+import { fetchNewRouteFromText, updateMapText } from './actions';
 import { StyledMapInput } from './MapInput';
 import styled from 'styled-components';
 import classNames from 'classnames';
@@ -12,7 +12,6 @@ interface Props {
   weightedRoute: RouteModel;
   loading: boolean;
   mapText: string;
-  getStaticRoute: () => void;
   getNewRoute: (mapText: string) => void;
   updateMapText: (e: any) => void;
   points: any[];
@@ -74,7 +73,6 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = {
-  getStaticRoute: fetchWeightedRoute,
   getNewRoute: fetchNewRouteFromText,
   updateMapText: updateMapText
 };

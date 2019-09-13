@@ -12,8 +12,9 @@ class ClosestEdgeInserter {
   private City lastCityVisited;
   private double weight = 0;
 
-  WeightedRoute generateTour(List<City> cities, City start) {
+  WeightedRoute generateTour(List<City> cities) {
     remainingCities = new ArrayList<>(cities);
+    City start = cities.get(0);
     firstStopBasedOnPointDistanceFrom(start);
     visitRemainingCities();
     returnTo(start);

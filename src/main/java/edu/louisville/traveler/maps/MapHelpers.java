@@ -45,8 +45,10 @@ class MapHelpers {
     );
   }
 
-  //  https://stackoverflow.com/questions/849211/shortest-distance-between-a-point-and-a-line-segment
-//  answer by Joshua
+  /* Credit for the algorithm to calculate distance from a point to an edge goes to:
+  Joshua's answer at
+  https://stackoverflow.com/questions/849211/shortest-distance-between-a-point-and-a-line-segment
+   */
   double calculateDistance(City city, Edge edge) {
     double x0 = city.latitude;
     double y0 = city.longitude;

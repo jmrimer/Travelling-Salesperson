@@ -8,7 +8,6 @@ function fetchWeightedRouteRequest() {
   };
 }
 
-
 function fetchWeightedRouteSuccess(body: any) {
   return {
     type: ActionTypes.FETCH_WEIGHTED_ROUTE_SUCCESS,
@@ -34,16 +33,6 @@ export function updateMapText(event: any) {
     type: ActionTypes.UPDATE_MAP_TEXT,
     event
   }
-}
-
-export function fetchWeightedRoute() {
-  return function (dispatch: any) {
-    dispatch(fetchWeightedRouteRequest());
-    return fetch('http://localhost:8080/api/weighted-route')
-      .then(response => response.json())
-      .then(body => dispatch(fetchWeightedRouteSuccess(body)))
-      .catch(exception => dispatch(fetchWeightRouteFailure(exception)));
-  };
 }
 
 export function fetchNewRouteFromText(mapText: string) {

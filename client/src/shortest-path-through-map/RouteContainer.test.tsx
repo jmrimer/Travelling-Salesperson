@@ -2,9 +2,9 @@ import { shallow, ShallowWrapper } from 'enzyme';
 import React from 'react';
 import { RouteContainer } from './RouteContainer';
 import { StyledRouteInfo } from './RouteInfo';
-import { RouteModel } from './models/RouteModel';
 import { StyledMapInput } from './MapInput';
 import { VisualGraph } from '../visual-grapher/VisualGraph';
+import { RouteModel } from './models/RouteModel';
 
 describe('RouteContainer', () => {
   let routeContainer: ShallowWrapper;
@@ -22,8 +22,6 @@ describe('RouteContainer', () => {
     weightedRoute = new RouteModel();
     routeContainer = shallow(
       <RouteContainer
-        getStaticRoute={() => {
-        }}
         getNewRoute={getNewRoute}
         updateMapText={updateMapText}
         mapText={mapText}
@@ -53,7 +51,6 @@ describe('RouteContainer', () => {
 
   it('should display a graph and provide points & maps to it', () => {
     expect(routeContainer.find(VisualGraph).exists()).toBeTruthy();
-    let nodesAndEdges: any[] = [];
     expect(routeContainer.find(VisualGraph).prop('points')).toEqual(['point1', 'point2']);
     expect(routeContainer.find(VisualGraph).prop('tour')).toEqual(weightedRoute.route);
   });

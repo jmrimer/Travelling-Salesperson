@@ -19,32 +19,6 @@ describe('RouteActions', () => {
     fetchMock.restore();
   });
 
-  it('should fetch a weighted route and succeed on completion', () => {
-
-    fetchMock.getOnce('http://localhost:8080/api/weighted-route', {
-      body: weightedRouteJSON,
-      headers: {'content-type': 'application/json'},
-    });
-
-    const expectedActions = [
-      {
-        type: ActionTypes.FETCH_WEIGHTED_ROUTE_REQUEST
-      },
-      {
-        type: ActionTypes.FETCH_WEIGHTED_ROUTE_SUCCESS,
-        body: weightedRouteJSON
-      }
-    ];
-
-    const store = mockStore({});
-
-    // @ts-ignore
-    return store.dispatch(actions.fetchWeightedRoute())
-      .then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-      })
-  });
-
   it('should fetch a weight route with requested coordinates', () => {
     fetchMock.post('http://localhost:8080/api/weighted-route', {
       body: weightedRouteJSON,

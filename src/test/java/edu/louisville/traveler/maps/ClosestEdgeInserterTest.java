@@ -24,11 +24,11 @@ public class ClosestEdgeInserterTest {
 
     assertEquals(
       expectedRoute.route,
-      new ClosestEdgeInserter().generateTour(cities, city1).route
+      new ClosestEdgeInserter().generateTour(cities).route
     );
     assertEquals(
       expectedRoute.weight,
-      new ClosestEdgeInserter().generateTour(cities, city1).weight,
+      new ClosestEdgeInserter().generateTour(cities).weight,
       0.0005
     );
   }
