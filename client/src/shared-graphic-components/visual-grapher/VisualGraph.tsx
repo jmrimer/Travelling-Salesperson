@@ -14,7 +14,8 @@ export const VisualGraph: React.FC<Props> = props => {
     props.points,
     {x: 300, y: 300}
   );
-  let elements: any[];
+  let elements: any[] = [];
+  if (points) {
 
   elements = points.map((point) => {
     return {data: {id: point.name, label: point.name}, position: {x: point.x, y: point.y}}
@@ -26,6 +27,7 @@ export const VisualGraph: React.FC<Props> = props => {
       console.log(route[i].name);
       elements.push({data: {source: route[i].name, target: route[i+1].name}});
     }
+  }
   }
 
   return (

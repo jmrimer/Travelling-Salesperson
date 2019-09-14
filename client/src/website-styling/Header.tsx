@@ -37,7 +37,8 @@ class Header extends React.Component<Props> {
     return (
       <div className={'navigation-container'}>
         <Link to={'/'}>Brute Force</Link>
-        <Link to={'/graphs'}>BFS & DFS</Link>
+        <Link to={'/graph-search'}>Graph Search</Link>
+        <Link to={'/heuristic-insertion'}>Heuristic Insertion</Link>
       </div>
     )
   }

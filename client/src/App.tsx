@@ -1,11 +1,12 @@
 import React from 'react';
-import RouteContainer from './brute-force/BruteForceContainer';
+import BruteForceContainer from './brute-force/BruteForceContainer';
 import styled, { ThemeProvider } from 'styled-components';
 import classNames from 'classnames';
 import { theme } from './website-styling/default';
 import { StyledHeader } from './website-styling/Header';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import GraphContainer from './bfs-and-dfs/GraphContainer';
+import GraphContainer from './graph-search/GraphContainer';
+import HeuristicInsertionContainer from './heuristic-instertion/HeuristicInsertionContainer';
 
 interface Props {
   className?: string
@@ -20,8 +21,9 @@ class App extends React.Component<Props> {
             <div className={'header'}>
               <StyledHeader/>
             </div>
-            <Route exact path={'/'} component={RouteContainer}/>
-            <Route exact path={'/graphs'} component={GraphContainer}/>
+            <Route exact path={'/'} component={BruteForceContainer}/>
+            <Route exact path={'/graph-search'} component={GraphContainer}/>
+            <Route exact path={'/heuristic-insertion'} component={HeuristicInsertionContainer}/>
           </div>
       </Router>
       </ThemeProvider>

@@ -1,18 +1,24 @@
 import { MapModel } from '../../shared-models/MapModel';
-import { postNewRouteRequest } from './BruteForceActions';
 import { fetchWeightedRouteSuccess, fetchWeightRouteFailure } from './index';
+import { ActionTypes } from './types';
 
-export function fetchNewTourViaInsertionFromText(mapText: string) {
+export const postNewTourViaInsertionRequest = () => {
+  return {
+    type: ActionTypes.POST_NEW_TOUR_VIA_INSERTION_REQUEST
+  }
+};
+
+export const fetchNewTourViaInsertionFromText = (mapText: string) => {
   let map = new MapModel();
   map.serialize(mapText);
   return fetchNewTourViaInsertion(map);
-}
+};
 
 function fetchNewTourViaInsertion(map: MapModel) {
   return function (dispatch: any) {
-    dispatch(postNewRouteRequest());
+    dispatch(postNewTourViaInsertionRequest());
     return fetch(
-      'http://localhost:8080/api/weighted-route',
+      'http://localhost:8080/api/weighted-route-via-insertion',
       {
         method: 'post',
         headers: {

@@ -19,7 +19,8 @@ function createInitialMatrix() {
   ]
 }
 
-let startingMap = '1 87.951292 2.658162\n' +
+let startingMap =
+  '1 87.951292 2.658162\n' +
   '2 33.466597 66.682943\n' +
   '3 91.778314 53.807184\n' +
   '4 20.526749 47.633290';
@@ -98,6 +99,8 @@ const reducer = (state = initState, action: any) => {
       return {...state, shortestDFSPath: serializeJSONToPath(action.body), loading: false};
     case ActionTypes.TOGGLE_MATRIX:
       return {...state, adjacencyMatrix: toggleMatrix(state.adjacencyMatrix, action.body)};
+    case ActionTypes.POST_NEW_TOUR_VIA_INSERTION_REQUEST:
+      return {...state, loading: true};
     default:
       return state;
   }

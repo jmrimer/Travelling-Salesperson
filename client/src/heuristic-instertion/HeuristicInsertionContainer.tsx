@@ -3,7 +3,7 @@ import { RouteModel } from '../shared-models/RouteModel';
 import classNames from 'classnames';
 import TourDisplayer from '../shared-graphic-components/TourDisplayer';
 import { connect } from 'react-redux';
-import { fetchNewRouteFromText, updateMapText } from '../redux/actions';
+import { fetchNewTourViaInsertionFromText, updateMapText } from '../redux/actions';
 
 interface Props {
   weightedRoute: RouteModel;
@@ -40,7 +40,7 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = {
-  // getNewRoute: fetchNewTourViaInsertionFromText,
+  getNewRoute: fetchNewTourViaInsertionFromText,
   updateMapText: updateMapText
 };
 

@@ -1,13 +1,13 @@
 import fetchMock from 'fetch-mock';
-import { ActionTypes } from '../redux/actions/types';
+import { ActionTypes } from './types';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import { fetchNewRouteFromText } from '../redux/actions';
+import { fetchNewRouteFromText } from './index';
 
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
 
-describe('RouteActions', () => {
+describe('BruteForceActions', () => {
   let weightedRouteJSON = {
     route: [
       {name: '1', latitude: 0, longitude: 0}

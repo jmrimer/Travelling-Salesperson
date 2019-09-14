@@ -1,5 +1,5 @@
 import { ActionTypes } from './types';
-import { GraphRequestModel } from '../../bfs-and-dfs/GraphRequestModel';
+import { GraphRequestModel } from '../../graph-search/GraphRequestModel';
 
 function postBFSRequest() {
   return {
