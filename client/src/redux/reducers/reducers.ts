@@ -2,6 +2,7 @@ import { RouteModel } from '../../shared-models/RouteModel';
 import { ActionTypes } from '../actions/types';
 import { NodeModel } from '../../shared-models/NodeModel';
 import { flipVerticallyAroundCenterOf, rotate180AroundCenterOf } from '../../shared-graphic-components/visual-grapher/GraphTranslator';
+import { Page } from '../../website-styling/Header';
 
 function createInitialMatrix() {
   return [
@@ -46,7 +47,8 @@ const initState = {
   shortestBFSPath: null,
   shortestDFSPath: null,
   adjacencyMatrix: createInitialMatrix(),
-  points: translateCoordinateTextToGraphReadyPoints(startingMap)
+  points: translateCoordinateTextToGraphReadyPoints(startingMap),
+  currentPage: Page.BRUTE_FORCE
 };
 
 function serializeJSONtoRoute(json: any) {
@@ -101,6 +103,8 @@ const reducer = (state = initState, action: any) => {
       return {...state, adjacencyMatrix: toggleMatrix(state.adjacencyMatrix, action.body)};
     case ActionTypes.POST_NEW_TOUR_VIA_INSERTION_REQUEST:
       return {...state, loading: true};
+    case ActionTypes.UPDATE_PAGE:
+      return {...state, currentPage: action.page};
     default:
       return state;
   }

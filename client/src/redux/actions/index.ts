@@ -1,4 +1,5 @@
 import { ActionTypes } from './types';
+import { Page } from '../../website-styling/Header';
 
 export * from './BruteForceActions';
 export * from './HeuristicInsertionActions';
@@ -31,3 +32,10 @@ export function toggleMatrix(body: any) {
     body
   }
 }
+
+export const updateCurrentPage = (page: Page) => {
+  return {
+    type: ActionTypes.UPDATE_PAGE,
+    page
+  }
+};
