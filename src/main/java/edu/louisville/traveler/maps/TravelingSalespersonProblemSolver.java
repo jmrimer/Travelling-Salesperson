@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.Map;
 
 class TravelingSalespersonProblemSolver {
-  WeightedRoute calculateShortestPath(List<City> cities) {
+  Tour calculateShortestPath(List<City> cities) {
     HashSet<List<City>> routes = new HamiltonPathMapper().mapRoutes(cities);
     HashMap<List<City>, Float> weightedRoutes = new WeightAssigner().assignWeightsToRoutes(routes);
     Map.Entry<List<City>, Float> shortestRoute = null;
@@ -15,6 +15,6 @@ class TravelingSalespersonProblemSolver {
       }
     }
 
-    return new WeightedRoute(shortestRoute.getKey(), shortestRoute.getValue());
+    return new Tour(shortestRoute.getKey(), shortestRoute.getValue());
   }
 }

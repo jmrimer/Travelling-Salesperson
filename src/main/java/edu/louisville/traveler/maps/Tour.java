@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-class WeightedRoute {
+class Tour {
   List<City> route;
   double weight;
 }

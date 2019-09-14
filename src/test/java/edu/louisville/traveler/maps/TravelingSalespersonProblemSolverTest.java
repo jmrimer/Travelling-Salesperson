@@ -17,7 +17,7 @@ public class TravelingSalespersonProblemSolverTest {
     City city4 = new City(4, -3.0d, 4.0d);
 
     assertEquals(
-      new WeightedRoute(List.of(city1, city4, city3, city2, city1), 20f),
+      new Tour(List.of(city1, city4, city3, city2, city1), 20f),
       subject.calculateShortestPath(List.of(city1, city2, city3, city4))
     );
   }

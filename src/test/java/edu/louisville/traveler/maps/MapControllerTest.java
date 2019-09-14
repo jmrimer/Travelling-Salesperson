@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -15,7 +14,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,11 +32,11 @@ public class MapControllerTest {
     City city3 = new City(3, 0d, 8.0d);
     City city4 = new City(4, -3.0d, 4.0d);
     List<City> route = List.of(city1, city4, city3, city2, city1);
-    WeightedRoute weightedRoute = new WeightedRoute(route, 20f);
+    Tour tour = new Tour(route, 20f);
     Map map = new Map(List.of(city1, city2, city3, city4));
 
     String mapJSON = new ObjectMapper().writeValueAsString(map);
-    String weightedRouteJSON = new ObjectMapper().writeValueAsString(weightedRoute);
+    String weightedRouteJSON = new ObjectMapper().writeValueAsString(tour);
 
     this.mockMvc.perform(MockMvcRequestBuilders
       .post("/api/weighted-route")
@@ -59,7 +57,7 @@ public class MapControllerTest {
     Map map = new Map(cities);
 
     List<City> route = new ArrayList<>(List.of(city1, city2, city3, city4, city1));
-    WeightedRoute weigh = new WeightedRoute(
+    Tour weigh = new Tour(
       route,
       7.404918347287666
     );

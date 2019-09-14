@@ -2,7 +2,10 @@ package edu.louisville.traveler.maps;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 class ClosestEdgeInserter {
   private MapHelpers mapHelpers = new MapHelpers();
@@ -12,13 +15,31 @@ class ClosestEdgeInserter {
   private City lastCityVisited;
   private double weight = 0;
 
-  WeightedRoute generateTour(List<City> cities) {
+  Tour generateTour(List<City> cities) {
     remainingCities = new ArrayList<>(cities);
     City start = cities.get(0);
+    remainingCities = sortRemainingCitiesByDistanceFromStart(remainingCities, start);
+    System.out.println(remainingCities);
     firstStopBasedOnPointDistanceFrom(start);
     visitRemainingCities();
     returnTo(start);
-    return new WeightedRoute(route, weight);
+    return new Tour(route, weight);
+  }
+
+  private List<City> sortRemainingCitiesByDistanceFromStart(List<City> remainingCities, City start) {
+    LinkedHashMap<City, Double> cityDistanceFromStart = new LinkedHashMap<>();
+    for (City city : remainingCities) {
+      cityDistanceFromStart.put(city, mapHelpers.calculateDistance(start, city));
+    }
+    cityDistanceFromStart = cityDistanceFromStart.entrySet().stream()
+      .sorted(Map.Entry.comparingByValue())
+      .collect(Collectors.toMap(
+        Map.Entry::getKey,
+        Map.Entry::getValue,
+        (x,y)-> {throw new AssertionError();},
+        LinkedHashMap::new
+      ));
+    return new ArrayList<>(cityDistanceFromStart.keySet());
   }
 
   private void returnTo(City start) {

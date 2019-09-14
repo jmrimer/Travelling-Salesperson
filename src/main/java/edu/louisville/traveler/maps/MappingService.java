@@ -6,7 +6,7 @@ import java.util.List;
 
 @Service
 public class MappingService {
-  public WeightedRoute route() {
+  public Tour route() {
     TravelingSalespersonProblemSolver solver = new TravelingSalespersonProblemSolver();
     return solver.calculateShortestPath(
       List.of(
@@ -18,12 +18,12 @@ public class MappingService {
     );
   }
 
-  WeightedRoute routeFromMap(Map map) {
+  Tour routeFromMap(Map map) {
     TravelingSalespersonProblemSolver solver = new TravelingSalespersonProblemSolver();
     return solver.calculateShortestPath(map.getCities());
   }
 
-  WeightedRoute routeFromMapViaInsertion(Map map) {
+  Tour routeFromMapViaInsertion(Map map) {
     ClosestEdgeInserter closestEdgeInserter = new ClosestEdgeInserter();
     return closestEdgeInserter.generateTour(map.getCities());
   }

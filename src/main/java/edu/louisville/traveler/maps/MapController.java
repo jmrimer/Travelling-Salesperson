@@ -15,7 +15,8 @@ public class MapController {
 
   @CrossOrigin(origins = "http://localhost:3000")
   @PostMapping("/api/weighted-route")
-  public @ResponseBody WeightedRoute newWeightedRouteViaBruteForce(
+  public @ResponseBody
+  Tour newWeightedRouteViaBruteForce(
     @RequestBody Map map
   ) {
     return this.mappingService.routeFromMap(map);
@@ -23,7 +24,8 @@ public class MapController {
 
   @CrossOrigin(origins = "http://localhost:3000")
   @PostMapping("/api/weighted-route-via-insertion")
-  public @ResponseBody WeightedRoute newWeightedRouteViaInsertion(
+  public @ResponseBody
+  Tour newWeightedRouteViaInsertion(
     @RequestBody Map map
   ) {
     return this.mappingService.routeFromMapViaInsertion(map);

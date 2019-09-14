@@ -6,12 +6,14 @@ import java.util.HashSet;
 import java.util.List;
 
 class MapHelpers {
+  int count = 0;
   City findNearestCity(City start, List<City> cities) {
     City nearestCity = null;
     float bestDistance = Float.MAX_VALUE;
     List<City> citiesWithoutStartingCity = new ArrayList<>(cities);
     citiesWithoutStartingCity.remove(start);
     for (City city : citiesWithoutStartingCity) {
+      count++;
       double distance = calculateDistance(start, city);
       if (distance < bestDistance) {
         bestDistance = (float) distance;
@@ -26,6 +28,7 @@ class MapHelpers {
     float bestDistance = Float.MAX_VALUE;
     for (City city : cities) {
       for (Edge edge : edges) {
+        count++;
         double currDistance = calculateDistance(city, edge);
         if (currDistance < bestDistance) {
           bestDistance = (float) currDistance;
@@ -33,6 +36,7 @@ class MapHelpers {
         }
       }
     }
+    System.out.println(("map helpers: " + count));
     return nearestCity;
   }
 
