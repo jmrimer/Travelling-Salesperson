@@ -40,7 +40,7 @@ class MapHelpers {
     return nearestCity;
   }
 
-  public double calculateDistance(City start, City end) {
+  double calculateDistance(City start, City end) {
     return Point2D.distance(
       start.latitude,
       start.longitude,

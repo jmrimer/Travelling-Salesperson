@@ -1,45 +1,26 @@
 package edu.louisville.traveler.maps;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
 class ClosestEdgeInserter {
+  private HashMap<CityToEdge, Double> cityToEdgeDistances = new HashMap<>();
   private MapHelpers mapHelpers = new MapHelpers();
   private HashSet<Edge> edges = new HashSet<>();
   private List<City> route = new ArrayList<>();
   private List<City> remainingCities;
   private City lastCityVisited;
   private double weight = 0;
+  private int count = 0;
 
   Tour generateTour(List<City> cities) {
     remainingCities = new ArrayList<>(cities);
     City start = cities.get(0);
-    remainingCities = sortRemainingCitiesByDistanceFromStart(remainingCities, start);
-    System.out.println(remainingCities);
     firstStopBasedOnPointDistanceFrom(start);
-    visitRemainingCities();
+//    visitRemainingCities();
+    visitRemainingCitiesMemoized();
     returnTo(start);
+    System.out.println(count);
     return new Tour(route, weight);
-  }
-
-  private List<City> sortRemainingCitiesByDistanceFromStart(List<City> remainingCities, City start) {
-    LinkedHashMap<City, Double> cityDistanceFromStart = new LinkedHashMap<>();
-    for (City city : remainingCities) {
-      cityDistanceFromStart.put(city, mapHelpers.calculateDistance(start, city));
-    }
-    cityDistanceFromStart = cityDistanceFromStart.entrySet().stream()
-      .sorted(Map.Entry.comparingByValue())
-      .collect(Collectors.toMap(
-        Map.Entry::getKey,
-        Map.Entry::getValue,
-        (x,y)-> {throw new AssertionError();},
-        LinkedHashMap::new
-      ));
-    return new ArrayList<>(cityDistanceFromStart.keySet());
   }
 
   private void returnTo(City start) {
@@ -48,12 +29,46 @@ class ClosestEdgeInserter {
     weight += returnToStart.getWeight();
   }
 
-  private void visitRemainingCities() {
-    while (remainingCities.size() > 1) {
-      remainingCities.remove(lastCityVisited);
+  private void visitRemainingCitiesMemoized() {
+    while (remainingCities.size() > 0) {
       addJourneyLegToTour(
         lastCityVisited,
-        mapHelpers.findNearestCity(edges, remainingCities)
+        findNearestCity()
+      );
+    }
+  }
+
+  private City findNearestCity() {
+    CityToEdge bestCityToEdge = null;
+    double bestDistance = Double.MAX_VALUE;
+    for (CityToEdge cityToEdge : cityToEdgeDistances.keySet()) {
+      count++;
+      double distance = cityToEdgeDistances.get(cityToEdge);
+      if (distance < bestDistance) {
+        bestCityToEdge = cityToEdge;
+        bestDistance = distance;
+      }
+    }
+    assert bestCityToEdge != null;
+    cityToEdgeDistances.remove(bestCityToEdge);
+    return bestCityToEdge.getCity();
+  }
+
+//  private void visitRemainingCities() {
+//    while (remainingCities.size() > 1) {
+//      remainingCities.remove(lastCityVisited);
+//      addJourneyLegToTour(
+//        lastCityVisited,
+//        mapHelpers.findNearestCity(edges, remainingCities)
+//      );
+//    }
+//  }
+
+  private void addNewCityToEdgeDistancesToCollector(Edge edge) {
+    for (City city : remainingCities) {
+      cityToEdgeDistances.put(
+        new CityToEdge(edge, city),
+        mapHelpers.calculateDistance(city, edge)
       );
     }
   }
@@ -68,10 +83,20 @@ class ClosestEdgeInserter {
   }
 
   private void addJourneyLegToTour(City start, City end) {
+    remainingCities.remove(end);
     Edge edge = new Edge(start, end);
     edges.add(edge);
     route.add(end);
     weight += edge.getWeight();
     lastCityVisited = end;
+    removeAllCityToEdgeDistancesRelatedToTraveledCity(end);
+    addNewCityToEdgeDistancesToCollector(edge);
+  }
+
+  private void removeAllCityToEdgeDistancesRelatedToTraveledCity(City cityToRemove) {
+    cityToEdgeDistances.keySet().removeIf(cityToEdge -> {
+      count++;
+      return cityToEdge.getCity().equals(cityToRemove);
+    });
   }
 }
