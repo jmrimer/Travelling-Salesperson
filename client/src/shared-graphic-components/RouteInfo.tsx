@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import classNames from 'classnames';
 
 interface Props {
-  weightedRoute: RouteModel,
+  weightedRoute: RouteModel | null,
   loading: boolean,
   className?: string
 }
@@ -23,16 +23,9 @@ export class RouteInfo extends React.Component<Props> {
     return (
       <div className={'loading'}>
         <span>Loading route, please wait...</span>
-        <span className={'label__caution'}>(Caution: 12-city maps can minutes)</span>
+        <span className={'label__caution'}>(Caution: Brute forcing a 12-city map can take minutes)</span>
       </div>
     );
-  }
-
-  private renderRouteInfo() {
-    return <>
-      {this.renderRoute(this.props.weightedRoute.route)}
-      {this.renderWeight(this.props.weightedRoute.weight)}
-    </>;
   }
 
   private renderWeight(weight: number) {
@@ -72,7 +65,10 @@ export class RouteInfo extends React.Component<Props> {
 
   private conditionallyRenderInfo() {
     if (this.props.weightedRoute) {
-      return this.renderRouteInfo();
+      return <>
+        {this.renderRoute(this.props.weightedRoute.route)}
+        {this.renderWeight(this.props.weightedRoute.weight)}
+      </>;
     }
 
     if (!this.props.weightedRoute && this.props.loading) {

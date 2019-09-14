@@ -43,7 +43,7 @@ class Header extends React.Component<Props> {
   }
 
   private chooseClassName(page: Page) {
-    if (this.props.currentPage == page) {
+    if (this.props.currentPage === page) {
       return classNames('nav-link', 'selected');
     }
     return classNames('nav-link', 'not-selected');

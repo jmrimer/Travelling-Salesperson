@@ -3,8 +3,8 @@ import { ActionTypes } from './types';
 import { NodeModel } from '../../shared-models/NodeModel';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import * as actions from '../brute-force/actions';
 import { GraphRequestModel } from '../../graph-search/GraphRequestModel';
+import * as actions from './index';
 
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);

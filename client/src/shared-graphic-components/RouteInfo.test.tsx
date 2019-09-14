@@ -35,7 +35,7 @@ describe('RouteInfo', () => {
     homePage = shallow(
       <RouteInfo
         loading={true}
-        weightedRoute={new RouteModel(cityList, 10)}
+        weightedRoute={null}
       />
     );
     expect(homePage.find('.loading').exists()).toBeTruthy();

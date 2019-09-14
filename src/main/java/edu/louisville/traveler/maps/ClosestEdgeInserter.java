@@ -19,7 +19,6 @@ class ClosestEdgeInserter {
     remainingCities = new ArrayList<>(cities);
     City start = cities.get(0);
     remainingCities = sortRemainingCitiesByDistanceFromStart(remainingCities, start);
-    System.out.println(remainingCities);
     firstStopBasedOnPointDistanceFrom(start);
     visitRemainingCities();
     returnTo(start);

@@ -24,7 +24,7 @@ describe('InteractiveCell', () => {
   });
 
   it('should display an X if true and nothing if false', () => {
-    expect(subject.text()).toBe('');
+    expect(subject.text()).toBe(' ');
     subject = shallow(
       <InteractiveCell
         keyValuePair={{startId: 1, endId: 2}}
@@ -35,6 +35,3 @@ describe('InteractiveCell', () => {
     expect(subject.text()).toBe('X');
   });
 });
-
-export default function () {
-};

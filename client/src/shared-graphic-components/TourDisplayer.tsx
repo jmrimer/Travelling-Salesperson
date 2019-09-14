@@ -29,7 +29,7 @@ export const TourDisplayer: React.FC<Props> = props => {
 
   function renderRouteOutput() {
     return <div className={'output'}>
-      OUTPUT
+      <span className={'label--output'}>OUTPUT</span>
       <StyledRouteInfo
         weightedRoute={weightedRoute}
         loading={loading}
@@ -77,7 +77,14 @@ export default (styled(TourDisplayer)`
   justify-content: space-evenly;
   margin-top: 24px;
   
+  .label--output {
+    width: 100%;
+    text-align: right;
+  }
+  
   .input, .output {
+    display: flex;
+    flex-direction: column;
     font-family: Righteous, cursive;
     font-size: 36px;
     color: ${(props) => props.theme.color.fontWhite};
