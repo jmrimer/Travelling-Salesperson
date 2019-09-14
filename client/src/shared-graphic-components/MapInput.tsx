@@ -5,8 +5,8 @@ import CoordinateExtractor from './uploader/CoordinateExtractor';
 import { StyledMapFileDropzone } from './uploader/MapFileDropzone';
 
 interface Props {
-  getNewRoute: (mapText: string) => void;
   mapText: string;
+  getNewRoute: (mapText: string) => void;
   updateMapText: (e: any) => void;
   className?: string;
 }

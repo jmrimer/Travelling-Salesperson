@@ -33,8 +33,7 @@ describe('MapInput', () => {
   });
 
   it('should provide instructions', () => {
-    expect(mapInput.text()).toContain('Type your map coordinates using the following format, only typing spaces between columns:' +
-      'CityNumber Latitude Longitude' + 'CityNumber Latitude Longitude' + 'CityNumber Latitude Longitude')
+    expect(mapInput.text()).toContain('Format: city# latitude longitudeCalculate Shortest Route to all Cities');
   });
 
   it('should provide an example as placeholder text', () => {
@@ -57,10 +56,5 @@ describe('MapInput', () => {
 
   it('should render a dropzone', () => {
     expect(mapInput.find('.dropzone').exists()).toBeTruthy();
-    expect(mapInput.find('.dropzone').prop('fileHandler')).toBe(fileHandler);
   });
 });
-
-export default function () {
-
-};

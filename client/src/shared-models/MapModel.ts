@@ -11,8 +11,8 @@ export class MapModel {
       let textColumn = textLine.split(' ');
       return new CityModel(
         textColumn[0],
-        parseInt(textColumn[1]),
-        parseInt(textColumn[2])
+        parseFloat(textColumn[1]),
+        parseFloat(textColumn[2])
       )
     })
   }
