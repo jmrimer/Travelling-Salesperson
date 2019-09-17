@@ -23,7 +23,7 @@ export class RouteInfo extends React.Component<Props> {
     return (
       <div className={'loading'}>
         <span>Loading route, please wait...</span>
-        <span className={'label__caution'}>(Caution: Brute forcing a 12-city map can take minutes)</span>
+        <span className={'label__caution'}>(Caution: 12-city brute force takes minutes)</span>
       </div>
     );
   }
@@ -76,7 +76,7 @@ export class RouteInfo extends React.Component<Props> {
 
     }
 
-    return (<div className={'spacer'}><span>&nbsp;</span><span>&nbsp;</span></div>)
+    return (<div className={'spacer'}><div>&nbsp;</div><div>&nbsp;</div></div>)
   }
 }
 

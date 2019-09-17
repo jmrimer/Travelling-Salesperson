@@ -40,7 +40,7 @@ export const TourDisplayer: React.FC<Props> = props => {
 
   function renderMapInput() {
     return <div className={'input'}>
-      INPUT
+      <div className={'title'}>INPUT</div>
       <StyledMapInput
         getNewRoute={getNewRoute}
         updateMapText={updateMapText}

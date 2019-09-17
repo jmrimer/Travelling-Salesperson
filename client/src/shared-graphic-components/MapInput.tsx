@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import classNames from 'classnames';
 import CoordinateExtractor from './uploader/CoordinateExtractor';
 import { StyledMapFileDropzone } from './uploader/MapFileDropzone';
+import { Button } from '../website-styling/default';
 
 interface Props {
   mapText: string;
@@ -16,7 +17,6 @@ export class MapInput extends Component<Props> {
     return (
       <div className={classNames('map-input', this.props.className)}>
         {this.renderDropzone()}
-        {this.renderInstructions()}
         {this.renderMapInput()}
         {this.renderSubmitButton()}
       </div>
@@ -25,17 +25,24 @@ export class MapInput extends Component<Props> {
 
   private renderSubmitButton() {
     return (
-      <button onClick={this.handleClick()}>
-        Calculate Shortest Route to all Cities
-      </button>
+      <div className={'box--submit-button'}>
+        <Button onClick={this.handleClick()}>
+          Calculate Shortest Route to all Cities
+        </Button>
+      </div>
     );
   }
 
   private renderMapInput() {
-    return <textarea
+    return (
+      <div className={'input--text-and-instructions'}>
+        {this.renderInstructions()}
+        <textarea
           onChange={(e: any) => this.props.updateMapText(e)}
           value={this.props.mapText}
-        />;
+        />
+      </div>
+    );
   }
 
   private renderInstructions() {
@@ -68,6 +75,7 @@ export class MapInput extends Component<Props> {
 export const StyledMapInput = styled(MapInput)`
   display: flex;
   flex-direction: column;
+  flex: 1;
   white-space: pre;
   font-size: 24px;
   color: ${(props) => props.theme.color.fontWhite};
@@ -75,49 +83,46 @@ export const StyledMapInput = styled(MapInput)`
   max-width: 600px;
   white-space: normal;
   margin-top: 24px;
+  justify-content: space-between;
   
-  .instructions {
-    text-align: justify;
-    margin-top: 64px
-  }
   
-  .exampleList {
-    padding-top: 8px;
-    padding-left: 8px;
-    font-family: Roboto,sans-serif;
-    font-style: italic;
-    font-size: 16px;
-  }
   
-  textarea {
-    background: ${(props) => props.theme.color.foreground};
-    padding-top: 8px;
-    padding-left: 8px;
-    margin-top: 8px;
-    font-size: 16px;
-    resize: vertical;
-    border-radius: 4px;
-    min-height: 200px;
-  }
-  
-  button {
-    display: inline-block;
-    font-family: Righteous, cursive;
-    font-size: 24px;
-    margin-top: 16px;
+  .input--text-and-instructions {
+    display: flex;
     flex: 1;
-    background: ${(props) => props.theme.color.wedgewood};
-    border: 1px solid ${(props) => props.theme.color.foreground};
-    border-radius: 8px;
-    color: white;
-    padding: 16px;
-    cursor: pointer;
-    
-    :hover {
-      background: ${(props) => props.theme.color.lavender};
+    flex-direction: column;
+   
+    .instructions {
+      text-align: justify;
+      margin-top: 64px
     }
+    
+    .exampleList {
+      padding-top: 8px;
+      padding-left: 8px;
+      font-family: Roboto,sans-serif;
+      font-style: italic;
+      font-size: 16px;
+    }
+    
+    textarea {
+      background: ${(props) => props.theme.color.foreground};
+      padding-top: 8px;
+      padding-left: 8px;
+      margin-top: 8px;
+      font-size: 16px;
+      resize: vertical;
+      border-radius: 4px;
+      min-height: 200px;
+      display: flex;
+      flex: 1;
+    };
   }
   
-  .dropzone {
+    
+  .box--submit-button {
+    display: flex;
+    margin-top: 16px;
+    height: 80px;
   }
 `;

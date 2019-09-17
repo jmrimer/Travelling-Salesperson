@@ -1,7 +1,7 @@
 import React from 'react';
 import { translatePointsToNewCenter } from './GraphTranslator';
 import CytoscapeComponent from "react-cytoscapejs";
-import { theme } from '../../website-styling/default';
+import { Button, theme } from '../../website-styling/default';
 import styled from 'styled-components';
 
 interface Props {
@@ -37,7 +37,6 @@ export const VisualGraph: React.FC<Props> = props => {
     function animate2x() {
       if (el < elements.length) {
         cyRef.elements()[el].addClass('highlighted');
-        cyRef.elements()[el - 1].removeClass('highlighted');
         el++;
         return setTimeout(animate2x, 250);
       }
@@ -59,24 +58,29 @@ export const VisualGraph: React.FC<Props> = props => {
       }
     };
 
+  function renderAnimationButtons() {
     return (
-      <div>
-        <div className={'button-box'}>
-          <button onClick={() => {
-            el = points.length;
-            animate1x()
-          }}
-          >
-            Animate
-          </button>
-          <button onClick={() => {
-            el = points.length;
-            animate2x()
-          }}
-          >
-            Animate 2x
-          </button>
-        </div>
+      <div className={'button-box'}>
+        <Button onClick={() => {
+          el = points.length;
+          animate1x()
+        }}
+        >
+          Animate
+        </Button>
+        <Button onClick={() => {
+          el = points.length;
+          animate2x()
+        }}
+        >
+          Animate 2x
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+      <div className={props.className}>
         <CytoscapeComponent
           elements={elements}
           style={
@@ -126,6 +130,11 @@ export const VisualGraph: React.FC<Props> = props => {
             cy.fit();
           }}
         />
+        {
+          props.tour
+            ? renderAnimationButtons()
+            : <div className={'button-box__spacer'}>&nbsp;</div>
+        }
       </div>
 
     );
@@ -138,5 +147,12 @@ export default styled(VisualGraph)`
     height: 80px;
     flex-direction: row;
     justify-content: space-around;
+    
+    button {
+      margin: 0 16px;
+    }
+  }
+  .button-box__spacer {
+    height: 80px;
   }
 `;
