@@ -8,6 +8,7 @@ export const theme = {
     wedgewood: '#50819B',
     midnight: '#09132d',
     plum: '#230a27',
-    maroon5: '#6D2234'
+    maroon5: '#6D2234',
+    flare: '#C83A17'
   }
 };

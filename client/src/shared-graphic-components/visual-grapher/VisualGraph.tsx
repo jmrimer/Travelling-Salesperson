@@ -2,6 +2,7 @@ import React from 'react';
 import { translatePointsToNewCenter } from './GraphTranslator';
 import CytoscapeComponent from "react-cytoscapejs";
 import { theme } from '../../website-styling/default';
+import styled from 'styled-components';
 
 interface Props {
   points: any[];
@@ -10,69 +11,132 @@ interface Props {
 }
 
 export const VisualGraph: React.FC<Props> = props => {
-  let points = translatePointsToNewCenter(
-    props.points,
-    {x: 300, y: 300}
-  );
-  let elements: any[] = [];
-  if (points) {
+    let cyRef: any;
+    let el = 0;
 
-  elements = points.map((point) => {
-    return {data: {id: point.name, label: point.name}, position: {x: point.x, y: point.y}}
-  });
+    let points = translatePointsToNewCenter(
+      props.points,
+      {x: 300, y: 300}
+    );
 
-  if (props.tour) {
-    let route = props.tour;
-    for (let i = 0; i < route.length - 1; i++) {
-      console.log(route[i].name);
-      elements.push({data: {source: route[i].name, target: route[i+1].name}});
-    }
-  }
-  }
+    let elements: any[] = [];
+    if (points) {
+      let nodes = points.map((point) => {
+        return {data: {id: point.name, label: point.name}, position: {x: point.x, y: point.y}}
+      });
+      Object.assign(elements, nodes);
 
-  return (
-    <div>
-      <CytoscapeComponent
-        elements={elements}
-        style={
-          {
-            width: '600px',
-            height: '600px',
-          }
+      if (props.tour) {
+        let route = props.tour;
+        for (let i = 0; i < route.length - 1; i++) {
+          elements.push({data: {source: route[i].name, target: route[i + 1].name}});
         }
-        stylesheet={[
-          {
-            selector: 'node',
-            style: {
-              width: 4,
-              height: 4,
-              shape: 'circle',
-              'background-color': theme.color.fontWhite,
-              color: theme.color.wedgewood,
-              label: 'data(label)',
-              'font-size': 2,
-              'font-weight': 'bold',
-              'min-zoomed-font-size': 2,
-              'text-valign': 'center',
-              'text-halign': 'center',
-              'text-outline-color': theme.color.plum,
-              'text-outline-width': 0.15
-            }
-          },
-          {
-            selector: 'edge',
-            style: {
-              'line-color': theme.color.lavender,
-              width: 0.5,
+      }
+    }
+
+    function animate2x() {
+      if (el < elements.length) {
+        cyRef.elements()[el].addClass('highlighted');
+        cyRef.elements()[el - 1].removeClass('highlighted');
+        el++;
+        return setTimeout(animate2x, 250);
+      }
+      setTimeout(fadeAway, 3000);
+    }
+
+    function animate1x() {
+      if (el < elements.length) {
+        cyRef.elements()[el].addClass('highlighted');
+        el++;
+        return setTimeout(animate1x, 500);
+      }
+      setTimeout(fadeAway, 3000);
+    }
+
+    const fadeAway = () => {
+      for (let i = 0; i < elements.length; i++) {
+        cyRef.elements()[i].removeClass('highlighted');
+      }
+    };
+
+    return (
+      <div>
+        <div className={'button-box'}>
+          <button onClick={() => {
+            el = points.length;
+            animate1x()
+          }}
+          >
+            Animate
+          </button>
+          <button onClick={() => {
+            el = points.length;
+            animate2x()
+          }}
+          >
+            Animate 2x
+          </button>
+        </div>
+        <CytoscapeComponent
+          elements={elements}
+          style={
+            {
+              width: '600px',
+              height: '600px',
             }
           }
-        ]}
-        cy={(cy: any) => {
-          cy.fit();
-        }}
-      />
-    </div>
-  );
-};
+          stylesheet={[
+            {
+              selector: 'node',
+              style: {
+                width: 4,
+                height: 4,
+                shape: 'circle',
+                'background-color': theme.color.fontWhite,
+                color: theme.color.wedgewood,
+                label: 'data(label)',
+                'font-size': 2,
+                'font-weight': 'bold',
+                'min-zoomed-font-size': 2,
+                'text-valign': 'center',
+                'text-halign': 'center',
+                'text-outline-color': theme.color.plum,
+                'text-outline-width': 0.15
+              }
+            },
+            {
+              selector: 'edge',
+              style: {
+                'line-color': theme.color.lavender,
+                width: 0.5,
+              }
+            },
+            {
+              selector: '.highlighted',
+              style: {
+                'background-color': theme.color.maroon5,
+                'transition-duration': '0.500s',
+                'transition-timing-function': 'ease-in',
+                'line-color': theme.color.flare,
+              }
+            }
+          ]}
+          cy={(cy: any) => {
+            cyRef = cy;
+            cy.fit();
+          }}
+        />
+      </div>
 
-export default VisualGraph;
+    );
+  }
+;
+
+export default styled(VisualGraph)`
+  .button-box {
+    display: flex;
+    height: 80px;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+`;
