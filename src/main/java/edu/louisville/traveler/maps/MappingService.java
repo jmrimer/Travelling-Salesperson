@@ -8,7 +8,7 @@ import java.util.List;
 public class MappingService {
   public Tour route() {
     TravelingSalespersonProblemSolver solver = new TravelingSalespersonProblemSolver();
-    return solver.calculateShortestPath(
+    return solver.discoverBestTour(
       List.of(
         new City(1, 87.951292, 2.658162),
         new City(2, 33.466597, 66.682943),
@@ -20,7 +20,7 @@ public class MappingService {
 
   Tour routeFromMap(Map map) {
     TravelingSalespersonProblemSolver solver = new TravelingSalespersonProblemSolver();
-    return solver.calculateShortestPath(map.getCities());
+    return solver.discoverBestTour(map.getCities());
   }
 
   Tour routeFromMapViaInsertion(Map map) {

@@ -31,7 +31,7 @@ public class MapControllerTest {
     City city2 = new City(2, 3.0d, 4.0d);
     City city3 = new City(3, 0d, 8.0d);
     City city4 = new City(4, -3.0d, 4.0d);
-    List<City> route = List.of(city1, city4, city3, city2, city1);
+    List<City> route = List.of(city1, city2, city3, city4, city1);
     Tour tour = new Tour(route, 20f);
     Map map = new Map(List.of(city1, city2, city3, city4));
 
