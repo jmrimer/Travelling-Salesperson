@@ -1,7 +1,10 @@
 import { RouteModel } from '../../shared-models/RouteModel';
 import { ActionTypes } from '../actions/types';
 import { NodeModel } from '../../shared-models/NodeModel';
-import { flipVerticallyAroundCenterOf, rotate180AroundCenterOf } from '../../shared-graphic-components/visual-grapher/GraphTranslator';
+import {
+  flipVerticallyAroundCenterOf,
+  rotate180AroundCenterOf
+} from '../../shared-graphic-components/visual-grapher/GraphTranslator';
 import { Page } from '../../website-styling/Header';
 
 function createInitialMatrix() {
@@ -28,14 +31,19 @@ let startingMap =
 
 export function translateCoordinateTextToGraphReadyPoints(mapText: string) {
   let lines = mapText.split('\n');
-  let points = lines.map((line: string) => {
-    let textColumn = line.split(' ');
+  let validCityAndCoordinates = lines.filter((line: string) => {
+    return line.split(' ').length === 3;
+  });
+  let points = validCityAndCoordinates.map((textColumn: string) => {
+    let cityAndCoordinates = textColumn.split(' ');
     return {
-      name: textColumn[0],
-      x: parseFloat(textColumn[1]),
-      y: parseFloat(textColumn[2])
+      name: cityAndCoordinates[0],
+      x: parseFloat(cityAndCoordinates[1]),
+      y: parseFloat(cityAndCoordinates[2])
+
     };
   });
+
   return flipVerticallyAroundCenterOf(
     rotate180AroundCenterOf(points)
   );

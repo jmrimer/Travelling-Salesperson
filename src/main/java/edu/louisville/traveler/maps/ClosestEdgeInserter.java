@@ -12,48 +12,25 @@ class ClosestEdgeInserter {
   private HashSet<Edge> edges = new HashSet<>();
   private List<City> route = new ArrayList<>();
   private List<City> remainingCities;
-  private City lastCityVisited;
   private double weight = 0;
 
   Tour generateTour(List<City> cities) {
     remainingCities = new ArrayList<>(cities);
     City start = cities.get(0);
-    remainingCities = sortRemainingCitiesByDistanceFromStart(remainingCities, start);
     firstStopBasedOnPointDistanceFrom(start);
     visitRemainingCities();
     returnTo(start);
     return new Tour(route, weight);
   }
 
-  private List<City> sortRemainingCitiesByDistanceFromStart(List<City> remainingCities, City start) {
-    LinkedHashMap<City, Double> cityDistanceFromStart = new LinkedHashMap<>();
-    for (City city : remainingCities) {
-      cityDistanceFromStart.put(city, mapHelpers.calculateDistance(start, city));
-    }
-    cityDistanceFromStart = cityDistanceFromStart.entrySet().stream()
-      .sorted(Map.Entry.comparingByValue())
-      .collect(Collectors.toMap(
-        Map.Entry::getKey,
-        Map.Entry::getValue,
-        (x,y)-> {throw new AssertionError();},
-        LinkedHashMap::new
-      ));
-    return new ArrayList<>(cityDistanceFromStart.keySet());
-  }
-
   private void returnTo(City start) {
-    Edge returnToStart = new Edge(lastCityVisited, start);
-    route.add(start);
-    weight += returnToStart.getWeight();
+    addJourneyLegToTour(route.get(route.size()-1), start);
   }
 
   private void visitRemainingCities() {
-    while (remainingCities.size() > 1) {
-      remainingCities.remove(lastCityVisited);
-      addJourneyLegToTour(
-        lastCityVisited,
-        mapHelpers.findNearestCity(edges, remainingCities)
-      );
+    while (remainingCities.size() > 0) {
+      CityAndEdge cityAndEdge = mapHelpers.findNearestCity(edges, remainingCities);
+      addJourneyLegToTour(cityAndEdge.getCity(), cityAndEdge.getEdge());
     }
   }
 
@@ -66,11 +43,27 @@ class ClosestEdgeInserter {
     );
   }
 
+  private void addJourneyLegToTour(City newCity, Edge closestEdge) {
+    edges.remove(closestEdge);
+    weight -= closestEdge.getWeight();
+
+    Edge firstLeg = new Edge(closestEdge.getStart(), newCity);
+    edges.add(firstLeg);
+    weight += firstLeg.getWeight();
+
+    Edge secondLeg = new Edge(newCity, closestEdge.getEnd());
+    edges.add(secondLeg);
+    weight += secondLeg.getWeight();
+
+    route.add(route.indexOf(closestEdge.getEnd()), newCity);
+    remainingCities.remove(newCity);
+  }
+
   private void addJourneyLegToTour(City start, City end) {
     Edge edge = new Edge(start, end);
     edges.add(edge);
     route.add(end);
     weight += edge.getWeight();
-    lastCityVisited = end;
+    remainingCities.remove(end);
   }
 }
