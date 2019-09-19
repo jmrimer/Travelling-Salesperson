@@ -21,19 +21,21 @@ class MapHelpers {
     return nearestCity;
   }
 
-  City findNearestCity(HashSet<Edge> edges, List<City> cities) {
+  CityAndEdge findNearestCity(HashSet<Edge> edges, List<City> cities) {
     City nearestCity = null;
     float bestDistance = Float.MAX_VALUE;
+    Edge closestEdge = null;
     for (City city : cities) {
       for (Edge edge : edges) {
         double currDistance = calculateDistance(city, edge);
         if (currDistance < bestDistance) {
           bestDistance = (float) currDistance;
           nearestCity = city;
+          closestEdge = edge;
         }
       }
     }
-    return nearestCity;
+    return new CityAndEdge(nearestCity, closestEdge);
   }
 
   double calculateDistance(City start, City end) {

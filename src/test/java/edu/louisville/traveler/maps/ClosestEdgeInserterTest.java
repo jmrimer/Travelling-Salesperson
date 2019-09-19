@@ -7,7 +7,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class ClosestEdgeInserterTest extends BaseInsertionTest{
+public class ClosestEdgeInserterTest extends BaseInsertionTest {
   @Test
   public void findsPathByInsertingNextPointClosestToExistingEdge() {
     City city1 = new City(1, 0, 0);
@@ -32,6 +32,36 @@ public class ClosestEdgeInserterTest extends BaseInsertionTest{
       actualTour.weight,
       0.0005
     );
+  }
+
+  @Test
+  public void findsShortestPath() {
+    City city1 = new City(1, 22.549020, 89.029536);
+    City city2 = new City(2, 23.039216, 81.434599);
+    City city3 = new City(3, 30.392157, 79.324895);
+    City city4 = new City(4, 40.277778, 80.379747);
+    City city5 = new City(5, 38.071895, 60.759494);
+    City city6 = new City(6, 23.774510, 59.704641);
+    City city7 = new City(7, 25.245098, 67.721519);
+    City city8 = new City(8, 30.065359, 66.244726);
+    City city9 = new City(9, 36.029412, 70.886076);
+    City city10 = new City(10, 49.264706, 71.940928);
+    List<City> cities = List.of(city1, city2, city3, city4, city5, city6, city7, city8, city9, city10);
+    List<City> expectedRoute = List.of(
+      city1, city3, city4, city10, city9, city5, city8, city6, city7, city2, city1
+    );
+
+    Tour actualTour = new ClosestEdgeInserter().generateTour(cities);
+    assertEquals(
+      expectedRoute,
+      actualTour.route
+    );
+    assertEquals(
+      106.78582763671875,
+      actualTour.weight,
+      0.5
+    );
+
   }
 
   @Test

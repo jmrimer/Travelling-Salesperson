@@ -50,10 +50,12 @@ class ClosestEdgeInserter {
   private void visitRemainingCities() {
     while (remainingCities.size() > 1) {
       remainingCities.remove(lastCityVisited);
-      addJourneyLegToTour(
-        lastCityVisited,
-        mapHelpers.findNearestCity(edges, remainingCities)
-      );
+      CityAndEdge cityAndEdge = mapHelpers.findNearestCity(edges, remainingCities);
+      addJourneyLegToTour(cityAndEdge.getCity(), cityAndEdge.getEdge());
+//      addJourneyLegToTour(
+//        lastCityVisited,
+//        cityAndEdge.getCity()
+//      );
     }
   }
 
@@ -64,6 +66,19 @@ class ClosestEdgeInserter {
       start,
       mapHelpers.findNearestCity(start, remainingCities)
     );
+  }
+
+  private void addJourneyLegToTour(City newCity, Edge closestEdge) {
+    edges.remove(closestEdge);
+    edges.add(new Edge(closestEdge.getStart(), newCity));
+    edges.add(new Edge(newCity, closestEdge.getEnd()));
+//    edges.add(new Edge(closestEdge.getStart(), closestEdge.getEnd()));
+
+    System.out.println(("1: " + closestEdge.getStart() + " | 2: " + newCity + " | 3: " + closestEdge.getEnd()));
+    route.add(route.indexOf(closestEdge.getEnd()) + 1, newCity);
+    System.out.println(route);
+    lastCityVisited = newCity;
+//    change route by inserting new
   }
 
   private void addJourneyLegToTour(City start, City end) {
