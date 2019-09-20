@@ -1,9 +1,7 @@
 package edu.louisville.traveler.maps;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
 
 class MapHelpers {
@@ -23,38 +21,75 @@ class MapHelpers {
   }
 
   CityAndEdge findNearestCity(HashSet<Edge> edges, List<City> cities) {
+    System.out.println("Find nearest city" + edges);
+    Edge closestEdge;
     City nearestCity = null;
-    float bestDistance = Float.MAX_VALUE;
+    double bestDistance = Float.MAX_VALUE;
     List<Edge> closestEdges = new ArrayList<>();
     for (City city : cities) {
       for (Edge edge : edges) {
         double currDistance = calculateDistance(city, edge);
-        System.out.println((edge + " " + city + " " + currDistance));
-        if (currDistance <= bestDistance) {
-          bestDistance = (float) currDistance;
+        if (currDistance < bestDistance) {
+          bestDistance = currDistance;
           nearestCity = city;
-          closestEdges.add(edge);
         }
       }
     }
-    Edge closestEdge = breakTies(closestEdges);
-    System.out.println(edges);
-    System.out.println(nearestCity + " " + closestEdges);
+    for (Edge edge : edges) {
+      double currDistance = calculateDistance(nearestCity, edge);
+      if (currDistance == bestDistance) {
+        closestEdges.add(edge);
+      }
+    }
+    closestEdge = closestEdges.get(0);
+    if (closestEdges.size() > 1) {
+      closestEdge = determineClosestEdgeWhenSharedEndpoints(closestEdges, nearestCity);
+      System.out.println("closest edge " + closestEdge + " from " + closestEdges);
+    }
+
+    System.out.println("city" + nearestCity + " closest to " + closestEdge);
     return new CityAndEdge(nearestCity, closestEdge);
   }
 
-  private Edge breakTies(List<Edge> edges) {
-    Iterator<Edge> iterator = edges.iterator();
-    while (iterator.hasNext()) {
-      Edge edge = iterator.next();
-      for (Edge checkEdge : edges) {
-        if (edge.getStart().equals(checkEdge.getEnd())) {
-          iterator.remove();
+  public Edge determineClosestEdgeWhenSharedEndpoints(List<Edge> closestEdges, City closestCity) {
+    System.out.println(closestEdges);
+    for (Edge edge1 : closestEdges) {
+      for (Edge edge2 : closestEdges) {
+        System.out.println("tie between: " + edge1 + " & " + edge2);
+        if (edge1.getStart().equals(edge2.getEnd())) {
+          Point2D.Double edge1Point = generateNewPointOnLine(edge1, 1);
+          Point2D.Double edge2Point = generateNewPointOnLine(edge1, 1);
+          if (point1CloserThanPoint2(closestCity, edge1Point, edge2Point)) {
+            return edge1;
+          } else {
+            return edge2;
+          }
         }
       }
     }
-    System.out.println(edges);
-    return edges.get(0);
+    return null;
+  }
+
+  private boolean point1CloserThanPoint2(City closestCity, Point2D.Double edge1Point, Point2D.Double edge2Point) {
+    return calculateDistance(closestCity, new City(-1, edge1Point.x, edge1Point.y)) < calculateDistance(closestCity, new City(-1, edge2Point.x, edge2Point.y));
+  }
+
+  Point2D.Double generateNewPointOnLine(Edge edge, double radius) {
+    double x1 = edge.getEnd().getLatitude();
+    double x2 = edge.getStart().getLatitude();
+    double y1 = edge.getEnd().getLongitude();
+    double y2 = edge.getStart().getLongitude();
+    Point2D.Double vector = new Point2D.Double((x2 - x1), (y2 - y1));
+    double length = Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
+    Point2D.Double normalizedVector = new Point2D.Double(
+      vector.x / length,
+      vector.y / length
+    );
+    Point2D.Double newPoint = new Point2D.Double(
+      x1 + (normalizedVector.x),
+      y1 + (normalizedVector.y)
+    );
+    return newPoint;
   }
 
   double calculateDistance(City start, City end) {
