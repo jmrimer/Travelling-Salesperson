@@ -3,6 +3,7 @@ package edu.louisville.traveler.maps;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 class MapHelpers {
@@ -24,18 +25,36 @@ class MapHelpers {
   CityAndEdge findNearestCity(HashSet<Edge> edges, List<City> cities) {
     City nearestCity = null;
     float bestDistance = Float.MAX_VALUE;
-    Edge closestEdge = null;
+    List<Edge> closestEdges = new ArrayList<>();
     for (City city : cities) {
       for (Edge edge : edges) {
         double currDistance = calculateDistance(city, edge);
-        if (currDistance < bestDistance) {
+        System.out.println((edge + " " + city + " " + currDistance));
+        if (currDistance <= bestDistance) {
           bestDistance = (float) currDistance;
           nearestCity = city;
-          closestEdge = edge;
+          closestEdges.add(edge);
         }
       }
     }
+    Edge closestEdge = breakTies(closestEdges);
+    System.out.println(edges);
+    System.out.println(nearestCity + " " + closestEdges);
     return new CityAndEdge(nearestCity, closestEdge);
+  }
+
+  private Edge breakTies(List<Edge> edges) {
+    Iterator<Edge> iterator = edges.iterator();
+    while (iterator.hasNext()) {
+      Edge edge = iterator.next();
+      for (Edge checkEdge : edges) {
+        if (edge.getStart().equals(checkEdge.getEnd())) {
+          iterator.remove();
+        }
+      }
+    }
+    System.out.println(edges);
+    return edges.get(0);
   }
 
   double calculateDistance(City start, City end) {
