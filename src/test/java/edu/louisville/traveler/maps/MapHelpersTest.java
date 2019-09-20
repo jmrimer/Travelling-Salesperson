@@ -2,6 +2,8 @@ package edu.louisville.traveler.maps;
 
 import org.junit.Test;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.HashSet;
 import java.util.List;
 
@@ -36,6 +38,21 @@ public class MapHelpersTest {
     assertEquals(
       city3,
       new MapHelpers().findNearestCity(edges, cities)
+    );
+  }
+
+  @Test
+  public void generatesNewPointOnLine() {
+    Edge edge = new Edge(new City(1, 0, 1), new City(2, 4, 1));
+    assertEquals(
+      new Point2D.Double(3, 1),
+      new MapHelpers().generateNewPointOnLine(edge, 1)
+    );
+
+    edge = new Edge(new City(2, 0, 4), new City(1, 3, 0));
+    assertEquals(
+      new Point2D.Double(2.4, 0.8),
+      new MapHelpers().generateNewPointOnLine(edge, 1)
     );
   }
 

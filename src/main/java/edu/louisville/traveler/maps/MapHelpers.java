@@ -1,9 +1,8 @@
 package edu.louisville.traveler.maps;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
 
 class MapHelpers {
@@ -55,6 +54,24 @@ class MapHelpers {
     }
     System.out.println(edges);
     return edges.get(0);
+  }
+
+  Point2D generateNewPointOnLine(Edge edge, double radius) {
+    double x1 = edge.getEnd().getLatitude();
+    double x2 = edge.getStart().getLatitude();
+    double y1 = edge.getEnd().getLongitude();
+    double y2 = edge.getStart().getLongitude();
+    Point2D.Double vector = new Point2D.Double((x2 - x1), (y2 - y1));
+    double length = Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
+    Point2D.Double normalizedVector = new Point2D.Double(
+      vector.x / length,
+      vector.y / length
+    );
+    Point2D newPoint = new Point2D.Double(
+      x1 + (normalizedVector.x),
+      y1 + (normalizedVector.y)
+    );
+    return newPoint;
   }
 
   double calculateDistance(City start, City end) {
