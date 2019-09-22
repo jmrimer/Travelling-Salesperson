@@ -71,7 +71,6 @@ class DepthFirstSearcher {
   private List<Node> extractShortestPath(LinkedHashSet<List<Node>> allPathsFromStartToEnd) {
     int shortestPathLength = this.shortestPathLength(allPathsFromStartToEnd);
     LinkedHashSet<List<Node>> shortestPaths = keepOnlyShortestPaths(allPathsFromStartToEnd, shortestPathLength);
-    System.out.println(shortestPaths.size());
     return breakSameLengthTiesByNodeNameOrder(shortestPaths);
   }
 

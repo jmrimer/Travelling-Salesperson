@@ -1,6 +1,5 @@
 package edu.louisville.traveler.maps;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.*;
 import java.util.List;
@@ -22,7 +21,6 @@ class MapHelpers {
   }
 
   CityAndEdge findNearestCity(HashSet<Edge> edges, List<City> cities) {
-    System.out.println("Find nearest city" + edges);
     Edge closestEdge;
     City nearestCity = null;
     double bestDistance = Float.MAX_VALUE;
@@ -45,21 +43,16 @@ class MapHelpers {
     closestEdge = closestEdges.get(0);
     if (closestEdges.size() > 1) {
       closestEdge = determineClosestEdgeWhenSharedEndpoints(closestEdges, nearestCity);
-      System.out.println("closest edge " + closestEdge + " from " + closestEdges);
     }
-
-    System.out.println("city" + nearestCity + " closest to " + closestEdge);
     return new CityAndEdge(nearestCity, closestEdge);
   }
 
   public Edge determineClosestEdgeWhenSharedEndpoints(List<Edge> closestEdges, City closestCity) {
-    System.out.println(closestEdges);
     for (Edge edge1 : closestEdges) {
       for (Edge edge2 : closestEdges) {
-        System.out.println("tie between: " + edge1 + " & " + edge2);
         if (edge1.getStart().equals(edge2.getEnd())) {
-          Point2D.Double edge1Point = generateNewPointOnLine(edge1, 1);
-          Point2D.Double edge2Point = generateNewPointOnLine(edge1, 1);
+          Point2D.Double edge1Point = generateNewPointOnLineFromEndpoint(edge1, edge1.getStart());
+          Point2D.Double edge2Point = generateNewPointOnLineFromEndpoint(edge2, edge2.getEnd());
           if (point1CloserThanPoint2(closestCity, edge1Point, edge2Point)) {
             return edge1;
           } else {
@@ -75,11 +68,22 @@ class MapHelpers {
     return calculateDistance(closestCity, new City(-1, edge1Point.x, edge1Point.y)) < calculateDistance(closestCity, new City(-1, edge2Point.x, edge2Point.y));
   }
 
-  Point2D.Double generateNewPointOnLine(Edge edge, double radius) {
-    double x1 = edge.getEnd().getLatitude();
-    double x2 = edge.getStart().getLatitude();
-    double y1 = edge.getEnd().getLongitude();
-    double y2 = edge.getStart().getLongitude();
+  Point2D.Double generateNewPointOnLineFromEndpoint(Edge edge, City endpoint) {
+    double x1;
+    double x2;
+    double y1;
+    double y2;
+    if (endpoint.equals(edge.getEnd())) {
+      x1 = edge.getEnd().getLatitude();
+      x2 = edge.getStart().getLatitude();
+      y1 = edge.getEnd().getLongitude();
+      y2 = edge.getStart().getLongitude();
+    } else {
+      x1 = edge.getStart().getLatitude();
+      x2 = edge.getEnd().getLatitude();
+      y1 = edge.getStart().getLongitude();
+      y2 = edge.getEnd().getLongitude();
+    }
     Point2D.Double vector = new Point2D.Double((x2 - x1), (y2 - y1));
     double length = Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
     Point2D.Double normalizedVector = new Point2D.Double(
@@ -87,24 +91,6 @@ class MapHelpers {
       vector.y / length
     );
     Point2D.Double newPoint = new Point2D.Double(
-      x1 + (normalizedVector.x),
-      y1 + (normalizedVector.y)
-    );
-    return newPoint;
-  }
-
-  Point2D generateNewPointOnLine(Edge edge, double radius) {
-    double x1 = edge.getEnd().getLatitude();
-    double x2 = edge.getStart().getLatitude();
-    double y1 = edge.getEnd().getLongitude();
-    double y2 = edge.getStart().getLongitude();
-    Point2D.Double vector = new Point2D.Double((x2 - x1), (y2 - y1));
-    double length = Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
-    Point2D.Double normalizedVector = new Point2D.Double(
-      vector.x / length,
-      vector.y / length
-    );
-    Point2D newPoint = new Point2D.Double(
       x1 + (normalizedVector.x),
       y1 + (normalizedVector.y)
     );

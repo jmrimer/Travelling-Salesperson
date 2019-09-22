@@ -15,11 +15,10 @@ public class ClosestEdgeInserterTest extends BaseInsertionTest {
     City city3 = new City(3, 0, 2);
     City city4 = new City(4, 1, 3);
     List<City> cities = List.of(city1, city2, city3, city4);
-    List<City> route = new ArrayList<>(cities);
-    route.add(city1);
+    List<City> route = new ArrayList<>(List.of(city1, city3, city4, city2, city1));
     Tour expectedTour = new Tour(
       route,
-      (float) (Math.sqrt(2) * 3 + Math.sqrt(10))
+      (Math.sqrt(2) * 2 + 2*2)
     );
 
     Tour actualTour = new ClosestEdgeInserter().generateTour(cities);

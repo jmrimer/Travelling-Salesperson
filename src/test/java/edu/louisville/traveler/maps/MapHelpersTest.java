@@ -2,7 +2,6 @@ package edu.louisville.traveler.maps;
 
 import org.junit.Test;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.HashSet;
 import java.util.List;
@@ -54,22 +53,34 @@ public class MapHelpersTest {
 
     assertEquals(
       city3,
-      new MapHelpers().findNearestCity(edges, cities)
+      new MapHelpers().findNearestCity(edges, cities).getCity()
     );
   }
 
   @Test
   public void generatesNewPointOnLine() {
-    Edge edge = new Edge(new City(1, 0, 1), new City(2, 4, 1));
+    City city1 = new City(1, 0, 1);
+    City city2 = new City(2, 4, 1);
+    Edge edge = new Edge(city1, city2);
     assertEquals(
       new Point2D.Double(3, 1),
-      new MapHelpers().generateNewPointOnLine(edge, 1)
+      new MapHelpers().generateNewPointOnLineFromEndpoint(edge, city2)
+    );
+    assertEquals(
+      new Point2D.Double(1, 1),
+      new MapHelpers().generateNewPointOnLineFromEndpoint(edge, city1)
     );
 
-    edge = new Edge(new City(2, 0, 4), new City(1, 3, 0));
+    City city3 = new City(2, 0, 4);
+    City city4 = new City(1, 3, 0);
+    edge = new Edge(city3, city4);
     assertEquals(
       new Point2D.Double(2.4, 0.8),
-      new MapHelpers().generateNewPointOnLine(edge, 1)
+      new MapHelpers().generateNewPointOnLineFromEndpoint(edge, city4)
+    );
+    assertEquals(
+      new Point2D.Double(0.6, 3.2),
+      new MapHelpers().generateNewPointOnLineFromEndpoint(edge, city3)
     );
   }
 
@@ -96,6 +107,23 @@ public class MapHelpersTest {
         )
       ),
       0.005
+    );
+  }
+
+  @Test
+  public void weightOfFullPath() {
+    City city1 = new City(1, 87.951292, 2.658162);
+    City city2 = new City(2, 33.466597, 66.682943);
+    City city3 = new City(3, 91.778314, 53.807184);
+    City city4 = new City(4, 20.526749, 47.633290);
+    MapHelpers mapHelpers = new MapHelpers();
+    assertEquals(
+      215.08553303209044,
+      mapHelpers.calculateDistance(city1, city4) +
+      mapHelpers.calculateDistance(city4, city2) +
+      mapHelpers.calculateDistance(city2, city3) +
+      mapHelpers.calculateDistance(city3, city1),
+      0.000005
     );
   }
 }
