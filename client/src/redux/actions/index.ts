@@ -4,6 +4,7 @@ import { Page } from '../../website-styling/Header';
 export * from './BruteForceActions';
 export * from './HeuristicInsertionActions';
 export * from './GraphSearchActions';
+export * from './GeneticAlgorithmActions'
 
 export function fetchWeightedRouteSuccess(body: any) {
   return {

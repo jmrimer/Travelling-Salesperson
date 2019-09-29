@@ -1,6 +1,6 @@
 import { CityModel } from './CityModel';
 
-export class RouteModel {
+export class TourModel {
   constructor(
     public route: CityModel[] = [],
     public weight: number = 0

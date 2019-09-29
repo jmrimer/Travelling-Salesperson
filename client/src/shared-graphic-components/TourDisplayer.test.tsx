@@ -1,5 +1,5 @@
 import { shallow, ShallowWrapper } from 'enzyme';
-import { RouteModel } from '../shared-models/RouteModel';
+import { TourModel } from '../shared-models/TourModel';
 import { StyledRouteInfo } from './RouteInfo';
 import { StyledMapInput } from './MapInput';
 import { VisualGraph } from './visual-grapher/VisualGraph';
@@ -9,7 +9,7 @@ import { TourDisplayer } from './TourDisplayer';
 
 describe('TourDisplayer', () => {
   let subject: ShallowWrapper;
-  let weightedRoute: RouteModel;
+  let weightedRoute: TourModel;
   let mapText = 'map text';
   let getNewRoute = () => {
     return null;
@@ -19,7 +19,7 @@ describe('TourDisplayer', () => {
   };
 
   beforeEach(() => {
-    weightedRoute = new RouteModel();
+    weightedRoute = new TourModel();
     subject = shallow(
       <TourDisplayer
         getNewRoute={getNewRoute}

@@ -3,11 +3,11 @@ import classNames from 'classnames';
 import { StyledRouteInfo } from './RouteInfo';
 import { StyledMapInput } from './MapInput';
 import VisualGraph from './visual-grapher/VisualGraph';
-import { RouteModel } from '../shared-models/RouteModel';
+import { TourModel } from '../shared-models/TourModel';
 import styled from 'styled-components';
 
 interface Props {
-  weightedRoute: RouteModel;
+  weightedRoute: TourModel;
   loading: boolean;
   mapText: string;
   getNewRoute: (mapText: string) => void;
