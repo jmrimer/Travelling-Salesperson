@@ -41,6 +41,19 @@ export const TrialDisplayer: React.FC<Props> = props => {
   }
 
   function renderTrialOutput() {
+    function filterBestChildRoutes() {
+      let generation = trial.generations[currentGeneration];
+      if (generation) {
+        let children = generation.children;
+        children.sort((a, b) => a.weight < b.weight ? -1 : a.weight > b.weight ? 1 : 0);
+        children = children.filter((child, index) => {
+          return index < 10;
+        });
+        return children;
+      }
+      return null;
+    }
+
     return (
       <div className={'output'}>
         {
@@ -57,7 +70,7 @@ export const TrialDisplayer: React.FC<Props> = props => {
           <MultiPathVisualGraph
             className={'children'}
             points={points}
-            routes={trial.generations[currentGeneration] ? trial.generations[currentGeneration].children : null}
+            routes={filterBestChildRoutes()}
           />
         </div>
         <button className={'next-generation'} onClick={() => props.nextGeneration()}>Next Gen</button>
