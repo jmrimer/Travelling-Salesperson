@@ -61,7 +61,7 @@ class Breeder {
     return -1;
   }
 
-  private static boolean compatible(Tour parent1, Tour parent2) {
+  static boolean compatible(Tour parent1, Tour parent2) {
     return indexOfSingleCompatibleGenePair(parent1, parent2) > -1;
   }
 

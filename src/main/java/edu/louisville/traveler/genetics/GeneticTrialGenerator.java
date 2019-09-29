@@ -31,7 +31,7 @@ class GeneticTrialGenerator {
       createNewParents();
       childrenBecomeParents();
       breedAllParents();
-      ageParents();
+//      ageParents();
       killParents();
       trial.add(
         new Generation(
@@ -65,11 +65,31 @@ class GeneticTrialGenerator {
     while (parentIterator.hasNext()) {
       LivingTour parent1 = parentIterator.next();
       parentIterator.remove();
+//      if compatible, put into list
+//      choose random from list
+//      age both parents
+//      kill parents if necessary
+      List<LivingTour> compatibleParents = new ArrayList<>();
       for (LivingTour parent2 : remainingParents) {
-        LivingTour child = Breeder.breed(parent1, parent2);
+        if (Breeder.compatible(parent1, parent2)) {
+          compatibleParents.add(parent2);
+        }
+//        LivingTour child = Breeder.breed(parent1, parent2);
+//        if (child != null) {
+//          this.children.add(child);
+//        }
+      }
+      Iterator<LivingTour> mateIterator = compatibleParents.iterator();
+      while (mateIterator.hasNext() && !parent1.isDead()) {
+        int randomIndex = (int) (Math.random() * compatibleParents.size());
+        LivingTour mate = compatibleParents.get(randomIndex);
+        LivingTour child = Breeder.breed(parent1, mate);
         if (child != null) {
           this.children.add(child);
+          parent1.age();
+          parents.get(parents.indexOf(mate)).age();
         }
+        compatibleParents.remove(randomIndex);
       }
     }
   }

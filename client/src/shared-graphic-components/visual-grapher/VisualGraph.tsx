@@ -48,7 +48,7 @@ export const VisualGraph: React.FC<Props> = props => {
               'line-color': theme.color.lavender,
               width: 0.1,
               'curve-style': 'haystack',
-              'haystack-radius': 1
+              'haystack-radius': 0.5
             }
           },
           {
