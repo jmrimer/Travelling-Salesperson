@@ -67,7 +67,7 @@ public class GeneticTrialGeneratorTest extends BaseGeneticsTest {
 
   @Test
   public void returnsTrialThatTracksEachGeneration() {
-    GeneticTrialGenerator geneticTrialGenerator = new GeneticTrialGenerator(map100, 4, 10);
+    GeneticTrialGenerator geneticTrialGenerator = new GeneticTrialGenerator(map100, 4, 30);
     Trial trial = geneticTrialGenerator.runTrial();
 //    assertEquals(4, trial.getGenerations().size());
     for (int i = 0; i < trial.getGenerations().size(); i++) {

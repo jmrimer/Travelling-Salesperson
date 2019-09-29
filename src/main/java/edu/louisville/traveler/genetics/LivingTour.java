@@ -23,6 +23,10 @@ class LivingTour extends Tour {
     this.age++;
   }
 
+  void revitalize() {
+    this.age--;
+  }
+
   @Override
   public String toString(){
     return "Living Tour: " + "route: " + this.getRoute() + " | age: " + this.getAge();

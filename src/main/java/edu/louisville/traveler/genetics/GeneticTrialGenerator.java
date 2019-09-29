@@ -31,7 +31,8 @@ class GeneticTrialGenerator {
       createNewParents();
       childrenBecomeParents();
       breedAllParents();
-//      ageParents();
+      ageParents();
+      revitalizeFitChildren();
       killParents();
       trial.add(
         new Generation(
@@ -44,9 +45,30 @@ class GeneticTrialGenerator {
     return trial;
   }
 
+  private void revitalizeFitChildren() {
+    double averageFitness = 0;
+    for (LivingTour child : children) {
+      averageFitness += child.getWeight();
+    }
+    averageFitness /= children.size();
+    for (LivingTour child : children) {
+      if (child.getWeight() < averageFitness) {
+        child.revitalize();
+      }
+    }
+  }
+
   private void ageParents() {
+    double averageFitness = 0;
+    for (LivingTour child : children) {
+      averageFitness += child.getWeight();
+    }
+    averageFitness /= children.size();
     for (LivingTour parent : parents) {
       parent.age();
+      if (parent.getWeight() < averageFitness) {
+        parent.age();
+      }
     }
   }
 
