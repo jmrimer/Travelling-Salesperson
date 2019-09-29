@@ -3,7 +3,6 @@ package edu.louisville.traveler.genetics;
 import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Map;
 import edu.louisville.traveler.maps.RouteWeightCalculator;
-import edu.louisville.traveler.maps.Tour;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -15,9 +14,8 @@ class GeneticTrialGenerator {
   private final Map map;
   private final int newParentsPerGeneration;
   private final int totalGenerations;
-  List<Tour> parents;
-  List<Tour> livingParents;
-  private List<Tour> children;
+  private List<LivingTour> parents;
+  private List<LivingTour> children;
 
   GeneticTrialGenerator(Map map, int newParentsPerGeneration, int totalGenerations) {
     this.map = map;
@@ -31,23 +29,44 @@ class GeneticTrialGenerator {
     Trial trial = new Trial();
     for (int gen = 0; gen < totalGenerations; gen++) {
       createNewParents();
+      childrenBecomeParents();
       breedAllParents();
-      List<Tour> parentsClone = new ArrayList<>(this.parents);
-      List<Tour> childrenClone = new ArrayList<>(this.children);
-      Generation generation = new Generation(gen, parentsClone, childrenClone);
-      trial.add(generation);
+      ageParents();
+      killParents();
+      trial.add(
+        new Generation(
+          gen,
+          new ArrayList<>(this.parents),
+          new ArrayList<>(this.children)
+        )
+      );
     }
     return trial;
   }
 
+  private void ageParents() {
+    for (LivingTour parent : parents) {
+      parent.age();
+    }
+  }
+
+  private void killParents() {
+    parents.removeIf(LivingTour::isDead);
+  }
+
+  private void childrenBecomeParents() {
+    parents.addAll(children);
+    children = new ArrayList<>();
+  }
+
   private void breedAllParents() {
-    List<Tour> remainingParents = new ArrayList<>(parents);
-    Iterator<Tour> parentIterator = remainingParents.iterator();
+    List<LivingTour> remainingParents = new ArrayList<>(parents);
+    Iterator<LivingTour> parentIterator = remainingParents.iterator();
     while (parentIterator.hasNext()) {
-      Tour parent1 = parentIterator.next();
+      LivingTour parent1 = parentIterator.next();
       parentIterator.remove();
-      for (Tour parent2 : remainingParents) {
-        Tour child = Breeder.breed(parent1, parent2);
+      for (LivingTour parent2 : remainingParents) {
+        LivingTour child = Breeder.breed(parent1, parent2);
         if (child != null) {
           this.children.add(child);
         }
@@ -61,13 +80,13 @@ class GeneticTrialGenerator {
     }
   }
 
-  private Tour generateRandomTour() {
+  private LivingTour generateRandomTour() {
     List<City> remainingCities = new ArrayList<>(map.getCities());
     List<City> route = new ArrayList<>();
     City start = addAndRemoveRandomCity(remainingCities, route);
     addAllRemainingCities(remainingCities, route);
     route.add(start);
-    return new Tour(route, RouteWeightCalculator.calculateWeight(route));
+    return new LivingTour(route, RouteWeightCalculator.calculateWeight(route));
   }
 
   private void addAllRemainingCities(List<City> remainingCities, List<City> route) {

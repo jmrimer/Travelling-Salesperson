@@ -9,9 +9,9 @@ import java.util.Iterator;
 import java.util.List;
 
 class Breeder {
-  static Tour breed(Tour parent1, Tour parent2) {
+  static LivingTour breed(Tour parent1, Tour parent2) {
     if (compatible(parent1, parent2)) {
-      Tour child = swapSingleGene(parent1, parent2);
+      LivingTour child = swapSingleGene(parent1, parent2);
       if (isMoreFit(child, parent1, parent2)) {
         return child;
       }
@@ -23,19 +23,17 @@ class Breeder {
     return child.getWeight() < parent1.getWeight() && child.getWeight() < parent2.getWeight();
   }
 
-  private static Tour swapSingleGene(Tour parent1, Tour parent2) {
-//    using parent1, get genes that are allowed to be swapped (i.e., not equal to other parent
+  private static LivingTour swapSingleGene(Tour parent1, Tour parent2) {
     List<City> childRoute = new ArrayList<>();
     int firstCityIndex = indexOfSingleCompatibleGenePair(parent1, parent2);
     City firstCity = parent1.getRoute().get(firstCityIndex);
     City secondCity = parent1.getRoute().get(firstCityIndex + 1);
     childRoute.add(firstCity);
     childRoute.add(secondCity);
-//    add remaining cities
     List<City> genePool = new ArrayList<>(parent1.getRoute());
     addRemainingCitiesAtRandom(childRoute, genePool, firstCity, secondCity);
     childRoute.add(firstCity);
-    return new Tour(childRoute, RouteWeightCalculator.calculateWeight(childRoute));
+    return new LivingTour(childRoute, RouteWeightCalculator.calculateWeight(childRoute));
   }
 
   private static void addRemainingCitiesAtRandom(List<City> childRoute, List<City> genePool, City firstCity, City secondCity) {
@@ -65,16 +63,6 @@ class Breeder {
 
   private static boolean compatible(Tour parent1, Tour parent2) {
     return indexOfSingleCompatibleGenePair(parent1, parent2) > -1;
-//    Iterator<City> cityIterator = parent1.getRoute().iterator();
-//    City fromCity = cityIterator.next();
-//    while (cityIterator.hasNext()) {
-//      City toCity = cityIterator.next();
-//      if (otherParentSharesGenePair(parent2, fromCity, toCity)) {
-//        return true;
-//      }
-//      fromCity = toCity;
-//    }
-//    return false;
   }
 
   private static boolean otherParentSharesGenePair(Tour otherParent, City fromCity, City toCity) {
