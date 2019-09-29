@@ -14,8 +14,8 @@ import static org.junit.Assert.*;
 
 public class GeneticTrialGeneratorTest extends BaseGeneticsTest {
   //  start with 4 parents
-//  add 4 parents each generation
-//  run for given generation #
+//  add 4 parents each currentGeneration
+//  run for given currentGeneration #
 //  expect compatible parents to breed
 //  if child is better than parent then it survives
 //
@@ -81,7 +81,7 @@ public class GeneticTrialGeneratorTest extends BaseGeneticsTest {
       assertThat(
         "number of parents",
         trial.getGenerations().get(i).getParents().size(),
-        greaterThanOrEqualTo((int) 4 * i)
+        greaterThanOrEqualTo(4 * i)
       );
       System.out.println(trial.getGenerations().get(i).getParents().size());
       System.out.println(trial.getGenerations().get(i).getChildren().size());

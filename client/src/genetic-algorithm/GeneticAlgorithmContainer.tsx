@@ -2,18 +2,22 @@ import React from 'react';
 import { TourModel } from '../shared-models/TourModel';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import { fetchNewTrial, updateCurrentPage, updateMapText } from '../redux/actions';
-import { TrialDisplayer } from './TrialDisplayer';
+import { fetchNewTrial, nextGeneration, updateCurrentPage, updateMapText } from '../redux/actions';
+import  TrialDisplayer from './TrialDisplayer';
 import { Page } from '../website-styling/Header';
+import { TrialModel } from './TrialModel';
 
 interface Props {
   weightedRoute: TourModel;
   loading: boolean;
   mapText: string;
-  getNewTrial: (mapText: string, parentInputText: string, trialsInputText: string) => void;
+  getNewTrial: (mapText: string) => void;
   updateMapText: (e: any) => void;
   points: any[];
   updateCurrentPage: (page: Page) => void;
+  trial: TrialModel;
+  currentGeneration: number;
+  nextGeneration: () => void;
   className?: string;
 }
 
@@ -26,11 +30,14 @@ export class GeneticAlgorithmContainer extends React.Component<Props> {
     return (
       <div className={classNames('container--genetic-algorithm', this.props.className)}>
         <TrialDisplayer
-          generation={0}
-          loading={false}
+          trial={this.props.trial}
+          currentGeneration={this.props.currentGeneration}
+          loading={this.props.loading}
           getNewTrial={this.props.getNewTrial}
-          mapText={'hello'}
+          mapText={this.props.mapText}
           updateMapText={this.props.updateMapText}
+          points={this.props.points}
+          nextGeneration={this.props.nextGeneration}
         />
       </div>
     );
@@ -40,13 +47,16 @@ export class GeneticAlgorithmContainer extends React.Component<Props> {
 const mapStateToProps = (state: any) => ({
   loading: state.loading,
   mapText: state.mapText,
-  points: state.points
+  points: state.points,
+  trial: state.trial,
+  currentGeneration: state.currentGeneration,
 });
 
 const mapDispatchToProps = {
   getNewTrial: fetchNewTrial,
   updateMapText: updateMapText,
-  updateCurrentPage: updateCurrentPage
+  updateCurrentPage: updateCurrentPage,
+  nextGeneration: nextGeneration,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GeneticAlgorithmContainer);

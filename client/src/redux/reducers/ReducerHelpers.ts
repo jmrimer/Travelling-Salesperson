@@ -49,6 +49,10 @@ export function translateCoordinateTextToGraphReadyPoints(mapText: string) {
   );
 }
 
+export function textFromBody(event: any) {
+  return event.target.value;
+}
+
 export function serializeJSONtoTour(json: any) {
   return new TourModel(json.route, json.weight);
 }
@@ -75,15 +79,15 @@ export const serializeJSONToTrial = (body: any): TrialModel => {
   body.generations.map((generationJSON: any) => {
     let parents: TourModel[] = [];
     generationJSON.parents.map((parentJSON: any) => {
-      parents.push(serializeJSONtoTour(parentJSON));
+      return parents.push(serializeJSONtoTour(parentJSON));
     });
 
     let children: TourModel[] = [];
     generationJSON.children.map((childJSON: any) => {
-      children.push(serializeJSONtoTour(childJSON));
+      return children.push(serializeJSONtoTour(childJSON));
     });
 
-    trial.generations.push(
+    return trial.generations.push(
       new GenerationModel(
         generationJSON.generation,
         parents,
@@ -91,5 +95,7 @@ export const serializeJSONToTrial = (body: any): TrialModel => {
       )
     )
   });
+
+  console.log(trial);
   return trial;
 };

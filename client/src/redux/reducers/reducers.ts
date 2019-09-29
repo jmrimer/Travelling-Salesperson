@@ -6,9 +6,11 @@ import {
   serializeJSONtoTour,
   serializeJSONToTrial,
   startingMap,
+  textFromBody,
   toggleMatrix,
   translateCoordinateTextToGraphReadyPoints
 } from './ReducerHelpers';
+import { TrialModel } from '../../genetic-algorithm/TrialModel';
 
 const initState = {
   weightedRoute: null,
@@ -17,14 +19,19 @@ const initState = {
   shortestDFSPath: null,
   adjacencyMatrix: createInitialMatrix(),
   points: translateCoordinateTextToGraphReadyPoints(startingMap),
-  currentPage: Page.BRUTE_FORCE
+  currentPage: Page.BRUTE_FORCE,
+  currentGeneration: 0,
+  trial: new TrialModel()
 };
 
-const reducer = (state = initState, action: any) => {
-  function textFromBody(event: any) {
-    return event.target.value;
-  }
+function incrementGeneration(current: number, max: number) {
+  current++;
+  console.log(current);
+  console.log(max);
+  return current === max ? 0 : current;
+}
 
+const reducer = (state = initState, action: any) => {
   switch (action.type) {
     case ActionTypes.FETCH_WEIGHTED_ROUTE_REQUEST:
       return {...state, loading: true};
@@ -54,9 +61,12 @@ const reducer = (state = initState, action: any) => {
     case ActionTypes.UPDATE_PAGE:
       return {...state, currentPage: action.page};
     case ActionTypes.POST_NEW_TRIAL_REQUEST:
-      return {...state, loading: true}
+      return {...state, loading: true};
     case ActionTypes.FETCH_TRIAL_SUCCESS:
-      return {...state, trial: serializeJSONToTrial(action.body), loading: false}
+      return {...state, trial: serializeJSONToTrial(action.body), loading: false};
+    case ActionTypes.NEXT_GENERATION:
+      return {...state, currentGeneration: incrementGeneration(state.currentGeneration, state.trial.generations.length)};
+
     default:
       return state;
   }

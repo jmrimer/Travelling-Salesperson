@@ -6,7 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication(
   scanBasePackages = {
     "edu.louisville.traveler.graphs",
-    "edu.louisville.traveler.maps"
+    "edu.louisville.traveler.maps",
+    "edu.louisville.traveler.genetics",
   }
 )
 public class Application {

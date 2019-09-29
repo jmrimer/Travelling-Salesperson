@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { StyledRouteInfo } from './RouteInfo';
 import { StyledMapInput } from './MapInput';
-import VisualGraph from './visual-grapher/VisualGraph';
+import VisualGraph from './visual-grapher/SinglePathVisualGraph';
 import { TourModel } from '../shared-models/TourModel';
 import styled from 'styled-components';
 

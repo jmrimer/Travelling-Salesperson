@@ -7,12 +7,13 @@ export const postNewTrialRequest = () => {
   }
 };
 
-export const fetchNewTrial =
-(
-  mapText: string,
-  parentInputText: string,
-  trialsInputText: string
-) => {
+export const nextGeneration = () => {
+  return {
+    type: ActionTypes.NEXT_GENERATION
+  }
+};
+
+export function fetchNewTrial(mapText: string) {
   let map = new MapModel();
   map.serialize(mapText);
 
