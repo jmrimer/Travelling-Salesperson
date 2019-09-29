@@ -1,6 +1,7 @@
 package edu.louisville.traveler.genetics;
 
 import edu.louisville.traveler.maps.City;
+import edu.louisville.traveler.maps.Map;
 import edu.louisville.traveler.maps.RouteWeightCalculator;
 import edu.louisville.traveler.maps.Tour;
 import lombok.Data;
@@ -8,18 +9,17 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Queue;
 
 @Data
 class GeneticTrialGenerator {
-  private final List<City> map;
+  private final Map map;
   private final int newParentsPerGeneration;
   private final int totalGenerations;
   List<Tour> parents;
   List<Tour> livingParents;
   private List<Tour> children;
 
-  GeneticTrialGenerator(List<City> map, int newParentsPerGeneration, int totalGenerations) {
+  GeneticTrialGenerator(Map map, int newParentsPerGeneration, int totalGenerations) {
     this.map = map;
     this.newParentsPerGeneration = newParentsPerGeneration;
     this.totalGenerations = totalGenerations;
@@ -27,11 +27,17 @@ class GeneticTrialGenerator {
     this.children = new ArrayList<>();
   }
 
-  void runTrial() {
-    for (int generation = 0; generation < totalGenerations; generation++) {
+  Trial runTrial() {
+    Trial trial = new Trial();
+    for (int gen = 0; gen < totalGenerations; gen++) {
       createNewParents();
       breedAllParents();
+      List<Tour> parentsClone = new ArrayList<>(this.parents);
+      List<Tour> childrenClone = new ArrayList<>(this.children);
+      Generation generation = new Generation(gen, parentsClone, childrenClone);
+      trial.add(generation);
     }
+    return trial;
   }
 
   private void breedAllParents() {
@@ -56,7 +62,7 @@ class GeneticTrialGenerator {
   }
 
   private Tour generateRandomTour() {
-    List<City> remainingCities = new ArrayList<>(map);
+    List<City> remainingCities = new ArrayList<>(map.getCities());
     List<City> route = new ArrayList<>();
     City start = addAndRemoveRandomCity(remainingCities, route);
     addAllRemainingCities(remainingCities, route);
