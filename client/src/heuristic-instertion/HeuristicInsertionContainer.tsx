@@ -1,12 +1,12 @@
 import React from 'react';
-import { RouteModel } from '../shared-models/RouteModel';
+import { TourModel } from '../shared-models/TourModel';
 import classNames from 'classnames';
 import TourDisplayer from '../shared-graphic-components/TourDisplayer';
 import { connect } from 'react-redux';
 import { fetchNewTourViaInsertionFromText, updateMapText } from '../redux/actions';
 
 interface Props {
-  weightedRoute: RouteModel;
+  weightedRoute: TourModel;
   loading: boolean;
   mapText: string;
   getNewRoute: (mapText: string) => void;

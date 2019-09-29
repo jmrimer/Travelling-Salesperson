@@ -1,11 +1,11 @@
 import React from 'react';
 import { CityModel } from '../shared-models/CityModel';
-import { RouteModel } from '../shared-models/RouteModel';
+import { TourModel } from '../shared-models/TourModel';
 import styled from 'styled-components';
 import classNames from 'classnames';
 
 interface Props {
-  weightedRoute: RouteModel | null,
+  weightedRoute: TourModel | null,
   loading: boolean,
   className?: string
 }

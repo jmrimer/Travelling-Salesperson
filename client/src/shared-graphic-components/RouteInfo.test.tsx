@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RouteInfo } from './RouteInfo';
-import { RouteModel } from '../shared-models/RouteModel';
+import { TourModel } from '../shared-models/TourModel';
 import { CityModel } from '../shared-models/CityModel';
 import { shallow, ShallowWrapper } from 'enzyme';
 
@@ -17,7 +17,7 @@ describe('RouteInfo', () => {
     homePage = shallow(
       <RouteInfo
         loading={false}
-        weightedRoute={new RouteModel(cityList, 10)}
+        weightedRoute={new TourModel(cityList, 10)}
       />
     );
   });

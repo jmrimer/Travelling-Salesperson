@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 const logo = require('./logo.svg');
 
 export enum Page {
+  GENETIC_ALGORITHM,
   BRUTE_FORCE,
   GRAPH_SEARCH,
   HEURISTIC_INSERTION
@@ -55,6 +56,7 @@ class Header extends React.Component<Props> {
         {this.bruteForceLink()}
         {this.graphSearchLink()}
         {this.heuristicInsertionLink()}
+        {this.geneticAlgorithmLink()}
       </div>
     )
   }
@@ -86,6 +88,16 @@ class Header extends React.Component<Props> {
       onClick={() => this.handleLinkClick(Page.HEURISTIC_INSERTION)}
     >
       Heuristic Insertion
+    </Link>;
+  }
+
+  private geneticAlgorithmLink() {
+    return <Link
+      to={'/genetic-algorithm'}
+      className={this.chooseClassName(Page.GENETIC_ALGORITHM)}
+      onClick={() => this.handleLinkClick(Page.GENETIC_ALGORITHM)}
+    >
+      Genetic Algorithm
     </Link>;
   }
 
@@ -143,7 +155,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(styled(Header)`
       :hover {
         border-bottom: 2px solid ${(props) => props.theme.color.lavender};
       }
-      
     }
   }
 `);
