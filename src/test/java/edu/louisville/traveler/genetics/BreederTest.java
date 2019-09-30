@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class BreederTest {
@@ -60,4 +61,17 @@ public class BreederTest {
     );
   }
 
+  @Test
+  public void keepsLongGenomeSequences() {
+    City city1 = new City(1, 1, 1);
+    City city2 = new City(2, 1, 2);
+    City city3 = new City(3, 1, 3);
+    City city4 = new City(4, 3, 3);
+    City city5 = new City(5, 3, 2);
+    List<City> route1 = List.of(city1, city4, city2, city5, city3, city1);
+    List<City> route2 = List.of(city1, city4, city2, city3, city5, city1);
+    LivingTour parent1 = new LivingTour(route1, RouteWeightCalculator.calculateWeight(route1));
+    LivingTour parent2 = new LivingTour(route2, RouteWeightCalculator.calculateWeight(route2));
+    assertEquals(List.of(city1, city4, city2), Breeder.commonSequence(parent1, parent2));
+  }
 }

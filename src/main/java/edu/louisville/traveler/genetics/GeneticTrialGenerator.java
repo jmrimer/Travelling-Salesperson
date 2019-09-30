@@ -87,33 +87,42 @@ class GeneticTrialGenerator {
     while (parentIterator.hasNext()) {
       LivingTour parent1 = parentIterator.next();
       parentIterator.remove();
-//      if compatible, put into list
-//      choose random from list
-//      age both parents
-//      kill parents if necessary
-      List<LivingTour> compatibleParents = new ArrayList<>();
-      for (LivingTour parent2 : remainingParents) {
-        if (Breeder.compatible(parent1, parent2)) {
-          compatibleParents.add(parent2);
-        }
-//        LivingTour child = Breeder.breed(parent1, parent2);
-//        if (child != null) {
-//          this.children.add(child);
-//        }
+      List<LivingTour> compatibleParents = findCompatibleMates(remainingParents, parent1);
+      breedAndKillCompatibleMates(parent1, compatibleParents);
+    }
+  }
+
+  private void breedAndKillCompatibleMates(LivingTour parent1, List<LivingTour> compatibleParents) {
+    Iterator<LivingTour> mateIterator = compatibleParents.iterator();
+    while (livingParentHasSuitableMates(parent1, mateIterator)) {
+      LivingTour randomMate = findRandomMate(compatibleParents);
+      LivingTour child = Breeder.breed(parent1, randomMate);
+      if (child != null) {
+        this.children.add(child);
+        parent1.age();
+        parents.get(parents.indexOf(randomMate)).age();
       }
-      Iterator<LivingTour> mateIterator = compatibleParents.iterator();
-      while (mateIterator.hasNext() && !parent1.isDead()) {
-        int randomIndex = (int) (Math.random() * compatibleParents.size());
-        LivingTour mate = compatibleParents.get(randomIndex);
-        LivingTour child = Breeder.breed(parent1, mate);
-        if (child != null) {
-          this.children.add(child);
-          parent1.age();
-          parents.get(parents.indexOf(mate)).age();
-        }
-        compatibleParents.remove(randomIndex);
+      compatibleParents.remove(randomMate);
+    }
+  }
+
+  private boolean livingParentHasSuitableMates(LivingTour parent1, Iterator<LivingTour> mateIterator) {
+    return mateIterator.hasNext() && !parent1.isDead();
+  }
+
+  private LivingTour findRandomMate(List<LivingTour> compatibleParents) {
+    int randomIndex = (int) (Math.random() * compatibleParents.size());
+    return compatibleParents.get(randomIndex);
+  }
+
+  private List<LivingTour> findCompatibleMates(List<LivingTour> remainingParents, LivingTour parent1) {
+    List<LivingTour> compatibleMates = new ArrayList<>();
+    for (LivingTour parent2 : remainingParents) {
+      if (Breeder.compatible(parent1, parent2)) {
+        compatibleMates.add(parent2);
       }
     }
+    return compatibleMates;
   }
 
   private void createNewParents() {
