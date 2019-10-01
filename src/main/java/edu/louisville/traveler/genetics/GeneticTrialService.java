@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
 public class GeneticTrialService {
   public Trial trialFromMap(Map map) {
     GeneticTrialGenerator geneticTrialGenerator = new GeneticTrialGenerator(map, 4, 30);
-    return geneticTrialGenerator.runTrial();
+    return geneticTrialGenerator.runTrialWithCompatibility();
   }
 }

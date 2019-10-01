@@ -1,7 +1,6 @@
 package edu.louisville.traveler.genetics;
 
 import edu.louisville.traveler.maps.City;
-import edu.louisville.traveler.maps.RouteWeightCalculator;
 import edu.louisville.traveler.maps.Tour;
 import org.junit.Test;
 
@@ -48,13 +47,13 @@ public class BreederTest {
     List<City> route6 = List.of(city1, city4, city2, city3, city5, city1);
     List<City> route7 = List.of(city1, city4, city2, city5, city3, city1);
     List<List<City>> possibleChildRoutes = List.of(route1, route2, route3, route4, route5);
-    LivingTour compatibleParent1 = new LivingTour(route1, RouteWeightCalculator.calculateWeight(route6));
-    LivingTour compatibleParent2 = new LivingTour(route2, RouteWeightCalculator.calculateWeight(route7));
+    LivingTour compatibleParent1 = new LivingTour(route1);
+    LivingTour compatibleParent2 = new LivingTour(route2);
 
 
-    Tour child = Breeder.breed(compatibleParent1, compatibleParent2);
+    Tour child = Breeder.breedCompatibleParents(compatibleParent1, compatibleParent2);
     while (child == null) {
-      child = Breeder.breed(compatibleParent1, compatibleParent2);
+      child = Breeder.breedCompatibleParents(compatibleParent1, compatibleParent2);
     }
     assertTrue(
       possibleChildRoutes.contains(child.getRoute())
@@ -70,8 +69,8 @@ public class BreederTest {
     City city5 = new City(5, 3, 2);
     List<City> route1 = List.of(city1, city4, city2, city5, city3, city1);
     List<City> route2 = List.of(city1, city4, city2, city3, city5, city1);
-    LivingTour parent1 = new LivingTour(route1, RouteWeightCalculator.calculateWeight(route1));
-    LivingTour parent2 = new LivingTour(route2, RouteWeightCalculator.calculateWeight(route2));
+    LivingTour parent1 = new LivingTour(route1);
+    LivingTour parent2 = new LivingTour(route2);
     assertEquals(List.of(city1, city4, city2), Breeder.commonSequence(parent1, parent2));
   }
 }

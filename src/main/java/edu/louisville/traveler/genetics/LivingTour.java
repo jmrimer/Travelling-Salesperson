@@ -1,6 +1,7 @@
 package edu.louisville.traveler.genetics;
 
 import edu.louisville.traveler.maps.City;
+import edu.louisville.traveler.maps.RouteWeightCalculator;
 import edu.louisville.traveler.maps.Tour;
 import lombok.Data;
 
@@ -11,8 +12,8 @@ class LivingTour extends Tour {
   private int lifespan = 4;
   private int age = 0;
 
-  LivingTour(List<City> route, double weight) {
-    super(route, weight);
+  LivingTour(List<City> route) {
+    super(route, RouteWeightCalculator.calculateWeight(route));
   }
 
   boolean isDead() {

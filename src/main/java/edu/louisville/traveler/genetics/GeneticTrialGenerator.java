@@ -2,7 +2,6 @@ package edu.louisville.traveler.genetics;
 
 import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Map;
-import edu.louisville.traveler.maps.RouteWeightCalculator;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -31,6 +30,25 @@ class GeneticTrialGenerator {
       createNewParents();
       childrenBecomeParents();
       breedAllParents();
+      ageParents();
+      revitalizeFitChildren();
+      killParents();
+      trial.add(
+        new Generation(
+          gen,
+          new ArrayList<>(this.parents),
+          new ArrayList<>(this.children)
+        )
+      );
+    }
+    return trial;  }
+
+  Trial runTrialWithCompatibility() {
+    Trial trial = new Trial();
+    for (int gen = 0; gen < totalGenerations; gen++) {
+      createNewParents();
+      childrenBecomeParents();
+      breedAllCompatibleParents();
       ageParents();
       revitalizeFitChildren();
       killParents();
@@ -81,7 +99,7 @@ class GeneticTrialGenerator {
     children = new ArrayList<>();
   }
 
-  private void breedAllParents() {
+  private void breedAllCompatibleParents() {
     List<LivingTour> remainingParents = new ArrayList<>(parents);
     Iterator<LivingTour> parentIterator = remainingParents.iterator();
     while (parentIterator.hasNext()) {
@@ -92,11 +110,35 @@ class GeneticTrialGenerator {
     }
   }
 
+  private void breedAllParents() {
+    List<LivingTour> remainingParents = new ArrayList<>(parents);
+    Iterator<LivingTour> parentIterator = remainingParents.iterator();
+    while (parentIterator.hasNext()) {
+      LivingTour parent1 = parentIterator.next();
+      parentIterator.remove();
+      breedAndKillMates(parent1, remainingParents);
+    }
+  }
+
+  private void breedAndKillMates(LivingTour parent1, List<LivingTour> remainingParents) {
+    Iterator<LivingTour> mateIterator = remainingParents.iterator();
+    while (livingParentHasSuitableMates(parent1, mateIterator)) {
+      LivingTour randomMate = findRandomMate(remainingParents);
+      LivingTour child = Breeder.breedParents(parent1, randomMate);
+      if (child != null) {
+        this.children.add(child);
+        parent1.age();
+        parents.get(parents.indexOf(randomMate)).age();
+      }
+      remainingParents.remove(randomMate);
+    }
+  }
+
   private void breedAndKillCompatibleMates(LivingTour parent1, List<LivingTour> compatibleParents) {
     Iterator<LivingTour> mateIterator = compatibleParents.iterator();
     while (livingParentHasSuitableMates(parent1, mateIterator)) {
       LivingTour randomMate = findRandomMate(compatibleParents);
-      LivingTour child = Breeder.breed(parent1, randomMate);
+      LivingTour child = Breeder.breedCompatibleParents(parent1, randomMate);
       if (child != null) {
         this.children.add(child);
         parent1.age();
@@ -137,7 +179,7 @@ class GeneticTrialGenerator {
     City start = addAndRemoveRandomCity(remainingCities, route);
     addAllRemainingCities(remainingCities, route);
     route.add(start);
-    return new LivingTour(route, RouteWeightCalculator.calculateWeight(route));
+    return new LivingTour(route);
   }
 
   private void addAllRemainingCities(List<City> remainingCities, List<City> route) {
