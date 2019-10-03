@@ -9,8 +9,9 @@ import java.util.List;
 
 @Data
 class LivingTour extends Tour {
-  private int lifespan = 32;
+  private int lifespan = 256;
   private int age = 0;
+  private boolean bred = false;
 
   LivingTour(List<City> route) {
     super(route, RouteWeightCalculator.calculateWeight(route));
@@ -32,8 +33,24 @@ class LivingTour extends Tour {
     this.age--;
   }
 
+  boolean didBreed() {
+    return bred;
+  }
+
   @Override
   public String toString(){
-    return "Living Tour: " + "route: " + this.getCycle() + " | age: " + this.getAge();
+    return "Living Tour: " + this.getWeight() + "cycle: " + this.getCycle();
   }
-}
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+
+    if (!(o instanceof LivingTour)) {
+      return false;
+    }
+
+    return this.getCycle().equals(((LivingTour) o).getCycle());
+  }}

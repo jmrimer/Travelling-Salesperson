@@ -48,6 +48,6 @@ describe('TourDisplayer', () => {
   it('should display a graph and provide points & maps to it', () => {
     expect(subject.find(SinglePathVisualGraph).exists()).toBeTruthy();
     expect(subject.find(SinglePathVisualGraph).prop('points')).toEqual(['point1', 'point2']);
-    expect(subject.find(SinglePathVisualGraph).prop('tour')).toEqual(weightedRoute.route);
+    expect(subject.find(SinglePathVisualGraph).prop('tour')).toEqual(weightedRoute.cycle);
   });
 });

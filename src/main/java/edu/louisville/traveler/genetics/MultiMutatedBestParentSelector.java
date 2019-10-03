@@ -1,0 +1,25 @@
+package edu.louisville.traveler.genetics;
+
+import java.util.List;
+import java.util.Random;
+
+class MultiMutatedBestParentSelector extends SingleMutatedBestParentSelector {
+  int maxMutations;
+
+  MultiMutatedBestParentSelector(int parentMutationLength, int maxMutations) {
+    super(parentMutationLength);
+    this.maxMutations = maxMutations;
+  }
+
+  @Override
+  public LivingTour[] selectFromPopulace(List<LivingTour> population) {
+    LivingTour[] parents = super.selectFromPopulace(population);
+    for (LivingTour parent : parents) {
+      int randomMutations = new Random().nextInt((maxMutations - 1) + 1);
+      for (int i = 0; i < randomMutations; i++) {
+        mutate(parent);
+      }
+    }
+    return parents;
+  }
+}

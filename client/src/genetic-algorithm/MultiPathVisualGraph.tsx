@@ -3,16 +3,17 @@ import classNames from 'classnames';
 import styled from 'styled-components';
 import { translatePointsToNewCenter } from '../shared-graphic-components/visual-grapher/GraphTranslator';
 import VisualGraph from '../shared-graphic-components/visual-grapher/VisualGraph';
+import { TourModel } from '../shared-models/TourModel';
 
 interface Props {
   points: any[],
-  routes: any[] | null,
+  tours: TourModel[] | null,
   className?: string
 }
 
 export const MultiPathVisualGraph: React.FC<Props> = props => {
   let {
-    routes,
+    tours,
     className,
   } = props;
 
@@ -29,14 +30,14 @@ export const MultiPathVisualGraph: React.FC<Props> = props => {
     });
     Object.assign(elements, nodes);
 
-    if (routes) {
-      for (let i = 0; i < routes.length; i++) {
-        let route = routes[i].route;
-        for (let j = 0; j < route.length - 1; j++) {
+    if (tours) {
+      for (let i = 0; i < tours.length; i++) {
+      let cycle = tours[i].cycle;
+        for (let j = 0; j < cycle.length - 1; j++) {
           try {
-            elements.push({data: {source: route[j].name, target: route[j + 1].name}});
+            elements.push({data: {source: cycle[j].name, target: cycle[j + 1].name}});
           } catch {
-            console.log(route);
+            console.log(cycle);
           }
         }
       }

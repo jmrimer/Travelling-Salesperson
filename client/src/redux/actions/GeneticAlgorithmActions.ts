@@ -13,6 +13,14 @@ export const nextGeneration = () => {
   }
 };
 
+
+export const previousGeneration = () => {
+  return {
+    type: ActionTypes.PREVIOUS_GENERATION
+  }
+};
+
+
 export function fetchNewTrial(mapText: string) {
   let map = new MapModel();
   map.serialize(mapText);

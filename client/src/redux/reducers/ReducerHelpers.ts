@@ -54,7 +54,7 @@ export function textFromBody(event: any) {
 }
 
 export function serializeJSONtoTour(json: any) {
-  return new TourModel(json.route, json.weight);
+  return new TourModel(json.cycle, json.weight);
 }
 
 export function serializeJSONToPath(body: any) {
@@ -75,22 +75,17 @@ export function toggleMatrix(matrix: any, keyValuePair: any) {
 }
 
 export const serializeJSONToTrial = (body: any): TrialModel => {
+  console.log(body);
   let trial = new TrialModel();
   body.generations.map((generationJSON: any) => {
-    let parents: TourModel[] = [];
-    generationJSON.parents.map((parentJSON: any) => {
-      return parents.push(serializeJSONtoTour(parentJSON));
-    });
-
     let children: TourModel[] = [];
-    generationJSON.children.map((childJSON: any) => {
+    generationJSON.population.map((childJSON: any) => {
       return children.push(serializeJSONtoTour(childJSON));
     });
 
     return trial.generations.push(
       new GenerationModel(
         generationJSON.generation,
-        parents,
         children
       )
     )

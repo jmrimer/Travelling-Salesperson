@@ -19,7 +19,7 @@ describe('BruteForceActions', () => {
     fetchMock.restore();
   });
 
-  it('should fetch a weight route with requested coordinates', () => {
+  it('should fetch a weight cycle with requested coordinates', () => {
     fetchMock.post('http://localhost:8080/api/weighted-route', {
       body: weightedRouteJSON,
       headers: {'content-type': 'application/json'},

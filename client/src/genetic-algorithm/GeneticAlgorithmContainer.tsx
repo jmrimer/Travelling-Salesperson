@@ -2,7 +2,7 @@ import React from 'react';
 import { TourModel } from '../shared-models/TourModel';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import { fetchNewTrial, nextGeneration, updateCurrentPage, updateMapText } from '../redux/actions';
+import { fetchNewTrial, nextGeneration, previousGeneration, updateCurrentPage, updateMapText } from '../redux/actions';
 import  TrialDisplayer from './TrialDisplayer';
 import { Page } from '../website-styling/Header';
 import { TrialModel } from './TrialModel';
@@ -18,6 +18,7 @@ interface Props {
   trial: TrialModel;
   currentGeneration: number;
   nextGeneration: () => void;
+  previousGeneration: () => void;
   className?: string;
 }
 
@@ -38,6 +39,7 @@ export class GeneticAlgorithmContainer extends React.Component<Props> {
           updateMapText={this.props.updateMapText}
           points={this.props.points}
           nextGeneration={this.props.nextGeneration}
+          previousGeneration={this.props.previousGeneration}
         />
       </div>
     );
@@ -57,6 +59,7 @@ const mapDispatchToProps = {
   updateMapText: updateMapText,
   updateCurrentPage: updateCurrentPage,
   nextGeneration: nextGeneration,
+  previousGeneration: previousGeneration
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GeneticAlgorithmContainer);
