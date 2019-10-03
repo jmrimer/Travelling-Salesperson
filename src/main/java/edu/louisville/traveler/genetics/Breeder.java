@@ -12,9 +12,10 @@ import java.util.List;
 class Breeder {
   static LivingTour breedParents(LivingTour parent1, LivingTour parent2) {
     Map map = new Map(new ArrayList<>(parent1.getRoute()));
-    LivingTour child = new LivingTour(Arrays.asList(new City[map.getCities().size()]));
+//    LivingTour child = new LivingTour(Arrays.asList(new City[map.getCities().size()]));
+    LivingTour child = new LivingTour(new ArrayList<>());
 
-    while (child.getRoute().size() < map.getCities().size()) {
+    while (childRouteIsNotComplete(map, child)) {
       LivingTour parent = selectRandomParent(parent1, parent2);
       addSequenceToChild(child, parent);
     }
@@ -24,9 +25,42 @@ class Breeder {
     return child;
   }
 
+  private static boolean childRouteIsNotComplete(Map map, LivingTour child) {
+    return child.getRoute().contains(null);
+  }
+
   private static void addSequenceToChild(LivingTour child, LivingTour parent) {
     while (true) {
-      int sequenceSize = 
+//      choose sequence length
+      int sequenceSize = 2;
+
+//      find random opening in child for the sequence
+      int childAvailableStartIndex = 0;
+      for (int i = 0; i < child.getRoute().size() - sequenceSize; i++) {
+        boolean availableSequence = true;
+        for (int j = 0; j < sequenceSize; j++) {
+          if (child.getRoute().get(i + j) != null) {
+            availableSequence = false;
+            break;
+          }
+        }
+        if (availableSequence) {
+          childAvailableStartIndex = i;
+          break;
+        }
+      }
+
+//      transpose random parent genome of length
+      for (int i = 0; i < sequenceSize; i++) {
+        child
+          .getRoute()
+          .add(
+            childAvailableStartIndex + i,
+            parent.getRoute().get(childAvailableStartIndex + i)
+          );
+      }
+//        IF the cities in the sequence have not been used yet
+//        AND the
     }
   }
 

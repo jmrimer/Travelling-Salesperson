@@ -10,6 +10,9 @@ import java.util.List;
 @AllArgsConstructor
 class Generation {
   private int generation;
-  private List<Tour> parents;
-  private List<Tour> children;
+  private List<Tour> parentsAliveAtEndOfGeneration;
+  private List<Tour> childrenAliveAtEndOfGeneration;
+  private List<Tour> childrenBornThisGeneration;
+  private List<Tour> parentsDiedThisGeneration;
+
 }
