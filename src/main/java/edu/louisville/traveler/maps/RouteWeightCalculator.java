@@ -15,11 +15,13 @@ public class RouteWeightCalculator {
   private static double getDistance(List<City> route, int cityIndex) {
     City startingCity = route.get(cityIndex);
     City endingCity = route.get(cityIndex + 1);
-    return Point2D.distance(
-      startingCity.latitude,
-      startingCity.longitude,
-      endingCity.latitude,
-      endingCity.longitude
-    );
+    return
+      startingCity != null && endingCity != null ?
+        Point2D.distance(
+          startingCity.latitude,
+          startingCity.longitude,
+          endingCity.latitude,
+          endingCity.longitude
+        ) : 0;
   }
 }

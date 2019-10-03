@@ -16,7 +16,7 @@ public class CompatibleParentsTrialGenerator implements TrialGenerator {
   private List<LivingTour> currentChildren;
   private List<LivingTour> deceasedParents;
 
-  public CompatibleParentsTrialGenerator(Map map, int newParentsPerGeneration, int totalGenerations) {
+  CompatibleParentsTrialGenerator(Map map, int newParentsPerGeneration, int totalGenerations) {
     this.map = map;
     this.newParentsPerGeneration = newParentsPerGeneration;
     this.totalGenerations = totalGenerations;
@@ -36,7 +36,7 @@ public class CompatibleParentsTrialGenerator implements TrialGenerator {
         this.map
       );
       breedParents();
-      controlPopulation(this.currentParents, this.currentChildren);
+      controlPopulation(this.currentParents, this.currentChildren, 20);
       trial.add(
         new Generation(
           gen,
@@ -87,6 +87,6 @@ public class CompatibleParentsTrialGenerator implements TrialGenerator {
   }
 
   private boolean livingParentHasSuitableMates(LivingTour parent1, Iterator<LivingTour> mateIterator) {
-    return mateIterator.hasNext() && !parent1.isDead();
+    return mateIterator.hasNext() && parent1.isAlive();
   }
 }

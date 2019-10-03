@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 class LivingTour extends Tour {
-  private int lifespan = 4;
+  private int lifespan = 16;
   private int age = 0;
 
   LivingTour(List<City> route) {
@@ -18,6 +18,10 @@ class LivingTour extends Tour {
 
   boolean isDead() {
     return age > lifespan;
+  }
+
+  boolean isAlive() {
+    return age <= lifespan;
   }
 
   void age(){
@@ -30,6 +34,6 @@ class LivingTour extends Tour {
 
   @Override
   public String toString(){
-    return "Living Tour: " + "route: " + this.getRoute() + " | age: " + this.getAge();
+    return "Living Tour: " + "route: " + this.getCycle() + " | age: " + this.getAge();
   }
 }

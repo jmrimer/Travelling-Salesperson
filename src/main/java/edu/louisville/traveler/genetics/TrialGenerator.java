@@ -22,10 +22,16 @@ public interface TrialGenerator {
     childrenBecomeParents(currentChildren, currentParents);
   }
 
-  default void controlPopulation(List<LivingTour> currentParents, List<LivingTour> currentChildren) {
-    this.ageParents(currentParents, currentChildren);
-    this.revitalizeFitChildren(currentChildren);
-    this.killParents(currentParents);
+  default void controlPopulation(
+    List<LivingTour> currentParents,
+    List<LivingTour> currentChildren,
+    int populationCap
+  ) {
+    if (currentParents.size() + currentChildren.size() > populationCap) {
+      this.ageParents(currentParents, currentChildren);
+      this.revitalizeFitChildren(currentChildren);
+      this.killParents(currentParents);
+    }
   }
 
   default LivingTour findRandomMate(List<LivingTour> compatibleParents) {
@@ -47,12 +53,16 @@ public interface TrialGenerator {
   private void revitalizeFitChildren(List<LivingTour> currentChildren) {
     double averageFitness = 0;
     for (LivingTour child : currentChildren) {
-      averageFitness += child.getWeight();
+      if (child != null) {
+        averageFitness += child.getWeight();
+      }
     }
     averageFitness /= currentChildren.size();
     for (LivingTour child : currentChildren) {
-      if (child.getWeight() < averageFitness) {
-        child.revitalize();
+      if (child != null) {
+        if (child.getWeight() < averageFitness) {
+          child.revitalize();
+        }
       }
     }
   }
@@ -60,11 +70,13 @@ public interface TrialGenerator {
   private void ageParents(List<LivingTour> currentParents, List<LivingTour> currentChildren) {
     double averageFitness = 0;
     for (LivingTour child : currentChildren) {
-      averageFitness += child.getWeight();
+      if (child != null) {
+        averageFitness += child.getWeight();
+      }
     }
     averageFitness /= currentChildren.size();
     for (LivingTour parent : currentParents) {
-      parent.age();
+//      parent.age();
       if (parent.getWeight() < averageFitness) {
         parent.age();
       }
@@ -97,5 +109,6 @@ public interface TrialGenerator {
     remainingCities.remove(city);
     return city;
   }
+
 
 }

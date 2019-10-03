@@ -23,8 +23,8 @@ public class ClosestEdgeInserterTest extends BaseInsertionTest {
 
     Tour actualTour = new ClosestEdgeInserter().generateTour(cities);
     assertEquals(
-      expectedTour.route,
-      actualTour.route
+      expectedTour.cycle,
+      actualTour.cycle
     );
     assertEquals(
       expectedTour.weight,
@@ -53,7 +53,7 @@ public class ClosestEdgeInserterTest extends BaseInsertionTest {
     Tour actualTour = new ClosestEdgeInserter().generateTour(cities);
     assertEquals(
       expectedRoute,
-      actualTour.route
+      actualTour.cycle
     );
     assertEquals(
       106.78582763671875,
@@ -103,8 +103,8 @@ public class ClosestEdgeInserterTest extends BaseInsertionTest {
     );
     Tour actualTour = new ClosestEdgeInserter().generateTour(thirtyCities);
     assertEquals(
-      expectedRoute.route,
-      actualTour.route
+      expectedRoute.cycle,
+      actualTour.cycle
     );
     assertEquals(
       expectedRoute.weight,
@@ -164,8 +164,8 @@ public class ClosestEdgeInserterTest extends BaseInsertionTest {
     );
     Tour actualTour = new ClosestEdgeInserter().generateTour(fortyCities);
     assertEquals(
-      expectedTour.route,
-      actualTour.route
+      expectedTour.cycle,
+      actualTour.cycle
     );
     assertEquals(
       expectedTour.weight,

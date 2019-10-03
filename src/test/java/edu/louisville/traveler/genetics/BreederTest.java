@@ -6,8 +6,9 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.lessThan;
+import static org.junit.Assert.*;
 
 public class BreederTest {
 //  @Test
@@ -56,7 +57,7 @@ public class BreederTest {
       child = Breeder.breedCompatibleParents(compatibleParent1, compatibleParent2);
     }
     assertTrue(
-      possibleChildRoutes.contains(child.getRoute())
+      possibleChildRoutes.contains(child.getCycle())
     );
   }
 
@@ -72,5 +73,32 @@ public class BreederTest {
     LivingTour parent1 = new LivingTour(route1);
     LivingTour parent2 = new LivingTour(route2);
     assertEquals(List.of(city1, city4, city2), Breeder.commonSequence(parent1, parent2));
+  }
+
+  @Test
+  public void breedsLivingChild() {
+    City city1 = new City(1, 1, 1);
+    City city2 = new City(2, 1, 2);
+    City city3 = new City(3, 1, 3);
+    City city4 = new City(4, 3, 3);
+    City city5 = new City(5, 3, 2);
+    List<City> longestRoute = List.of(city1, city3, city5, city2, city4, city1); // 11.300563
+    List<City> nextLongestRoute = List.of(city1, city5, city3, city2, city4, city1); // 10.536631
+    LivingTour badParent1 = new LivingTour(longestRoute);
+    LivingTour badParent2 = new LivingTour(nextLongestRoute);
+    LivingTour child = Breeder.breedRandomParents(badParent1, badParent2);
+    if (child != null) {
+      assertEquals(6, child.getCycle().size());
+      assertThat(
+        "child is better than parent",
+        child.getWeight(),
+        lessThan(badParent2.getWeight())
+      );
+      for (City city : List.of(city1,city2,city3,city4,city5)) {
+        assertTrue("child does not contain city: " + city, child.getCycle().contains(city));
+      }
+    } else {
+      assertNull(child);
+    }
   }
 }
