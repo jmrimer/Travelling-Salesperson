@@ -86,7 +86,7 @@ public class BreederTest {
     List<City> nextLongestRoute = List.of(city1, city5, city3, city2, city4, city1); // 10.536631
     LivingTour badParent1 = new LivingTour(longestRoute);
     LivingTour badParent2 = new LivingTour(nextLongestRoute);
-    LivingTour child = Breeder.breedRandomParents(badParent1, badParent2);
+    LivingTour child = Breeder.breedRandomParents(badParent1, badParent2, 2);
     if (child != null) {
       assertEquals(6, child.getCycle().size());
       assertThat(

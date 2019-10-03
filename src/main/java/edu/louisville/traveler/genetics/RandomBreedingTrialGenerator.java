@@ -14,16 +14,26 @@ public class RandomBreedingTrialGenerator implements TrialGenerator {
   private List<LivingTour> currentParents;
   private List<LivingTour> currentChildren;
   private List<LivingTour> deceasedParents;
-  private int populationCap = 10;
+  private List<LivingTour> bornChildren;
+  private int populationCap;
+  private int maxGeneSequenceLength;
 
-  RandomBreedingTrialGenerator(Map map, int newParentsPerGeneration, int totalGenerations, int populationCap) {
+  RandomBreedingTrialGenerator(
+    Map map,
+    int newParentsPerGeneration,
+    int totalGenerations,
+    int populationCap,
+    int maxGeneSequenceLength
+  ) {
     this.map = map;
     this.newParentsPerGeneration = newParentsPerGeneration;
     this.totalGenerations = totalGenerations;
     this.currentParents = new ArrayList<>();
     this.currentChildren = new ArrayList<>();
     this.deceasedParents = new ArrayList<>();
+    this.bornChildren = new ArrayList<>();
     this.populationCap = populationCap;
+    this.maxGeneSequenceLength = maxGeneSequenceLength;
   }
 
   @Override
@@ -36,7 +46,6 @@ public class RandomBreedingTrialGenerator implements TrialGenerator {
         this.newParentsPerGeneration,
         this.map
       );
-      System.out.println(gen);
       breedParents();
       controlPopulation(this.currentParents, this.currentChildren, this.populationCap);
       trial.add(
@@ -44,7 +53,7 @@ public class RandomBreedingTrialGenerator implements TrialGenerator {
           gen,
           new ArrayList<>(this.currentParents),
           new ArrayList<>(this.currentChildren),
-          new ArrayList<>(this.currentChildren),
+          new ArrayList<>(this.bornChildren),
           new ArrayList<>(this.deceasedParents)
         )
       );
@@ -59,25 +68,30 @@ public class RandomBreedingTrialGenerator implements TrialGenerator {
       breedAndKillMates(currentParents.get((int) (Math.random() * currentParents.size())));
       killParents();
     }
-//    Iterator<LivingTour> parentIterator = currentParents.iterator();
-//    while (parentIterator.hasNext()) {
-//      LivingTour parentSeekingMate = parentIterator.next();
-//      breedAndKillMates(parentSeekingMate);
-//    }
-//      while (parentIterator.hasNext()) {
-//      LivingTour parentSeekingMate = parentIterator.next();
-//      breedAndKillMates(parentSeekingMate);
-//    }
   }
 
   private void breedAndKillMates(LivingTour parentSeekingMate) {
     LivingTour randomMate = findRandomMate(parentSeekingMate);
-    LivingTour child = Breeder.breedRandomParents(parentSeekingMate, randomMate);
-    if (child != null) {
+    LivingTour child = Breeder.breedRandomParents(parentSeekingMate, randomMate, this.maxGeneSequenceLength);
+    bornChildren.add(child);
+    if (currentChildren.size() == 0) {
+      this.currentChildren.add(child);
+    } else if (isFit(child)) {
       this.currentChildren.add(child);
     }
     parentSeekingMate.age();
     randomMate.age();
+  }
+
+  private boolean isFit(LivingTour newborn) {
+    double averageFitness = 0;
+    for (LivingTour child : currentChildren) {
+      if (child != null) {
+        averageFitness += child.getWeight();
+      }
+    }
+    averageFitness /= currentChildren.size();
+    return averageFitness == 0 || newborn.getWeight() < averageFitness;
   }
 
   private boolean parentsAvailableForMating() {
@@ -95,10 +109,6 @@ public class RandomBreedingTrialGenerator implements TrialGenerator {
       }
     }
     currentParents.removeAll(Collections.singleton(null));
-  }
-
-  private boolean livingParentHasSuitableMates(LivingTour parentSeekingMate, Iterator<LivingTour> mateIterator) {
-    return mateIterator.hasNext() && parentSeekingMate.isAlive();
   }
 
   private LivingTour findRandomMate(LivingTour parentSeekingMate) {

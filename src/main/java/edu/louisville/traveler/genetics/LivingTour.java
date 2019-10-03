@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 class LivingTour extends Tour {
-  private int lifespan = 16;
+  private int lifespan = 32;
   private int age = 0;
 
   LivingTour(List<City> route) {

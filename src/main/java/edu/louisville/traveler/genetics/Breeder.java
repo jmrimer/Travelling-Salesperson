@@ -10,27 +10,30 @@ import java.util.Iterator;
 import java.util.List;
 
 class Breeder {
-  static LivingTour breedRandomParents(LivingTour parent1, LivingTour parent2) {
+  static LivingTour breedRandomParents(
+    LivingTour parent1,
+    LivingTour parent2,
+    int maxGeneSequenceLength
+  ) {
     Map map = new Map(new ArrayList<>(parent1.getCycle()));
     City[] emptyRoute = new City[map.getCities().size()];
     LivingTour child = new LivingTour(Arrays.asList(emptyRoute));
 
-    firstGene(selectRandomParent(parent1, parent2), child);
+    firstGene(selectRandomParent(parent1, parent2), child, maxGeneSequenceLength);
 
     while (childRouteIsNotComplete(child)) {
       LivingTour selectedParent = selectRandomParent(parent1, parent2);
       LivingTour backupParent = selectedParent.equals(parent1) ? parent2 : parent1;
-      int geneSequenceLength = 16;
+      int geneSequenceLength = maxGeneSequenceLength <= map.getCities().size() ?
+        (int) (Math.random() * maxGeneSequenceLength) :
+        (int) (Math.random() * map.getCities().size()) ;
       addSequenceToChild(map, child, selectedParent, backupParent, geneSequenceLength);
     }
-//    select random parent
-//    select random-length gene sequence from parent, add to child
-
-    return isMoreFit(child, parent1, parent2) ? child : null;
+    return child;
   }
 
-  private static void firstGene(LivingTour parent, LivingTour child) {
-    int geneSequenceLength = 2;
+  private static void firstGene(LivingTour parent, LivingTour child, int maxGeneSequenceLength) {
+    int geneSequenceLength = (int) (Math.random() * maxGeneSequenceLength) + 2;
     for (int i = 0; i < geneSequenceLength; i++) {
       child.getCycle().set(i, parent.getCycle().get(i));
     }
@@ -49,13 +52,6 @@ class Breeder {
   ) {
     int currentSequenceLength = geneSequenceLength;
     LivingTour breedingParent = selectedParent;
-//    start with sequence length
-//    if not available, seqlength--
-//    if available, check if suitable
-//    if not suitable, sequencelength--
-//    if sequencelength == 0, switch parent start over
-//    if neither parent suitable, mutate using remaining cities
-
     boolean bred = false;
     int childFirstOpenGene = child.getCycle().indexOf(null);
     boolean triedBothParents = false;
@@ -155,13 +151,6 @@ class Breeder {
       }
     }
     return indexOfOpening;
-  }
-
-  private static void mutateSequence(LivingTour child, LivingTour parent, int childAvailableStartIndex, int sequenceSize) {
-  }
-
-  private static boolean isOutOfSuitableSpace(LivingTour child, int childFirstOpenGene, int sequenceSize) {
-    return childFirstOpenGene + sequenceSize > child.getCycle().size();
   }
 
   private static LivingTour selectRandomParent(LivingTour parent1, LivingTour parent2) {

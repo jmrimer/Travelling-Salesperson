@@ -29,9 +29,9 @@ public interface TrialGenerator {
   ) {
     if (currentParents.size() + currentChildren.size() > populationCap) {
       this.ageParents(currentParents, currentChildren);
-      this.revitalizeFitChildren(currentChildren);
       this.killParents(currentParents);
     }
+    this.revitalizeFitChildren(currentChildren);
   }
 
   default LivingTour findRandomMate(List<LivingTour> compatibleParents) {
@@ -76,7 +76,7 @@ public interface TrialGenerator {
     }
     averageFitness /= currentChildren.size();
     for (LivingTour parent : currentParents) {
-//      parent.age();
+      parent.age();
       if (parent.getWeight() < averageFitness) {
         parent.age();
       }
