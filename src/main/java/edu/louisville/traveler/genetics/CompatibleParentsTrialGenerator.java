@@ -1,6 +1,5 @@
 package edu.louisville.traveler.genetics;
 
-import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Map;
 import lombok.Data;
 
@@ -30,12 +29,14 @@ public class CompatibleParentsTrialGenerator implements TrialGenerator {
   public Trial runTrial() {
     Trial trial = new Trial();
     for (int gen = 0; gen < totalGenerations; gen++) {
-      createNewParents();
-      childrenBecomeParents();
-      breedAllCompatibleParents();
-      ageParents();
-      revitalizeFitChildren();
-      killParents();
+      setupNewGeneration(
+        this.currentParents,
+        this.currentChildren,
+        this.newParentsPerGeneration,
+        this.map
+      );
+      breedParents();
+      controlPopulation(this.currentParents, this.currentChildren);
       trial.add(
         new Generation(
           gen,
@@ -49,18 +50,8 @@ public class CompatibleParentsTrialGenerator implements TrialGenerator {
     return trial;
   }
 
-  private void createNewParents() {
-    for (int i = 0; i < newParentsPerGeneration; i++) {
-      this.currentParents.add(generateRandomTour());
-    }
-  }
-
-  private void childrenBecomeParents() {
-    currentParents.addAll(currentChildren);
-    currentChildren = new ArrayList<>();
-  }
-
-  private void breedAllCompatibleParents() {
+  @Override
+  public void breedParents() {
     List<LivingTour> remainingParents = new ArrayList<>(currentParents);
     Iterator<LivingTour> parentIterator = remainingParents.iterator();
     while (parentIterator.hasNext()) {
@@ -69,37 +60,6 @@ public class CompatibleParentsTrialGenerator implements TrialGenerator {
       List<LivingTour> compatibleParents = findCompatibleMates(remainingParents, parent1);
       breedAndKillCompatibleMates(parent1, compatibleParents);
     }
-  }
-
-  private void ageParents() {
-    double averageFitness = 0;
-    for (LivingTour child : currentChildren) {
-      averageFitness += child.getWeight();
-    }
-    averageFitness /= currentChildren.size();
-    for (LivingTour parent : currentParents) {
-      parent.age();
-      if (parent.getWeight() < averageFitness) {
-        parent.age();
-      }
-    }
-  }
-
-  private void revitalizeFitChildren() {
-    double averageFitness = 0;
-    for (LivingTour child : currentChildren) {
-      averageFitness += child.getWeight();
-    }
-    averageFitness /= currentChildren.size();
-    for (LivingTour child : currentChildren) {
-      if (child.getWeight() < averageFitness) {
-        child.revitalize();
-      }
-    }
-  }
-
-  private void killParents() {
-    currentParents.removeIf(LivingTour::isDead);
   }
 
   private List<LivingTour> findCompatibleMates(List<LivingTour> remainingParents, LivingTour parent1) {
@@ -129,33 +89,4 @@ public class CompatibleParentsTrialGenerator implements TrialGenerator {
   private boolean livingParentHasSuitableMates(LivingTour parent1, Iterator<LivingTour> mateIterator) {
     return mateIterator.hasNext() && !parent1.isDead();
   }
-
-  private LivingTour findRandomMate(List<LivingTour> compatibleParents) {
-    int randomIndex = (int) (Math.random() * compatibleParents.size());
-    return compatibleParents.get(randomIndex);
-  }
-
-  private LivingTour generateRandomTour() {
-    List<City> remainingCities = new ArrayList<>(map.getCities());
-    List<City> route = new ArrayList<>();
-    City start = addAndRemoveRandomCity(remainingCities, route);
-    addAllRemainingCities(remainingCities, route);
-    route.add(start);
-    return new LivingTour(route);
-  }
-
-  private void addAllRemainingCities(List<City> remainingCities, List<City> route) {
-    Iterator<City> cityIterator = remainingCities.iterator();
-    while (cityIterator.hasNext()) {
-      addAndRemoveRandomCity(remainingCities, route);
-    }
-  }
-
-  private City addAndRemoveRandomCity(List<City> remainingCities, List<City> route) {
-    City city = remainingCities.get((int) (Math.random() * remainingCities.size()));
-    route.add(city);
-    remainingCities.remove(city);
-    return city;
-  }
-
 }
