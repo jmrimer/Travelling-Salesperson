@@ -42,8 +42,8 @@ public class CompatibleParentsTrialGenerator implements TrialGenerator {
           gen,
           new ArrayList<>(this.currentParents),
           new ArrayList<>(this.currentChildren),
-          new ArrayList<>(this.currentChildren),
-          new ArrayList<>(this.deceasedParents)
+          this.currentChildren.size(),
+          this.deceasedParents.size()
         )
       );
     }

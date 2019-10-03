@@ -34,6 +34,6 @@ class LivingTour extends Tour {
 
   @Override
   public String toString(){
-    return "Living Tour: " + "route: " + this.getCycle() + " | age: " + this.getAge();
+    return "Living Tour: " + "cycle: " + this.getCycle() + " | age: " + this.getAge();
   }
 }

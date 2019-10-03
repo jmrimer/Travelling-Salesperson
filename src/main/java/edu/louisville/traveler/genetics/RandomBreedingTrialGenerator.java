@@ -13,8 +13,8 @@ public class RandomBreedingTrialGenerator implements TrialGenerator {
   private final int totalGenerations;
   private List<LivingTour> currentParents;
   private List<LivingTour> currentChildren;
-  private List<LivingTour> deceasedParents;
-  private List<LivingTour> bornChildren;
+  private int deceasedParents;
+  private int bornChildren;
   private int populationCap;
   private int maxGeneSequenceLength;
 
@@ -30,8 +30,8 @@ public class RandomBreedingTrialGenerator implements TrialGenerator {
     this.totalGenerations = totalGenerations;
     this.currentParents = new ArrayList<>();
     this.currentChildren = new ArrayList<>();
-    this.deceasedParents = new ArrayList<>();
-    this.bornChildren = new ArrayList<>();
+    this.deceasedParents = 0;
+    this.bornChildren = 0;
     this.populationCap = populationCap;
     this.maxGeneSequenceLength = maxGeneSequenceLength;
   }
@@ -40,6 +40,9 @@ public class RandomBreedingTrialGenerator implements TrialGenerator {
   public Trial runTrial() {
     Trial trial = new Trial();
     for (int gen = 0; gen < totalGenerations; gen++) {
+      System.out.println(gen);
+      this.bornChildren = 0;
+      this.deceasedParents = 0;
       setupNewGeneration(
         this.currentParents,
         this.currentChildren,
@@ -53,8 +56,8 @@ public class RandomBreedingTrialGenerator implements TrialGenerator {
           gen,
           new ArrayList<>(this.currentParents),
           new ArrayList<>(this.currentChildren),
-          new ArrayList<>(this.bornChildren),
-          new ArrayList<>(this.deceasedParents)
+          this.bornChildren,
+          this.deceasedParents
         )
       );
 
@@ -73,7 +76,7 @@ public class RandomBreedingTrialGenerator implements TrialGenerator {
   private void breedAndKillMates(LivingTour parentSeekingMate) {
     LivingTour randomMate = findRandomMate(parentSeekingMate);
     LivingTour child = Breeder.breedRandomParents(parentSeekingMate, randomMate, this.maxGeneSequenceLength);
-    bornChildren.add(child);
+    bornChildren++;
     if (currentChildren.size() == 0) {
       this.currentChildren.add(child);
     } else if (isFit(child)) {
@@ -104,7 +107,7 @@ public class RandomBreedingTrialGenerator implements TrialGenerator {
     while (parentIterator.hasNext()) {
       LivingTour parent = parentIterator.next();
       if (parent.isDead()) {
-        this.deceasedParents.add(parent);
+        this.deceasedParents++;
         parentIterator.remove();
       }
     }

@@ -24,7 +24,7 @@ describe('GeneticAlgorithmActions', () => {
     fetchMock.restore();
   });
 
-  it('should fetch a weight route with requested coordinates', () => {
+  it('should fetch a weight cycle with requested coordinates', () => {
     fetchMock.post('http://localhost:8080/api/genetic-trial', {
       body: trialJSON,
       headers: {'content-type': 'application/json'},

@@ -66,7 +66,7 @@ export class RouteInfo extends React.Component<Props> {
   private conditionallyRenderInfo() {
     if (this.props.weightedRoute) {
       return <>
-        {this.renderRoute(this.props.weightedRoute.route)}
+        {this.renderRoute(this.props.weightedRoute.cycle)}
         {this.renderWeight(this.props.weightedRoute.weight)}
       </>;
     }

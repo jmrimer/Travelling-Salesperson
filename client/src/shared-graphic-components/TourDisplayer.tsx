@@ -57,7 +57,7 @@ export const TourDisplayer: React.FC<Props> = props => {
     return (
       <VisualGraph
         points={points}
-        tour={weightedRoute ? weightedRoute.route : null}
+        tour={weightedRoute ? weightedRoute.cycle : null}
       />
     );
   }

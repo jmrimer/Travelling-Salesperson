@@ -38,7 +38,7 @@ public class MapControllerTest {
     String weightedRouteJSON = new ObjectMapper().writeValueAsString(tour);
 
     this.mockMvc.perform(MockMvcRequestBuilders
-      .post("/api/weighted-route")
+      .post("/api/weighted-cycle")
       .content(mapJSON)
       .contentType(MediaType.APPLICATION_JSON)
       .accept(MediaType.APPLICATION_JSON))
@@ -65,7 +65,7 @@ public class MapControllerTest {
     String expectedRouteJSON = new ObjectMapper().writeValueAsString(weigh);
 
     this.mockMvc.perform(MockMvcRequestBuilders
-      .post("/api/weighted-route-via-insertion")
+      .post("/api/weighted-cycle-via-insertion")
       .content(mapJSON)
       .contentType(MediaType.APPLICATION_JSON)
       .accept(MediaType.APPLICATION_JSON))

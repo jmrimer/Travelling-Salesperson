@@ -26,14 +26,21 @@ class Breeder {
       LivingTour backupParent = selectedParent.equals(parent1) ? parent2 : parent1;
       int geneSequenceLength = maxGeneSequenceLength <= map.getCities().size() ?
         (int) (Math.random() * maxGeneSequenceLength) :
-        (int) (Math.random() * map.getCities().size()) ;
+        (int) (Math.random() * map.getCities().size());
       addSequenceToChild(map, child, selectedParent, backupParent, geneSequenceLength);
     }
     return child;
   }
 
   private static void firstGene(LivingTour parent, LivingTour child, int maxGeneSequenceLength) {
-    int geneSequenceLength = (int) (Math.random() * maxGeneSequenceLength) + 2;
+    int geneSequenceLength = maxGeneSequenceLength <= parent.getCycle().size() ?
+      (int) (Math.random() * maxGeneSequenceLength):
+      (int) (Math.random() * parent.getCycle().size());
+
+    if (geneSequenceLength < 2) {
+      geneSequenceLength = 2;
+    }
+
     for (int i = 0; i < geneSequenceLength; i++) {
       child.getCycle().set(i, parent.getCycle().get(i));
     }

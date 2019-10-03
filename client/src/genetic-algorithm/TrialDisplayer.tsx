@@ -65,12 +65,12 @@ export const TrialDisplayer: React.FC<Props> = props => {
           <MultiPathVisualGraph
             className={'parents'}
             points={points}
-            routes={trial.generations[currentGeneration] ? trial.generations[currentGeneration].parents : null}
+            tours={trial.generations[currentGeneration] ? trial.generations[currentGeneration].parents : null}
           />
           <MultiPathVisualGraph
             className={'children'}
             points={points}
-            routes={filterBestChildRoutes()}
+            tours={filterBestChildRoutes()}
           />
         </div>
         <button className={'next-generation'} onClick={() => props.nextGeneration()}>Next Gen</button>

@@ -11,7 +11,7 @@ class Generation {
   private int generation;
   private List<LivingTour> parentsAliveAtEndOfGeneration;
   private List<LivingTour> childrenAliveAtEndOfGeneration;
-  private List<LivingTour> childrenBornThisGeneration;
-  private List<LivingTour> parentsDiedThisGeneration;
+  private int childrenBornThisGeneration;
+  private int parentsDiedThisGeneration;
 
 }

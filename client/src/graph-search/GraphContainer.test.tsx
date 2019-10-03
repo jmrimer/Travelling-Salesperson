@@ -31,8 +31,8 @@ describe('GraphContainer', () => {
     expect(subject.find('button').exists()).toBeTruthy();
   });
 
-  it('should display the shortest route', () => {
-    expect(subject.find('.route').exists()).toBeFalsy();
+  it('should display the shortest cycle', () => {
+    expect(subject.find('.cycle').exists()).toBeFalsy();
     subject = shallow(
       <GraphContainer
         postBFS={postBFS}

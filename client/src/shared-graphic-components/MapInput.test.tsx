@@ -40,7 +40,7 @@ describe('MapInput', () => {
     expect(mapInput.find('textarea').prop('value')).toBe('city1 2 3');
   });
 
-  it('should provide a button to trigger a route calculation from the map input', () => {
+  it('should provide a button to trigger a cycle calculation from the map input', () => {
     let newRouteButton = mapInput.find('button');
     expect(newRouteButton.exists()).toBeTruthy();
 
