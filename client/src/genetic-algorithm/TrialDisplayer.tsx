@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { StyledMapInput } from '../shared-graphic-components/MapInput';
 import { TrialModel } from './TrialModel';
 import MultiPathVisualGraph from './MultiPathVisualGraph';
+import StyledScatterChart from './StyledScatterChart';
 
 interface Props {
   trial: TrialModel;
@@ -14,6 +15,7 @@ interface Props {
   mapText: string;
   points: any[];
   nextGeneration: () => void;
+  previousGeneration: () => void;
   className?: string;
 }
 
@@ -62,11 +64,11 @@ export const TrialDisplayer: React.FC<Props> = props => {
             <div/>
         }
         <div className={'graph-box'}>
-          <MultiPathVisualGraph
-            className={'parents'}
-            points={points}
-            tours={trial.generations[currentGeneration] ? trial.generations[currentGeneration].parents : null}
-          />
+          {/*<MultiPathVisualGraph*/}
+          {/*  className={'parents'}*/}
+          {/*  points={points}*/}
+          {/*  tours={trial.generations[currentGeneration] ? trial.generations[currentGeneration].parents : null}*/}
+          {/*/>*/}
           <MultiPathVisualGraph
             className={'children'}
             points={points}
@@ -74,6 +76,10 @@ export const TrialDisplayer: React.FC<Props> = props => {
           />
         </div>
         <button className={'next-generation'} onClick={() => props.nextGeneration()}>Next Gen</button>
+        <button className={'next-generation'} onClick={() => props.nextGeneration()}>Next Gen</button>
+        {/*<StyledScatterChart*/}
+        {/*  trial={props.trial}*/}
+        {/*/>*/}
       </div>
     )
   }

@@ -31,6 +31,13 @@ function incrementGeneration(current: number, max: number) {
   return current === max ? 0 : current;
 }
 
+function decrementGeneration(current: number, max: number) {
+  current--;
+  console.log(current);
+  console.log(max);
+  return current === -1 ? max - 1 : current;
+}
+
 const reducer = (state = initState, action: any) => {
   switch (action.type) {
     case ActionTypes.FETCH_WEIGHTED_ROUTE_REQUEST:
@@ -66,7 +73,8 @@ const reducer = (state = initState, action: any) => {
       return {...state, trial: serializeJSONToTrial(action.body), loading: false};
     case ActionTypes.NEXT_GENERATION:
       return {...state, currentGeneration: incrementGeneration(state.currentGeneration, state.trial.generations.length)};
-
+    case ActionTypes.PREVIOUS_GENERATION:
+      return {...state, currentGeneration: decrementGeneration(state.currentGeneration, state.trial.generations.length)};
     default:
       return state;
   }
