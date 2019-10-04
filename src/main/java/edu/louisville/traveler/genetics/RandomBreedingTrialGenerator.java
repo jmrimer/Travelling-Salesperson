@@ -17,14 +17,17 @@ public class RandomBreedingTrialGenerator implements TrialGenerator {
   private int bornChildren;
   private int populationCap;
   private int maxGeneSequenceLength;
+  private Breeder breeder;
 
   RandomBreedingTrialGenerator(
+    RandomParentsBreeder breeder,
     Map map,
     int newParentsPerGeneration,
     int totalGenerations,
     int populationCap,
     int maxGeneSequenceLength
   ) {
+    this.breeder = breeder;
     this.map = map;
     this.newParentsPerGeneration = newParentsPerGeneration;
     this.totalGenerations = totalGenerations;
@@ -75,7 +78,7 @@ public class RandomBreedingTrialGenerator implements TrialGenerator {
 
   private void breedAndKillMates(LivingTour parentSeekingMate) {
     LivingTour randomMate = findRandomMate(parentSeekingMate);
-    LivingTour child = Breeder.breedRandomParents(parentSeekingMate, randomMate, this.maxGeneSequenceLength);
+    LivingTour child = breeder.breedParents(parentSeekingMate, randomMate, this.maxGeneSequenceLength);
     bornChildren++;
     if (currentChildren.size() == 0) {
       this.currentChildren.add(child);
