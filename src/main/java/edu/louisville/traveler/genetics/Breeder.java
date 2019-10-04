@@ -1,11 +1,17 @@
 package edu.louisville.traveler.genetics;
 
+import edu.louisville.traveler.maps.Map;
+
+import java.util.List;
+
 public interface Breeder {
   LivingTour breedParents(LivingTour parent1, LivingTour parent2, int maxGeneSequenceLength);
 
+  Generation breedGeneration(Map map, List<LivingTour> currentParents, int gen);
+
   static void firstGene(LivingTour parent, LivingTour child, int maxGeneSequenceLength) {
     int geneSequenceLength = maxGeneSequenceLength <= parent.getCycle().size() ?
-      (int) (Math.random() * maxGeneSequenceLength) :
+      (int) (Math.random() * maxGeneSequenceLength):
       (int) (Math.random() * parent.getCycle().size());
 
     if (geneSequenceLength < 2) {

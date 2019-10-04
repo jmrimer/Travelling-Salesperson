@@ -24,13 +24,12 @@ public class RandomBreedingTrialGeneratorTest extends BaseGeneticsTest {
     int populationCap = 256;
     int maxGeneSequenceLength = 16;
 
-    TrialGenerator trialGenerator = new RandomBreedingTrialGenerator(
-      new RandomParentsBreeder(),
+    TrialGenerator trialGenerator = new AllTrials(
+      new RandomParentsBreeder(maxGeneSequenceLength),
       map,
       parentsPerGeneration,
       totalGenerations,
-      populationCap,
-      maxGeneSequenceLength
+      populationCap
     );
 
     Trial trial = trialGenerator.runTrial();
@@ -52,41 +51,41 @@ public class RandomBreedingTrialGeneratorTest extends BaseGeneticsTest {
     bestChildren.sort(Comparator.comparingDouble(Tour::getWeight));
     System.out.println(bestChildren.get(0).getWeight());
   }
-//
-//  @Test
-//  public void returnsTrialThatDoesNotConsiderCompatibility() {
-//    Map map = map100;
-//    int parentsPerGeneration = 64;
-//    int totalGenerations = 64;
-//    int populationCap = 256;
-//    int maxGeneSequenceLength = 16;
-//
-//    TrialGenerator trialGenerator = new RandomBreedingTrialGenerator(
-//      map,
-//      parentsPerGeneration,
-//      totalGenerations,
-//      populationCap,
-//      maxGeneSequenceLength
-//    );
-//
-//    Trial trial = trialGenerator.runTrial();
-//    List<LivingTour> bestChildren = new ArrayList<>();
-//    for (int i = 0; i < trial.getGenerations().size(); i++) {
-//      System.out.println("living parents:" + trial.getGenerations().get(i).getParentsAliveAtEndOfGeneration().size());
-//      System.out.println("dead parents:" + trial.getGenerations().get(i).getParentsDiedThisGeneration());
-//      trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().sort(Comparator.comparingDouble(Tour::getWeight));
-//      try {
-//        System.out.println(("births: " + trial.getGenerations().get(i).getChildrenBornThisGeneration()));
-//        System.out.println(("living children: " + trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().size()));
-//        bestChildren.add(trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().get(0));
-//        System.out.println("Best child: " + trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().get(0).getWeight());
-//      } catch (IndexOutOfBoundsException e) {
-//
-//      }
-//      System.out.println(trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().size());
-//    }
-//    bestChildren.sort(Comparator.comparingDouble(Tour::getWeight));
-//    System.out.println(bestChildren.get(0).getWeight());
-//  }
+
+  @Test
+  public void returnsTrialThatDoesNotConsiderCompatibility() {
+    Map map = map100;
+    int parentsPerGeneration = 0;
+    int totalGenerations = (int) (Math.pow(2, 6));
+    int populationCap = 256;
+    int maxGeneSequenceLength = 16;
+
+    TrialGenerator trialGenerator = new AllTrials(
+      new RandomParentsBreeder(maxGeneSequenceLength),
+      map,
+      parentsPerGeneration,
+      totalGenerations,
+      populationCap
+    );
+
+    Trial trial = trialGenerator.runTrial();
+    List<LivingTour> bestChildren = new ArrayList<>();
+    for (int i = 0; i < trial.getGenerations().size(); i++) {
+      System.out.println("living parents:" + trial.getGenerations().get(i).getParentsAliveAtEndOfGeneration().size());
+      System.out.println("dead parents:" + trial.getGenerations().get(i).getParentsDiedThisGeneration());
+      trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().sort(Comparator.comparingDouble(Tour::getWeight));
+      try {
+        System.out.println(("births: " + trial.getGenerations().get(i).getChildrenBornThisGeneration()));
+        System.out.println(("living children: " + trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().size()));
+        bestChildren.add(trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().get(0));
+        System.out.println("Best child: " + trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().get(0).getWeight());
+      } catch (IndexOutOfBoundsException e) {
+
+      }
+      System.out.println(trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().size());
+    }
+    bestChildren.sort(Comparator.comparingDouble(Tour::getWeight));
+    System.out.println(bestChildren.get(0).getWeight());
+  }
 
 }

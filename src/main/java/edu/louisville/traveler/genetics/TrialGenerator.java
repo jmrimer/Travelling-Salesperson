@@ -27,11 +27,35 @@ public interface TrialGenerator {
     List<LivingTour> currentChildren,
     int populationCap
   ) {
-    if (currentParents.size() + currentChildren.size() > populationCap) {
-      this.ageParents(currentParents, currentChildren);
-      this.killParents(currentParents);
+    Iterator<LivingTour> parentIterator = currentParents.iterator();
+    while (currentParents.size() + currentChildren.size() > populationCap) {
+      LivingTour parent = parentIterator.next();
+      if (isUnfit(parent, currentParents, currentChildren)) {
+        parentIterator.remove();
+      }
     }
-    this.revitalizeFitChildren(currentChildren);
+
+//    if (currentParents.size() + currentChildren.size() > populationCap) {
+//      this.ageParents(currentParents, currentChildren);
+//      this.killParents(currentParents);
+//    }
+//    this.revitalizeFitChildren(currentChildren);
+  }
+
+  private boolean isUnfit(LivingTour parent, List<LivingTour> currentParents, List<LivingTour> currentChildren) {
+    double averageFitness = 0;
+    for (LivingTour child : currentChildren) {
+      if (child != null) {
+        averageFitness += child.getWeight();
+      }
+    }
+    for (LivingTour par : currentParents) {
+      if (par != null) {
+        averageFitness += par.getWeight();
+      }
+    }
+    averageFitness /= (currentChildren.size() + currentParents.size());
+    return parent.getWeight() > averageFitness;
   }
 
   default LivingTour findRandomMate(List<LivingTour> compatibleParents) {

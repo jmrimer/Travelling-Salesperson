@@ -12,18 +12,14 @@ public class AllTrials implements TrialGenerator {
   private final int totalGenerations;
   private List<LivingTour> currentParents;
   private List<LivingTour> currentChildren;
-  private int deceasedParents;
-  private int bornChildren;
   private int populationCap;
-  private int maxGeneSequenceLength;
 
-  public AllTrials(
+  AllTrials(
     Breeder breeder,
     Map map,
     int newParentsPerGeneration,
     int totalGenerations,
-    int populationCap,
-    int maxGeneSequenceLength
+    int populationCap
   ) {
     this.breeder = breeder;
     this.map = map;
@@ -31,47 +27,36 @@ public class AllTrials implements TrialGenerator {
     this.totalGenerations = totalGenerations;
     this.currentParents = new ArrayList<>();
     this.currentChildren = new ArrayList<>();
-    this.deceasedParents = 0;
-    this.bornChildren = 0;
     this.populationCap = populationCap;
-    this.maxGeneSequenceLength = maxGeneSequenceLength;
   }
 
   @Override
   public Trial runTrial() {
     Trial trial = new Trial();
+    setupNewGeneration(currentParents, currentChildren, 512, map);
     for (int gen = 0; gen < totalGenerations; gen++) {
-      resetCounters();
       newGeneration();
-      breed();
-      controlPopulation();
-      addTrial(trial, gen);
+      Generation generation = breed(gen);
+      controlPopulation(generation);
+      trial.add(generation);
     }
     return trial;
   }
 
-  private void addTrial(Trial trial, int gen) {
-    trial.add(
-      new Generation(
-        gen,
-        new ArrayList<>(this.currentParents),
-        new ArrayList<>(this.currentChildren),
-        this.bornChildren,
-        this.deceasedParents
-      )
-    );
-  }
-
-  private void controlPopulation() {
+  private void controlPopulation(Generation generation) {
     controlPopulation(
-      this.currentParents,
-      this.currentChildren,
+      generation.getParentsAliveAtEndOfGeneration(),
+      generation.getChildrenAliveAtEndOfGeneration(),
       this.populationCap
     );
   }
 
-  private void breed() {
-//    breeder.breedParents();
+  private Generation breed(int gen) {
+    return breeder.breedGeneration(
+      this.map,
+      this.currentParents,
+      gen
+    );
   }
 
   private void newGeneration() {
@@ -81,11 +66,6 @@ public class AllTrials implements TrialGenerator {
       this.newParentsPerGeneration,
       this.map
     );
-  }
-
-  private void resetCounters() {
-    this.bornChildren = 0;
-    this.deceasedParents = 0;
   }
 
   @Override

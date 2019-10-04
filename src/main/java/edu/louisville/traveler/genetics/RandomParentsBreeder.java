@@ -3,10 +3,18 @@ package edu.louisville.traveler.genetics;
 import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Map;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class RandomParentsBreeder implements Breeder {
+  private List<LivingTour> currentChildren;
+  private int maxGeneSequenceLength;
+  private int bornChildren;
+  private int deceasedParents;
+
+
+  RandomParentsBreeder(int maxGeneSequenceLength) {
+    this.maxGeneSequenceLength = maxGeneSequenceLength;
+  }
 
   @Override
   public LivingTour breedParents(LivingTour parent1, LivingTour parent2, int maxGeneSequenceLength) {
@@ -29,6 +37,24 @@ public class RandomParentsBreeder implements Breeder {
       addSequenceToChild(map, child, selectedParent, backupParent, geneSequenceLength);
     }
     return child;
+  }
+
+  @Override
+  public Generation breedGeneration(Map map, List<LivingTour> currentParents, int gen) {
+    currentChildren = new ArrayList<>();
+    bornChildren = 0;
+    deceasedParents = 0;
+    while (parentsAvailableForMating(currentParents)) {
+      breedAndKillMates(currentParents);
+      killParents(currentParents);
+    }
+    return new Generation(
+      gen,
+      currentParents,
+      currentChildren,
+      bornChildren,
+      deceasedParents
+    );
   }
 
   private static void addSequenceToChild(
@@ -140,4 +166,53 @@ public class RandomParentsBreeder implements Breeder {
     }
   }
 
+  private boolean parentsAvailableForMating(List<LivingTour> currentParents) {
+    currentParents.removeAll(Collections.singleton(null));
+    return currentParents.size() > 2;
+  }
+
+  private void breedAndKillMates(List<LivingTour> currentParents) {
+    LivingTour parentSeekingMate = currentParents.get((int) (Math.random() * currentParents.size()));
+    LivingTour randomMate = findRandomMate(parentSeekingMate, currentParents);
+    LivingTour child = breedParents(parentSeekingMate, randomMate, this.maxGeneSequenceLength);
+    bornChildren++;
+    if (currentChildren.size() == 0) {
+      this.currentChildren.add(child);
+    } else if (isFit(child)) {
+      this.currentChildren.add(child);
+    }
+    parentSeekingMate.age();
+    randomMate.age();
+  }
+
+  private LivingTour findRandomMate(LivingTour parentSeekingMate, List<LivingTour> currentParents) {
+    int randomIndex = (int) (Math.random() * currentParents.size());
+    while (randomIndex == currentParents.indexOf(parentSeekingMate)) {
+      randomIndex = (int) (Math.random() * currentParents.size());
+    }
+    return currentParents.get(randomIndex);
+  }
+
+  private void killParents(List<LivingTour> currentParents) {
+    Iterator<LivingTour> parentIterator = currentParents.iterator();
+    while (parentIterator.hasNext()) {
+      LivingTour parent = parentIterator.next();
+      if (parent.isDead()) {
+        this.deceasedParents++;
+        parentIterator.remove();
+      }
+    }
+    currentParents.removeAll(Collections.singleton(null));
+  }
+
+  private boolean isFit(LivingTour newborn) {
+    double averageFitness = 0;
+    for (LivingTour child : currentChildren) {
+      if (child != null) {
+        averageFitness += child.getWeight();
+      }
+    }
+    averageFitness /= currentChildren.size();
+    return averageFitness == 0 || newborn.getWeight() < averageFitness;
+  }
 }

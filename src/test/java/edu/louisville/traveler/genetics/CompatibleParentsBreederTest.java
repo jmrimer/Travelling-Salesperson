@@ -10,7 +10,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.*;
 
-public class BreederBeforeRefactorTest {
+public class CompatibleParentsBreederTest {
 //  @Test
 //  public void breedsTwoParentsThatAreCompatible() {
 //    City city1 = new City(1, 1, 1);
@@ -52,9 +52,9 @@ public class BreederBeforeRefactorTest {
     LivingTour compatibleParent2 = new LivingTour(route2);
 
 
-    Tour child = BreederBeforeRefactor.breedParents(compatibleParent1, compatibleParent2);
+    Tour child = new CompatibleParentsBreeder().breedParents(compatibleParent1, compatibleParent2);
     while (child == null) {
-      child = BreederBeforeRefactor.breedParents(compatibleParent1, compatibleParent2);
+      child = new CompatibleParentsBreeder().breedParents(compatibleParent1, compatibleParent2);
     }
     assertTrue(
       possibleChildRoutes.contains(child.getCycle())
@@ -72,7 +72,7 @@ public class BreederBeforeRefactorTest {
     List<City> route2 = List.of(city1, city4, city2, city3, city5, city1);
     LivingTour parent1 = new LivingTour(route1);
     LivingTour parent2 = new LivingTour(route2);
-    assertEquals(List.of(city1, city4, city2), BreederBeforeRefactor.commonSequence(parent1, parent2));
+    assertEquals(List.of(city1, city4, city2), new CompatibleParentsBreeder().commonSequence(parent1, parent2));
   }
 
   @Test
@@ -86,7 +86,7 @@ public class BreederBeforeRefactorTest {
     List<City> nextLongestRoute = List.of(city1, city5, city3, city2, city4, city1); // 10.536631
     LivingTour badParent1 = new LivingTour(longestRoute);
     LivingTour badParent2 = new LivingTour(nextLongestRoute);
-    LivingTour child = new RandomParentsBreeder().breedParents(badParent1, badParent2, 2);
+    LivingTour child = new CompatibleParentsBreeder().breedParents(badParent1, badParent2, 2);
     if (child != null) {
       assertEquals(6, child.getCycle().size());
       assertThat(

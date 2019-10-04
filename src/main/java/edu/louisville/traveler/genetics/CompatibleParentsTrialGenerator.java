@@ -65,7 +65,7 @@ public class CompatibleParentsTrialGenerator implements TrialGenerator {
   private List<LivingTour> findCompatibleMates(List<LivingTour> remainingParents, LivingTour parent1) {
     List<LivingTour> compatibleMates = new ArrayList<>();
     for (LivingTour parent2 : remainingParents) {
-      if (BreederBeforeRefactor.compatible(parent1, parent2)) {
+      if (CompatibleParentsBreeder.compatible(parent1, parent2)) {
         compatibleMates.add(parent2);
       }
     }
@@ -76,7 +76,7 @@ public class CompatibleParentsTrialGenerator implements TrialGenerator {
     Iterator<LivingTour> mateIterator = compatibleParents.iterator();
     while (livingParentHasSuitableMates(parent1, mateIterator)) {
       LivingTour randomMate = findRandomMate(compatibleParents);
-      LivingTour child = BreederBeforeRefactor.breedParents(parent1, randomMate);
+      LivingTour child = new CompatibleParentsBreeder().breedParents(parent1, randomMate);
       if (child != null) {
         this.currentChildren.add(child);
         parent1.age();
