@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class GeneticTrialService {
   Trial trialFromMap(Map map) {
-    TrialGenerator geneticTrialGenerator = new AllTrials(
-      new RandomParentsBreeder(16),
+    TrialGenerator geneticTrialGenerator = new TrialGenerator(
+      new RandomParentsBreeder(16, 0),
       map,
       32,
       64,

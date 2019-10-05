@@ -24,8 +24,8 @@ public class RandomBreedingTrialGeneratorTest extends BaseGeneticsTest {
     int populationCap = 256;
     int maxGeneSequenceLength = 16;
 
-    TrialGenerator trialGenerator = new AllTrials(
-      new RandomParentsBreeder(maxGeneSequenceLength),
+    TrialGenerator trialGenerator = new TrialGenerator(
+      new RandomParentsBreeder(maxGeneSequenceLength, 0),
       map,
       parentsPerGeneration,
       totalGenerations,
@@ -55,15 +55,16 @@ public class RandomBreedingTrialGeneratorTest extends BaseGeneticsTest {
   @Test
   public void returnsTrialThatDoesNotConsiderCompatibility() {
     Map map = map100;
-    int parentsPerGeneration = 0;
-    int totalGenerations = (int) (Math.pow(2, 6));
-    int populationCap = 256;
+    int startingParentsCount = 128;
+    int totalGenerations = (int) (Math.pow(2, 12));
+    int populationCap = 128;
     int maxGeneSequenceLength = 16;
+    double mutationChance = 10;
 
-    TrialGenerator trialGenerator = new AllTrials(
-      new RandomParentsBreeder(maxGeneSequenceLength),
+    TrialGenerator trialGenerator = new TrialGenerator(
+      new RandomParentsBreeder(maxGeneSequenceLength, mutationChance),
       map,
-      parentsPerGeneration,
+      startingParentsCount,
       totalGenerations,
       populationCap
     );
@@ -71,6 +72,7 @@ public class RandomBreedingTrialGeneratorTest extends BaseGeneticsTest {
     Trial trial = trialGenerator.runTrial();
     List<LivingTour> bestChildren = new ArrayList<>();
     for (int i = 0; i < trial.getGenerations().size(); i++) {
+      System.out.println(("gen: " + i));
       System.out.println("living parents:" + trial.getGenerations().get(i).getParentsAliveAtEndOfGeneration().size());
       System.out.println("dead parents:" + trial.getGenerations().get(i).getParentsDiedThisGeneration());
       trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().sort(Comparator.comparingDouble(Tour::getWeight));

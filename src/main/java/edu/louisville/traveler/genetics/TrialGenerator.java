@@ -4,111 +4,74 @@ import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Map;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-public interface TrialGenerator {
-  Trial runTrial();
+public class TrialGenerator {
+  private Breeder breeder;
+  private final Map map;
+  private final int startingParentCount;
+  private final int totalGenerations;
+  private int populationCap;
+  private List<LivingTour> currentParents = new ArrayList<>();
+  private final List<LivingTour> population= new ArrayList<>();
 
-  void breedParents();
-
-  default void setupNewGeneration(
-    List<LivingTour> currentParents,
-    List<LivingTour> currentChildren,
-    int newParentsPerGeneration,
-    Map map
-  ) {
-    createNewParents(currentParents, newParentsPerGeneration, map);
-    childrenBecomeParents(currentChildren, currentParents);
-  }
-
-  default void controlPopulation(
-    List<LivingTour> currentParents,
-    List<LivingTour> currentChildren,
+  TrialGenerator(
+    Breeder breeder,
+    Map map,
+    int startingParentCount,
+    int totalGenerations,
     int populationCap
   ) {
-    Iterator<LivingTour> parentIterator = currentParents.iterator();
-    while (currentParents.size() + currentChildren.size() > populationCap) {
-      LivingTour parent = parentIterator.next();
-      if (isUnfit(parent, currentParents, currentChildren)) {
-        parentIterator.remove();
-      }
+    this.breeder = breeder;
+    this.map = map;
+    this.startingParentCount = startingParentCount;
+    this.totalGenerations = totalGenerations;
+    this.populationCap = populationCap;
+  }
+
+  public Trial runTrial() {
+    Trial trial = new Trial();
+    setupFirstGeneration();
+    for (int gen = 0; gen < totalGenerations; gen++) {
+      newGeneration();
+      Generation generation = breed(gen);
+      controlPopulation(generation);
+      trial.add(generation);
     }
-
-//    if (currentParents.size() + currentChildren.size() > populationCap) {
-//      this.ageParents(currentParents, currentChildren);
-//      this.killParents(currentParents);
-//    }
-//    this.revitalizeFitChildren(currentChildren);
+    return trial;
   }
 
-  private boolean isUnfit(LivingTour parent, List<LivingTour> currentParents, List<LivingTour> currentChildren) {
-    double averageFitness = 0;
-    for (LivingTour child : currentChildren) {
-      if (child != null) {
-        averageFitness += child.getWeight();
-      }
-    }
-    for (LivingTour par : currentParents) {
-      if (par != null) {
-        averageFitness += par.getWeight();
-      }
-    }
-    averageFitness /= (currentChildren.size() + currentParents.size());
-    return parent.getWeight() > averageFitness;
-  }
-
-  default LivingTour findRandomMate(List<LivingTour> compatibleParents) {
-    int randomIndex = (int) (Math.random() * compatibleParents.size());
-    return compatibleParents.get(randomIndex);
-  }
-
-  private void childrenBecomeParents(List<LivingTour> currentChildren, List<LivingTour> currentParents) {
-    currentParents.addAll(currentChildren);
-    currentChildren.clear();
-  }
-
-  private void createNewParents(List<LivingTour> currentParents, int newParentsPerGeneration, Map map) {
-    for (int i = 0; i < newParentsPerGeneration; i++) {
-      currentParents.add(generateRandomTour(map));
+  private void controlPopulation(Generation generation) {
+    this.population.addAll(generation.getChildrenAliveAtEndOfGeneration());
+    this.population.addAll(generation.getParentsAliveAtEndOfGeneration());
+    if (this.population.size() > populationCap) {
+      this.population.sort(Comparator.comparingDouble(LivingTour::getWeight));
+      this.population.subList(populationCap - 1, this.population.size() - 1).clear();
     }
   }
 
-  private void revitalizeFitChildren(List<LivingTour> currentChildren) {
-    double averageFitness = 0;
-    for (LivingTour child : currentChildren) {
-      if (child != null) {
-        averageFitness += child.getWeight();
-      }
-    }
-    averageFitness /= currentChildren.size();
-    for (LivingTour child : currentChildren) {
-      if (child != null) {
-        if (child.getWeight() < averageFitness) {
-          child.revitalize();
-        }
-      }
-    }
+  private Generation breed(int gen) {
+    return breeder.breedGeneration(
+      this.map,
+      this.currentParents,
+      gen
+    );
   }
 
-  private void ageParents(List<LivingTour> currentParents, List<LivingTour> currentChildren) {
-    double averageFitness = 0;
-    for (LivingTour child : currentChildren) {
-      if (child != null) {
-        averageFitness += child.getWeight();
-      }
+  private void newGeneration() {
+    this.currentParents.clear();
+    this.currentParents.addAll(this.population);
+    for (LivingTour parent : this.currentParents) {
+      parent.setBred(false);
     }
-    averageFitness /= currentChildren.size();
-    for (LivingTour parent : currentParents) {
-      parent.age();
-      if (parent.getWeight() < averageFitness) {
-        parent.age();
-      }
-    }
-  }
+    this.population.clear();  }
 
-  private void killParents(List<LivingTour> currentParents) {
-    currentParents.removeIf(LivingTour::isDead);
+  private void setupFirstGeneration() {
+    for (int i = 0; i < this.startingParentCount; i++) {
+      this.population.add(generateRandomTour(this.map));
+    }
   }
 
   private LivingTour generateRandomTour(Map map) {
@@ -133,6 +96,4 @@ public interface TrialGenerator {
     remainingCities.remove(city);
     return city;
   }
-
-
 }

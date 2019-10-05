@@ -8,7 +8,13 @@ import java.util.Comparator;
 public class CompatibleParentsTrialGeneratorTest extends BaseGeneticsTest {
   @Test
   public void returnsTrialThatTracksEachGeneration() {
-    TrialGenerator trialGenerator = new CompatibleParentsTrialGenerator(map100, 4, 30);
+    TrialGenerator trialGenerator = new TrialGenerator(
+      new CompatibleParentsBreeder(),
+      map100,
+      4,
+      30,
+      64
+    );
     Trial trial = trialGenerator.runTrial();
     for (int i = 0; i < trial.getGenerations().size(); i++) {
       System.out.println(trial.getGenerations().get(i).getParentsAliveAtEndOfGeneration().size());
