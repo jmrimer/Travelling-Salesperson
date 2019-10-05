@@ -8,13 +8,14 @@ import java.util.*;
 public class RandomParentsBreeder implements Breeder {
   private List<LivingTour> unbredParents = new ArrayList<>();
   private List<LivingTour> currentChildren;
-  
+  private double mutationChance = 0.0;
   private int maxGeneSequenceLength;
   private int bornChildren;
 
 
   RandomParentsBreeder(int maxGeneSequenceLength, double mutationChance) {
     this.maxGeneSequenceLength = maxGeneSequenceLength;
+    this.mutationChance = mutationChance;
   }
 
   @Override
@@ -26,16 +27,25 @@ public class RandomParentsBreeder implements Breeder {
     Breeder.firstGene(
       Breeder.selectRandomParent(parent1, parent2),
       child,
-      maxGeneSequenceLength
+      map,
+      maxGeneSequenceLength,
+      0
     );
 
     while (Breeder.childRouteIsNotComplete(child)) {
-      LivingTour selectedParent = Breeder.selectRandomParent(parent1, parent2);
-      LivingTour backupParent = selectedParent.equals(parent1) ? parent2 : parent1;
       int geneSequenceLength = maxGeneSequenceLength <= map.getCities().size() ?
         (int) (Math.random() * maxGeneSequenceLength) :
         (int) (Math.random() * map.getCities().size());
-      addSequenceToChild(map, child, selectedParent, backupParent, geneSequenceLength);
+
+      if (Breeder.shouldInheritGenes(this.mutationChance)) {
+        LivingTour selectedParent = Breeder.selectRandomParent(parent1, parent2);
+        LivingTour backupParent = selectedParent.equals(parent1) ? parent2 : parent1;
+        addSequenceToChild(map, child, selectedParent, backupParent, geneSequenceLength);
+      } else {
+        for (int i = 0; i < geneSequenceLength; i++) {
+          Breeder.mutateSingleGene(map, child);
+        }
+      }
     }
     return child;
   }
@@ -50,8 +60,8 @@ public class RandomParentsBreeder implements Breeder {
 
     while (parentsAvailableForMating(currentParents)) {
       breedMates();
-      killParents(currentParents);
     }
+
     return new Generation(
       gen,
       currentParents,
@@ -75,7 +85,7 @@ public class RandomParentsBreeder implements Breeder {
 
     while (!bred) {
       if (triedBothParents && currentSequenceLength == 0) {
-        mutateSingleGene(
+        Breeder.mutateSingleGene(
           map,
           child
         );
@@ -112,15 +122,6 @@ public class RandomParentsBreeder implements Breeder {
         currentSequenceLength--;
       }
     }
-  }
-
-  private static void mutateSingleGene(Map map, LivingTour child) {
-    int mutantIndex = (int) (Math.random() * map.getCities().size());
-    City mutantGene = map.getCities().get(mutantIndex);
-    while (child.getCycle().contains(mutantGene)) {
-      mutantGene = map.getCities().get((int) (Math.random() * map.getCities().size()));
-    }
-    child.getCycle().set(child.getCycle().indexOf(null), mutantGene);
   }
 
   private static int indexOfAvailableOpening(LivingTour child, int currentSequenceLength, int childFirstOpenGene) {
@@ -172,13 +173,13 @@ public class RandomParentsBreeder implements Breeder {
 
   private boolean parentsAvailableForMating(List<LivingTour> currentParents) {
     currentParents.removeAll(Collections.singleton(null));
-    int availabeParentCount = 0;
+    int availableParentCount = 0;
     for (LivingTour parent : currentParents) {
       if (!parent.didBreed()) {
-        availabeParentCount++;
+        availableParentCount++;
       }
     }
-    return availabeParentCount > 2;
+    return availableParentCount > 2;
   }
 
   private void breedMates() {
@@ -186,15 +187,16 @@ public class RandomParentsBreeder implements Breeder {
     LivingTour randomMate = findRandomMate(parentSeekingMate);
     LivingTour child = breedParents(parentSeekingMate, randomMate, this.maxGeneSequenceLength);
     bornChildren++;
-    if (currentChildren.size() == 0) {
-      this.currentChildren.add(child);
-    } else if (isFit(child)) {
-      this.currentChildren.add(child);
-    }
+    this.currentChildren.add(child);
+//    if (currentChildren.size() == 0) {
+//      this.currentChildren.add(child);
+//    } else if (isFit(child)) {
+//      this.currentChildren.add(child);
+//    }
     parentSeekingMate.setBred(true);
     randomMate.setBred(true);
-//    parentSeekingMate.age();
-//    randomMate.age();
+    unbredParents.remove(parentSeekingMate);
+    unbredParents.remove(randomMate);
   }
 
   private LivingTour findRandomMate(LivingTour parentSeekingMate) {
@@ -203,19 +205,6 @@ public class RandomParentsBreeder implements Breeder {
       randomIndex = (int) (Math.random() * this.unbredParents.size());
     }
     return this.unbredParents.get(randomIndex);
-  }
-
-  private void killParents(List<LivingTour> currentParents) {
-    unbredParents.removeIf(LivingTour::isBred);
-//    Iterator<LivingTour> parentIterator = currentParents.iterator();
-//    while (parentIterator.hasNext()) {
-//      LivingTour parent = parentIterator.next();
-//      if (parent.isDead()) {
-//        this.deceasedParents++;
-//        parentIterator.remove();
-//      }
-//    }
-//    currentParents.removeAll(Collections.singleton(null));
   }
 
   private boolean isFit(LivingTour newborn) {

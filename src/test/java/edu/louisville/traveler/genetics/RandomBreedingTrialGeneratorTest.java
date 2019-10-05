@@ -56,7 +56,7 @@ public class RandomBreedingTrialGeneratorTest extends BaseGeneticsTest {
   public void returnsTrialThatDoesNotConsiderCompatibility() {
     Map map = map100;
     int startingParentsCount = 128;
-    int totalGenerations = (int) (Math.pow(2, 12));
+    int totalGenerations = (int) (Math.pow(2, 4));
     int populationCap = 128;
     int maxGeneSequenceLength = 16;
     double mutationChance = 10;
