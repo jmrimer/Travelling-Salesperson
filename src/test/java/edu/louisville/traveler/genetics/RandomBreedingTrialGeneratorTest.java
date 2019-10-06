@@ -55,9 +55,9 @@ public class RandomBreedingTrialGeneratorTest extends BaseGeneticsTest {
   @Test
   public void returnsTrialThatDoesNotConsiderCompatibility() {
     Map map = map100;
-    int startingParentsCount = 128;
-    int totalGenerations = (int) (Math.pow(2, 4));
-    int populationCap = 128;
+    int startingParentsCount = 512;
+    int totalGenerations = (int) (Math.pow(2, 20));
+    int populationCap = 512;
     int maxGeneSequenceLength = 16;
     double mutationChance = 10;
 
@@ -81,6 +81,7 @@ public class RandomBreedingTrialGeneratorTest extends BaseGeneticsTest {
         System.out.println(("living children: " + trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().size()));
         bestChildren.add(trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().get(0));
         System.out.println("Best child: " + trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().get(0).getWeight());
+        System.out.println("Best child size: " + trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().get(0).getCycle().size());
       } catch (IndexOutOfBoundsException e) {
 
       }
@@ -88,6 +89,7 @@ public class RandomBreedingTrialGeneratorTest extends BaseGeneticsTest {
     }
     bestChildren.sort(Comparator.comparingDouble(Tour::getWeight));
     System.out.println(bestChildren.get(0).getWeight());
+    System.out.println(bestChildren.get(0).getCycle());
   }
 
 }

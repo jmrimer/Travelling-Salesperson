@@ -52,13 +52,13 @@ public interface Breeder {
   }
 
   static void mutateSingleGene(Map map, LivingTour child) {
-    
-    int mutantIndex = (int) (Math.random() * map.getCities().size());
-    City mutantGene = map.getCities().get(mutantIndex);
-    while (child.getCycle().contains(mutantGene)) {
-      System.out.println("here");
-      mutantGene = map.getCities().get((int) (Math.random() * map.getCities().size()));
+    if (child.getCycle().indexOf(null) > -1) {
+      int mutantIndex = (int) (Math.random() * map.getCities().size());
+      City mutantGene = map.getCities().get(mutantIndex);
+      while (child.getCycle().contains(mutantGene)) {
+        mutantGene = map.getCities().get((int) (Math.random() * map.getCities().size()));
+      }
+      child.getCycle().set(child.getCycle().indexOf(null), mutantGene);
     }
-    child.getCycle().set(child.getCycle().indexOf(null), mutantGene);
   }
 }

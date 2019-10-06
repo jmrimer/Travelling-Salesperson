@@ -15,7 +15,7 @@ public class TrialGenerator {
   private final int totalGenerations;
   private int populationCap;
   private List<LivingTour> currentParents = new ArrayList<>();
-  private final List<LivingTour> population= new ArrayList<>();
+  private final List<LivingTour> population = new ArrayList<>();
 
   TrialGenerator(
     Breeder breeder,
@@ -38,7 +38,9 @@ public class TrialGenerator {
       newGeneration();
       Generation generation = breed(gen);
       controlPopulation(generation);
-      trial.add(generation);
+      if (gen == totalGenerations - 1) {
+        trial.add(generation);
+      }
     }
     return trial;
   }
@@ -66,7 +68,8 @@ public class TrialGenerator {
     for (LivingTour parent : this.currentParents) {
       parent.setBred(false);
     }
-    this.population.clear();  }
+    this.population.clear();
+  }
 
   private void setupFirstGeneration() {
     for (int i = 0; i < this.startingParentCount; i++) {
