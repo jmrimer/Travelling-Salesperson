@@ -1,16 +1,11 @@
 package edu.louisville.traveler.genetics;
 
-import edu.louisville.traveler.maps.City;
-import edu.louisville.traveler.maps.Map;
-
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 
-public class TrialGenerator {
+class TrialGenerator {
   private Breeder breeder;
-  private final Map map;
   private final int startingParentCount;
   private final int totalGenerations;
   private int populationCap;
@@ -19,19 +14,17 @@ public class TrialGenerator {
 
   TrialGenerator(
     Breeder breeder,
-    Map map,
     int startingParentCount,
     int totalGenerations,
     int populationCap
   ) {
     this.breeder = breeder;
-    this.map = map;
     this.startingParentCount = startingParentCount;
     this.totalGenerations = totalGenerations;
     this.populationCap = populationCap;
   }
 
-  public Trial runTrial() {
+  Trial runTrial() {
     Trial trial = new Trial();
     setupFirstGeneration();
     for (int gen = 0; gen < totalGenerations; gen++) {
@@ -55,11 +48,7 @@ public class TrialGenerator {
   }
 
   private Generation breed(int gen) {
-    return breeder.breedGeneration(
-      this.map,
-      this.currentParents,
-      gen
-    );
+    return breeder.breedGeneration(gen, this.currentParents);
   }
 
   private void newGeneration() {
@@ -72,31 +61,7 @@ public class TrialGenerator {
   }
 
   private void setupFirstGeneration() {
-    for (int i = 0; i < this.startingParentCount; i++) {
-      this.population.add(generateRandomTour(this.map));
-    }
+    this.population.addAll(breeder.randomGeneration(this.startingParentCount));
   }
 
-  private LivingTour generateRandomTour(Map map) {
-    List<City> remainingCities = new ArrayList<>(map.getCities());
-    List<City> route = new ArrayList<>();
-    City start = addAndRemoveRandomCity(remainingCities, route);
-    addAllRemainingCities(remainingCities, route);
-    route.add(start);
-    return new LivingTour(route);
-  }
-
-  private void addAllRemainingCities(List<City> remainingCities, List<City> route) {
-    Iterator<City> cityIterator = remainingCities.iterator();
-    while (cityIterator.hasNext()) {
-      addAndRemoveRandomCity(remainingCities, route);
-    }
-  }
-
-  private City addAndRemoveRandomCity(List<City> remainingCities, List<City> route) {
-    City city = remainingCities.get((int) (Math.random() * remainingCities.size()));
-    route.add(city);
-    remainingCities.remove(city);
-    return city;
-  }
 }
