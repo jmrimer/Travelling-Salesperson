@@ -54,6 +54,7 @@ public class RandomParentsBreeder implements Breeder {
   public Generation breedGeneration(Map map, List<LivingTour> currentParents, int gen) {
     unbredParents.clear();
     unbredParents.addAll(currentParents);
+    unbredParents.sort(Comparator.comparingDouble(LivingTour::getWeight));
     currentChildren = new ArrayList<>();
     bornChildren = 0;
     int deceasedParents = 0;
@@ -183,8 +184,10 @@ public class RandomParentsBreeder implements Breeder {
   }
 
   private void breedMates() {
-    LivingTour parentSeekingMate = unbredParents.get((int) (Math.random() * unbredParents.size()));
-    LivingTour randomMate = findRandomMate(parentSeekingMate);
+//    LivingTour parentSeekingMate = unbredParents.get((int) (Math.random() * unbredParents.size()));
+//    LivingTour randomMate = findRandomMate(parentSeekingMate);
+    LivingTour parentSeekingMate = unbredParents.get(0);
+    LivingTour randomMate = unbredParents.get(1);
     for (int i = 0; i < 4; i++) {
       LivingTour child = breedParents(parentSeekingMate, randomMate, this.maxGeneSequenceLength);
       this.currentChildren.add(child);
