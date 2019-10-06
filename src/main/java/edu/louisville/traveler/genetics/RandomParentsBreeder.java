@@ -19,12 +19,34 @@ public class RandomParentsBreeder implements Breeder {
   }
 
   @Override
+  public Generation breedGeneration(Map map, List<LivingTour> currentParents, int gen) {
+    unbredParents.clear();
+    unbredParents.addAll(currentParents);
+    unbredParents.sort(Comparator.comparingDouble(LivingTour::getWeight));
+    currentChildren = new ArrayList<>();
+    bornChildren = 0;
+    int deceasedParents = 0;
+
+    while (parentsAvailableForMating(currentParents)) {
+      breedMates();
+    }
+
+    return new Generation(
+      gen,
+      currentParents,
+      currentChildren,
+      bornChildren,
+      deceasedParents
+    );
+  }
+
+  @Override
   public LivingTour breedParents(LivingTour parent1, LivingTour parent2, int maxGeneSequenceLength) {
     Map map = new Map(new ArrayList<>(parent1.getCycle()));
     City[] emptyRoute = new City[map.getCities().size()];
     LivingTour child = new LivingTour(Arrays.asList(emptyRoute));
 
-    Breeder.firstGene(
+    Breeder.firstGenes(
       Breeder.selectRandomParent(parent1, parent2),
       child,
       map,
@@ -48,28 +70,6 @@ public class RandomParentsBreeder implements Breeder {
       }
     }
     return child;
-  }
-
-  @Override
-  public Generation breedGeneration(Map map, List<LivingTour> currentParents, int gen) {
-    unbredParents.clear();
-    unbredParents.addAll(currentParents);
-    unbredParents.sort(Comparator.comparingDouble(LivingTour::getWeight));
-    currentChildren = new ArrayList<>();
-    bornChildren = 0;
-    int deceasedParents = 0;
-
-    while (parentsAvailableForMating(currentParents)) {
-      breedMates();
-    }
-
-    return new Generation(
-      gen,
-      currentParents,
-      currentChildren,
-      bornChildren,
-      deceasedParents
-    );
   }
 
   private static void addSequenceToChild(
@@ -178,25 +178,36 @@ public class RandomParentsBreeder implements Breeder {
     for (LivingTour parent : currentParents) {
       if (!parent.didBreed()) {
         availableParentCount++;
+        if (availableParentCount > 1) {
+          break;
+        }
       }
     }
-    return availableParentCount > 2;
+    return availableParentCount > 1;
   }
 
   private void breedMates() {
-//    LivingTour parentSeekingMate = unbredParents.get((int) (Math.random() * unbredParents.size()));
-//    LivingTour randomMate = findRandomMate(parentSeekingMate);
-    LivingTour parentSeekingMate = unbredParents.get(0);
-    LivingTour randomMate = unbredParents.get(1);
-    for (int i = 0; i < 4; i++) {
-      LivingTour child = breedParents(parentSeekingMate, randomMate, this.maxGeneSequenceLength);
-      this.currentChildren.add(child);
-        bornChildren++;
-//      if (child.getWeight() < parentSeekingMate.getWeight() && child.getWeight() < randomMate.getWeight()) {
+    LivingTour parentSeekingMate = unbredParents.get((int) (Math.random() * unbredParents.size()));
+    LivingTour randomMate = findRandomMate(parentSeekingMate);
+//    LivingTour parentSeekingMate = unbredParents.get(0);
+//    LivingTour randomMate = unbredParents.get(1);
+//    for (int i = 0; i < 4; i++) {
+    LivingTour child = breedParents(parentSeekingMate, randomMate, this.maxGeneSequenceLength);
+    int births = 1;
+    while (
+      child.getWeight() < parentSeekingMate.getWeight()
+        && child.getWeight() < randomMate.getWeight()
+        && births < 10
+    ) {
+      child = breedParents(parentSeekingMate, randomMate, this.maxGeneSequenceLength);
+      births++;
+    }
 //        this.currentChildren.add(child);
 //        bornChildren++;
 //      }
-    }
+//    }
+    this.currentChildren.add(child);
+    bornChildren++;
 //    if (currentChildren.size() == 0) {
 //      this.currentChildren.add(child);
 //    } else if (isFit(child)) {

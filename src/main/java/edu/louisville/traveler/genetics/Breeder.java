@@ -10,7 +10,7 @@ public interface Breeder {
 
   Generation breedGeneration(Map map, List<LivingTour> currentParents, int gen);
 
-  static void firstGene(
+  static void firstGenes(
     LivingTour parent,
     LivingTour child,
     Map map,
