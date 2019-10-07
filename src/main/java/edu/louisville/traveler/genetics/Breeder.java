@@ -2,6 +2,7 @@ package edu.louisville.traveler.genetics;
 
 import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Map;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -35,26 +36,33 @@ class Breeder {
   }
 
   private void breedMates() {
-    City[] emptyRoute = new City[this.map.getCities().size() + 1];
-    LivingTour child = new LivingTour(Arrays.asList(emptyRoute));
+    LivingTour child = setupNullCycle();
     LivingTour[] parents = this.parentSelector.selectFromPopulace(this.unbredParents);
-    if (parents.length == 2) {
+    this.geneCrosser.firstGenes(parents, child, this.map, this.mutationChance);
 
-      this.geneCrosser.firstGenes(parents, child, this.map, this.mutationChance);
-
-      while (childRouteIsNotComplete(child)) {
-        this.geneCrosser.crossover(child, parents, this.map);
-      }
-
-      this.currentChildren.add(child);
-      this.bornChildren++;
-      LivingTour parent1 = parents[0];
-      LivingTour parent2 = parents[1];
-      parent1.setBred(true);
-      parent2.setBred(true);
-      this.unbredParents.remove(parent1);
-      this.unbredParents.remove(parent2);
+    while (childRouteIsNotComplete(child)) {
+      this.geneCrosser.crossover(child, parents, this.map);
     }
+
+    this.currentChildren.add(child);
+    this.bornChildren++;
+
+    markParentsComplete(parents);
+  }
+
+  private void markParentsComplete(LivingTour[] parents) {
+    LivingTour parent1 = parents[0];
+    LivingTour parent2 = parents[1];
+    parent1.setBred(true);
+    parent2.setBred(true);
+    this.unbredParents.remove(parent1);
+    this.unbredParents.remove(parent2);
+  }
+
+  @NotNull
+  private LivingTour setupNullCycle() {
+    City[] emptyRoute = new City[this.map.getCities().size() + 1];
+    return new LivingTour(Arrays.asList(emptyRoute));
   }
 
   List<LivingTour> randomGeneration(int populationCount) {

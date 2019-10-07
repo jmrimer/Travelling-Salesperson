@@ -1,6 +1,5 @@
 package edu.louisville.traveler.genetics;
 
-import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Map;
 import edu.louisville.traveler.maps.Tour;
 import org.junit.Test;
@@ -9,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class RandomBreedingTrialGeneratorTest extends BaseGeneticsTest {
+public class RandomParentsRandomCrossoverTrial extends BaseGeneticsTest {
 //  @Test
 //  public void smallTrial() {
 //    Map map = new Map(List.of(
