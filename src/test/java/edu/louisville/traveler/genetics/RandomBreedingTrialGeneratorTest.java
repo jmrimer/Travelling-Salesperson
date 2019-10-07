@@ -95,21 +95,24 @@ public class RandomBreedingTrialGeneratorTest extends BaseGeneticsTest {
   @Test
   public void returnsTrialThatDoesNotConsiderCompatibility() {
     Map map = map100;
-    int startingParentsCount = 64;
+    int startingParentsCount = 32;
     int totalGenerations = (int) (Math.pow(2, 10));
-    int populationCap = 64;
+    int populationCap = 32;
     int maxGeneSequenceLength = 16;
     double mutationChance = 0;
 
     ParentSelector parentSelector = new RandomParentSelector();
+    GeneCrosser geneCrosser = new RandomGeneCrosser(maxGeneSequenceLength);
+    Breeder breeder = new Breeder(
+      parentSelector,
+      geneCrosser,
+      map,
+      mutationChance
+    ) {
+    };
 
     TrialGenerator trialGenerator = new TrialGenerator(
-      new RandomParentsBreeder(
-        parentSelector,
-        map,
-        maxGeneSequenceLength,
-        mutationChance
-      ),
+      breeder,
       startingParentsCount,
       totalGenerations,
       populationCap
