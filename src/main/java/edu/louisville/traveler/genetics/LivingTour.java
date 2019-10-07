@@ -41,4 +41,16 @@ class LivingTour extends Tour {
   public String toString(){
     return "Living Tour: " + "cycle: " + this.getCycle() + " | age: " + this.getAge();
   }
-}
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+
+    if (!(o instanceof LivingTour)) {
+      return false;
+    }
+
+    return this.getCycle().equals(((LivingTour) o).getCycle());
+  }}

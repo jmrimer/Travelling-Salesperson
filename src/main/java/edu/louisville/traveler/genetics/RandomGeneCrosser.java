@@ -10,57 +10,55 @@ public class RandomGeneCrosser extends GeneCrosser {
   }
 
   void crossover(LivingTour child, LivingTour[] parents, Map map) {
-    int genomeLength = this.maxGeneSequenceLength <= map.getCities().size() ?
-      (int) (Math.random() * this.maxGeneSequenceLength) + 1 :
-      (int) (Math.random() * map.getCities().size()) + 1;
-    LivingTour selectedParent = selectRandomParent(parents);
-    LivingTour backupParent = selectedParent.equals(parents[0]) ? parents[1] : parents[0];
-    int currentSequenceLength = genomeLength;
-    LivingTour breedingParent = selectedParent;
-    boolean bred = false;
+    int startingRandomGenomeLength = randomGenomeLength(map);
+    int currentGenomeLength = startingRandomGenomeLength;
     int childFirstOpenGene = child.getCycle().indexOf(null);
+
+    LivingTour breedingParent = selectRandomParent(parents);
+    boolean bred = false;
     boolean triedBothParents = false;
 
     while (!bred) {
-      if (triedBothParents && currentSequenceLength == 0) {
-        mutateSingleGene(
-          map,
-          child
-        );
+      if (bothParentsUnsuitableForReproduction(currentGenomeLength, triedBothParents)) {
+        mutateSingleGene(map, child);
       }
 
-      if (!triedBothParents && currentSequenceLength == 0) {
-        breedingParent = backupParent;
+      if (firstParentUnsuitableForReproduction(currentGenomeLength, triedBothParents)) {
+        breedingParent = breedingParent.equals(parents[0]) ? parents[1] : parents[0];;
         triedBothParents = true;
-        currentSequenceLength = genomeLength;
+        currentGenomeLength = startingRandomGenomeLength;
       }
 
-      int childAvailableStartIndex =
-        indexOfAvailableOpening(
-          child,
-          currentSequenceLength,
-          childFirstOpenGene
-        );
+      int childAvailableStartIndex = indexOfAvailableGenomeLength(
+        child,
+        currentGenomeLength,
+        childFirstOpenGene
+      );
 
-      if (sequenceAvailable(childAvailableStartIndex)) {
-        boolean suitable = checkSuitabilityOfParentGenesForChild(
+      if (sequenceIsAvailable(childAvailableStartIndex)) {
+        boolean parentIsSuitable = checkSuitabilityOfParentGenesForChild(
           breedingParent,
           child,
-          currentSequenceLength,
+          currentGenomeLength,
           childAvailableStartIndex
         );
 
-        if (suitable) {
-          transposeGenesToChild(child, currentSequenceLength, breedingParent, childAvailableStartIndex);
+        if (parentIsSuitable) {
+          transposeGenesToChild(child, currentGenomeLength, breedingParent, childAvailableStartIndex);
           bred = true;
         } else {
           childFirstOpenGene++;
         }
       } else {
-        currentSequenceLength--;
+        currentGenomeLength--;
       }
     }
   }
+
+  private boolean firstParentUnsuitableForReproduction(int currentSequenceLength, boolean triedBothParents) {
+    return !triedBothParents && currentSequenceLength == 0;
+  }
+
 
   @Override
   public void firstGenes(LivingTour[] parents, LivingTour child, Map map, double mutationChance) {
@@ -87,31 +85,6 @@ public class RandomGeneCrosser extends GeneCrosser {
     child.getCycle().set(child.getCycle().size() - 1, child.getCycle().get(0));
   }
 
-  private static int indexOfAvailableOpening(
-    LivingTour child,
-    int currentSequenceLength,
-    int childFirstOpenGene
-  ) {
-    int indexOfOpening = -1;
-    for (int i = childFirstOpenGene; i <= child.getCycle().size() - currentSequenceLength; i++) {
-      boolean availableSequence = true;
-      for (int j = 0; j < currentSequenceLength; j++) {
-        if (child.getCycle().get(i + j) != null) {
-          availableSequence = false;
-          break;
-        }
-      }
-      if (availableSequence) {
-        indexOfOpening = i;
-        break;
-      }
-    }
-    return indexOfOpening;
-  }
-
-  private boolean sequenceAvailable(int childAvailableStartIndex) {
-    return childAvailableStartIndex > -1;
-  }
 
   private boolean checkSuitabilityOfParentGenesForChild(
     LivingTour parent,
@@ -130,32 +103,12 @@ public class RandomGeneCrosser extends GeneCrosser {
     return suitable;
   }
 
-  private void transposeGenesToChild(
-    LivingTour child,
-    int currentSequenceLength,
-    LivingTour breedingParent,
-    int childAvailableStartIndex
-  ) {
-    for (int i = 0; i < currentSequenceLength; i++) {
-      int geneIndex = childAvailableStartIndex + i;
-      City parentGene = breedingParent.getCycle().get(geneIndex);
-      child.getCycle().set(geneIndex, parentGene);
-    }
+  private boolean bothParentsUnsuitableForReproduction(int currentSequenceLength, boolean triedBothParents) {
+    return triedBothParents && currentSequenceLength == 0;
   }
 
   private LivingTour selectRandomParent(LivingTour[] parents) {
     return Math.random() < 0.5 ? parents[0] : parents[1];
-  }
-
-  private void mutateSingleGene(Map map, LivingTour child) {
-    if (child.getCycle().indexOf(null) > -1) {
-      int mutantIndex = (int) (Math.random() * map.getCities().size());
-      City mutantGene = map.getCities().get(mutantIndex);
-      while (child.getCycle().contains(mutantGene)) {
-        mutantGene = map.getCities().get((int) (Math.random() * map.getCities().size()));
-      }
-      child.getCycle().set(child.getCycle().indexOf(null), mutantGene);
-    }
   }
 
   private boolean shouldInheritGenes(double mutationChance) {

@@ -6,11 +6,11 @@ import edu.louisville.traveler.maps.Map;
 import java.util.List;
 
 class BaseGeneticsTest {
-  private City city1 = new City(1, 87.951292, 2.658162);
-  private City city2 = new City(2, 33.466597, 66.682943);
-  private City city3 = new City(3, 91.778314, 53.807184);
-  private City city4 = new City(4, 20.526749, 47.633290);
-  private City city5 = new City(5, 9.006012, 81.185339);
+  City city1 = new City(1, 87.951292, 2.658162);
+  City city2 = new City(2, 33.466597, 66.682943);
+  City city3 = new City(3, 91.778314, 53.807184);
+  City city4 = new City(4, 20.526749, 47.633290);
+  City city5 = new City(5, 9.006012, 81.185339);
   private City city6 = new City(6, 20.032350, 2.761925);
   private City city7 = new City(7, 77.181310, 31.922361);
   private City city8 = new City(8, 41.059603, 32.578509);
