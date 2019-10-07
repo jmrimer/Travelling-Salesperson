@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 
 public class BestParentOrderedCrossoverTrialTest extends BaseGeneticsTest {
@@ -13,7 +14,7 @@ public class BestParentOrderedCrossoverTrialTest extends BaseGeneticsTest {
   public void selectsBestParentsAndCrossesOrderedGenes() {
     Map map = map100;
     int startingParentsCount = 64;
-    int totalGenerations = (int) (Math.pow(2, 20));
+    int totalGenerations = (int) (Math.pow(2, 10));
     int populationCap = 64;
     int maxGeneSequenceLength = 50;
     double mutationChance = 0;
@@ -47,6 +48,7 @@ public class BestParentOrderedCrossoverTrialTest extends BaseGeneticsTest {
     }
     bestChildren.sort(Comparator.comparingDouble(Tour::getWeight));
     System.out.println("overall best weight: " + bestChildren.get(0).getWeight());
-    System.out.println("overall best length: " + bestChildren.get(0).getCycle());
+    System.out.println(("cycle: " + bestChildren.get(0).getCycle()));
+    System.out.println("overall best length: " + new HashSet<>(bestChildren.get(0).getCycle()).size());
   }
 }

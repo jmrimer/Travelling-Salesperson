@@ -15,16 +15,17 @@ public class OrderedGeneCrosser extends BestGeneCrosser {
   void crossover(LivingTour child, LivingTour[] parents, Map map) {
     int genomeLength = randomGenomeLength(map);
     List<Integer> randomIndexes = randomIndexes(genomeLength, map);
-    Collections.sort(randomIndexes);
+
     List<City> citiesFromParent1 = new ArrayList<>();
     for (int index : randomIndexes) {
       citiesFromParent1.add(parents[0].getCycle().get(index));
     }
-//    find order of cities in parent 2
+
     List<City> citiesFromParent2 = new ArrayList<>();
     for (int i = 0; i < parents[1].getCycle().size(); i++) {
-      if (citiesFromParent1.contains(parents[1].getCycle().get(i))) {
-        citiesFromParent2.add(parents[1].getCycle().get(i));
+      City orderedCity = parents[1].getCycle().get(i);
+      if (citiesFromParent1.contains(orderedCity)) {
+        citiesFromParent2.add(orderedCity);
       }
     }
 
@@ -40,8 +41,7 @@ public class OrderedGeneCrosser extends BestGeneCrosser {
         child.getCycle().set(i, cityIterator.next());
       }
     }
-//    transfer all randoms from one parent
-//    then copy the rest into the openings from second parent
+    child.getCycle().set(child.getCycle().size() - 1, child.getCycle().get(0));
   }
 
   private List<Integer> randomIndexes(int genomeLength, Map map) {
