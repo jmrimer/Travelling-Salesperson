@@ -105,12 +105,16 @@ class BestGeneCrosser extends GeneCrosser {
 
     if (availableIndex > -1) {
       for (City city : map.getCities()) {
-        float weight = RouteWeightCalculator.calculateWeight(List.of(child.getCycle().get(availableIndex - 1), city));
-        if (
-          weight < bestWeight
-        ) {
-          bestWeight = weight;
-          bestCity = city;
+        if (!child.getCycle().contains(city)) {
+
+
+          float weight = RouteWeightCalculator.calculateWeight(List.of(child.getCycle().get(availableIndex - 1), city));
+          if (
+            weight < bestWeight
+          ) {
+            bestWeight = weight;
+            bestCity = city;
+          }
         }
       }
       child.getCycle().set(availableIndex, bestCity);
