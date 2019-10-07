@@ -7,10 +7,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class MutatedBestParentSelector extends BestParentSelector {
+public class SingleMutatedBestParentSelector extends BestParentSelector {
   int parentMutationLength;
 
-  MutatedBestParentSelector(int parentMutationLength) {
+  SingleMutatedBestParentSelector(int parentMutationLength) {
     super();
     this.parentMutationLength = parentMutationLength;
   }
@@ -24,7 +24,7 @@ public class MutatedBestParentSelector extends BestParentSelector {
     return parents;
   }
 
-  private void mutate(LivingTour parent) {
+  void mutate(LivingTour parent) {
     int max = parent.getCycle().size() - parentMutationLength - 1;
     int randomGeneSequenceIndex = new Random().nextInt((max - 1) + 1) + 1;
     List<City> newGeneSequence = new ArrayList<>();
@@ -33,7 +33,7 @@ public class MutatedBestParentSelector extends BestParentSelector {
       newGeneSequence.add(parent.getCycle().get(randomGeneSequenceIndex + i));
     }
 
-    Collections.reverse(newGeneSequence);
+    Collections.shuffle(newGeneSequence);
 
     for (int i = 0; i < this.parentMutationLength; i++) {
       parent.getCycle().set(randomGeneSequenceIndex + i, newGeneSequence.get(i));

@@ -8,18 +8,19 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class MutatedBestParentsOrderedCrossoverTrialTest extends BaseGeneticsTest {
+public class MultiMutationParentsOrderedCrossoverTrial extends BaseGeneticsTest {
   @Test
-  public void mutateBestParentsAndOrderCrossoverTrial() {
+  public void multiMutateBestParentsAndOrderCrossoverTrial() {
     Map map = map100;
     int startingParentsCount = 32;
     int totalGenerations = (int) (Math.pow(2, 14));
     int populationCap = 32;
     int maxGeneSequenceLength = 50;
     double mutationChance = 0;
-    int parentMutationLength = 2;
+    int parentMutationLength = 4;
+    int maxMutations = 4;
 
-    ParentSelector parentSelector = new SingleMutatedBestParentSelector(parentMutationLength);
+    ParentSelector parentSelector = new MultiMutatedBestParentSelector(parentMutationLength, maxMutations);
     GeneCrosser geneCrosser = new OrderedGeneCrosser(maxGeneSequenceLength);
     Breeder breeder = new Breeder(
       parentSelector,

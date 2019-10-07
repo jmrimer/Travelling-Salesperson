@@ -24,7 +24,7 @@ public class MutatedBestParentSelectorTest extends BaseGeneticsTest {
   @Test
   public void selectFromPopulace() {
     List<LivingTour> population = Arrays.asList(parent1, parent2);
-    LivingTour[] mutatedParents = new MutatedBestParentSelector(4).selectFromPopulace(population);
+    LivingTour[] mutatedParents = new SingleMutatedBestParentSelector(4).selectFromPopulace(population);
 
     assertEquals(mutatedParents.length, 2);
     assertEquals(mutatedParents[0].getCycle().size(), 6);
