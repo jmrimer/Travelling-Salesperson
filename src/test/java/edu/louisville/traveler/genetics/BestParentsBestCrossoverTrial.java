@@ -17,7 +17,7 @@ public class BestParentsBestCrossoverTrial extends  BaseGeneticsTest {
     int startingParentsCount = 128;
     int totalGenerations = (int) (Math.pow(2, 10));
     int populationCap = 128;
-    int maxGeneSequenceLength = 16;
+    int maxGeneSequenceLength = 64;
     double mutationChance = 0;
 
     ParentSelector parentSelector = new BestParentSelector();

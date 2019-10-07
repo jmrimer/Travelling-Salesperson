@@ -1,5 +1,7 @@
 package edu.louisville.traveler.genetics;
 
+import edu.louisville.traveler.maps.Tour;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;

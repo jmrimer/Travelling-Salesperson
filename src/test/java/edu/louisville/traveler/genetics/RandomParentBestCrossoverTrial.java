@@ -15,7 +15,7 @@ public class RandomParentBestCrossoverTrial extends BaseGeneticsTest {
     int startingParentsCount = 64;
     int totalGenerations = (int) (Math.pow(2, 12));
     int populationCap = 64;
-    int maxGeneSequenceLength = 16;
+    int maxGeneSequenceLength = 64;
     double mutationChance = 0;
 
     ParentSelector parentSelector = new RandomParentSelector();
@@ -46,6 +46,7 @@ public class RandomParentBestCrossoverTrial extends BaseGeneticsTest {
       }
     }
     bestChildren.sort(Comparator.comparingDouble(Tour::getWeight));
+    System.out.println(trial.getGenerations().get(0).getGeneration());
     System.out.println("overall best weight: " + bestChildren.get(0).getWeight());
     System.out.println("overall best length: " + bestChildren.get(0).getCycle());
   }
