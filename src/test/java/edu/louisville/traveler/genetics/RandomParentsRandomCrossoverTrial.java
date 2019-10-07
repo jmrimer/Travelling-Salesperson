@@ -36,16 +36,16 @@ public class RandomParentsRandomCrossoverTrial extends BaseGeneticsTest {
 //    for (int i = 0; i < trial.getGenerations().size(); i++) {
 //      System.out.println("living parents:" + trial.getGenerations().get(i).getParentsAliveAtEndOfGeneration().size());
 //      System.out.println("dead parents:" + trial.getGenerations().get(i).getParentsDiedThisGeneration());
-//      trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().sort(Comparator.comparingDouble(Tour::getWeight));
+//      trial.getGenerations().get(i).getPopulation().sort(Comparator.comparingDouble(Tour::getWeight));
 //      try {
 //        System.out.println(("births: " + trial.getGenerations().get(i).getChildrenBornThisGeneration()));
-//        System.out.println(("living children: " + trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().size()));
-//        bestChildren.add(trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().get(0));
-//        System.out.println("Best child: " + trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().get(0).getWeight());
+//        System.out.println(("living children: " + trial.getGenerations().get(i).getPopulation().size()));
+//        bestChildren.add(trial.getGenerations().get(i).getPopulation().get(0));
+//        System.out.println("Best child: " + trial.getGenerations().get(i).getPopulation().get(0).getWeight());
 //      } catch (IndexOutOfBoundsException e) {
 //
 //      }
-//      System.out.println(trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().size());
+//      System.out.println(trial.getGenerations().get(i).getPopulation().size());
 //    }
 //    bestChildren.sort(Comparator.comparingDouble(Tour::getWeight));
 //    System.out.println(bestChildren.get(0).getWeight());
@@ -74,17 +74,17 @@ public class RandomParentsRandomCrossoverTrial extends BaseGeneticsTest {
 //      System.out.println(("gen: " + i));
 //      System.out.println("living parents:" + trial.getGenerations().get(i).getParentsAliveAtEndOfGeneration().size());
 //      System.out.println("dead parents:" + trial.getGenerations().get(i).getParentsDiedThisGeneration());
-//      trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().sort(Comparator.comparingDouble(Tour::getWeight));
+//      trial.getGenerations().get(i).getPopulation().sort(Comparator.comparingDouble(Tour::getWeight));
 //      try {
 //        System.out.println(("births: " + trial.getGenerations().get(i).getChildrenBornThisGeneration()));
-//        System.out.println(("living children: " + trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().size()));
-//        bestChildren.add(trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().get(0));
-//        System.out.println("Best child: " + trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().get(0).getWeight());
-//        System.out.println("Best child size: " + trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().get(0).getCycle().size());
+//        System.out.println(("living children: " + trial.getGenerations().get(i).getPopulation().size()));
+//        bestChildren.add(trial.getGenerations().get(i).getPopulation().get(0));
+//        System.out.println("Best child: " + trial.getGenerations().get(i).getPopulation().get(0).getWeight());
+//        System.out.println("Best child size: " + trial.getGenerations().get(i).getPopulation().get(0).getCycle().size());
 //      } catch (IndexOutOfBoundsException e) {
 //
 //      }
-//      System.out.println(trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().size());
+//      System.out.println(trial.getGenerations().get(i).getPopulation().size());
 //    }
 //    bestChildren.sort(Comparator.comparingDouble(Tour::getWeight));
 //    System.out.println(bestChildren.get(0).getWeight());
@@ -120,9 +120,9 @@ public class RandomParentsRandomCrossoverTrial extends BaseGeneticsTest {
     Trial trial = trialGenerator.runTrial();
     List<LivingTour> bestChildren = new ArrayList<>();
     for (int i = 0; i < trial.getGenerations().size(); i++) {
-      trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().sort(Comparator.comparingDouble(Tour::getWeight));
+      trial.getGenerations().get(i).getPopulation().sort(Comparator.comparingDouble(Tour::getWeight));
       try {
-        bestChildren.add(trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().get(0));
+        bestChildren.add(trial.getGenerations().get(i).getPopulation().get(0));
       } catch (IndexOutOfBoundsException e) {
 
       }

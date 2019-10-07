@@ -18,7 +18,8 @@ public class BestGeneCrosserTest extends BaseGeneticsTest {
   private LivingTour parent2;
 
   @Before
-  public void setup() {
+  public void childSetup() {
+    super.setup();
     List<City> cycle1 = List.of(city1, city2, city3, city4, city5, city1);
     List<City> cycle2 = List.of(city1, city3, city2, city5, city4, city1);
     parent1 = new LivingTour(cycle1);

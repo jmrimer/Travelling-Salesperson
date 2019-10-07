@@ -19,15 +19,15 @@
 //    Trial trial = trialGenerator.runTrial();
 //    for (int i = 0; i < trial.getGenerations().size(); i++) {
 //      System.out.println(trial.getGenerations().get(i).getParentsAliveAtEndOfGeneration().size());
-//      trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().sort(Comparator.comparingDouble(Tour::getWeight));
+//      trial.getGenerations().get(i).getPopulation().sort(Comparator.comparingDouble(Tour::getWeight));
 //      try {
 //
-//        System.out.println("Best child: " + trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().get(0).getWeight());
+//        System.out.println("Best child: " + trial.getGenerations().get(i).getPopulation().get(0).getWeight());
 //      } catch (IndexOutOfBoundsException e) {
 //
 //      }
 //
-//      System.out.println(trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().size());
+//      System.out.println(trial.getGenerations().get(i).getPopulation().size());
 //    }
 //  }
 //}

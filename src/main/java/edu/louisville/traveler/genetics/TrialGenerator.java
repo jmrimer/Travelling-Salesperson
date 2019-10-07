@@ -1,7 +1,5 @@
 package edu.louisville.traveler.genetics;
 
-import edu.louisville.traveler.maps.Tour;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -41,8 +39,7 @@ class TrialGenerator {
   }
 
   private void controlPopulation(Generation generation) {
-    this.population.addAll(generation.getChildrenAliveAtEndOfGeneration());
-    this.population.addAll(generation.getParentsAliveAtEndOfGeneration());
+    this.population.addAll(generation.getPopulation());
     if (this.population.size() > populationCap) {
       this.population.sort(Comparator.comparingDouble(LivingTour::getWeight));
       this.population.subList(populationCap - 1, this.population.size() - 1).clear();
@@ -56,9 +53,7 @@ class TrialGenerator {
   private void newGeneration() {
     this.currentParents.clear();
     this.currentParents.addAll(this.population);
-    for (LivingTour parent : this.currentParents) {
-      parent.setBred(false);
-    }
+    this.currentParents.forEach(parent -> parent.setBred(false));
     this.population.clear();
   }
 

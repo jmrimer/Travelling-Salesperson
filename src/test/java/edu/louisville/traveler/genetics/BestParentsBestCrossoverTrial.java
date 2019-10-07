@@ -1,6 +1,5 @@
 package edu.louisville.traveler.genetics;
 
-import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Map;
 import edu.louisville.traveler.maps.Tour;
 import org.junit.Test;
@@ -40,9 +39,9 @@ public class BestParentsBestCrossoverTrial extends  BaseGeneticsTest {
     Trial trial = trialGenerator.runTrial();
     List<LivingTour> bestChildren = new ArrayList<>();
     for (int i = 0; i < trial.getGenerations().size(); i++) {
-      trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().sort(Comparator.comparingDouble(Tour::getWeight));
+      trial.getGenerations().get(i).getPopulation().sort(Comparator.comparingDouble(Tour::getWeight));
       try {
-        bestChildren.add(trial.getGenerations().get(i).getChildrenAliveAtEndOfGeneration().get(0));
+        bestChildren.add(trial.getGenerations().get(i).getPopulation().get(0));
       } catch (IndexOutOfBoundsException e) {
 
       }

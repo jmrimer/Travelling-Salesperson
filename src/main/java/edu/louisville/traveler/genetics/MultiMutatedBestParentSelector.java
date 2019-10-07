@@ -3,7 +3,7 @@ package edu.louisville.traveler.genetics;
 import java.util.List;
 import java.util.Random;
 
-public class MultiMutatedBestParentSelector extends SingleMutatedBestParentSelector {
+class MultiMutatedBestParentSelector extends SingleMutatedBestParentSelector {
   int maxMutations;
 
   MultiMutatedBestParentSelector(int parentMutationLength, int maxMutations) {

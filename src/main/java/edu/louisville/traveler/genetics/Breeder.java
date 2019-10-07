@@ -28,11 +28,14 @@ class Breeder {
   }
 
   Generation breedGeneration(int gen, List<LivingTour> currentParents) {
-    int deceasedParents = setupNewGeneration(currentParents);
-    while (parentsAvailableForMating(unbredParents)) {
+    setupNewGeneration(currentParents);
+    while (parentsAvailableForMating(this.unbredParents)) {
       breedMates();
     }
-    return new Generation(gen, currentParents, currentChildren, bornChildren, deceasedParents);
+    List<LivingTour> population = new ArrayList<>();
+    population.addAll(currentParents);
+    population.addAll(currentChildren);
+    return new Generation(gen, population, bornChildren);
   }
 
   private void breedMates() {
@@ -73,13 +76,12 @@ class Breeder {
     return randomGeneration;
   }
 
-  private int setupNewGeneration(List<LivingTour> currentParents) {
+  private void setupNewGeneration(List<LivingTour> currentParents) {
     unbredParents.clear();
     unbredParents.addAll(currentParents);
     unbredParents.sort(Comparator.comparingDouble(LivingTour::getWeight));
     currentChildren = new ArrayList<>();
     bornChildren = 0;
-    return 0;
   }
 
   private boolean childRouteIsNotComplete(LivingTour child) {

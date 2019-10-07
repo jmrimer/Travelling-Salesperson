@@ -2,10 +2,15 @@ package edu.louisville.traveler.genetics;
 
 import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Map;
+import org.junit.After;
+import org.junit.Before;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 class BaseGeneticsTest {
+  Trial trial;
   City city1 = new City(1, 87.951292, 2.658162);
   City city2 = new City(2, 33.466597, 66.682943);
   City city3 = new City(3, 91.778314, 53.807184);
@@ -208,4 +213,17 @@ class BaseGeneticsTest {
     city99,
     city100
   ));
+
+  @Before
+  public void setup() {
+    trial = new Trial();
+  }
+
+  @After
+  public void logResults() throws IOException {
+    FileWriter csvWriter = new FileWriter("./testlogs/" + this.getClass().getSimpleName() + System.currentTimeMillis() + ".csv");
+
+    csvWriter.flush();
+    csvWriter.close();
+  }
 }
