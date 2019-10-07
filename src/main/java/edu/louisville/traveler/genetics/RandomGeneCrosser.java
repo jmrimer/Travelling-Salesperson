@@ -85,6 +85,18 @@ public class RandomGeneCrosser extends GeneCrosser {
     child.getCycle().set(child.getCycle().size() - 1, child.getCycle().get(0));
   }
 
+  @Override
+  void mutateSingleGene(Map map, LivingTour child) {
+    if (child.getCycle().indexOf(null) > -1) {
+      int mutantIndex = (int) (Math.random() * map.getCities().size());
+      City mutantGene = map.getCities().get(mutantIndex);
+      while (child.getCycle().contains(mutantGene)) {
+        mutantGene = map.getCities().get((int) (Math.random() * map.getCities().size()));
+      }
+      child.getCycle().set(child.getCycle().indexOf(null), mutantGene);
+    }
+  }
+
 
   private boolean checkSuitabilityOfParentGenesForChild(
     LivingTour parent,

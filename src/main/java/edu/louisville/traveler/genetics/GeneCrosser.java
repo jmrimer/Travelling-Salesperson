@@ -59,15 +59,6 @@ abstract class GeneCrosser {
     return childAvailableStartIndex > -1;
   }
 
-  void mutateSingleGene(Map map, LivingTour child) {
-    if (child.getCycle().indexOf(null) > -1) {
-      int mutantIndex = (int) (Math.random() * map.getCities().size());
-      City mutantGene = map.getCities().get(mutantIndex);
-      while (child.getCycle().contains(mutantGene)) {
-        mutantGene = map.getCities().get((int) (Math.random() * map.getCities().size()));
-      }
-      child.getCycle().set(child.getCycle().indexOf(null), mutantGene);
-    }
-  }
+  abstract void mutateSingleGene(Map map, LivingTour child);
 
 }

@@ -1,7 +1,10 @@
 package edu.louisville.traveler.genetics;
 
+import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Map;
 import edu.louisville.traveler.maps.RouteWeightCalculator;
+
+import java.util.List;
 
 class BestGeneCrosser extends GeneCrosser {
   BestGeneCrosser(int maxGeneSequenceLength) {
@@ -92,6 +95,26 @@ class BestGeneCrosser extends GeneCrosser {
       0
     );
     child.getCycle().set(child.getCycle().size() - 1, child.getCycle().get(0));
+  }
+
+  @Override
+  void mutateSingleGene(Map map, LivingTour child) {
+    int availableIndex = child.getCycle().indexOf(null);
+    double bestWeight = Double.MAX_VALUE;
+    City bestCity = null;
+
+    if (availableIndex > -1) {
+      for (City city : map.getCities()) {
+        float weight = RouteWeightCalculator.calculateWeight(List.of(child.getCycle().get(availableIndex - 1), city));
+        if (
+          weight < bestWeight
+        ) {
+          bestWeight = weight;
+          bestCity = city;
+        }
+      }
+      child.getCycle().set(availableIndex, bestCity);
+    }
   }
 
   LivingTour[] checkForParentSuitabilityOnSequence(
