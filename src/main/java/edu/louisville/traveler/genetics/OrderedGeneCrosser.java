@@ -5,7 +5,7 @@ import edu.louisville.traveler.maps.Map;
 
 import java.util.*;
 
-public class OrderedGeneCrosser extends BestGeneCrosser {
+class OrderedGeneCrosser extends BestGeneCrosser {
 
   OrderedGeneCrosser(int maxGeneSequenceLength) {
     super(maxGeneSequenceLength);

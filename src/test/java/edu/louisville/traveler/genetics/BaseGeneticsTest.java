@@ -2,14 +2,21 @@ package edu.louisville.traveler.genetics;
 
 import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Map;
-import org.junit.After;
 import org.junit.Before;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 
 class BaseGeneticsTest {
+  int startingParentsCount = 32;
+  int populationCap = 32;
+  int totalGenerations = (int) (Math.pow(2, 12));
+  int maxGeneSequenceLength = 16;
+  double mutationChance = 0;
+
   Trial trial;
   City city1 = new City(1, 87.951292, 2.658162);
   City city2 = new City(2, 33.466597, 66.682943);
@@ -219,11 +226,20 @@ class BaseGeneticsTest {
     trial = new Trial();
   }
 
-  @After
-  public void logResults() throws IOException {
-    FileWriter csvWriter = new FileWriter("./testlogs/" + this.getClass().getSimpleName() + System.currentTimeMillis() + ".csv");
+  public void logResults(Trial trial, long duration, long timestamp) {
+    List<LivingTour> finalPopulation = trial.getGenerations().get(trial.getGenerations().size() - 1).getPopulation();
+    finalPopulation.sort(Comparator.comparingDouble(LivingTour::getWeight));
+    LivingTour child = finalPopulation.get(0);
+    System.out.println("best child weight: " + child.getWeight() + " & size: " + new HashSet<>(child.getCycle()).size());
+    try {
+      FileWriter csvWriter = new FileWriter("./testlogs/" + "Consolidated" + this.getClass().getSimpleName() + timestamp + ".csv", true);
+      String row = timestamp + "," + child.getWeight() + "," + duration;
+      csvWriter.append(row).append("\n");
+      csvWriter.flush();
+      csvWriter.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
-    csvWriter.flush();
-    csvWriter.close();
   }
 }

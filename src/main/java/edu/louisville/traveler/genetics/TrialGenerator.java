@@ -31,9 +31,7 @@ class TrialGenerator {
       newGeneration();
       Generation generation = breed(gen);
       controlPopulation(generation);
-      if (gen == totalGenerations - 1) {
-        trial.add(generation);
-      }
+      trial.add(generation);
     }
     return trial;
   }

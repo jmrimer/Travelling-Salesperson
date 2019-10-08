@@ -39,18 +39,19 @@ class Breeder {
   }
 
   private void breedMates() {
-    LivingTour child = setupNullCycle();
     LivingTour[] parents = this.parentSelector.selectFromPopulace(this.unbredParents);
-    this.geneCrosser.firstGenes(parents, child, this.map, this.mutationChance);
+    createChild(parents);
+    markParentsComplete(parents);
+  }
 
+  private void createChild(LivingTour[] parents) {
+    LivingTour child = setupNullCycle();
+    this.geneCrosser.firstGenes(parents, child, this.map, this.mutationChance);
     while (childRouteIsNotComplete(child)) {
       this.geneCrosser.crossover(child, parents, this.map);
     }
-
     this.currentChildren.add(child);
     this.bornChildren++;
-
-    markParentsComplete(parents);
   }
 
   private void markParentsComplete(LivingTour[] parents) {
