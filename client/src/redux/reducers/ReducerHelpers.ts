@@ -78,20 +78,14 @@ export const serializeJSONToTrial = (body: any): TrialModel => {
   console.log(body);
   let trial = new TrialModel();
   body.generations.map((generationJSON: any) => {
-    let parents: TourModel[] = [];
-    generationJSON.parentsAliveAtEndOfGeneration.map((parentJSON: any) => {
-      return parents.push(serializeJSONtoTour(parentJSON));
-    });
-
     let children: TourModel[] = [];
-    generationJSON.childrenAliveAtEndOfGeneration.map((childJSON: any) => {
+    generationJSON.population.map((childJSON: any) => {
       return children.push(serializeJSONtoTour(childJSON));
     });
 
     return trial.generations.push(
       new GenerationModel(
         generationJSON.generation,
-        parents,
         children
       )
     )

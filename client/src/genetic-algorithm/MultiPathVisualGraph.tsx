@@ -31,21 +31,8 @@ export const MultiPathVisualGraph: React.FC<Props> = props => {
     Object.assign(elements, nodes);
 
     if (tours) {
-      let bestWeight = Number.MAX_VALUE;
-      tours.map((tour) => {
-        if (tour.weight < bestWeight) {
-          return bestWeight = tour.weight;
-        }
-      });
-
-      tours = tours.filter((tour) => {
-        return tour.weight == bestWeight
-      });
-
-
-
       for (let i = 0; i < tours.length; i++) {
-        let cycle = tours[i].cycle;
+      let cycle = tours[i].cycle;
         for (let j = 0; j < cycle.length - 1; j++) {
           try {
             elements.push({data: {source: cycle[j].name, target: cycle[j + 1].name}});

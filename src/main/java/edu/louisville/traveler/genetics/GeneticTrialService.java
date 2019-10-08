@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 public class GeneticTrialService {
   int startingParentsCount = 32;
   int populationCap = 32;
-  int totalGenerations = (int) (Math.pow(2, 12));
+  int totalGenerations = (int) (Math.pow(2, 6));
   int maxGeneSequenceLength = 16;
   double mutationChance = 0;
 
