@@ -21,6 +21,11 @@ const initState = {
   points: translateCoordinateTextToGraphReadyPoints(startingMap),
   currentPage: Page.BRUTE_FORCE,
   currentGeneration: 0,
+  startingPopulation: 32,
+  populationCap: 32,
+  totalGenerations: 64,
+  maxMutationSize: 16,
+  mutationRate: 0,
   trial: new TrialModel()
 };
 
@@ -75,6 +80,16 @@ const reducer = (state = initState, action: any) => {
       return {...state, currentGeneration: incrementGeneration(state.currentGeneration, state.trial.generations.length)};
     case ActionTypes.PREVIOUS_GENERATION:
       return {...state, currentGeneration: decrementGeneration(state.currentGeneration, state.trial.generations.length)};
+    case ActionTypes.UPDATE_STARTING_POPULATION:
+      return {...state, startingPopulation: action.body};
+    case ActionTypes.UPDATE_POPULATION_CAP:
+      return {...state, populationCap: action.body};
+    case ActionTypes.UPDATE_TOTAL_GENERATIONS:
+      return {...state, totalGenerations: action.body};
+    case ActionTypes.UPDATE_MAX_MUTATION_SIZE:
+      return {...state, maxMutationSize: action.body};
+    case ActionTypes.UPDATE_MUTATION_RATE:
+      return {...state, mutationRate: action.body};
     default:
       return state;
   }

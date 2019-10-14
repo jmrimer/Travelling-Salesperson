@@ -1,6 +1,37 @@
 import { ActionTypes } from './types';
 import { MapModel } from '../../shared-models/MapModel';
 
+export const updateStartingPopulation = (e: any) => {
+  return {
+    type: ActionTypes.UPDATE_STARTING_POPULATION,
+    body: e.target.value
+  }
+};
+export const updatePopulationCap = (e: any) => {
+  return {
+    type: ActionTypes.UPDATE_POPULATION_CAP,
+    body: e.target.value
+  }
+};
+export const updateTotalGenerations = (e: any) => {
+  return {
+    type: ActionTypes.UPDATE_TOTAL_GENERATIONS,
+    body: e.target.value
+  }
+};
+export const updateMaxMutationSize = (e: any) => {
+  return {
+    type: ActionTypes.UPDATE_MAX_MUTATION_SIZE,
+    body: e.target.value
+  }
+};
+export const updateMutationRate = (e: any) => {
+  return {
+    type: ActionTypes.UPDATE_MUTATION_RATE,
+    body: e.target.value
+  }
+};
+
 export const postNewTrialRequest = () => {
   return {
     type: ActionTypes.POST_NEW_TRIAL_REQUEST

@@ -31,6 +31,15 @@ export const Button = styled.button`
     background: ${(props) => props.theme.color.lavender};
   }
 `;
+
+export const Input = styled.input`
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  text-align: right;
+  background: ${(props) => props.theme.color.foreground};
+  border: solid 2px ${(props) => props.theme.color.wedgewood};
+`;
+
 export const Heading = styled.h1`
   width: 100%;
   font-family: Righteous, cursive;
