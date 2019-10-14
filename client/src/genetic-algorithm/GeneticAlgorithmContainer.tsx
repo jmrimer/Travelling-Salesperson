@@ -3,7 +3,7 @@ import { TourModel } from '../shared-models/TourModel';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import {
-  fetchNewTrial,
+  fetchNewTrial, fetchTrialFromModel,
   nextGeneration,
   previousGeneration,
   updateCurrentPage,
@@ -13,12 +13,14 @@ import {
 import TrialDisplayer from './TrialDisplayer';
 import { Page } from '../website-styling/Header';
 import { TrialModel } from './TrialModel';
+import { TrialRequest } from './TrialRequest';
 
 interface Props {
   weightedRoute: TourModel;
   loading: boolean;
   mapText: string;
   getNewTrial: (mapText: string) => void;
+  getTrialFromModel: (trialRequest: TrialRequest) => void;
   updateMapText: (e: any) => void;
   points: any[];
   updateCurrentPage: (page: Page) => void;
@@ -52,6 +54,7 @@ export class GeneticAlgorithmContainer extends React.Component<Props> {
           currentGeneration={this.props.currentGeneration}
           loading={this.props.loading}
           getNewTrial={this.props.getNewTrial}
+          getTrialFromModel={this.props.getTrialFromModel}
           mapText={this.props.mapText}
           updateMapText={this.props.updateMapText}
           points={this.props.points}
@@ -97,6 +100,7 @@ const mapDispatchToProps = {
   updateTotalGenerations: updateTotalGenerations,
   updateMaxMutationSize: updateMaxMutationSize,
   updateMutationRate: updateMutationRate,
+  getTrialFromModel: fetchTrialFromModel
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GeneticAlgorithmContainer);

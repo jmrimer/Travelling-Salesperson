@@ -11,7 +11,7 @@ interface Props {
   weightedRoute: TourModel;
   loading: boolean;
   mapText: string;
-  getNewRoute: (mapText: string) => void;
+  getNewRoute: () => void;
   updateMapText: (e: any) => void;
   points: any[];
   className?: string;

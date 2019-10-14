@@ -25,4 +25,13 @@ public class GeneticController {
   ) {
     return this.geneticTrialService.trialFromMap(map);
   }
+
+  @CrossOrigin(origins = "http://localhost:3000")
+  @PostMapping("/api/genetic-trial-from-model")
+  public @ResponseBody
+  Trial newTrialFromModel(
+    @RequestBody TrialRequestModel trialRequest
+  ) {
+    return this.geneticTrialService.trialFromMap(trialRequest);
+  }
 }

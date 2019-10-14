@@ -6,12 +6,15 @@ import { TrialModel } from './TrialModel';
 import MultiPathVisualGraph from './MultiPathVisualGraph';
 import { Button, Heading } from '../website-styling/default';
 import StyledTextInput from './StyledTextInput';
+import { TrialRequest } from './TrialRequest';
+import { MapModel } from '../shared-models/MapModel';
 
 interface Props {
   trial: TrialModel;
   currentGeneration: number;
   loading: boolean;
   getNewTrial: (mapText: string) => void;
+  getTrialFromModel: (trialRequest: TrialRequest) => void;
   updateMapText: (e: any) => void;
   mapText: string;
   points: any[];
@@ -79,12 +82,28 @@ export const TrialDisplayer: React.FC<Props> = props => {
         </div>
       </div>
       <StyledMapInput
-        getNewRoute={getNewTrial}
+        getNewRoute={getNewRoute}
         updateMapText={updateMapText}
         mapText={mapText}
       />
     </div>
   }
+
+  const getNewRoute = () => {
+    let map = new MapModel();
+    map.serialize(mapText);
+
+    let trialRequest = new TrialRequest(
+      map,
+      props.startingPopulation,
+      props.populationCap,
+      props.totalGenerations,
+      props.maxMutationSize,
+      props.mutationRate
+    );
+
+    props.getTrialFromModel(trialRequest);
+  };
 
   function renderTrialOutput() {
     function filterBestChildRoutes() {

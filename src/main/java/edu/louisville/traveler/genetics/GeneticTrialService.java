@@ -12,6 +12,26 @@ public class GeneticTrialService {
   int maxGeneSequenceLength = 16;
   double mutationChance = 0;
 
+  Trial trialFromMap(TrialRequestModel trialRequest) {
+    ParentSelector parentSelector = new RandomParentSelector();
+    GeneCrosser geneCrosser = new OrderedGeneCrosser(maxGeneSequenceLength);
+    Breeder breeder = new Breeder(
+      parentSelector,
+      geneCrosser,
+      trialRequest.getMap(),
+      trialRequest.getMutationRate()
+    );
+
+    TrialGenerator geneticTrialGenerator = new TrialGenerator(
+      breeder,
+      trialRequest.getStartingPopulation(),
+      trialRequest.getTotalGenerations(),
+      trialRequest.getPopulationCap()
+    );
+
+    return geneticTrialGenerator.runTrial();
+  }
+
   Trial trialFromMap(Map map) {
     ParentSelector parentSelector = new RandomParentSelector();
     GeneCrosser geneCrosser = new OrderedGeneCrosser(maxGeneSequenceLength);

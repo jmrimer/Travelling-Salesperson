@@ -7,7 +7,7 @@ import { Button } from '../website-styling/default';
 
 interface Props {
   mapText: string;
-  getNewRoute: (mapText: string) => void;
+  getNewRoute: () => void;
   updateMapText: (e: any) => void;
   className?: string;
 }
@@ -26,7 +26,7 @@ export class MapInput extends Component<Props> {
   private renderSubmitButton() {
     return (
       <div className={'box--submit-button'}>
-        <Button onClick={this.handleClick()}>
+        <Button onClick={() => this.props.getNewRoute()}>
           Calculate Shortest Route to all Cities
         </Button>
       </div>
@@ -53,10 +53,6 @@ export class MapInput extends Component<Props> {
         </div>
       </div>
     );
-  }
-
-  private handleClick() {
-    return () => this.props.getNewRoute(this.props.mapText);
   }
 
   private fileHandler(fileText: string) {
