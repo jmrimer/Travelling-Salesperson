@@ -4,19 +4,29 @@ import classNames from 'classnames';
 import { StyledMapInput } from '../shared-graphic-components/MapInput';
 import { TrialModel } from './TrialModel';
 import MultiPathVisualGraph from './MultiPathVisualGraph';
-import StyledScatterChart from './StyledScatterChart';
-import { Button } from '../website-styling/default';
+import { Button, Heading } from '../website-styling/default';
+import StyledTextInput from './StyledTextInput';
 
 interface Props {
   trial: TrialModel;
   currentGeneration: number;
   loading: boolean;
-  getNewTrial: (mapText: string) => void;
+  getTrial: () => void;
   updateMapText: (e: any) => void;
   mapText: string;
   points: any[];
   nextGeneration: () => void;
   previousGeneration: () => void;
+  updateStartingPopulation: (e: any) => void;
+  updatePopulationCap: (e: any) => void;
+  updateTotalGenerations: (e: any) => void;
+  updateMaxMutationSize: (e: any) => void;
+  updateMutationRate: (e: any) => void;
+  startingPopulation: string;
+  populationCap: string;
+  totalGenerations: string;
+  maxMutationSize: string;
+  mutationRate: string;
   className?: string;
 }
 
@@ -24,7 +34,6 @@ export const TrialDisplayer: React.FC<Props> = props => {
   let {
     currentGeneration,
     loading,
-    getNewTrial,
     updateMapText,
     mapText,
     trial,
@@ -34,9 +43,42 @@ export const TrialDisplayer: React.FC<Props> = props => {
 
   function renderMapInput() {
     return <div className={'input'}>
-      <div className={'title'}>INPUT</div>
+      <Heading>INPUT</Heading>
+      <div className={'trial-config'}>
+        <div className={'row'}>
+          <StyledTextInput
+            label={'Starting population'}
+            callback={props.updateStartingPopulation}
+            value={props.startingPopulation}
+          />
+          <StyledTextInput
+            label={'Population cap'}
+            callback={props.updatePopulationCap}
+            value={props.populationCap}
+          />
+        </div>
+        <div className={'row'}>
+          <StyledTextInput
+            label={'Total generations'}
+            callback={props.updateTotalGenerations}
+            value={props.totalGenerations}
+          />
+          <StyledTextInput
+            label={'Max mutation size'}
+            callback={props.updateMaxMutationSize}
+            value={props.maxMutationSize}
+          />
+        </div>
+        <div className={'row'}>
+          <StyledTextInput
+            label={'Mutation rate'}
+            callback={props.updateMutationRate}
+            value={props.mutationRate}
+          />
+        </div>
+      </div>
       <StyledMapInput
-        getNewRoute={getNewTrial}
+        getNewRoute={props.getTrial}
         updateMapText={updateMapText}
         mapText={mapText}
       />
@@ -66,7 +108,7 @@ export const TrialDisplayer: React.FC<Props> = props => {
         }
         {
           props.trial.generations[0] ?
-          <div className={'weight'}>Weight: {props.trial.generations[0].children[0].weight}</div> :
+            <div className={'weight'}>Weight: {props.trial.generations[0].children[0].weight}</div> :
             null
         }
         <div className={'graph-box'}>
@@ -77,16 +119,22 @@ export const TrialDisplayer: React.FC<Props> = props => {
           />
         </div>
         <div className={'button-box__generations'}>
-        <Button className={'previous-generation'} onClick={() => props.previousGeneration()}>{`< Previous Gen`}</Button>
-        <Button className={'next-generation'} onClick={() => props.nextGeneration()}>{`Next Gen >`}</Button>
-      </div>
+          <Button className={'previous-generation'}
+                  onClick={() => props.previousGeneration()}>{`< Previous Gen`}</Button>
+          <Button className={'next-generation'} onClick={() => props.nextGeneration()}>{`Next Gen >`}</Button>
+        </div>
       </div>
     )
+  }
+
+  function renderDividingLine() {
+    return <div className={'divide'}>&nbsp;</div>
   }
 
   return (
     <div className={classNames('trial-displayer', className)}>
       {renderMapInput()}
+      {renderDividingLine()}
       {renderTrialOutput()}
     </div>
   )
@@ -96,6 +144,21 @@ export default styled(TrialDisplayer)`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+
+  .divide {
+    width: 2px;
+    border: 2px solid ${(props) => props.theme.color.fontWhite};
+    margin: 8px 16px;
+  } 
+   
+  .row {
+    display: flex;
+    flex-direction: row;
+    
+    .input--styled-text {
+      margin-left: auto;
+    }
+ }
 
   .output {
     display: flex;
@@ -108,11 +171,10 @@ export default styled(TrialDisplayer)`
   }
   
   .weight {
-    font-family: Righteous;
+    font-family: Righteous, cursive;
     font-weight: 300;
     color: ${(props) => props.theme.color.fontWhite};
     font-size: 32px;
-    
   }
   
   .button-box__generations {

@@ -23,12 +23,16 @@ export class BruteForceContainer extends React.Component<Props> {
           weightedRoute={this.props.weightedRoute}
           loading={this.props.loading}
           mapText={this.props.mapText}
-          getNewRoute={this.props.getNewRoute}
+          getNewRoute={this.getNewRoute}
           updateMapText={this.props.updateMapText}
           points={this.props.points}
         />
       </div>
     );
+  }
+
+  getNewRoute = () => {
+    this.props.getNewRoute(this.props.mapText);
   }
 }
 

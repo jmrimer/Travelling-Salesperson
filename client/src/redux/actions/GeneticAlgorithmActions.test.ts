@@ -24,32 +24,32 @@ describe('GeneticAlgorithmActions', () => {
     fetchMock.restore();
   });
 
-  it('should fetch a weight cycle with requested coordinates', () => {
-    fetchMock.post('http://localhost:8080/api/genetic-trial', {
-      body: trialJSON,
-      headers: {'content-type': 'application/json'},
-    });
-
-    const expectedActions = [
-      {
-        type: ActionTypes.POST_NEW_TRIAL_REQUEST
-      },
-      {
-        type: ActionTypes.FETCH_TRIAL_SUCCESS,
-        body: trialJSON
-      }
-    ];
-
-    const store = mockStore({});
-
-    // @ts-ignore
-    return store.dispatch(fetchNewTrial(
-      'city1 1 1\ncity2 2 2',
-      '4',
-      '100'
-    ))
-      .then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-      })
-  });
+  // it('should fetch a weight cycle with requested coordinates', () => {
+  //   fetchMock.post('http://localhost:8080/api/genetic-trial', {
+  //     body: trialJSON,
+  //     headers: {'content-type': 'application/json'},
+  //   });
+  //
+  //   const expectedActions = [
+  //     {
+  //       type: ActionTypes.POST_NEW_TRIAL_REQUEST
+  //     },
+  //     {
+  //       type: ActionTypes.FETCH_TRIAL_SUCCESS,
+  //       body: trialJSON
+  //     }
+  //   ];
+  //
+  //   const store = mockStore({});
+  //
+  //   // @ts-ignore
+  //   return store.dispatch(fetchNewTrial(
+  //     'city1 1 1\ncity2 2 2',
+  //     '4',
+  //     '100'
+  //   ))
+  //     .then(() => {
+  //       expect(store.getActions()).toEqual(expectedActions);
+  //     })
+  // });
 });

@@ -1,5 +1,36 @@
 import { ActionTypes } from './types';
-import { MapModel } from '../../shared-models/MapModel';
+import { TrialRequest } from '../../genetic-algorithm/TrialRequest';
+
+export const updateStartingPopulation = (e: any) => {
+  return {
+    type: ActionTypes.UPDATE_STARTING_POPULATION,
+    body: e.target.value
+  }
+};
+export const updatePopulationCap = (e: any) => {
+  return {
+    type: ActionTypes.UPDATE_POPULATION_CAP,
+    body: e.target.value
+  }
+};
+export const updateTotalGenerations = (e: any) => {
+  return {
+    type: ActionTypes.UPDATE_TOTAL_GENERATIONS,
+    body: e.target.value
+  }
+};
+export const updateMaxMutationSize = (e: any) => {
+  return {
+    type: ActionTypes.UPDATE_MAX_MUTATION_SIZE,
+    body: e.target.value
+  }
+};
+export const updateMutationRate = (e: any) => {
+  return {
+    type: ActionTypes.UPDATE_MUTATION_RATE,
+    body: e.target.value
+  }
+};
 
 export const postNewTrialRequest = () => {
   return {
@@ -20,11 +51,7 @@ export const previousGeneration = () => {
   }
 };
 
-
-export function fetchNewTrial(mapText: string) {
-  let map = new MapModel();
-  map.serialize(mapText);
-
+export function fetchTrialFromModel(trialRequest: TrialRequest) {
   return function (dispatch: any) {
     dispatch(postNewTrialRequest());
     return fetch(
@@ -35,14 +62,14 @@ export function fetchNewTrial(mapText: string) {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(map)
+        body: JSON.stringify(trialRequest)
       }
     )
       .then(response => response.json())
       .then(body => dispatch(fetchTrialSuccess(body)))
       .catch(exception => dispatch(fetchTrialFailure(exception)))
   };
-};
+}
 
 export const fetchTrialSuccess = (body: any) => {
   return {

@@ -1,32 +1,24 @@
 package edu.louisville.traveler.genetics;
 
-import edu.louisville.traveler.maps.Map;
 import org.springframework.stereotype.Service;
-
 
 @Service
 public class GeneticTrialService {
-  int startingParentsCount = 32;
-  int populationCap = 32;
-  int totalGenerations = (int) (Math.pow(2, 6));
-  int maxGeneSequenceLength = 16;
-  double mutationChance = 0;
-
-  Trial trialFromMap(Map map) {
+  Trial trialFromMap(TrialRequestModel trialRequest) {
     ParentSelector parentSelector = new RandomParentSelector();
-    GeneCrosser geneCrosser = new OrderedGeneCrosser(maxGeneSequenceLength);
+    GeneCrosser geneCrosser = new OrderedGeneCrosser(trialRequest.getMaxMutationSize());
     Breeder breeder = new Breeder(
       parentSelector,
       geneCrosser,
-      map,
-      mutationChance
+      trialRequest.getMap(),
+      trialRequest.getMutationRate()
     );
 
     TrialGenerator geneticTrialGenerator = new TrialGenerator(
       breeder,
-      startingParentsCount,
-      totalGenerations,
-      populationCap
+      trialRequest.getStartingPopulation(),
+      trialRequest.getTotalGenerations(),
+      trialRequest.getPopulationCap()
     );
 
     return geneticTrialGenerator.runTrial();

@@ -1,6 +1,5 @@
 package edu.louisville.traveler.genetics;
 
-import edu.louisville.traveler.maps.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,9 +19,9 @@ public class GeneticController {
   @CrossOrigin(origins = "http://localhost:3000")
   @PostMapping("/api/genetic-trial")
   public @ResponseBody
-  Trial newTrial(
-    @RequestBody Map map
+  Trial newTrialFromModel(
+    @RequestBody TrialRequestModel trialRequest
   ) {
-    return this.geneticTrialService.trialFromMap(map);
+    return this.geneticTrialService.trialFromMap(trialRequest);
   }
 }
