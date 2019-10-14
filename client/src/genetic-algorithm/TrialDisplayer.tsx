@@ -5,7 +5,7 @@ import { StyledMapInput } from '../shared-graphic-components/MapInput';
 import { TrialModel } from './TrialModel';
 import MultiPathVisualGraph from './MultiPathVisualGraph';
 import StyledScatterChart from './StyledScatterChart';
-import { Button } from '../website-styling/default';
+import { Button, Heading } from '../website-styling/default';
 
 interface Props {
   trial: TrialModel;

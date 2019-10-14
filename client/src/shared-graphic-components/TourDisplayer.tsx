@@ -5,6 +5,7 @@ import { StyledMapInput } from './MapInput';
 import VisualGraph from './visual-grapher/SinglePathVisualGraph';
 import { TourModel } from '../shared-models/TourModel';
 import styled from 'styled-components';
+import { Heading } from '../website-styling/default';
 
 interface Props {
   weightedRoute: TourModel;
@@ -29,7 +30,7 @@ export const TourDisplayer: React.FC<Props> = props => {
 
   function renderRouteOutput() {
     return <div className={'output'}>
-      <span className={'label--output'}>OUTPUT</span>
+      <Heading className={'label--output'}>OUTPUT</Heading>
       <StyledRouteInfo
         weightedRoute={weightedRoute}
         loading={loading}
@@ -40,7 +41,7 @@ export const TourDisplayer: React.FC<Props> = props => {
 
   function renderMapInput() {
     return <div className={'input'}>
-      <div className={'title'}>INPUT</div>
+      <Heading className={'title'}>INPUT</Heading>
       <StyledMapInput
         getNewRoute={getNewRoute}
         updateMapText={updateMapText}
@@ -90,9 +91,6 @@ export default (styled(TourDisplayer)`
     display: flex;
     align-items: center;
     flex-direction: column;
-    font-family: Righteous, cursive;
-    font-size: 36px;
-    color: ${(props) => props.theme.color.fontWhite};
   }
   
   .divide {

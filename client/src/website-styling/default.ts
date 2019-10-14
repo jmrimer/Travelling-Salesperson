@@ -31,3 +31,9 @@ export const Button = styled.button`
     background: ${(props) => props.theme.color.lavender};
   }
 `;
+export const Heading = styled.h1`
+  width: 100%;
+  font-family: Righteous, cursive;
+  font-size: 36px;
+  color: ${(props) => props.theme.color.fontWhite};
+`;
