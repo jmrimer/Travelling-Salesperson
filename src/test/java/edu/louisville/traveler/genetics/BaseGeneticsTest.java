@@ -11,10 +11,10 @@ import java.util.HashSet;
 import java.util.List;
 
 class BaseGeneticsTest {
-  int startingParentsCount = 32;
-  int populationCap = 32;
-  int totalGenerations = (int) (Math.pow(2, 12));
-  int maxGeneSequenceLength = 16;
+  int startingParentsCount = 128;
+  int populationCap = 128;
+  int totalGenerations = (int) (Math.pow(2, 9));
+  int maxGeneSequenceLength = 32;
   double mutationChance = 0;
 
   Trial trial;

@@ -37,10 +37,12 @@ class TrialGenerator {
   }
 
   private void controlPopulation(Generation generation) {
+    int percentOfWorstFitToKeep = 10;
+    int numberOfWeak = (int) (((double) percentOfWorstFitToKeep / 100) * populationCap);
     this.population.addAll(generation.getPopulation());
     if (this.population.size() > populationCap) {
       this.population.sort(Comparator.comparingDouble(LivingTour::getWeight));
-      this.population.subList(populationCap - 1, this.population.size() - 1).clear();
+      this.population.subList(populationCap - 1, this.population.size() - numberOfWeak).clear();
     }
   }
 
