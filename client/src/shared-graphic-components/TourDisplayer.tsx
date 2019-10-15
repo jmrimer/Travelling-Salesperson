@@ -6,6 +6,7 @@ import VisualGraph from './visual-grapher/SinglePathVisualGraph';
 import { TourModel } from '../shared-models/TourModel';
 import styled from 'styled-components';
 import { Heading } from '../website-styling/default';
+import DividingLine from './DividingLine';
 
 interface Props {
   weightedRoute: TourModel;
@@ -51,7 +52,7 @@ export const TourDisplayer: React.FC<Props> = props => {
   }
 
   function renderDividingLine() {
-    return <div className={'divide'}>&nbsp;</div>
+    return <DividingLine/>;
   }
 
   function renderMap() {

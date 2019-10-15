@@ -6,15 +6,12 @@ import { TrialModel } from './TrialModel';
 import MultiPathVisualGraph from './MultiPathVisualGraph';
 import { Button, Heading } from '../website-styling/default';
 import StyledTextInput from './StyledTextInput';
-import { TrialRequest } from './TrialRequest';
-import { MapModel } from '../shared-models/MapModel';
 
 interface Props {
   trial: TrialModel;
   currentGeneration: number;
   loading: boolean;
-  getNewTrial: (mapText: string) => void;
-  getTrialFromModel: (trialRequest: TrialRequest) => void;
+  getTrial: () => void;
   updateMapText: (e: any) => void;
   mapText: string;
   points: any[];
@@ -37,7 +34,6 @@ export const TrialDisplayer: React.FC<Props> = props => {
   let {
     currentGeneration,
     loading,
-    getNewTrial,
     updateMapText,
     mapText,
     trial,
@@ -82,28 +78,12 @@ export const TrialDisplayer: React.FC<Props> = props => {
         </div>
       </div>
       <StyledMapInput
-        getNewRoute={getNewRoute}
+        getNewRoute={props.getTrial}
         updateMapText={updateMapText}
         mapText={mapText}
       />
     </div>
   }
-
-  const getNewRoute = () => {
-    let map = new MapModel();
-    map.serialize(mapText);
-
-    let trialRequest = new TrialRequest(
-      map,
-      props.startingPopulation,
-      props.populationCap,
-      props.totalGenerations,
-      props.maxMutationSize,
-      props.mutationRate
-    );
-
-    props.getTrialFromModel(trialRequest);
-  };
 
   function renderTrialOutput() {
     function filterBestChildRoutes() {
@@ -147,9 +127,14 @@ export const TrialDisplayer: React.FC<Props> = props => {
     )
   }
 
+  function renderDividingLine() {
+    return <div className={'divide'}>&nbsp;</div>
+  }
+
   return (
     <div className={classNames('trial-displayer', className)}>
       {renderMapInput()}
+      {renderDividingLine()}
       {renderTrialOutput()}
     </div>
   )
@@ -157,10 +142,15 @@ export const TrialDisplayer: React.FC<Props> = props => {
 
 export default styled(TrialDisplayer)`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-around;
-  width: fit-content;
 
+  .divide {
+    width: 2px;
+    border: 2px solid ${(props) => props.theme.color.fontWhite};
+    margin: 8px 16px;
+  } 
+   
   .row {
     display: flex;
     flex-direction: row;
@@ -181,7 +171,7 @@ export default styled(TrialDisplayer)`
   }
   
   .weight {
-    font-family: Righteous;
+    font-family: Righteous, cursive;
     font-weight: 300;
     color: ${(props) => props.theme.color.fontWhite};
     font-size: 32px;

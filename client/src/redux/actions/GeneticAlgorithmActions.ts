@@ -1,5 +1,4 @@
 import { ActionTypes } from './types';
-import { MapModel } from '../../shared-models/MapModel';
 import { TrialRequest } from '../../genetic-algorithm/TrialRequest';
 
 export const updateStartingPopulation = (e: any) => {
@@ -56,7 +55,7 @@ export function fetchTrialFromModel(trialRequest: TrialRequest) {
   return function (dispatch: any) {
     dispatch(postNewTrialRequest());
     return fetch(
-      'http://localhost:8080/api/genetic-trial-from-model',
+      'http://localhost:8080/api/genetic-trial',
       {
         method: 'post',
         headers: {
@@ -71,27 +70,6 @@ export function fetchTrialFromModel(trialRequest: TrialRequest) {
       .catch(exception => dispatch(fetchTrialFailure(exception)))
   };
 }
-
-export function fetchNewTrial(mapText: string) {
-  let map = new MapModel();
-  map.serialize(mapText);
-  return function (dispatch: any) {
-    dispatch(postNewTrialRequest());
-    return fetch(
-      'http://localhost:8080/api/genetic-trial',
-      {
-        method: 'post',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(map)
-      }
-    )
-      .then(response => response.json())
-      .then(body => dispatch(fetchTrialSuccess(body)))
-      .catch(exception => dispatch(fetchTrialFailure(exception)))
-  };}
 
 export const fetchTrialSuccess = (body: any) => {
   return {

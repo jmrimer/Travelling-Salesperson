@@ -3,17 +3,22 @@ import { TourModel } from '../shared-models/TourModel';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import {
-  fetchNewTrial, fetchTrialFromModel,
+  fetchTrialFromModel,
   nextGeneration,
   previousGeneration,
   updateCurrentPage,
-  updateMapText, updateMaxMutationSize, updateMutationRate, updatePopulationCap,
-  updateStartingPopulation, updateTotalGenerations
+  updateMapText,
+  updateMaxMutationSize,
+  updateMutationRate,
+  updatePopulationCap,
+  updateStartingPopulation,
+  updateTotalGenerations
 } from '../redux/actions';
 import TrialDisplayer from './TrialDisplayer';
 import { Page } from '../website-styling/Header';
 import { TrialModel } from './TrialModel';
 import { TrialRequest } from './TrialRequest';
+import { MapModel } from '../shared-models/MapModel';
 
 interface Props {
   weightedRoute: TourModel;
@@ -53,8 +58,7 @@ export class GeneticAlgorithmContainer extends React.Component<Props> {
           trial={this.props.trial}
           currentGeneration={this.props.currentGeneration}
           loading={this.props.loading}
-          getNewTrial={this.props.getNewTrial}
-          getTrialFromModel={this.props.getTrialFromModel}
+          getTrial={this.getTrial}
           mapText={this.props.mapText}
           updateMapText={this.props.updateMapText}
           points={this.props.points}
@@ -74,6 +78,22 @@ export class GeneticAlgorithmContainer extends React.Component<Props> {
       </div>
     );
   }
+
+  getTrial = () => {
+    let map = new MapModel();
+    map.serialize(this.props.mapText);
+
+    let trialRequest = new TrialRequest(
+      map,
+      this.props.startingPopulation,
+      this.props.populationCap,
+      this.props.totalGenerations,
+      this.props.maxMutationSize,
+      this.props.mutationRate
+    );
+
+    this.props.getTrialFromModel(trialRequest);
+  };
 }
 
 const mapStateToProps = (state: any) => ({
@@ -90,7 +110,6 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = {
-  getNewTrial: fetchNewTrial,
   updateMapText: updateMapText,
   updateCurrentPage: updateCurrentPage,
   nextGeneration: nextGeneration,
