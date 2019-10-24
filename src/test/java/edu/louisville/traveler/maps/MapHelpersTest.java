@@ -120,10 +120,24 @@ public class MapHelpersTest {
     assertEquals(
       215.08553303209044,
       mapHelpers.calculateDistance(city1, city4) +
-      mapHelpers.calculateDistance(city4, city2) +
-      mapHelpers.calculateDistance(city2, city3) +
-      mapHelpers.calculateDistance(city3, city1),
+        mapHelpers.calculateDistance(city4, city2) +
+        mapHelpers.calculateDistance(city2, city3) +
+        mapHelpers.calculateDistance(city3, city1),
       0.000005
     );
+  }
+
+  @Test
+  public void findsCenterOfMap() {
+    Point2D expectedCenter = new Point2D.Double(48.5457928, 50.39338360000001);
+    Map map = new Map(List.of(
+      new City(1, 87.951292, 2.658162),
+      new City(2, 33.466597, 66.682943),
+      new City(3, 91.778314, 53.807184),
+      new City(4, 20.526749, 47.633290),
+      new City(5, 9.006012, 81.185339)
+    ));
+
+    assertEquals(expectedCenter, MapHelpers.centerOf(map));
   }
 }

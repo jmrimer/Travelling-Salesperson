@@ -4,7 +4,20 @@ import java.awt.geom.Point2D;
 import java.util.*;
 import java.util.List;
 
-class MapHelpers {
+public class MapHelpers {
+  public static Point2D centerOf(Map map) {
+    double sumX = 0;
+    double sumY = 0;
+    for (City city : map.getCities()) {
+      sumX += city.latitude;
+      sumY += city.longitude;
+    }
+    return new Point2D.Double(
+      sumX / map.getCities().size(),
+      sumY / map.getCities().size()
+    );
+  }
+
   City findNearestCity(City start, List<City> cities) {
     City nearestCity = null;
     float bestDistance = Float.MAX_VALUE;

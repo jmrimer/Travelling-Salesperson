@@ -118,6 +118,14 @@ class BaseGeneticsTest {
   private City city98 = new City(98, 24.509415, 4.898221);
   private City city99 = new City(99, 54.347362, 47.959838);
   private City city100 = new City(100, 59.797967, 84.215827);
+  Map map5 = new Map(List.of(
+    city1,
+    city2,
+    city3,
+    city4,
+    city5
+  ));
+
   Map map100 = new Map(List.of(
     city1,
     city2,
