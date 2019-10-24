@@ -26,6 +26,8 @@ public class BestParentsBestCrossoverTrial extends BaseGeneticsTest {
     );
 
     TrialGenerator trialGenerator = new TrialGenerator(
+      map100,
+      new RandomPopulationSeeder(),
       breeder,
       startingParentsCount,
       totalGenerations,
