@@ -18,6 +18,15 @@ public class MapHelpers {
     );
   }
 
+  public static PolarCoordinates mapPolarPointFromCenter(City city, Point2D center) {
+    double opposite = city.getLongitude() - center.getY();
+    double adjacent = city.getLatitude() - center.getX();
+    double theta = Math.toDegrees(Math.atan(opposite / adjacent));
+    double r = Math.sqrt(Math.pow(adjacent, 2) + Math.pow(opposite, 2));
+
+    return new PolarCoordinates(r, theta);
+  }
+
   City findNearestCity(City start, List<City> cities) {
     City nearestCity = null;
     float bestDistance = Float.MAX_VALUE;

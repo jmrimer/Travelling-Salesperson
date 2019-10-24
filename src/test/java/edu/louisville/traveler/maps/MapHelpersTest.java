@@ -140,4 +140,13 @@ public class MapHelpersTest {
 
     assertEquals(expectedCenter, MapHelpers.centerOf(map));
   }
+
+  @Test
+  public void findsThetaAndRadiusFromNewCenter() {
+    Point2D center = new Point2D.Double(48.5457928, 50.39338360000001);
+    PolarCoordinates expectedCoordinates = new PolarCoordinates(43.36709492783081, 4.514919136463644);
+    City city3 = new City(3, 91.778314, 53.807184);
+
+    assertEquals(expectedCoordinates, MapHelpers.mapPolarPointFromCenter(city3, center));
+  }
 }
