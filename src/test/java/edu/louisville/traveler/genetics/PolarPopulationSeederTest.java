@@ -18,5 +18,17 @@ public class PolarPopulationSeederTest extends BaseGeneticsTest {
       assertEquals(expectedTour, livingTour);
     }
   }
+  
+  @Test
+  public void createsTwoGroupsBasedOnRInCounterClockwiseOrder() {
+    List<LivingTour> seed = new PolarPopulationSeeder().seed(8, map5);
+    assertEquals(8, seed.size());
+
+    LivingTour expectedTour = new LivingTour(List.of(city3, city2, city5, city4, city1, city3));
+
+    for (LivingTour livingTour : seed) {
+      assertEquals(expectedTour, livingTour);
+    }
+  }
 
 }

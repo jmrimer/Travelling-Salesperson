@@ -10,6 +10,8 @@ public class PolarCoordinates implements Comparable<PolarCoordinates> {
   double r;
   double theta;
 
+
+
   @Override
   public int compareTo(@NotNull PolarCoordinates o) {
     if (this.theta != o.getTheta()) {
