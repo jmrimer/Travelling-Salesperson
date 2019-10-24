@@ -13,28 +13,8 @@ class LivingTour extends Tour {
   private int age = 0;
   private boolean bred = false;
 
-  LivingTour(List<City> route) {
-    super(route, RouteWeightCalculator.calculateWeight(route));
-  }
-
-  boolean isDead() {
-    return age > lifespan;
-  }
-
-  boolean isAlive() {
-    return age <= lifespan;
-  }
-
-  void age(){
-    this.age++;
-  }
-
-  void revitalize() {
-    this.age--;
-  }
-
-  boolean didBreed() {
-    return bred;
+  LivingTour(List<City> cycle) {
+    super(cycle, RouteWeightCalculator.calculateWeight(cycle));
   }
 
   @Override

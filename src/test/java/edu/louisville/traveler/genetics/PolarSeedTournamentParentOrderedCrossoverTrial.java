@@ -8,12 +8,13 @@ public class PolarSeedTournamentParentOrderedCrossoverTrial extends BaseGenetics
   public void run30Trials() {
     timestamp = System.currentTimeMillis();
     for (int i = 0; i < 32; i++) {
-      selectsRandomParentsAndCrossesOrderedGenes();
+      initializesWithPolarSelectsTournamentParentsAndCrossesOrderedGenes();
     }
   }
 
   @Test
-  public void selectsRandomParentsAndCrossesOrderedGenes()  {
+  public void initializesWithPolarSelectsTournamentParentsAndCrossesOrderedGenes()  {
+    PopulationSeeder seeder = new PolarPopulationSeeder();
     ParentSelector parentSelector = new TournamentStyleParentSelector();
     GeneCrosser geneCrosser = new OrderedGeneCrosser(maxGeneSequenceLength);
 
@@ -26,7 +27,7 @@ public class PolarSeedTournamentParentOrderedCrossoverTrial extends BaseGenetics
 
     TrialGenerator trialGenerator = new TrialGenerator(
       map100,
-      new RandomPopulationSeeder(),
+      seeder,
       breeder,
       startingParentsCount,
       totalGenerations,

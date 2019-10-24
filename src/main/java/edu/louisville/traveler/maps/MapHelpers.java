@@ -21,10 +21,32 @@ public class MapHelpers {
   public static PolarCoordinates mapPolarPointFromCenter(City city, Point2D center) {
     double opposite = city.getLongitude() - center.getY();
     double adjacent = city.getLatitude() - center.getX();
-    double theta = Math.toDegrees(Math.atan(opposite / adjacent));
+    double theta = Math.toDegrees(Math.atan(opposite / adjacent)) + quadrantAdjustment(adjacent, opposite);
     double r = Math.sqrt(Math.pow(adjacent, 2) + Math.pow(opposite, 2));
 
     return new PolarCoordinates(r, theta);
+  }
+
+  private static double quadrantAdjustment(double xVector, double yVector) {
+    switch (findQuadrant(xVector, yVector)) {
+      case 1:
+        return 0;
+      case 4:
+        return 360;
+      default:
+        return 180;
+    }
+  }
+
+  private static int findQuadrant(double xVector, double yVector) {
+    if (xVector < 0 && yVector > 0) {
+      return 2;
+    } else if (xVector < 0 && yVector < 0) {
+      return 3;
+    } else if (xVector > 0 && yVector < 0) {
+      return 4;
+    }
+    return 1;
   }
 
   City findNearestCity(City start, List<City> cities) {
