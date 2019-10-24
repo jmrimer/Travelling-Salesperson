@@ -30,6 +30,8 @@ public class MutatedBestParentsOrderedCrossoverTrialTest extends BaseGeneticsTes
     };
 
     TrialGenerator trialGenerator = new TrialGenerator(
+      map100,
+      new RandomPopulationSeeder(),
       breeder,
       startingParentsCount,
       totalGenerations,

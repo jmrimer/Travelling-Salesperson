@@ -29,8 +29,8 @@ abstract class GeneCrosser {
 
   int randomGenomeLength(Map map) {
     return this.maxGeneSequenceLength <= map.getCities().size() ?
-      (int) (Math.random() * this.maxGeneSequenceLength) + 1 :
-      (int) (Math.random() * map.getCities().size()) + 1;
+      ((int) (Math.random() * this.maxGeneSequenceLength)) + 1 :
+      ((int) (Math.random() * map.getCities().size())) + 1;
   }
 
   static int indexOfAvailableGenomeLength(

@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class GeneticTrialService {
   Trial trialFromMap(TrialRequestModel trialRequest) {
-    ParentSelector parentSelector = new RandomParentSelector();
+    PopulationSeeder seeder = new RandomRegionGroupedPolarPopulationSeeder();
+    ParentSelector parentSelector = new TournamentStyleParentSelector();
     GeneCrosser geneCrosser = new OrderedGeneCrosser(trialRequest.getMaxMutationSize());
+
     Breeder breeder = new Breeder(
       parentSelector,
       geneCrosser,
@@ -15,6 +17,8 @@ public class GeneticTrialService {
     );
 
     TrialGenerator geneticTrialGenerator = new TrialGenerator(
+      trialRequest.getMap(),
+      seeder,
       breeder,
       trialRequest.getStartingPopulation(),
       trialRequest.getTotalGenerations(),

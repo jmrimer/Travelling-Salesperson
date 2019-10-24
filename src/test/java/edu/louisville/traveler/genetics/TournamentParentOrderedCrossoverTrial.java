@@ -2,7 +2,7 @@ package edu.louisville.traveler.genetics;
 
 import org.junit.Test;
 
-public class RandomParentOrderedCrossoverTrial extends BaseGeneticsTest {
+public class TournamentParentOrderedCrossoverTrial extends BaseGeneticsTest {
   long timestamp;
   @Test
   public void run30Trials() {
@@ -14,7 +14,7 @@ public class RandomParentOrderedCrossoverTrial extends BaseGeneticsTest {
 
   @Test
   public void selectsRandomParentsAndCrossesOrderedGenes()  {
-    ParentSelector parentSelector = new RandomParentSelector();
+    ParentSelector parentSelector = new TournamentStyleParentSelector();
     GeneCrosser geneCrosser = new OrderedGeneCrosser(maxGeneSequenceLength);
 
     Breeder breeder = new Breeder(

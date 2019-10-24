@@ -106,11 +106,19 @@ export const TrialDisplayer: React.FC<Props> = props => {
             <div>Loading...</div> :
             <div/>
         }
-        {
-          props.trial.generations[0] ?
-            <div className={'weight'}>Weight: {props.trial.generations[0].children[0].weight}</div> :
-            null
-        }
+        <div className={'generation-info'}>
+          {
+            props.trial.generations[currentGeneration] ?
+              <span className={'generation'}>Generation: {currentGeneration}</span> :
+              null
+          }
+          {
+            props.trial.generations[currentGeneration] ?
+              <span
+                className={'weight'}>Weight: {props.trial.generations[currentGeneration].children[0].weight.toFixed(0)}</span> :
+              null
+          }
+        </div>
         <div className={'graph-box'}>
           <MultiPathVisualGraph
             className={'children'}
@@ -170,7 +178,7 @@ export default styled(TrialDisplayer)`
     flex-direction: row;
   }
   
-  .weight {
+  .weight, .generation {
     font-family: Righteous, cursive;
     font-weight: 300;
     color: ${(props) => props.theme.color.fontWhite};
@@ -187,5 +195,11 @@ export default styled(TrialDisplayer)`
     .next-generation {
       margin-left: 16px;
     }
+  }
+  
+  .generation-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
   }
 `;

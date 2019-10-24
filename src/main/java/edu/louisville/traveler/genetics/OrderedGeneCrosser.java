@@ -3,7 +3,8 @@ package edu.louisville.traveler.genetics;
 import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Map;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 class OrderedGeneCrosser extends BestGeneCrosser {
 
@@ -13,35 +14,29 @@ class OrderedGeneCrosser extends BestGeneCrosser {
 
   @Override
   void crossover(LivingTour child, LivingTour[] parents, Map map) {
-    int genomeLength = randomGenomeLength(map);
-    List<Integer> randomIndexes = randomIndexes(genomeLength, map);
+    int genomeLength = randomGenomeLength(map) - 1;
+    int randomStart = (int) (Math.random() * (map.getCities().size() - genomeLength));
+    int randomEnd = randomStart + genomeLength;
+    child.setCycle(orderedCrossOnInclusiveIndexRange(parents, randomStart, randomEnd));
+  }
 
-    List<City> citiesFromParent1 = new ArrayList<>();
-    for (int index : randomIndexes) {
-      citiesFromParent1.add(parents[0].getCycle().get(index));
-    }
-
-    List<City> citiesFromParent2 = new ArrayList<>();
-    for (int i = 0; i < parents[1].getCycle().size(); i++) {
-      City orderedCity = parents[1].getCycle().get(i);
-      if (citiesFromParent1.contains(orderedCity)) {
-        citiesFromParent2.add(orderedCity);
+  private List<City> createOrderedListFromRemainingCities(LivingTour parent, List<City> citiesFromParent1) {
+    List<City> orderedCities = new ArrayList<>();
+    for (int i = 0; i < parent.getCycle().size() - 1; i++) {
+      City orderedCity = parent.getCycle().get(i);
+      if (!citiesFromParent1.contains(orderedCity)) {
+        orderedCities.add(orderedCity);
       }
     }
+    return orderedCities;
+  }
 
-    for (int i = 0; i < child.getCycle().size(); i++) {
-      if (!randomIndexes.contains(i)) {
-        child.getCycle().set(i, parents[0].getCycle().get(i));
-      }
+  List<City> createRandomCityListFromParent(LivingTour parent, List<Integer> indexes) {
+    List<City> citiesFromParent = new ArrayList<>();
+    for (int index : indexes) {
+      citiesFromParent.add(parent.getCycle().get(index));
     }
-
-    Iterator<City> cityIterator = citiesFromParent2.iterator();
-    for (int i = 0; i < child.getCycle().size(); i++) {
-      if (child.getCycle().get(i) == null) {
-        child.getCycle().set(i, cityIterator.next());
-      }
-    }
-    child.getCycle().set(child.getCycle().size() - 1, child.getCycle().get(0));
+    return citiesFromParent;
   }
 
   private List<Integer> randomIndexes(int genomeLength, Map map) {
@@ -64,5 +59,22 @@ class OrderedGeneCrosser extends BestGeneCrosser {
   @Override
   void mutateSingleGene(Map map, LivingTour child) {
 
+  }
+
+  List<City> orderedCrossOnInclusiveIndexRange(LivingTour[] parents, int start, int end) {
+    List<Integer> indexes = new ArrayList<>();
+    for (int i = start; i <= end; i++) {
+      indexes.add(i);
+    }
+
+    List<City> citiesFromParent1 =
+      createRandomCityListFromParent(parents[0], indexes);
+
+    List<City> citiesFromParent2 =
+      createOrderedListFromRemainingCities(parents[1], citiesFromParent1);
+
+    citiesFromParent1.addAll(citiesFromParent2);
+    citiesFromParent1.add(citiesFromParent1.get(0));
+    return citiesFromParent1;
   }
 }

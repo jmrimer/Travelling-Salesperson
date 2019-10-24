@@ -1,23 +1,30 @@
 package edu.louisville.traveler.genetics;
 
+import edu.louisville.traveler.maps.Map;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 class TrialGenerator {
+  private PopulationSeeder seeder;
   private Breeder breeder;
   private final int startingParentCount;
   private final int totalGenerations;
   private int populationCap;
+  private Map map;
   private List<LivingTour> currentParents = new ArrayList<>();
   private final List<LivingTour> population = new ArrayList<>();
 
   TrialGenerator(
+    Map map,
+    PopulationSeeder seeder,
     Breeder breeder,
     int startingParentCount,
     int totalGenerations,
-    int populationCap
-  ) {
+    int populationCap) {
+    this.map = map;
+    this.seeder = seeder;
     this.breeder = breeder;
     this.startingParentCount = startingParentCount;
     this.totalGenerations = totalGenerations;
@@ -58,7 +65,7 @@ class TrialGenerator {
   }
 
   private void setupFirstGeneration() {
-    this.population.addAll(breeder.randomGeneration(this.startingParentCount));
+    this.population.addAll(seeder.seed(this.startingParentCount, this.map));
   }
 
 }

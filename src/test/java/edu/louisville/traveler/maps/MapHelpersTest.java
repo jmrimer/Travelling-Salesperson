@@ -120,10 +120,51 @@ public class MapHelpersTest {
     assertEquals(
       215.08553303209044,
       mapHelpers.calculateDistance(city1, city4) +
-      mapHelpers.calculateDistance(city4, city2) +
-      mapHelpers.calculateDistance(city2, city3) +
-      mapHelpers.calculateDistance(city3, city1),
+        mapHelpers.calculateDistance(city4, city2) +
+        mapHelpers.calculateDistance(city2, city3) +
+        mapHelpers.calculateDistance(city3, city1),
       0.000005
     );
+  }
+
+  @Test
+  public void findsCenterOfMap() {
+    Point2D expectedCenter = new Point2D.Double(48.5457928, 50.39338360000001);
+    Map map = new Map(List.of(
+      new City(1, 87.951292, 2.658162),
+      new City(2, 33.466597, 66.682943),
+      new City(3, 91.778314, 53.807184),
+      new City(4, 20.526749, 47.633290),
+      new City(5, 9.006012, 81.185339)
+    ));
+
+    assertEquals(expectedCenter, MapHelpers.centerOf(map));
+  }
+
+  @Test
+  public void findsThetaAndRadiusFromNewCenter() {
+    Point2D center = new Point2D.Double(48.5457928, 50.39338360000001);
+    City city1 = new City(1, 87.951292, 2.658162);
+    City city2 = new City(2, 33.466597, 66.682943);
+    City city3 = new City(3, 91.778314, 53.807184);
+    City city4 = new City(4, 20.526749, 47.633290);
+    City city5 = new City(5, 9.006012, 81.185339);
+
+    PolarCoordinates expectedCoordinates = new PolarCoordinates(61.89866515848551, 309.5397257208982);
+    assertEquals(expectedCoordinates, MapHelpers.mapPolarPointFromCenter(city1, center));
+
+    expectedCoordinates = new PolarCoordinates(22.197564988549207, 132.79033816606193);
+    assertEquals(expectedCoordinates, MapHelpers.mapPolarPointFromCenter(city2, center));
+
+    expectedCoordinates = new PolarCoordinates(43.36709492783081, 4.514919136463644);
+    assertEquals(expectedCoordinates, MapHelpers.mapPolarPointFromCenter(city3, center));
+
+    expectedCoordinates = new PolarCoordinates(28.154660931133222, 185.62592888629598);
+    assertEquals(expectedCoordinates, MapHelpers.mapPolarPointFromCenter(city4, center));
+
+    expectedCoordinates = new PolarCoordinates(50.11525499354101, 142.0900079749781);
+    assertEquals(expectedCoordinates, MapHelpers.mapPolarPointFromCenter(city5, center));
+
+
   }
 }

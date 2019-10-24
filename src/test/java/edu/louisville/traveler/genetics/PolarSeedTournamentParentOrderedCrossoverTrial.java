@@ -2,19 +2,20 @@ package edu.louisville.traveler.genetics;
 
 import org.junit.Test;
 
-public class RandomParentOrderedCrossoverTrial extends BaseGeneticsTest {
+public class PolarSeedTournamentParentOrderedCrossoverTrial extends BaseGeneticsTest {
   long timestamp;
   @Test
   public void run30Trials() {
     timestamp = System.currentTimeMillis();
     for (int i = 0; i < 32; i++) {
-      selectsRandomParentsAndCrossesOrderedGenes();
+      initializesWithPolarSelectsTournamentParentsAndCrossesOrderedGenes();
     }
   }
 
   @Test
-  public void selectsRandomParentsAndCrossesOrderedGenes()  {
-    ParentSelector parentSelector = new RandomParentSelector();
+  public void initializesWithPolarSelectsTournamentParentsAndCrossesOrderedGenes()  {
+    PopulationSeeder seeder = new PolarPopulationSeeder();
+    ParentSelector parentSelector = new TournamentStyleParentSelector();
     GeneCrosser geneCrosser = new OrderedGeneCrosser(maxGeneSequenceLength);
 
     Breeder breeder = new Breeder(
@@ -26,7 +27,7 @@ public class RandomParentOrderedCrossoverTrial extends BaseGeneticsTest {
 
     TrialGenerator trialGenerator = new TrialGenerator(
       map100,
-      new RandomPopulationSeeder(),
+      seeder,
       breeder,
       startingParentsCount,
       totalGenerations,

@@ -69,14 +69,6 @@ class Breeder {
     return new LivingTour(Arrays.asList(emptyRoute));
   }
 
-  List<LivingTour> randomGeneration(int populationCount) {
-    List<LivingTour> randomGeneration = new ArrayList<>();
-    for (int i = 0; i < populationCount; i++) {
-      randomGeneration.add(generateRandomTour(this.map));
-    }
-    return randomGeneration;
-  }
-
   private void setupNewGeneration(List<LivingTour> currentParents) {
     unbredParents.clear();
     unbredParents.addAll(currentParents);
@@ -91,28 +83,5 @@ class Breeder {
 
   private boolean parentsAvailableForMating(List<LivingTour> unbredParents) {
     return unbredParents.size() > 1;
-  }
-
-  private LivingTour generateRandomTour(Map map) {
-    List<City> remainingCities = new ArrayList<>(map.getCities());
-    List<City> route = new ArrayList<>();
-    City start = addAndRemoveRandomCity(remainingCities, route);
-    addAllRemainingCities(remainingCities, route);
-    route.add(start);
-    return new LivingTour(route);
-  }
-
-  private void addAllRemainingCities(List<City> remainingCities, List<City> route) {
-    Iterator<City> cityIterator = remainingCities.iterator();
-    while (cityIterator.hasNext()) {
-      addAndRemoveRandomCity(remainingCities, route);
-    }
-  }
-
-  private City addAndRemoveRandomCity(List<City> remainingCities, List<City> route) {
-    City city = remainingCities.get((int) (Math.random() * remainingCities.size()));
-    route.add(city);
-    remainingCities.remove(city);
-    return city;
   }
 }
