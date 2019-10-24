@@ -50,13 +50,14 @@ public class RandomRegionGroupedPolarPopulationSeeder extends GroupedPolarPopula
   }
 
   private List<List<City>> splitIntoRegions(List<City> noCycleCityList, Map map) {
+    double regionCount = 4;
     List<List<City>> regions = new ArrayList<>();
     Point2D center = MapHelpers.centerOf(map);
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < regionCount; i++) {
       List<City> region = new ArrayList<>();
-      double thetaStart = i * 36;
-      double thetaEnd = (i + 1) * 36;
+      double thetaStart = i * (360 / regionCount);
+      double thetaEnd = (i + 1) * (360 / regionCount);
 
       for (City city : noCycleCityList) {
         PolarCoordinates polarCoordinates = MapHelpers.mapPolarPointFromCenter(city, center);
