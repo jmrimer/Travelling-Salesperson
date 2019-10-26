@@ -4,29 +4,34 @@ import {
   createInitialMatrix,
   serializeJSONToPath,
   serializeJSONtoTour,
-  serializeJSONToTrial,
-  startingMap,
+  serializeJSONToTrial, serializeJSONToWisdom,
+  startingMap4,
   textFromBody,
   toggleMatrix,
   translateCoordinateTextToGraphReadyPoints
 } from './ReducerHelpers';
 import { TrialModel } from '../../genetic-algorithm/TrialModel';
+import { WisdomModel } from '../../crowd-wisdom/WisdomModel';
 
 const initState = {
   weightedRoute: null,
-  mapText: startingMap,
+  mapText: startingMap4,
   shortestBFSPath: null,
   shortestDFSPath: null,
   adjacencyMatrix: createInitialMatrix(),
-  points: translateCoordinateTextToGraphReadyPoints(startingMap),
-  currentPage: Page.BRUTE_FORCE,
+  points: translateCoordinateTextToGraphReadyPoints(startingMap4),
+  currentPage: Page.CROWD_WISDOM,
   currentGeneration: 0,
   startingPopulation: 32,
   populationCap: 32,
   totalGenerations: 64,
-  maxMutationSize: 16,
+  maxMutationSize: 101,
   mutationRate: 0,
-  trial: new TrialModel()
+  trial: new TrialModel(),
+  regionCount: 4,
+  crowdSize: 20,
+  agreementThreshold: 90,
+  wisdom: new WisdomModel()
 };
 
 function incrementGeneration(current: number, max: number) {
@@ -76,10 +81,20 @@ const reducer = (state = initState, action: any) => {
       return {...state, loading: true};
     case ActionTypes.FETCH_TRIAL_SUCCESS:
       return {...state, trial: serializeJSONToTrial(action.body), loading: false};
+    case ActionTypes.POST_NEW_WISDOM_REQUEST:
+      return {...state, loading: true};
+    case ActionTypes.FETCH_WISDOM_SUCCESS:
+      return {...state, wisdom: serializeJSONToWisdom(action.body), loading: false};
     case ActionTypes.NEXT_GENERATION:
-      return {...state, currentGeneration: incrementGeneration(state.currentGeneration, state.trial.generations.length)};
+      return {
+        ...state,
+        currentGeneration: incrementGeneration(state.currentGeneration, state.trial.generations.length)
+      };
     case ActionTypes.PREVIOUS_GENERATION:
-      return {...state, currentGeneration: decrementGeneration(state.currentGeneration, state.trial.generations.length)};
+      return {
+        ...state,
+        currentGeneration: decrementGeneration(state.currentGeneration, state.trial.generations.length)
+      };
     case ActionTypes.UPDATE_STARTING_POPULATION:
       return {...state, startingPopulation: action.body};
     case ActionTypes.UPDATE_POPULATION_CAP:

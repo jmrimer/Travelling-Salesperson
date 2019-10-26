@@ -1,12 +1,10 @@
 package edu.louisville.traveler.genetics;
 
+import edu.louisville.traveler.genetics.crossers.BestGeneCrosser;
 import edu.louisville.traveler.maps.City;
-import edu.louisville.traveler.maps.RouteWeightCalculator;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

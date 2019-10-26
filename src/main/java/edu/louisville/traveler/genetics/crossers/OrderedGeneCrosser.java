@@ -1,19 +1,21 @@
-package edu.louisville.traveler.genetics;
+package edu.louisville.traveler.genetics.crossers;
 
+import edu.louisville.traveler.genetics.LivingTour;
+import edu.louisville.traveler.genetics.crossers.BestGeneCrosser;
 import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Map;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class OrderedGeneCrosser extends BestGeneCrosser {
+public class OrderedGeneCrosser extends BestGeneCrosser {
 
-  OrderedGeneCrosser(int maxGeneSequenceLength) {
+  public OrderedGeneCrosser(int maxGeneSequenceLength) {
     super(maxGeneSequenceLength);
   }
 
   @Override
-  void crossover(LivingTour child, LivingTour[] parents, Map map) {
+  public void crossover(LivingTour child, LivingTour[] parents, Map map) {
     int genomeLength = randomGenomeLength(map) - 1;
     int randomStart = (int) (Math.random() * (map.getCities().size() - genomeLength));
     int randomEnd = randomStart + genomeLength;
@@ -31,7 +33,7 @@ class OrderedGeneCrosser extends BestGeneCrosser {
     return orderedCities;
   }
 
-  List<City> createRandomCityListFromParent(LivingTour parent, List<Integer> indexes) {
+  public List<City> createRandomCityListFromParent(LivingTour parent, List<Integer> indexes) {
     List<City> citiesFromParent = new ArrayList<>();
     for (int index : indexes) {
       citiesFromParent.add(parent.getCycle().get(index));
@@ -52,16 +54,16 @@ class OrderedGeneCrosser extends BestGeneCrosser {
   }
 
   @Override
-  void firstGenes(LivingTour[] parents, LivingTour child, Map map, double mutationChance) {
+  public void firstGenes(LivingTour[] parents, LivingTour child, Map map, double mutationChance) {
 
   }
 
   @Override
-  void mutateSingleGene(Map map, LivingTour child) {
+  public void mutateSingleGene(Map map, LivingTour child) {
 
   }
 
-  List<City> orderedCrossOnInclusiveIndexRange(LivingTour[] parents, int start, int end) {
+  public List<City> orderedCrossOnInclusiveIndexRange(LivingTour[] parents, int start, int end) {
     List<Integer> indexes = new ArrayList<>();
     for (int i = start; i <= end; i++) {
       indexes.add(i);

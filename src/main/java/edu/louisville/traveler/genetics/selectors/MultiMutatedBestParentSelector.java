@@ -1,12 +1,14 @@
-package edu.louisville.traveler.genetics;
+package edu.louisville.traveler.genetics.selectors;
+
+import edu.louisville.traveler.genetics.LivingTour;
 
 import java.util.List;
 import java.util.Random;
 
-class MultiMutatedBestParentSelector extends SingleMutatedBestParentSelector {
+public class MultiMutatedBestParentSelector extends SingleMutatedBestParentSelector {
   int maxMutations;
 
-  MultiMutatedBestParentSelector(int parentMutationLength, int maxMutations) {
+  public MultiMutatedBestParentSelector(int parentMutationLength, int maxMutations) {
     super(parentMutationLength);
     this.maxMutations = maxMutations;
   }

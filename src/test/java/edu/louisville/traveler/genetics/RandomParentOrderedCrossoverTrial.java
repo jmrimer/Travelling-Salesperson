@@ -1,5 +1,10 @@
 package edu.louisville.traveler.genetics;
 
+import edu.louisville.traveler.genetics.crossers.GeneCrosser;
+import edu.louisville.traveler.genetics.crossers.OrderedGeneCrosser;
+import edu.louisville.traveler.genetics.seeders.RandomPopulationSeeder;
+import edu.louisville.traveler.genetics.selectors.ParentSelector;
+import edu.louisville.traveler.genetics.selectors.RandomParentSelector;
 import org.junit.Test;
 
 public class RandomParentOrderedCrossoverTrial extends BaseGeneticsTest {

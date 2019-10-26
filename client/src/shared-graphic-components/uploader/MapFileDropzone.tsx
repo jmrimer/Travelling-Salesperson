@@ -37,7 +37,7 @@ export const StyledMapFileDropzone = styled(MapFileDropdown)`
   justify-content: center;
   flex-direction: column;
   background: ${(props) => props.theme.color.lavender};
-  height: 200px;
+  height: 80px;
   border: 1px solid ${(props) => props.theme.color.fontWhite};
   color: ${(props) => props.theme.color.fontWhite}
   border-radius: 4px;

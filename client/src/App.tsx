@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import GraphContainer from './graph-search/GraphContainer';
 import HeuristicInsertionContainer from './heuristic-instertion/HeuristicInsertionContainer';
 import GeneticAlgorithmContainer from './genetic-algorithm/GeneticAlgorithmContainer';
+import CrowdWisdomContainer from './crowd-wisdom/CrowdWisdomContainer';
 
 interface Props {
   className?: string
@@ -26,6 +27,7 @@ class App extends React.Component<Props> {
             <Route exact path={'/graph-search'} component={GraphContainer}/>
             <Route exact path={'/heuristic-insertion'} component={HeuristicInsertionContainer}/>
             <Route exact path={'/genetic-algorithm'} component={GeneticAlgorithmContainer}/>
+            <Route exact path={'/crowd-wisdom'} component={CrowdWisdomContainer}/>
           </div>
       </Router>
       </ThemeProvider>

@@ -1,4 +1,4 @@
-import { TourModel } from '../shared-models/TourModel';
+import { TourModel } from './TourModel';
 
 export class GenerationModel {
   constructor(

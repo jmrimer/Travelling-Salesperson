@@ -1,5 +1,7 @@
-package edu.louisville.traveler.genetics;
+package edu.louisville.traveler.genetics.selectors;
 
+import edu.louisville.traveler.genetics.LivingTour;
+import edu.louisville.traveler.genetics.selectors.BestParentSelector;
 import edu.louisville.traveler.maps.City;
 
 import java.util.ArrayList;
@@ -10,7 +12,7 @@ import java.util.Random;
 public class SingleMutatedBestParentSelector extends BestParentSelector {
   int parentMutationLength;
 
-  SingleMutatedBestParentSelector(int parentMutationLength) {
+  public SingleMutatedBestParentSelector(int parentMutationLength) {
     super();
     this.parentMutationLength = parentMutationLength;
   }
@@ -24,7 +26,7 @@ public class SingleMutatedBestParentSelector extends BestParentSelector {
     return parents;
   }
 
-  void mutate(LivingTour parent) {
+  public void mutate(LivingTour parent) {
     int max = parent.getCycle().size() - parentMutationLength - 1;
     int randomGeneSequenceIndex = new Random().nextInt((max - 1) + 1) + 1;
     List<City> newGeneSequence = new ArrayList<>();

@@ -1,15 +1,17 @@
-package edu.louisville.traveler.genetics;
+package edu.louisville.traveler.genetics.crossers;
 
+import edu.louisville.traveler.genetics.LivingTour;
+import edu.louisville.traveler.genetics.crossers.GeneCrosser;
 import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Map;
 
 public class RandomGeneCrosser extends GeneCrosser {
 
-  RandomGeneCrosser(int maxGeneSequenceLength) {
+  public RandomGeneCrosser(int maxGeneSequenceLength) {
     super(maxGeneSequenceLength);
   }
 
-  void crossover(LivingTour child, LivingTour[] parents, Map map) {
+  public void crossover(LivingTour child, LivingTour[] parents, Map map) {
     int startingRandomGenomeLength = randomGenomeLength(map);
     int currentGenomeLength = startingRandomGenomeLength;
     int childFirstOpenGene = child.getCycle().indexOf(null);
@@ -86,7 +88,7 @@ public class RandomGeneCrosser extends GeneCrosser {
   }
 
   @Override
-  void mutateSingleGene(Map map, LivingTour child) {
+  public void mutateSingleGene(Map map, LivingTour child) {
     if (child.getCycle().indexOf(null) > -1) {
       int mutantIndex = (int) (Math.random() * map.getCities().size());
       City mutantGene = map.getCities().get(mutantIndex);
@@ -96,7 +98,6 @@ public class RandomGeneCrosser extends GeneCrosser {
       child.getCycle().set(child.getCycle().indexOf(null), mutantGene);
     }
   }
-
 
   private boolean checkSuitabilityOfParentGenesForChild(
     LivingTour parent,

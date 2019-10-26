@@ -1,6 +1,6 @@
 import { serializeJSONToTrial, translateCoordinateTextToGraphReadyPoints } from './ReducerHelpers';
 import { TrialModel } from '../../genetic-algorithm/TrialModel';
-import { GenerationModel } from '../../genetic-algorithm/GenerationModel';
+import { GenerationModel } from '../../shared-models/GenerationModel';
 import { TourModel } from '../../shared-models/TourModel';
 import { CityModel } from '../../shared-models/CityModel';
 

@@ -1,4 +1,7 @@
-package edu.louisville.traveler.genetics;
+package edu.louisville.traveler.genetics.selectors;
+
+import edu.louisville.traveler.genetics.LivingTour;
+import edu.louisville.traveler.genetics.selectors.ParentSelector;
 
 import java.util.Comparator;
 import java.util.List;

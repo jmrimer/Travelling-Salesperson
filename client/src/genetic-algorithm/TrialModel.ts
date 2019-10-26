@@ -1,4 +1,4 @@
-import { GenerationModel } from './GenerationModel';
+import { GenerationModel } from '../shared-models/GenerationModel';
 
 export class TrialModel {
   constructor(
