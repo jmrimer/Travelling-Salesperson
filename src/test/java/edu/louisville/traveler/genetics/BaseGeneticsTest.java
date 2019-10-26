@@ -14,11 +14,11 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class BaseGeneticsTest {
-  int startingParentsCount = 128;
-  int populationCap = 128;
-  int totalGenerations = (int) (Math.pow(2, 9));
-  int maxGeneSequenceLength = 32;
-  double mutationChance = 0;
+  public int startingParentsCount = 128;
+  public int populationCap = 128;
+  public int totalGenerations = (int) (Math.pow(2, 9));
+  public int maxGeneSequenceLength = 32;
+  public double mutationChance = 0;
 
   Trial trial;
   public City city1 = new City(1, 87.951292, 2.658162);
@@ -142,7 +142,7 @@ public class BaseGeneticsTest {
     city10
   ));
 
-  Map map100 = new Map(List.of(
+  public Map map100 = new Map(List.of(
     city1,
     city2,
     city3,
@@ -255,8 +255,8 @@ public class BaseGeneticsTest {
   public void logResults(Trial trial, long duration, long timestamp) {
     finalPopulation = trial.getGenerations().get(trial.getGenerations().size() - 1).getPopulation();
     testLength();
-    finalPopulation.sort(Comparator.comparingDouble(LivingTour::getWeight));
-    LivingTour child = finalPopulation.get(0);
+
+    LivingTour child = trial.bestChild();
     System.out.println("best child weight: " + child.getWeight() + " & size: " + new HashSet<>(child.getCycle()).size());
     try {
       FileWriter csvWriter = new FileWriter("./testlogs/" + "Consolidated" + this.getClass().getSimpleName() + timestamp + ".csv", true);

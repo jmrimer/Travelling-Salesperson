@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-class Breeder {
+public class Breeder {
   private ParentSelector parentSelector;
   private GeneCrosser geneCrosser;
   private Map map;
@@ -17,7 +17,7 @@ class Breeder {
   private int bornChildren;
   private List<LivingTour> unbredParents = new ArrayList<>();
 
-  Breeder(
+  public Breeder(
     ParentSelector parentSelector,
     GeneCrosser geneCrosser,
     Map map,
