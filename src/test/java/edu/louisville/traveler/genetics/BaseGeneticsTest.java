@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-class BaseGeneticsTest {
+public class BaseGeneticsTest {
   int startingParentsCount = 128;
   int populationCap = 128;
   int totalGenerations = (int) (Math.pow(2, 9));
@@ -21,16 +21,16 @@ class BaseGeneticsTest {
   double mutationChance = 0;
 
   Trial trial;
-  City city1 = new City(1, 87.951292, 2.658162);
-  City city2 = new City(2, 33.466597, 66.682943);
-  City city3 = new City(3, 91.778314, 53.807184);
-  City city4 = new City(4, 20.526749, 47.633290);
-  City city5 = new City(5, 9.006012, 81.185339);
-  City city6 = new City(6, 20.032350, 2.761925);
-  City city7 = new City(7, 77.181310, 31.922361);
-  City city8 = new City(8, 41.059603, 32.578509);
-  City city9 = new City(9, 18.692587, 97.015290);
-  City city10 = new City(10, 51.658681, 33.808405);
+  public City city1 = new City(1, 87.951292, 2.658162);
+  public City city2 = new City(2, 33.466597, 66.682943);
+  public City city3 = new City(3, 91.778314, 53.807184);
+  public City city4 = new City(4, 20.526749, 47.633290);
+  public City city5 = new City(5, 9.006012, 81.185339);
+  public City city6 = new City(6, 20.032350, 2.761925);
+  public City city7 = new City(7, 77.181310, 31.922361);
+  public City city8 = new City(8, 41.059603, 32.578509);
+  public City city9 = new City(9, 18.692587, 97.015290);
+  public City city10 = new City(10, 51.658681, 33.808405);
   private City city11 = new City(11, 44.563128, 47.541734);
   private City city12 = new City(12, 37.806330, 50.599689);
   private City city13 = new City(13, 9.961241, 20.337535);
@@ -121,7 +121,7 @@ class BaseGeneticsTest {
   private City city98 = new City(98, 24.509415, 4.898221);
   private City city99 = new City(99, 54.347362, 47.959838);
   private City city100 = new City(100, 59.797967, 84.215827);
-  Map map5 = new Map(List.of(
+  public Map map5 = new Map(List.of(
     city1,
     city2,
     city3,
@@ -129,7 +129,7 @@ class BaseGeneticsTest {
     city5
   ));
 
-  Map map10 = new Map(List.of(
+  public Map map10 = new Map(List.of(
     city1,
     city2,
     city3,
