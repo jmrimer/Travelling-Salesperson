@@ -3,12 +3,15 @@ package edu.louisville.traveler.genetics;
 import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Map;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 class BaseGeneticsTest {
   int startingParentsCount = 128;
@@ -247,8 +250,11 @@ class BaseGeneticsTest {
     trial = new Trial();
   }
 
+  List<LivingTour> finalPopulation;
+
   public void logResults(Trial trial, long duration, long timestamp) {
-    List<LivingTour> finalPopulation = trial.getGenerations().get(trial.getGenerations().size() - 1).getPopulation();
+    finalPopulation = trial.getGenerations().get(trial.getGenerations().size() - 1).getPopulation();
+    testLength();
     finalPopulation.sort(Comparator.comparingDouble(LivingTour::getWeight));
     LivingTour child = finalPopulation.get(0);
     System.out.println("best child weight: " + child.getWeight() + " & size: " + new HashSet<>(child.getCycle()).size());
@@ -261,6 +267,12 @@ class BaseGeneticsTest {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
 
+  @Test
+  public void testLength() {
+    for (LivingTour livingTour : finalPopulation) {
+      assertEquals(101, livingTour.getCycle().size());
+    }
   }
 }

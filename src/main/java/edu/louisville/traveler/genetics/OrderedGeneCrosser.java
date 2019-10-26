@@ -3,7 +3,8 @@ package edu.louisville.traveler.genetics;
 import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Map;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 class OrderedGeneCrosser extends BestGeneCrosser {
 
@@ -13,44 +14,15 @@ class OrderedGeneCrosser extends BestGeneCrosser {
 
   @Override
   void crossover(LivingTour child, LivingTour[] parents, Map map) {
-    int genomeLength = randomGenomeLength(map);
+    int genomeLength = randomGenomeLength(map) - 1;
     int randomStart = (int) (Math.random() * (map.getCities().size() - genomeLength));
     int randomEnd = randomStart + genomeLength;
-//    List<Integer> randomIndexes = randomIndexes(genomeLength, map);
-
     child.setCycle(orderedCrossOnInclusiveIndexRange(parents, randomStart, randomEnd));
-//
-//    List<City> citiesFromParent1 =
-//      createRandomCityListFromParent(parents[0], randomIndexes);
-//
-//    List<City> citiesFromParent2 =
-//      createOrderedListFromRemainingCities(parents[1], citiesFromParent1);
-//
-//    for (int i = 0; i < parents[1].getCycle().size(); i++) {
-//      City orderedCity = parents[1].getCycle().get(i);
-//      if (citiesFromParent1.contains(orderedCity)) {
-//        citiesFromParent2.add(orderedCity);
-//      }
-//    }
-//
-//    for (int i = 0; i < child.getCycle().size(); i++) {
-//      if (!randomIndexes.contains(i)) {
-//        child.getCycle().set(i, parents[0].getCycle().get(i));
-//      }
-//    }
-//
-//    Iterator<City> cityIterator = citiesFromParent2.iterator();
-//    for (int i = 0; i < child.getCycle().size(); i++) {
-//      if (child.getCycle().get(i) == null) {
-//        child.getCycle().set(i, cityIterator.next());
-//      }
-//    }
-//    child.getCycle().set(child.getCycle().size() - 1, child.getCycle().get(0));
   }
 
   private List<City> createOrderedListFromRemainingCities(LivingTour parent, List<City> citiesFromParent1) {
     List<City> orderedCities = new ArrayList<>();
-    for (int i = 0; i < parent.getCycle().size(); i++) {
+    for (int i = 0; i < parent.getCycle().size() - 1; i++) {
       City orderedCity = parent.getCycle().get(i);
       if (!citiesFromParent1.contains(orderedCity)) {
         orderedCities.add(orderedCity);
