@@ -1,5 +1,7 @@
-package edu.louisville.traveler.genetics;
+package edu.louisville.traveler.genetics.seeders;
 
+import edu.louisville.traveler.genetics.LivingTour;
+import edu.louisville.traveler.genetics.seeders.GroupedPolarPopulationSeeder;
 import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Map;
 import edu.louisville.traveler.maps.MapHelpers;

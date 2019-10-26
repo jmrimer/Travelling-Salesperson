@@ -1,5 +1,6 @@
 package edu.louisville.traveler.genetics;
 
+import edu.louisville.traveler.genetics.seeders.GroupedPolarPopulationSeeder;
 import org.junit.Test;
 
 import java.util.List;

@@ -1,5 +1,6 @@
 package edu.louisville.traveler.genetics;
 
+import edu.louisville.traveler.genetics.selectors.SingleMutatedBestParentSelector;
 import edu.louisville.traveler.maps.City;
 import org.junit.Before;
 import org.junit.Test;

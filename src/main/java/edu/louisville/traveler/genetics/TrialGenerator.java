@@ -1,5 +1,6 @@
 package edu.louisville.traveler.genetics;
 
+import edu.louisville.traveler.genetics.seeders.PopulationSeeder;
 import edu.louisville.traveler.maps.Map;
 
 import java.util.ArrayList;

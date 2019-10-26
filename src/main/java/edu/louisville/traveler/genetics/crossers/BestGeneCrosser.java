@@ -1,18 +1,20 @@
-package edu.louisville.traveler.genetics;
+package edu.louisville.traveler.genetics.crossers;
 
+import edu.louisville.traveler.genetics.LivingTour;
+import edu.louisville.traveler.genetics.crossers.GeneCrosser;
 import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Map;
 import edu.louisville.traveler.maps.RouteWeightCalculator;
 
 import java.util.List;
 
-class BestGeneCrosser extends GeneCrosser {
-  BestGeneCrosser(int maxGeneSequenceLength) {
+public class BestGeneCrosser extends GeneCrosser {
+  public BestGeneCrosser(int maxGeneSequenceLength) {
     super(maxGeneSequenceLength);
   }
 
   @Override
-  void crossover(LivingTour child, LivingTour[] parents, Map map) {
+  public void crossover(LivingTour child, LivingTour[] parents, Map map) {
     int currentGenomeLength = randomGenomeLength(map);
     int childFirstOpenGene = child.getCycle().indexOf(null);
 
@@ -68,7 +70,7 @@ class BestGeneCrosser extends GeneCrosser {
     }
   }
 
-  LivingTour selectBestParent(LivingTour[] parents, int genomeStart, int genomeLength) {
+  public LivingTour selectBestParent(LivingTour[] parents, int genomeStart, int genomeLength) {
     double parent1RouteWeight = RouteWeightCalculator.calculateWeight(
       parents[0].getCycle().subList(genomeStart, genomeStart + genomeLength - 1)
     );
@@ -81,7 +83,7 @@ class BestGeneCrosser extends GeneCrosser {
   }
 
   @Override
-  void firstGenes(LivingTour[] parents, LivingTour child, Map map, double mutationChance) {
+  public void firstGenes(LivingTour[] parents, LivingTour child, Map map, double mutationChance) {
     int genomeLength = randomGenomeLength(map);
     LivingTour breedingParent = selectBestParent(
       parents,
@@ -98,7 +100,7 @@ class BestGeneCrosser extends GeneCrosser {
   }
 
   @Override
-  void mutateSingleGene(Map map, LivingTour child) {
+  public void mutateSingleGene(Map map, LivingTour child) {
     int availableIndex = child.getCycle().indexOf(null);
     double bestWeight = Double.MAX_VALUE;
     City bestCity = null;
@@ -121,7 +123,7 @@ class BestGeneCrosser extends GeneCrosser {
     }
   }
 
-  LivingTour[] checkForParentSuitabilityOnSequence(
+  public LivingTour[] checkForParentSuitabilityOnSequence(
     LivingTour[] parents,
     LivingTour child,
     int childAvailableStartIndex,

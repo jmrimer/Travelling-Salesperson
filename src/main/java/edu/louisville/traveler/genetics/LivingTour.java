@@ -8,12 +8,12 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-class LivingTour extends Tour {
+public class LivingTour extends Tour {
   private int lifespan = 256;
   private int age = 0;
   private boolean bred = false;
 
-  LivingTour(List<City> cycle) {
+  public LivingTour(List<City> cycle) {
     super(cycle, RouteWeightCalculator.calculateWeight(cycle));
   }
 

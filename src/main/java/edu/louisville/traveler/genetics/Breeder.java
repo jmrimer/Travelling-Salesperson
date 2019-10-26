@@ -1,5 +1,7 @@
 package edu.louisville.traveler.genetics;
 
+import edu.louisville.traveler.genetics.crossers.GeneCrosser;
+import edu.louisville.traveler.genetics.selectors.ParentSelector;
 import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Map;
 import org.jetbrains.annotations.NotNull;

@@ -1,20 +1,21 @@
-package edu.louisville.traveler.genetics;
+package edu.louisville.traveler.genetics.crossers;
 
+import edu.louisville.traveler.genetics.LivingTour;
 import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Map;
 
-abstract class GeneCrosser {
-  int maxGeneSequenceLength;
+public abstract class GeneCrosser {
+  public int maxGeneSequenceLength;
 
-  GeneCrosser(int maxGeneSequenceLength) {
+  public GeneCrosser(int maxGeneSequenceLength) {
     this.maxGeneSequenceLength = maxGeneSequenceLength;
   }
 
-  abstract void crossover(LivingTour child, LivingTour[] parents, Map map);
+  public abstract void crossover(LivingTour child, LivingTour[] parents, Map map);
 
-  abstract void firstGenes(LivingTour[] parents, LivingTour child, Map map, double mutationChance);
+  public abstract void firstGenes(LivingTour[] parents, LivingTour child, Map map, double mutationChance);
 
-  void transposeGenesToChild(
+  public void transposeGenesToChild(
     LivingTour child,
     int currentSequenceLength,
     LivingTour breedingParent,
@@ -27,13 +28,13 @@ abstract class GeneCrosser {
     }
   }
 
-  int randomGenomeLength(Map map) {
+  public int randomGenomeLength(Map map) {
     return this.maxGeneSequenceLength <= map.getCities().size() ?
       ((int) (Math.random() * this.maxGeneSequenceLength)) + 1 :
       ((int) (Math.random() * map.getCities().size())) + 1;
   }
 
-  static int indexOfAvailableGenomeLength(
+  public static int indexOfAvailableGenomeLength(
     LivingTour child,
     int currentSequenceLength,
     int childFirstOpenGene
@@ -55,10 +56,10 @@ abstract class GeneCrosser {
     return indexOfOpening;
   }
 
-  boolean sequenceIsAvailable(int childAvailableStartIndex) {
+  public boolean sequenceIsAvailable(int childAvailableStartIndex) {
     return childAvailableStartIndex > -1;
   }
 
-  abstract void mutateSingleGene(Map map, LivingTour child);
+  public abstract void mutateSingleGene(Map map, LivingTour child);
 
 }
