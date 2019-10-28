@@ -275,4 +275,20 @@ public class BaseGeneticsTest {
       assertEquals(101, livingTour.getCycle().size());
     }
   }
+
+  public City cityAfter(City start, List<City> cycle) {
+    int cityIndex = cycle.indexOf(start);
+    if (cityIndex == cycle.size() - 1) {
+      return cycle.get(1);
+    }
+    return cycle.get(cityIndex + 1);
+  }
+
+  public City cityBefore(City start, List<City> cycle) {
+    int cityIndex = cycle.indexOf(start);
+    if (cityIndex == 0) {
+      return cycle.get(cycle.size() - 2);
+    }
+    return cycle.get(cityIndex - 1);
+  }
 }

@@ -1,6 +1,7 @@
 package edu.louisville.traveler.crowds;
 
 import edu.louisville.traveler.genetics.LivingTour;
+import edu.louisville.traveler.maps.Edge;
 import edu.louisville.traveler.maps.Map;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,5 +15,5 @@ public class Wisdom {
   private List<Map> regions;
   private HashMap<Map, List<LivingTour>> crowds;
   private LivingTour aggregatedTour;
-
+  private List<Edge> agreedEdges;
 }

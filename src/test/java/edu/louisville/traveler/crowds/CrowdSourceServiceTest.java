@@ -3,6 +3,7 @@ package edu.louisville.traveler.crowds;
 import edu.louisville.traveler.genetics.BaseGeneticsTest;
 import edu.louisville.traveler.genetics.LivingTour;
 import edu.louisville.traveler.maps.City;
+import edu.louisville.traveler.maps.Edge;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -37,10 +38,19 @@ public class CrowdSourceServiceTest extends BaseGeneticsTest {
       assertEquals(20, crowd.size());
     }
     LivingTour livingTour = wisdom.getAggregatedTour();
+
 //    for (City city : livingTour.getCycle()) {
 //      System.out.println(city + ": " + Collections.frequency(livingTour.getCycle(), city));
 //    }
-    assertEquals(101, livingTour.getCycle().size());
+    List<City> cycle = livingTour.getCycle();
+    assertEquals(101, cycle.size());
+
+    for (Edge edge : wisdom.getAgreedEdges()) {
+      assertTrue(
+        "Wisdom tour incorrectly separated a wisdom edge for: " + edge,
+        cityBefore(edge.getStart(), cycle).equals(edge.getEnd()) ||
+        cityAfter(edge.getStart(), cycle).equals(edge.getEnd()));
+    }
     System.out.println("aggregated tour weight: " + wisdom.getAggregatedTour().getWeight());
   }
 }

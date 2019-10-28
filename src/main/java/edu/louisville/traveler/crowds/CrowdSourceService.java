@@ -23,6 +23,7 @@ import java.util.List;
 @Service
 public class CrowdSourceService {
   public Wisdom wisdomFromRequest(WisdomRequestModel wisdomRequest) {
+    TourAggregator tourAggregator = new TourAggregator();
     List<Map> regions = MapRegionizer.regionize(wisdomRequest.getMap(), wisdomRequest.getRegionCount());
     PopulationSeeder seeder = new RandomRegionGroupedPolarPopulationSeeder();
     ParentSelector parentSelector = new TournamentStyleParentSelector();
@@ -61,87 +62,8 @@ public class CrowdSourceService {
 //    connect all missing pieces
 //    send final living tour as answer
     List<Edge> wisdomEdges = aggregateCrowds(crowdsByRegion, wisdomRequest.getAgreementThreshold());
-    LivingTour aggregatedTour = completeTourFromEdges(wisdomRequest.getMap(), wisdomEdges);
-    return new Wisdom(regions, crowdsByRegion, aggregatedTour);
-  }
-
-  private LivingTour completeTourFromEdges(Map map, List<Edge> edges) {
-//    flatten edges into city list
-    List<City> route = flattenEdgesIntoList(edges);
-    for (City city : route) {
-      if (Collections.frequency(route, city) > 1) {
-        System.out.println(city + ": duped");
-      }
-    }
-
-
-    for (City city : map.getCities()) {
-      if (!route.contains(city)) {
-        route.add(city);
-      }
-    }
-    route.add(route.get(0));
-//    get all unconnected cities
-//    connect each city to the closest each (see if heuristic can help)
-//    make
-    return new LivingTour(route);
-  }
-
-  private List<City> flattenEdgesIntoList(List<Edge> edges) {
-    List<City> cities = new ArrayList<>();
-    for (Edge edge : edges) {
-      if (alreadyContainsEdgeCities(cities, edge)) {
-        continue; // TODO bring these two pieces together
-      }
-
-      if (containsNeitherEdgeCity(cities, edge)) {
-        addBothCities(cities, edge);
-      }
-
-      if (containsStartNotEnd(cities, edge)) {
-        insertEndCityAfterStart(cities, edge);
-      }
-
-      if (containsEndNotStart(cities, edge)) {
-        insertStartCityBeforeEnd(cities, edge);
-      }
-    }
-    return cities;
-  }
-
-  private void insertEndCityAfterStart(List<City> cities, Edge edge) {
-    int indexOfSharedCity = cities.indexOf(edge.getStart());
-    if (indexOfSharedCity == cities.size() - 1) {
-      cities.add(edge.getEnd());
-    } else {
-      cities.add(indexOfSharedCity + 1, edge.getEnd());
-    }
-  }
-
-  private void insertStartCityBeforeEnd(List<City> cities, Edge edge) {
-    int indexOfSharedCity = cities.indexOf(edge.getEnd());
-    cities.add(indexOfSharedCity, edge.getStart());
-  }
-
-  private void addBothCities(List<City> cities, Edge edge) {
-    cities.add(edge.getStart());
-    cities.add(edge.getEnd());
-  }
-
-  private boolean containsEndNotStart(List<City> cities, Edge edge) {
-    return cities.contains(edge.getEnd()) && !cities.contains(edge.getStart());
-  }
-
-  private boolean containsStartNotEnd(List<City> cities, Edge edge) {
-    return cities.contains(edge.getStart()) && !cities.contains(edge.getEnd());
-  }
-
-  private boolean containsNeitherEdgeCity(List<City> cities, Edge edge) {
-    return !cities.contains(edge.getStart()) && !cities.contains(edge.getEnd());
-  }
-
-  private boolean alreadyContainsEdgeCities(List<City> cities, Edge edge) {
-    return cities.contains(edge.getStart()) && cities.contains(edge.getEnd());
+    LivingTour aggregatedTour = tourAggregator.aggregate(wisdomRequest.getMap(), wisdomEdges);
+    return new Wisdom(regions, crowdsByRegion, aggregatedTour, wisdomEdges);
   }
 
   private List<Edge> aggregateCrowds(HashMap<Map, List<LivingTour>> crowdsByRegion, int agreementThreshold) {
@@ -152,5 +74,4 @@ public class CrowdSourceService {
     }
     return sharedEdges;
   }
-
 }
