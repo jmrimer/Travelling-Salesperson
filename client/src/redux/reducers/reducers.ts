@@ -25,7 +25,7 @@ const initState = {
   startingPopulation: 32,
   populationCap: 32,
   totalGenerations: 64,
-  maxMutationSize: 16,
+  maxMutationSize: 101,
   mutationRate: 0,
   trial: new TrialModel(),
   regionCount: 4,

@@ -43,9 +43,6 @@ public class CrowdSourceServiceTest extends BaseGeneticsTest {
     }
     LivingTour livingTour = wisdom.getAggregatedTour();
 
-//    for (City city : livingTour.getCycle()) {
-//      System.out.println(city + ": " + Collections.frequency(livingTour.getCycle(), city));
-//    }
     List<City> cycle = livingTour.getCycle();
     assertEquals(101, cycle.size());
 
