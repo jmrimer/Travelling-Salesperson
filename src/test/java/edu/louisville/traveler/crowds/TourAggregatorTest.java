@@ -4,6 +4,7 @@ import edu.louisville.traveler.genetics.BaseGeneticsTest;
 import edu.louisville.traveler.genetics.LivingTour;
 import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Edge;
+import edu.louisville.traveler.maps.MapHelpers;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -40,8 +41,8 @@ public class TourAggregatorTest extends BaseGeneticsTest {
     for (Edge edge : edges) {
       assertTrue(
         "Wisdom tour incorrectly separated a wisdom edge for: " + edge,
-        cityBefore(edge.getStart(), cycle).equals(edge.getEnd()) ||
-          cityAfter(edge.getStart(), cycle).equals(edge.getEnd()));
+        MapHelpers.cityBefore(edge.getStart(), cycle).equals(edge.getEnd()) ||
+          MapHelpers.cityAfter(edge.getStart(), cycle).equals(edge.getEnd()));
     }
   }
 }

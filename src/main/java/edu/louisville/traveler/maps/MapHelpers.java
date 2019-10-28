@@ -1,5 +1,8 @@
 package edu.louisville.traveler.maps;
 
+import edu.louisville.traveler.genetics.Intersection;
+import edu.louisville.traveler.genetics.LivingTour;
+
 import java.awt.geom.Point2D;
 import java.util.*;
 import java.util.List;
@@ -49,6 +52,94 @@ public class MapHelpers {
     return 1;
   }
 
+  public static boolean edgesIntersect(Edge edge1, Edge edge2) {
+    City p1 = edge1.getStart();
+    City q1 = edge1.getEnd();
+    City p2 = edge2.getStart();
+    City q2 = edge2.getEnd();
+
+    if (edgesShareCities(p1, q1, p2, q2)) return false;
+// Find the four orientations needed for general and
+    // special cases
+    int orientation1 = orientation(p1, q1, p2);
+    int orientation2 = orientation(p1, q1, q2);
+    int orientation3 = orientation(p2, q2, p1);
+    int orientation4 = orientation(p2, q2, q1);
+
+    // General case
+    if (orientation1 != orientation2 && orientation3 != orientation4) return true;
+
+// Special Cases
+    // p1, q1 and p2 are collinear and p2 lies on segment p1q1
+    if (orientation1 == 0 && onSegment(p1, p2, q1)) return true;
+
+    // p1, q1 and q2 are collinear and q2 lies on segment p1q1
+    if (orientation2 == 0 && onSegment(p1, q2, q1)) return true;
+
+    // p2, q2 and p1 are collinear and p1 lies on segment p2q2
+    if (orientation3 == 0 && onSegment(p2, p1, q2)) return true;
+
+    // p2, q2 and q1 are collinear and q1 lies on segment p2q2
+    return orientation4 == 0 && onSegment(p2, q1, q2);// Doesn't fall in any of the above cases   }
+  }
+
+  private static boolean edgesShareCities(City p1, City q1, City p2, City q2) {
+    return p1.equals(p2) || p1.equals(q2) || q1.equals(p2) || q1.equals(q2);
+  }
+
+  // To find orientation of ordered triplet (p, q, r).
+// The function returns following values
+// 0 --> p, q and r are collinear
+// 1 --> Clockwise
+// 2 --> Counterclockwise
+  static int orientation(City p, City q, City r) {
+
+    // See https://www.geeksforgeeks.org/orientation-3-ordered-points/
+    // for details of below formula.
+    double val = (q.longitude - p.longitude) * (r.latitude - q.latitude) -
+      (q.latitude - p.latitude) * (r.longitude - q.longitude);
+
+    if (val == 0) return 0; // collinear
+
+    return (val > 0) ? 1 : 2; // clock or counter clock wise
+  }
+
+  /*
+  code sourced from: https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
+ */
+// Given three collinear points p, q, r, the function checks if
+// point q lies on line segment 'pr'
+  static boolean onSegment(City p, City q, City r) {
+    return q.latitude <= Math.max(p.latitude, r.latitude)
+      && q.latitude >= Math.min(p.latitude, r.latitude)
+      && q.longitude <= Math.max(p.longitude, r.longitude)
+      && q.longitude >= Math.min(p.longitude, r.longitude);
+  }
+
+  public static List<Edge> convertCityListToEdges(List<City> cycle) {
+    List<Edge> edges = new ArrayList<>();
+    for (int i = 0; i < cycle.size() - 1; i++) {
+      edges.add(new Edge(cycle.get(i), cycle.get(i + 1)));
+    }
+    return edges;
+  }
+
+  public static List<Intersection> findIntersections(LivingTour child) {
+    List<Intersection> intersections = new ArrayList<>();
+    List<Edge> edges = convertCityListToEdges(child.getCycle());
+    Iterator<Edge> edgeIterator = edges.iterator();
+    while (edgeIterator.hasNext()) {
+      Edge edge = edgeIterator.next();
+      for (Edge e : edges) {
+        if (edgesIntersect(edge, e) && !edge.equals(e)) {
+          intersections.add(new Intersection(edge, e));
+        }
+      }
+      edgeIterator.remove();
+    }
+    return intersections;
+  }
+
   City findNearestCity(City start, List<City> cities) {
     City nearestCity = null;
     float bestDistance = Float.MAX_VALUE;
@@ -79,6 +170,7 @@ public class MapHelpers {
       }
     }
     for (Edge edge : edges) {
+      assert nearestCity != null;
       double currDistance = calculateDistance(nearestCity, edge);
       if (currDistance == bestDistance) {
         closestEdges.add(edge);
@@ -134,11 +226,10 @@ public class MapHelpers {
       vector.x / length,
       vector.y / length
     );
-    Point2D.Double newPoint = new Point2D.Double(
+    return new Point2D.Double(
       x1 + (normalizedVector.x),
       y1 + (normalizedVector.y)
     );
-    return newPoint;
   }
 
   double calculateDistance(City start, City end) {
@@ -190,5 +281,24 @@ public class MapHelpers {
     double dx = x0 - xx;
     double dy = y0 - yy;
     return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  public static City cityBefore(City start, List<City> cycle) {
+    int cityIndex = cycle.indexOf(start);
+    if (cityIndex < 0) {
+      return start;
+    }
+    if (cityIndex == 0) {
+      return cycle.get(cycle.size() - 2);
+    }
+    return cycle.get(cityIndex - 1);
+  }
+
+  public static City cityAfter(City start, List<City> cycle) {
+    int cityIndex = cycle.indexOf(start);
+    if (cityIndex == cycle.size() - 1) {
+      return cycle.get(1);
+    }
+    return cycle.get(cityIndex + 1);
   }
 }

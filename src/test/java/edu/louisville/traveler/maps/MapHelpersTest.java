@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.HashSet;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class MapHelpersTest {
   @Test
@@ -164,7 +164,38 @@ public class MapHelpersTest {
 
     expectedCoordinates = new PolarCoordinates(50.11525499354101, 142.0900079749781);
     assertEquals(expectedCoordinates, MapHelpers.mapPolarPointFromCenter(city5, center));
+  }
 
+  @Test
+  public void edgesIntersect() {
+    City city2 = new City(2, 33.466597, 66.682943);
+    City city4 = new City(4, 20.526749, 47.633290);
+    City city5 = new City(5, 9.006012, 81.185339);
+    City city8 = new City(8, 41.059603, 32.578509);
 
+    Edge edge24 = new Edge(city2, city4);
+    Edge edge58 = new Edge(city5, city8);
+    Edge edge82 = new Edge(city8, city2);
+
+    assertTrue(MapHelpers.edgesIntersect(edge58, edge24));
+    assertFalse(MapHelpers.edgesIntersect(edge82, edge24));
+  }
+
+  @Test
+  public void convertCityListToEdges() {
+    City city2 = new City(2, 33.466597, 66.682943);
+    City city4 = new City(4, 20.526749, 47.633290);
+    City city5 = new City(5, 9.006012, 81.185339);
+    City city8 = new City(8, 41.059603, 32.578509);
+    List<City> cycle = List.of(city2, city4, city5, city8,city2);
+    assertEquals(
+      List.of(
+        new Edge(city2, city4),
+        new Edge(city4, city5),
+        new Edge(city5, city8),
+        new Edge(city8, city2)
+      ),
+      MapHelpers.convertCityListToEdges(cycle)
+    );
   }
 }

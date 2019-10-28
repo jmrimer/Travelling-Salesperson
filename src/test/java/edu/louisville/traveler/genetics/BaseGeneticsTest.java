@@ -17,7 +17,7 @@ public class BaseGeneticsTest {
   public int startingParentsCount = 128;
   public int populationCap = 128;
   public int totalGenerations = (int) (Math.pow(2, 9));
-  public int maxGeneSequenceLength = 32;
+  public int maxGeneSequenceLength = 101;
   public double mutationChance = 0;
 
   Trial trial;
@@ -269,26 +269,9 @@ public class BaseGeneticsTest {
     }
   }
 
-  @Test
   public void testLength() {
     for (LivingTour livingTour : finalPopulation) {
-      assertEquals(101, livingTour.getCycle().size());
+      assertEquals(100, new HashSet<>(livingTour.getCycle()).size());
     }
-  }
-
-  public City cityAfter(City start, List<City> cycle) {
-    int cityIndex = cycle.indexOf(start);
-    if (cityIndex == cycle.size() - 1) {
-      return cycle.get(1);
-    }
-    return cycle.get(cityIndex + 1);
-  }
-
-  public City cityBefore(City start, List<City> cycle) {
-    int cityIndex = cycle.indexOf(start);
-    if (cityIndex == 0) {
-      return cycle.get(cycle.size() - 2);
-    }
-    return cycle.get(cityIndex - 1);
   }
 }

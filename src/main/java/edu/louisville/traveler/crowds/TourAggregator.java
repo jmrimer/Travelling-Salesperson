@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class TourAggregator {
-  public LivingTour aggregate(Map map, List<Edge> edges) {
+  public static LivingTour aggregate(Map map, List<Edge> edges) {
     List<City> route = flattenEdgesIntoList(edges);
 
     for (City city : map.getCities()) {
@@ -26,7 +26,7 @@ public class TourAggregator {
     return new LivingTour(route);
   }
 
-  private List<City> flattenEdgesIntoList(List<Edge> edges) {
+  private static List<City> flattenEdgesIntoList(List<Edge> edges) {
     List<City> cities = new ArrayList<>();
     for (Edge edge : edges) {
       if (alreadyContainsEdgeCities(cities, edge)) {
@@ -55,12 +55,12 @@ public class TourAggregator {
     return cities;
   }
 
-  private void reverseSublist(List<City> cities, int startIndexInclusive, int endIndexExclusive) {
+  private static void reverseSublist(List<City> cities, int startIndexInclusive, int endIndexExclusive) {
     List<City> sublist = cities.subList(startIndexInclusive, endIndexExclusive);
     Collections.reverse(sublist);
   }
 
-  private void insertEndCityAfterStart(List<City> cities, Edge edge) {
+  private static void insertEndCityAfterStart(List<City> cities, Edge edge) {
     int indexOfSharedCity = cities.indexOf(edge.getStart());
     if (indexOfSharedCity == cities.size() - 1) {
       cities.add(edge.getEnd());
@@ -69,29 +69,29 @@ public class TourAggregator {
     }
   }
 
-  private void insertStartCityBeforeEnd(List<City> cities, Edge edge) {
+  private static void insertStartCityBeforeEnd(List<City> cities, Edge edge) {
     int indexOfSharedCity = cities.indexOf(edge.getEnd());
     cities.add(indexOfSharedCity, edge.getStart());
   }
 
-  private void addBothCities(List<City> cities, Edge edge) {
+  private static void addBothCities(List<City> cities, Edge edge) {
     cities.add(edge.getStart());
     cities.add(edge.getEnd());
   }
 
-  private boolean containsEndNotStart(List<City> cities, Edge edge) {
+  private static boolean containsEndNotStart(List<City> cities, Edge edge) {
     return cities.contains(edge.getEnd()) && !cities.contains(edge.getStart());
   }
 
-  private boolean containsStartNotEnd(List<City> cities, Edge edge) {
+  private static boolean containsStartNotEnd(List<City> cities, Edge edge) {
     return cities.contains(edge.getStart()) && !cities.contains(edge.getEnd());
   }
 
-  private boolean containsNeitherEdgeCity(List<City> cities, Edge edge) {
+  private static boolean containsNeitherEdgeCity(List<City> cities, Edge edge) {
     return !cities.contains(edge.getStart()) && !cities.contains(edge.getEnd());
   }
 
-  private boolean alreadyContainsEdgeCities(List<City> cities, Edge edge) {
+  private static boolean alreadyContainsEdgeCities(List<City> cities, Edge edge) {
     return cities.contains(edge.getStart()) && cities.contains(edge.getEnd());
   }
 

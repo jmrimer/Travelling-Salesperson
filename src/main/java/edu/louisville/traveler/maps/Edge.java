@@ -37,4 +37,8 @@ public class Edge {
 
     return false;
   }
+
+  public boolean contains(City city) {
+    return this.getStart().equals(city) || this.getEnd().equals(city);
+  }
 }
