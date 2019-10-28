@@ -30,7 +30,7 @@ const initState = {
   trial: new TrialModel(),
   regionCount: 4,
   crowdSize: 20,
-  agreementThreshold: 80,
+  agreementThreshold: 90,
   wisdom: new WisdomModel()
 };
 

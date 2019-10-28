@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.util.Collections;
 import java.util.List;
 
+import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.*;
 
 public class CrowdSourceServiceTest extends BaseGeneticsTest {
@@ -28,14 +29,16 @@ public class CrowdSourceServiceTest extends BaseGeneticsTest {
       maxGeneSequenceLength,
       (int) mutationChance,
       4,
-      20,
-      80
+      5,
+      90
     );
     CrowdSourceService crowdSourceService = new CrowdSourceService();
     Wisdom wisdom = crowdSourceService.wisdomFromRequest(wisdomRequestModel);
-    assertEquals(4, wisdom.getRegions().size());
+
+    assertEquals(4, wisdom.getRegionizedMaps().size());
+
     for (List<LivingTour> crowd : wisdom.getCrowds().values()) {
-      assertEquals(20, crowd.size());
+      assertEquals(5, crowd.size());
     }
     LivingTour livingTour = wisdom.getAggregatedTour();
 
@@ -44,6 +47,8 @@ public class CrowdSourceServiceTest extends BaseGeneticsTest {
 //    }
     List<City> cycle = livingTour.getCycle();
     assertEquals(101, cycle.size());
+
+    assertThat(wisdom.getAgreedEdges().size(), lessThan(101));
 
     for (Edge edge : wisdom.getAgreedEdges()) {
       assertTrue(
