@@ -2,21 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 import classNames from 'classnames';
 import { StyledMapInput } from '../shared-graphic-components/MapInput';
-import { TrialModel } from './TrialModel';
-import MultiPathVisualGraph from './MultiPathVisualGraph';
-import { Button, Heading } from '../website-styling/default';
+import { WisdomModel } from './WisdomModel';
+import { Heading } from '../website-styling/default';
 import StyledTextInput from '../website-styling/StyledTextInput';
+import EdgesVisualGraph from '../shared-graphic-components/visual-grapher/EdgesVisualGraph';
 
 interface Props {
-  trial: TrialModel;
-  currentGeneration: number;
+  wisdom: WisdomModel;
   loading: boolean;
-  getTrial: () => void;
+  getWisdom: () => void;
   updateMapText: (e: any) => void;
   mapText: string;
   points: any[];
-  nextGeneration: () => void;
-  previousGeneration: () => void;
   updateStartingPopulation: (e: any) => void;
   updatePopulationCap: (e: any) => void;
   updateTotalGenerations: (e: any) => void;
@@ -30,13 +27,12 @@ interface Props {
   className?: string;
 }
 
-export const TrialDisplayer: React.FC<Props> = props => {
+export const WisdomDisplayer: React.FC<Props> = props => {
   let {
-    currentGeneration,
     loading,
     updateMapText,
     mapText,
-    trial,
+    wisdom,
     points,
     className
   } = props;
@@ -78,27 +74,14 @@ export const TrialDisplayer: React.FC<Props> = props => {
         </div>
       </div>
       <StyledMapInput
-        getNewRoute={props.getTrial}
+        getNewRoute={props.getWisdom}
         updateMapText={updateMapText}
         mapText={mapText}
       />
     </div>
   }
 
-  function renderTrialOutput() {
-    function filterBestChildRoutes() {
-      let generation = trial.generations[currentGeneration];
-      if (generation) {
-        let children = generation.children;
-        children.sort((a, b) => a.weight < b.weight ? -1 : a.weight > b.weight ? 1 : 0);
-        children = children.filter((child, index) => {
-          return index < 10;
-        });
-        return children;
-      }
-      return null;
-    }
-
+  function renderWisdomOutput() {
     return (
       <div className={'output'}>
         {
@@ -106,30 +89,8 @@ export const TrialDisplayer: React.FC<Props> = props => {
             <div>Loading...</div> :
             <div/>
         }
-        <div className={'generation-info'}>
-          {
-            props.trial.generations[currentGeneration] ?
-              <span className={'generation'}>Generation: {currentGeneration}</span> :
-              null
-          }
-          {
-            props.trial.generations[currentGeneration] ?
-              <span
-                className={'weight'}>Weight: {props.trial.generations[currentGeneration].children[0].weight.toFixed(0)}</span> :
-              null
-          }
-        </div>
         <div className={'graph-box'}>
-          <MultiPathVisualGraph
-            className={'children'}
-            points={points}
-            tours={filterBestChildRoutes()}
-          />
-        </div>
-        <div className={'button-box__generations'}>
-          <Button className={'previous-generation'}
-                  onClick={() => props.previousGeneration()}>{`< Previous Gen`}</Button>
-          <Button className={'next-generation'} onClick={() => props.nextGeneration()}>{`Next Gen >`}</Button>
+          <EdgesVisualGraph points={points} edges={wisdom.agreedEdges}/>
         </div>
       </div>
     )
@@ -143,12 +104,12 @@ export const TrialDisplayer: React.FC<Props> = props => {
     <div className={classNames('trial-displayer', className)}>
       {renderMapInput()}
       {renderDividingLine()}
-      {renderTrialOutput()}
+      {renderWisdomOutput()}
     </div>
   )
 };
 
-export default styled(TrialDisplayer)`
+export default styled(WisdomDisplayer)`
   display: flex;
   flex-direction: row;
   justify-content: space-around;

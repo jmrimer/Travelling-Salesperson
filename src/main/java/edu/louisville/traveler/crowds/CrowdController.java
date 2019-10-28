@@ -17,7 +17,7 @@ public class CrowdController {
   }
 
   @CrossOrigin(origins = "http://localhost:3000")
-  @PostMapping("/api/crowd-source")
+  @PostMapping("/api/crowd-wisdom")
   public @ResponseBody
   Wisdom newWisdomFromModel(
     @RequestBody WisdomRequestModel wisdomRequest

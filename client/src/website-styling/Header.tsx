@@ -11,7 +11,8 @@ export enum Page {
   GENETIC_ALGORITHM,
   BRUTE_FORCE,
   GRAPH_SEARCH,
-  HEURISTIC_INSERTION
+  HEURISTIC_INSERTION,
+  CROWD_WISDOM
 }
 
 interface Props {
@@ -57,6 +58,7 @@ class Header extends React.Component<Props> {
         {this.graphSearchLink()}
         {this.heuristicInsertionLink()}
         {this.geneticAlgorithmLink()}
+        {this.crowdWisdomLink()}
       </div>
     )
   }
@@ -98,6 +100,16 @@ class Header extends React.Component<Props> {
       onClick={() => this.handleLinkClick(Page.GENETIC_ALGORITHM)}
     >
       Genetic Algorithm
+    </Link>;
+  }
+
+  private crowdWisdomLink() {
+    return <Link
+      to={'/crowd-wisdom'}
+      className={this.chooseClassName(Page.CROWD_WISDOM)}
+      onClick={() => this.handleLinkClick(Page.CROWD_WISDOM)}
+    >
+      Crowd Wisdom
     </Link>;
   }
 

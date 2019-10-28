@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import styled from 'styled-components';
-import { Input } from '../website-styling/default';
+import { Input } from './default';
 interface Props {
   label: string;
   callback: (e: any) => void;

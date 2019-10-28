@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import { TrialModel } from './TrialModel';
+import { TrialModel } from '../genetic-algorithm/TrialModel';
 import classNames from 'classnames';
 import React from 'react';
 import { CartesianGrid, Scatter, ScatterChart, XAxis, YAxis } from 'recharts';
 import { theme } from '../website-styling/default';
 import { GenerationModel } from './GenerationModel';
-import { TourModel } from '../shared-models/TourModel';
+import { TourModel } from './TourModel';
 
 interface Props {
   trial: TrialModel;

@@ -5,7 +5,8 @@ import {
 import { TourModel } from '../../shared-models/TourModel';
 import { NodeModel } from '../../shared-models/NodeModel';
 import { TrialModel } from '../../genetic-algorithm/TrialModel';
-import { GenerationModel } from '../../genetic-algorithm/GenerationModel';
+import { GenerationModel } from '../../shared-models/GenerationModel';
+import { WisdomModel } from '../../crowd-wisdom/WisdomModel';
 
 export function createInitialMatrix() {
   return [
@@ -75,7 +76,6 @@ export function toggleMatrix(matrix: any, keyValuePair: any) {
 }
 
 export const serializeJSONToTrial = (body: any): TrialModel => {
-  console.log(body);
   let trial = new TrialModel();
   body.generations.map((generationJSON: any) => {
     let children: TourModel[] = [];
@@ -91,6 +91,12 @@ export const serializeJSONToTrial = (body: any): TrialModel => {
     )
   });
 
-  console.log(trial);
   return trial;
+};
+
+export const serializeJSONToWisdom = (body: any): WisdomModel => {
+  console.log(body);
+  let wisdom = new WisdomModel();
+  wisdom.agreedEdges = body.agreedEdges;
+  return wisdom;
 };
