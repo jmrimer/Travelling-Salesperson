@@ -7,14 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-class ClosestEdgeInserter {
+public class ClosestEdgeInserter {
   private MapHelpers mapHelpers = new MapHelpers();
   private HashSet<Edge> edges = new HashSet<>();
   private List<City> route = new ArrayList<>();
   private List<City> remainingCities;
   private double weight = 0;
 
-  Tour generateTour(List<City> cities) {
+  public Tour generateTour(List<City> cities) {
     remainingCities = new ArrayList<>(cities);
     City start = cities.get(0);
     firstStopBasedOnPointDistanceFrom(start);
@@ -24,7 +24,7 @@ class ClosestEdgeInserter {
   }
 
   private void returnTo(City start) {
-    addJourneyLegToTour(route.get(route.size()-1), start);
+    addJourneyLegToTour(route.get(route.size() - 1), start);
   }
 
   private void visitRemainingCities() {

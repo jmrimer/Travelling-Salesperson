@@ -3,11 +3,9 @@ package edu.louisville.traveler.genetics;
 import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Map;
 import org.junit.Before;
-import org.junit.Test;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 

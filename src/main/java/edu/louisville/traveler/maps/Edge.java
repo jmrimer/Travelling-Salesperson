@@ -41,4 +41,8 @@ public class Edge {
   public boolean contains(City city) {
     return this.getStart().equals(city) || this.getEnd().equals(city);
   }
+
+  public boolean isConnected(Edge edge) {
+    return this.contains(edge.getStart()) || this.contains(edge.getEnd());
+  }
 }

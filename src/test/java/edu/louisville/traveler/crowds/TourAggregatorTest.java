@@ -16,8 +16,6 @@ public class TourAggregatorTest extends BaseGeneticsTest {
 
   @Test
   public void aggregate() {
-    TourAggregator tourAggregator = new TourAggregator();
-
     List<Edge> edges = List.of(
       new Edge(city2, city3),
       new Edge(city3, city4),
@@ -25,9 +23,9 @@ public class TourAggregatorTest extends BaseGeneticsTest {
       new Edge(city7, city2)
     );
 
-    LivingTour livingTour = tourAggregator.aggregate(map100, edges);
+    LivingTour livingTour = TourAggregator.aggregate(map100, edges);
     List<City> cycle = livingTour.getCycle();
-
+    System.out.println(cycle);
     assertTrue(
       Collections.indexOfSubList(cycle, List.of(city2, city3, city4)) > -1
         || Collections.indexOfSubList(cycle, List.of(city4, city3, city2)) > -1
@@ -44,5 +42,29 @@ public class TourAggregatorTest extends BaseGeneticsTest {
         MapHelpers.cityBefore(edge.getStart(), cycle).equals(edge.getEnd()) ||
           MapHelpers.cityAfter(edge.getStart(), cycle).equals(edge.getEnd()));
     }
+  }
+
+  @Test
+  public void insertEdgesIntoTour() {
+
+  }
+
+  @Test
+  public void hunkEdges() {
+    List<Edge> edges = List.of(
+      new Edge(city2, city3),
+      new Edge(city3, city4),
+      new Edge(city7, city8),
+      new Edge(city7, city2),
+      new Edge(city1, city10),
+      new Edge(city6, city10)
+    );
+
+
+    List<List<Edge>> hunkedEdges = TourAggregator.hunkEdges(edges);
+    System.out.println(hunkedEdges);
+    assertEquals(2, hunkedEdges.size());
+    assertEquals(4, hunkedEdges.get(0).size());
+    assertEquals(2, hunkedEdges.get(1).size());
   }
 }

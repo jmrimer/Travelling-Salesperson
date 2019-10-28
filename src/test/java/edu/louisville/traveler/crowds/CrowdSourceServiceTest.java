@@ -7,7 +7,6 @@ import edu.louisville.traveler.maps.Edge;
 import edu.louisville.traveler.maps.MapHelpers;
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.Matchers.lessThan;
@@ -16,11 +15,7 @@ import static org.junit.Assert.*;
 public class CrowdSourceServiceTest extends BaseGeneticsTest {
   @Test
   public void returnsWisdomWithPopulatedCrowdsAndAggregatedTour() {
-//    make new wisdom request
-//    run service
-//    check size of crowds
-//    check length of tour
-    totalGenerations = 512;
+    totalGenerations = 128;
 
     WisdomRequestModel wisdomRequestModel = new WisdomRequestModel(
       map100,
@@ -31,7 +26,7 @@ public class CrowdSourceServiceTest extends BaseGeneticsTest {
       (int) mutationChance,
       4,
       5,
-      90
+      80
     );
     CrowdSourceService crowdSourceService = new CrowdSourceService();
     Wisdom wisdom = crowdSourceService.wisdomFromRequest(wisdomRequestModel);

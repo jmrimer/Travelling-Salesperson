@@ -8,6 +8,15 @@ import lombok.Data;
 public class City {
   int name;
   double latitude;
+  private boolean openLeft = true;
+  private boolean openRight = true;
+
+  public City(int name, double latitude, double longitude) {
+    this.name = name;
+    this.latitude = latitude;
+    this.longitude = longitude;
+  }
+
   double longitude;
 
   @Override
