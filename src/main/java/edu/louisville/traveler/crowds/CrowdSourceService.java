@@ -11,12 +11,12 @@ import edu.louisville.traveler.genetics.seeders.RandomRegionGroupedPolarPopulati
 import edu.louisville.traveler.genetics.selectors.ParentSelector;
 import edu.louisville.traveler.genetics.selectors.TournamentStyleParentSelector;
 import edu.louisville.traveler.maps.Edge;
-import edu.louisville.traveler.maps.Map;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CrowdSourceService {
@@ -24,6 +24,11 @@ public class CrowdSourceService {
     List<LivingTour> crowd = new ArrayList<>();
 
     HashMap<Integer, List<LivingTour>> crowdsByRegion = populateCrowd(wisdomRequest, crowd);
+    for (Map.Entry<Integer, List<LivingTour>> entry : crowdsByRegion.entrySet()) {
+      for (LivingTour livingTour : entry.getValue() ) {
+        System.out.println("Region size: " + entry.getKey() + " | " + livingTour);
+      }
+    }
     List<Edge> wisdomEdges = aggregateCrowd(crowd, wisdomRequest.getAgreementThreshold());
     LivingTour aggregatedTour = TourAggregator.aggregate(wisdomRequest.getMap(), wisdomEdges);
 
@@ -33,10 +38,10 @@ public class CrowdSourceService {
   private HashMap<Integer, List<LivingTour>> populateCrowd(WisdomRequestModel wisdomRequest, List<LivingTour> crowd) {
     HashMap<Integer, List<LivingTour>> crowdsByRegion = new HashMap<>();
 
-    crowd.addAll(generateCrowdForRegionCount(wisdomRequest, 2, crowdsByRegion));
-    crowd.addAll(generateCrowdForRegionCount(wisdomRequest, 3, crowdsByRegion));
-    crowd.addAll(generateCrowdForRegionCount(wisdomRequest, 5, crowdsByRegion));
-    crowd.addAll(generateCrowdForRegionCount(wisdomRequest, 6, crowdsByRegion));
+    crowd.addAll(generateCrowdForRegionCount(wisdomRequest, 4, crowdsByRegion));
+    crowd.addAll(generateCrowdForRegionCount(wisdomRequest, 8, crowdsByRegion));
+    crowd.addAll(generateCrowdForRegionCount(wisdomRequest, 12, crowdsByRegion));
+    crowd.addAll(generateCrowdForRegionCount(wisdomRequest, 16, crowdsByRegion));
 
     return crowdsByRegion;
   }

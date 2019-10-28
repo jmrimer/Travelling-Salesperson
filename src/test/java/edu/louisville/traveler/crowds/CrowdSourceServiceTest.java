@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 public class CrowdSourceServiceTest extends BaseGeneticsTest {
   @Test
   public void returnsWisdomWithPopulatedCrowdsAndAggregatedTour() {
-    totalGenerations = 128;
+    totalGenerations = 256;
 
     WisdomRequestModel wisdomRequestModel = new WisdomRequestModel(
       map100,
@@ -26,7 +26,7 @@ public class CrowdSourceServiceTest extends BaseGeneticsTest {
       (int) mutationChance,
       4,
       5,
-      80
+      90
     );
     CrowdSourceService crowdSourceService = new CrowdSourceService();
     Wisdom wisdom = crowdSourceService.wisdomFromRequest(wisdomRequestModel);

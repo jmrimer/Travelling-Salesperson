@@ -48,23 +48,4 @@ public class TourAggregatorTest extends BaseGeneticsTest {
   public void insertEdgesIntoTour() {
 
   }
-
-  @Test
-  public void hunkEdges() {
-    List<Edge> edges = List.of(
-      new Edge(city2, city3),
-      new Edge(city3, city4),
-      new Edge(city7, city8),
-      new Edge(city7, city2),
-      new Edge(city1, city10),
-      new Edge(city6, city10)
-    );
-
-
-    List<List<Edge>> hunkedEdges = TourAggregator.hunkEdges(edges);
-    System.out.println(hunkedEdges);
-    assertEquals(2, hunkedEdges.size());
-    assertEquals(4, hunkedEdges.get(0).size());
-    assertEquals(2, hunkedEdges.get(1).size());
-  }
 }
