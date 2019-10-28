@@ -30,12 +30,12 @@ public class CrowdSourceServiceTest extends BaseGeneticsTest {
       (int) mutationChance,
       4,
       5,
-      90
+      50
     );
     CrowdSourceService crowdSourceService = new CrowdSourceService();
     Wisdom wisdom = crowdSourceService.wisdomFromRequest(wisdomRequestModel);
 
-    assertEquals(4, wisdom.getRegionizedMaps().size());
+    assertEquals(4, wisdom.getCrowds().size());
 
     for (List<LivingTour> crowd : wisdom.getCrowds().values()) {
       assertEquals(5, crowd.size());
@@ -48,6 +48,7 @@ public class CrowdSourceServiceTest extends BaseGeneticsTest {
     List<City> cycle = livingTour.getCycle();
     assertEquals(101, cycle.size());
 
+    System.out.println(wisdom.getAgreedEdges());
     assertThat(wisdom.getAgreedEdges().size(), lessThan(101));
 
     for (Edge edge : wisdom.getAgreedEdges()) {

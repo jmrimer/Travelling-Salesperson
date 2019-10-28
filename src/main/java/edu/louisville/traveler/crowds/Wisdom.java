@@ -12,8 +12,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class Wisdom {
-  private List<List<Map>> regionizedMaps;
-  private HashMap<Map, List<LivingTour>> crowds;
+  private HashMap<Integer, List<LivingTour>> crowds;
   private LivingTour aggregatedTour;
   private List<Edge> agreedEdges;
 }
