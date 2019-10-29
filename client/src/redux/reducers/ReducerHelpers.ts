@@ -24,12 +24,12 @@ export function createInitialMatrix() {
   ]
 }
 
-// export let startingMap =
-//   '1 87.951292 2.658162\n' +
-//   '2 33.466597 66.682943\n' +
-//   '3 91.778314 53.807184\n' +
-//   '4 20.526749 47.633290';
-export let startingMap =
+export let startingMap4 =
+  '1 87.951292 2.658162\n' +
+  '2 33.466597 66.682943\n' +
+  '3 91.778314 53.807184\n' +
+  '4 20.526749 47.633290';
+export let startingMap100 =
   '1 87.951292 2.658162\n' +
   '2 33.466597 66.682943\n' +
   '3 91.778314 53.807184\n' +
@@ -199,5 +199,6 @@ export const serializeJSONToWisdom = (body: any): WisdomModel => {
   console.log(body);
   let wisdom = new WisdomModel();
   wisdom.agreedEdges = body.agreedEdges;
+  wisdom.aggregatedTour = body.aggregatedTour;
   return wisdom;
 };

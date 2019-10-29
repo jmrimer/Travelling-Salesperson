@@ -5,7 +5,7 @@ import {
   serializeJSONToPath,
   serializeJSONtoTour,
   serializeJSONToTrial, serializeJSONToWisdom,
-  startingMap,
+  startingMap4,
   textFromBody,
   toggleMatrix,
   translateCoordinateTextToGraphReadyPoints
@@ -15,11 +15,11 @@ import { WisdomModel } from '../../crowd-wisdom/WisdomModel';
 
 const initState = {
   weightedRoute: null,
-  mapText: startingMap,
+  mapText: startingMap4,
   shortestBFSPath: null,
   shortestDFSPath: null,
   adjacencyMatrix: createInitialMatrix(),
-  points: translateCoordinateTextToGraphReadyPoints(startingMap),
+  points: translateCoordinateTextToGraphReadyPoints(startingMap4),
   currentPage: Page.CROWD_WISDOM,
   currentGeneration: 0,
   startingPopulation: 32,

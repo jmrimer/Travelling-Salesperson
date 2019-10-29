@@ -19,16 +19,11 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class CrowdSourceService {
+public class CrowdWisdomService {
   public Wisdom wisdomFromRequest(WisdomRequestModel wisdomRequest) {
     List<LivingTour> crowd = new ArrayList<>();
 
     HashMap<Integer, List<LivingTour>> crowdsByRegion = populateCrowd(wisdomRequest, crowd);
-    for (Map.Entry<Integer, List<LivingTour>> entry : crowdsByRegion.entrySet()) {
-      for (LivingTour livingTour : entry.getValue() ) {
-        System.out.println("Region size: " + entry.getKey() + " | " + livingTour);
-      }
-    }
     List<Edge> wisdomEdges = aggregateCrowd(crowd, wisdomRequest.getAgreementThreshold());
     LivingTour aggregatedTour = TourAggregator.aggregate(wisdomRequest.getMap(), wisdomEdges);
 

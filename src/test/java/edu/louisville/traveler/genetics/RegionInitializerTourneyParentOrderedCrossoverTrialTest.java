@@ -10,10 +10,11 @@ import org.junit.Test;
 
 public class RegionInitializerTourneyParentOrderedCrossoverTrialTest extends BaseGeneticsTest {
   long timestamp;
+
   @Test
   public void run30Trials() {
     timestamp = System.currentTimeMillis();
-    for (int i = 0; i < 32; i++) {
+    for (int i = 0; i < 30; i++) {
       randomRegionTourneyParentsAndCrossesOrderedGenes();
     }
   }

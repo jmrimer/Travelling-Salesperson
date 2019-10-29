@@ -25,7 +25,6 @@ public class TourAggregatorTest extends BaseGeneticsTest {
 
     LivingTour livingTour = TourAggregator.aggregate(map100, edges);
     List<City> cycle = livingTour.getCycle();
-    System.out.println(cycle);
     assertTrue(
       Collections.indexOfSubList(cycle, List.of(city2, city3, city4)) > -1
         || Collections.indexOfSubList(cycle, List.of(city4, city3, city2)) > -1

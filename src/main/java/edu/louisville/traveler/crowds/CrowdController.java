@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class CrowdController {
   @Autowired
-  private final CrowdSourceService crowdSourceService;
+  private final CrowdWisdomService crowdWisdomService;
 
-  public CrowdController(CrowdSourceService crowdSourceService) {
-    this.crowdSourceService = crowdSourceService;
+  public CrowdController(CrowdWisdomService crowdWisdomService) {
+    this.crowdWisdomService = crowdWisdomService;
   }
 
   @CrossOrigin(origins = "http://localhost:3000")
@@ -22,7 +22,7 @@ public class CrowdController {
   Wisdom newWisdomFromModel(
     @RequestBody WisdomRequestModel wisdomRequest
   ) {
-    return this.crowdSourceService.wisdomFromRequest(wisdomRequest);
+    return this.crowdWisdomService.wisdomFromRequest(wisdomRequest);
   }
 }
 

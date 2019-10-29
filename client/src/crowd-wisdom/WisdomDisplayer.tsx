@@ -6,6 +6,7 @@ import { WisdomModel } from './WisdomModel';
 import { Heading } from '../website-styling/default';
 import StyledTextInput from '../website-styling/StyledTextInput';
 import EdgesVisualGraph from '../shared-graphic-components/visual-grapher/EdgesVisualGraph';
+import { SinglePathVisualGraph } from '../shared-graphic-components/visual-grapher/SinglePathVisualGraph';
 
 interface Props {
   wisdom: WisdomModel;
@@ -90,7 +91,20 @@ export const WisdomDisplayer: React.FC<Props> = props => {
             <div/>
         }
         <div className={'graph-box'}>
-          <EdgesVisualGraph points={points} edges={wisdom.agreedEdges}/>
+          <div className={'edges-box'}>
+            <div className={'edges-info'}>Agreed on edges: {wisdom.agreedEdges.length}</div>
+            <EdgesVisualGraph points={points} edges={wisdom.agreedEdges}/>
+          </div>
+          <div className={'sub-divide'}>&nbsp;</div>
+          <div className={'tour-box'}>
+            {
+              props.wisdom.aggregatedTour ?
+                <span
+                  className={'weight'}>Weight: {props.wisdom.aggregatedTour.weight.toFixed(0)}</span> :
+                null
+            }
+            <SinglePathVisualGraph points={points} tour={wisdom.aggregatedTour.cycle}/>
+          </div>
         </div>
       </div>
     )
@@ -119,6 +133,12 @@ export default styled(WisdomDisplayer)`
     border: 2px solid ${(props) => props.theme.color.fontWhite};
     margin: 8px 16px;
   } 
+  
+  .sub-divide {
+    width: 1px;
+    border: 1px solid ${(props) => props.theme.color.fontWhite};
+    margin: 8px 16px;
+  }
    
   .row {
     display: flex;
@@ -139,23 +159,20 @@ export default styled(WisdomDisplayer)`
     flex-direction: row;
   }
   
-  .weight, .generation {
+  .button-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    button {
+      margin: 16px;
+    }
+  }
+  
+  .edges-box, .tour-box {
     font-family: Righteous, cursive;
     font-weight: 300;
     color: ${(props) => props.theme.color.fontWhite};
     font-size: 32px;
-  }
-  
-  .button-box__generations {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    .previous-generation {
-      margin-right: 16px;
-    }
-    .next-generation {
-      margin-left: 16px;
-    }
   }
   
   .generation-info {
