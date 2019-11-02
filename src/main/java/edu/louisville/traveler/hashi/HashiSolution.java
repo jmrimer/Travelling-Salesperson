@@ -16,6 +16,9 @@ public class HashiSolution {
   }
 
   public void addBridge(Island island, Island neighbor) {
-    this.bridges.add(new Bridge(island, neighbor));
+    Bridge bridge = new Bridge(island, neighbor);
+    if (!this.bridges.contains(bridge)) {
+      this.bridges.add(bridge);
+    }
   }
 }

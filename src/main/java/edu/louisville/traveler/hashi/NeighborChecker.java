@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class NeighborChecker {
   public static Island seekXNeighbor(List<Island> sharedX, int y) {
@@ -22,23 +23,30 @@ public class NeighborChecker {
       .orElse(null);
   }
 
-  public static int numberOfNeighbors(HashiMap hashiMap, Island island) {
-    int numberOfNeighbors = 0;
+  public static List<Island> findAllNeighbors(HashiMap hashiMap, Island island) {
+    List<Island> neighbors = new ArrayList<>();
     List<Island> sharedY = findIslandOnSameRow(hashiMap, island);
     List<Island> sharedX = findIslandsOnSameColumn(hashiMap, island);
 
-    if (getLeftNeighbor(island, sharedY) != null) numberOfNeighbors++;
-    if (getRightNeighbor(hashiMap, island, sharedY) != null) numberOfNeighbors++;
-    if (getUpNeighbor(hashiMap, island, sharedX) != null) numberOfNeighbors++;
-    if (getDownNeighbor(island, sharedX) != null) numberOfNeighbors++;
+    neighbors.add(getLeftNeighbor(island, sharedY));
+    neighbors.add(getRightNeighbor(hashiMap, island, sharedY));
+    neighbors.add(getUpNeighbor(hashiMap, island, sharedX));
+    neighbors.add(getDownNeighbor(island, sharedX));
 
-    return numberOfNeighbors;
+    neighbors.removeIf(Objects::isNull);
+    return neighbors;
+  }
+
+  public static int numberOfNeighbors(HashiMap hashiMap, Island island) {
+    return findAllNeighbors(hashiMap, island).size();
   }
 
   @NotNull
   private static List<Island> findIslandsOnSameColumn(HashiMap hashiMap, Island island) {
     List<Island> sharedX = new ArrayList<>(hashiMap.getIslands());
-    sharedX.removeIf(i -> i.getCoordinates().getX() != island.getCoordinates().getX() || i.equals(island));
+    sharedX.removeIf(
+      isle -> isle.getCoordinates().getX() != island.getCoordinates().getX() || isle.equals(island)
+    );
     return sharedX;
   }
 
@@ -93,8 +101,7 @@ public class NeighborChecker {
     return null;
   }
 
-  public static Island onlyNeighborOf(Island island) {
-
-    return null;
+  public static Island onlyNeighborOf(HashiMap hashiMap, Island island) {
+    return findAllNeighbors(hashiMap, island).get(0);
   }
 }

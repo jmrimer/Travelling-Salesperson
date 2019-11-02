@@ -48,7 +48,7 @@ public class HashiSolver {
     for (Island island : hashiMap.getIslands()) {
       if (island.getPopulation() == 1) {
         if (NeighborChecker.numberOfNeighbors(hashiMap, island) == 1) {
-          hashiSolution.addBridge(island,  NeighborChecker.onlyNeighborOf(island));
+          hashiSolution.addBridge(island,  NeighborChecker.onlyNeighborOf(hashiMap, island));
         }
       }
     }
