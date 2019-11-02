@@ -11,15 +11,26 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HashiSolver {
-  private HashiMap map;
+  private HashiMap hashiMap;
 
   public boolean isSolvable() {
     return hasEnoughIslands()
-      && allIslandsHaveNeighbors();
+      && allIslandsHaveNeighbors()
+      && allIslandsHaveEnoughNeighborsToSupportPopulation();
+  }
+
+  private boolean allIslandsHaveEnoughNeighborsToSupportPopulation() {
+    return hashiMap.getIslands()
+      .stream()
+      .noneMatch(this::hasTooFewNeighbors);
+  }
+
+  private boolean hasTooFewNeighbors(Island island) {
+    return numberOfNeighbors(island) < (island.getPopulation() + 1) / 2;
   }
 
   private boolean allIslandsHaveNeighbors() {
-    for (Island island : map.getIslands()) {
+    for (Island island : hashiMap.getIslands()) {
       if (numberOfNeighbors(island) == 0) {
         return false;
       }
@@ -28,7 +39,7 @@ public class HashiSolver {
   }
 
   private boolean hasEnoughIslands() {
-    return map.getIslands().size() > 1;
+    return hashiMap.getIslands().size() > 1;
   }
 
   public boolean isCorner(Island island) {
@@ -37,9 +48,9 @@ public class HashiSolver {
 
   public int numberOfNeighbors(Island island) {
     int numberOfNeighbors = 0;
-    List<Island> sharedY = new ArrayList<>(map.getIslands());
+    List<Island> sharedY = new ArrayList<>(hashiMap.getIslands());
     sharedY.removeIf(i -> i.getCoordinates().getY() != island.getCoordinates().getY() || i.equals(island));
-    List<Island> sharedX = new ArrayList<>(map.getIslands());
+    List<Island> sharedX = new ArrayList<>(hashiMap.getIslands());
     sharedX.removeIf(i -> i.getCoordinates().getX() != island.getCoordinates().getX() || i.equals(island));
 
     numberOfNeighbors = checkLeft(island, numberOfNeighbors, sharedY);
@@ -51,7 +62,7 @@ public class HashiSolver {
   }
 
   private int checkRight(Island island, int numberOfNeighbors, List<Island> sharedY) {
-    for (int x = island.getCoordinates().getX() + 1; x < map.getGridSize(); x++) {
+    for (int x = island.getCoordinates().getX() + 1; x < hashiMap.getGridSize(); x++) {
       Island neighbor = seekYNeighbor(sharedY, x);
 
       if (neighbor != null) {
@@ -75,7 +86,7 @@ public class HashiSolver {
   }
 
   private int checkUp(Island island, int numberOfNeighbors, List<Island> sharedX) {
-    for (int y = island.getCoordinates().getY() + 1; y < map.getGridSize(); y++) {
+    for (int y = island.getCoordinates().getY() + 1; y < hashiMap.getGridSize(); y++) {
       Island neighbor = seekXNeighbor(sharedX, y);
 
       if (neighbor != null) {
