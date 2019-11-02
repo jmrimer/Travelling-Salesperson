@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class HashiService {
   HashiMap staticMap() {
-    HashiMap hashiMap = new HashiMap();
+    HashiMap hashiMap = new HashiMap(7);
     hashiMap.getIslands().add(new Island(new Coordinates(0, 0), 3));
     hashiMap.getIslands().add(new Island(new Coordinates(0, 3), 2));
     hashiMap.getIslands().add(new Island(new Coordinates(1, 1), 3));
