@@ -13,6 +13,24 @@ import java.util.List;
 public class HashiSolver {
   private HashiMap map;
 
+  public boolean isSolvable() {
+    return hasEnoughIslands()
+      && allIslandsHaveNeighbors();
+  }
+
+  private boolean allIslandsHaveNeighbors() {
+    for (Island island : map.getIslands()) {
+      if (numberOfNeighbors(island) == 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private boolean hasEnoughIslands() {
+    return map.getIslands().size() > 1;
+  }
+
   public boolean isCorner(Island island) {
     return numberOfNeighbors(island) == 2;
   }
