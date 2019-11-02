@@ -18,13 +18,40 @@ public class HashiSolver {
   }
 
   private boolean hasSolution() {
-    return findSolution() != null;
+    return findSolution().isComplete();
   }
 
-  private HashiSolution findSolution() {
-    HashiSolution hashiSolution = null;
-//    todo
+  public HashiSolution findSolution() {
+    HashiSolution hashiSolution = new HashiSolution(hashiMap);
+    justEnoughNeighbors(hashiSolution);
+    hashiSolution.setComplete(checkCompleteness(hashiSolution));
     return hashiSolution;
+  }
+
+  private boolean checkCompleteness(HashiSolution hashiSolution) {
+    for (Island island : hashiSolution.getHashiMap().getIslands()) {
+      int bridgeCount = 0;
+      for (Bridge bridge : hashiSolution.getBridges()) {
+        if (bridge.contains(island)) {
+          bridgeCount++;
+        }
+      }
+      if (bridgeCount != island.getPopulation()) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private void justEnoughNeighbors(HashiSolution hashiSolution) {
+    HashiMap hashiMap = hashiSolution.getHashiMap();
+    for (Island island : hashiMap.getIslands()) {
+      if (island.getPopulation() == 1) {
+        if (NeighborChecker.numberOfNeighbors(hashiMap, island) == 1) {
+          hashiSolution.addBridge(island,  NeighborChecker.onlyNeighborOf(island));
+        }
+      }
+    }
   }
 
   private boolean allIslandsHaveEnoughNeighborsToSupportPopulation() {
