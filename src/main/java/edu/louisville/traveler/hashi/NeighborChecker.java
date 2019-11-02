@@ -60,9 +60,7 @@ public class NeighborChecker {
   private static Island getLeftNeighbor(Island island, List<Island> sharedY) {
     for (int x = island.getCoordinates().getX() - 1; x > -1; x--) {
       Island neighbor = seekYNeighbor(sharedY, x);
-
       if (neighbor != null) {
-        System.out.println(neighbor);
         return neighbor;
       }
     }
