@@ -9,6 +9,7 @@ import GraphContainer from './graph-search/GraphContainer';
 import HeuristicInsertionContainer from './heuristic-instertion/HeuristicInsertionContainer';
 import GeneticAlgorithmContainer from './genetic-algorithm/GeneticAlgorithmContainer';
 import CrowdWisdomContainer from './crowd-wisdom/CrowdWisdomContainer';
+import HashiContainer from './hashi-solver/HashiSolverContainer';
 
 interface Props {
   className?: string
@@ -28,6 +29,7 @@ class App extends React.Component<Props> {
             <Route exact path={'/heuristic-insertion'} component={HeuristicInsertionContainer}/>
             <Route exact path={'/genetic-algorithm'} component={GeneticAlgorithmContainer}/>
             <Route exact path={'/crowd-wisdom'} component={CrowdWisdomContainer}/>
+            <Route exact path={'/hashi-solver'} component={HashiContainer}/>
           </div>
       </Router>
       </ThemeProvider>

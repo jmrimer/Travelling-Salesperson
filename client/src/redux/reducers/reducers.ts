@@ -5,7 +5,7 @@ import {
   serializeJSONToPath,
   serializeJSONtoTour,
   serializeJSONToTrial, serializeJSONToWisdom,
-  startingMap4,
+  startingMap4, staticHashiMap,
   textFromBody,
   toggleMatrix,
   translateCoordinateTextToGraphReadyPoints
@@ -20,7 +20,7 @@ const initState = {
   shortestDFSPath: null,
   adjacencyMatrix: createInitialMatrix(),
   points: translateCoordinateTextToGraphReadyPoints(startingMap4),
-  currentPage: Page.CROWD_WISDOM,
+  currentPage: Page.HASHI_SOLVER,
   currentGeneration: 0,
   startingPopulation: 32,
   populationCap: 32,
@@ -31,7 +31,8 @@ const initState = {
   regionCount: 4,
   crowdSize: 20,
   agreementThreshold: 90,
-  wisdom: new WisdomModel()
+  wisdom: new WisdomModel(),
+  hashiMap: staticHashiMap(),
 };
 
 function incrementGeneration(current: number, max: number) {

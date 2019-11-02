@@ -10,19 +10,18 @@ export const centerOf: any = (points: any[]) => {
     });
     return {x: sumX / points.length, y: sumY / points.length};
   }
-   return {x:0, y: 0}
+  return {x: 0, y: 0}
 
 };
 
 export const translatePointsToNewCenter = (points: any[], newCenter: any) => {
   let center = centerOf(points);
   if (points) {
-
-  points.map((point) => {
-    point.x = point.x - center.x + newCenter.x;
-    point.y = point.y - center.y + newCenter.y;
-    return point;
-  });
+    points.map((point) => {
+      point.x = point.x - center.x + newCenter.x;
+      point.y = point.y - center.y + newCenter.y;
+      return point;
+    });
   }
   return points;
 };

@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 const logo = require('./logo.svg');
 
 export enum Page {
+  HASHI_SOLVER,
   GENETIC_ALGORITHM,
   BRUTE_FORCE,
   GRAPH_SEARCH,
@@ -59,6 +60,7 @@ class Header extends React.Component<Props> {
         {this.heuristicInsertionLink()}
         {this.geneticAlgorithmLink()}
         {this.crowdWisdomLink()}
+        {this.hashiSolverLink()}
       </div>
     )
   }
@@ -110,6 +112,16 @@ class Header extends React.Component<Props> {
       onClick={() => this.handleLinkClick(Page.CROWD_WISDOM)}
     >
       Crowd Wisdom
+    </Link>;
+  }
+
+  private hashiSolverLink() {
+    return <Link
+      to={'/hashi-solver'}
+      className={this.chooseClassName(Page.HASHI_SOLVER)}
+      onClick={() => this.handleLinkClick(Page.HASHI_SOLVER)}
+    >
+      Hashi Solver
     </Link>;
   }
 

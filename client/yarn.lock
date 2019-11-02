@@ -3250,6 +3250,13 @@ cyclist@~0.2.2:
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"
   integrity sha1-GzN5LhHpFKL9bW7WRHRkRE5fpkA=
 
+cytoscape-grid-guide@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/cytoscape-grid-guide/-/cytoscape-grid-guide-2.3.0.tgz#6e8e2d0c82ab5c3ba97f36221787beca01af4ab2"
+  integrity sha512-v+0UYxhxqwNP7mh9YoEZp5W445qL7qK3LAoJRPbd3WqOejUhUOYGEkIsR8Z4wVagg6Xu7cJFTrGV3gEsIcdmIw==
+  dependencies:
+    functional-red-black-tree "^1.0.1"
+
 cytoscape@^3.2.19:
   version "3.10.0"
   resolved "https://registry.yarnpkg.com/cytoscape/-/cytoscape-3.10.0.tgz#3b462e0d35121ecd2d2702f470915fd6dae01777"

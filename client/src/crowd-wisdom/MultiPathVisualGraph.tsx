@@ -26,7 +26,7 @@ export const MultiPathVisualGraph: React.FC<Props> = props => {
 
   if (points) {
     let nodes = points.map((point) => {
-      return {data: {id: point.name, label: point.name}, position: {x: point.x, y: point.y}}
+      return {data: {id: `${point.x}${point.y}${point.name}`, label: point.name}, position: {x: point.x, y: point.y}}
     });
     Object.assign(elements, nodes);
 

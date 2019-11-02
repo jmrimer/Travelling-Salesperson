@@ -7,6 +7,7 @@ import { NodeModel } from '../../shared-models/NodeModel';
 import { TrialModel } from '../../genetic-algorithm/TrialModel';
 import { GenerationModel } from '../../shared-models/GenerationModel';
 import { WisdomModel } from '../../crowd-wisdom/WisdomModel';
+import { HashiPoint } from '../../hashi-solver/HashiPoint';
 
 export function createInitialMatrix() {
   return [
@@ -130,6 +131,37 @@ export let startingMap100 =
   '98 24.509415 4.898221\n' +
   '99 54.347362 47.959838\n' +
   '100 59.797967 84.215827';
+
+class Point {
+  constructor(
+    public x: number = 0,
+    public y: number = 0
+  ){}
+}
+
+export const staticHashiMap = () => {
+  let map: HashiPoint[] = [];
+  // for (let x = 0; x < 8; x++) {
+  //   for (let y = 0; y < 8; y++) {
+  //     map.push(Hashinew Point(x,y), 1));
+  //   }
+  // }
+
+  map.push(new HashiPoint(0, 0, 3));
+  map.push(new HashiPoint(0, 3, 2));
+  map.push(new HashiPoint(1, 1, 3));
+  map.push(new HashiPoint(1, 6, 3));
+  map.push(new HashiPoint(2, 0, 2));
+  map.push(new HashiPoint(3, 2, 1));
+  map.push(new HashiPoint(3, 6, 4));
+  map.push(new HashiPoint(5, 1, 3));
+  map.push(new HashiPoint(5, 5, 1));
+  map.push(new HashiPoint(6, 0, 2));
+  map.push(new HashiPoint(6, 2, 3));
+  map.push(new HashiPoint(6, 4, 3));
+  map.push(new HashiPoint(6, 6, 2));
+  return map;
+};
 
 export function translateCoordinateTextToGraphReadyPoints(mapText: string) {
   let lines = mapText.split('\n');
