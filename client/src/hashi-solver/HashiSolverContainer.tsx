@@ -2,9 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { HashiPoint } from './HashiPoint';
 import HashiVisualGraph from './HashiVisualGraph';
+import { fetchStaticMap } from '../redux/actions/HashiSolverActions';
+import { Button } from '../website-styling/default';
 
 interface Props {
   hashiMap: HashiPoint[];
+  getStaticMap: () => void;
 }
 
 const displayMap = (hashiMap: HashiPoint[]) => {
@@ -19,6 +22,12 @@ const displayMap = (hashiMap: HashiPoint[]) => {
 class HashiSolverContainer extends React.Component<Props> {
   render() {
     return <div>
+      <Button
+        className={'button--hashi-map'}
+        onClick={() => this.props.getStaticMap()}
+      >
+        New Map
+      </Button>
       {displayMap(this.props.hashiMap)}
     </div>;
   }
@@ -28,6 +37,8 @@ const mapStateToProps = (state: any) => ({
   hashiMap: state.hashiMap,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  getStaticMap: fetchStaticMap
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(HashiSolverContainer);

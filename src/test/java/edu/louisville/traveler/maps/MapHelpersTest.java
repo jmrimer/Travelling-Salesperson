@@ -1,12 +1,12 @@
 package edu.louisville.traveler.maps;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.awt.geom.Point2D;
 import java.util.HashSet;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MapHelpersTest {
   @Test

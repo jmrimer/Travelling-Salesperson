@@ -2,14 +2,14 @@ package edu.louisville.traveler.genetics;
 
 import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Map;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BaseGeneticsTest {
   public int startingParentsCount = 128;
@@ -694,7 +694,7 @@ public class BaseGeneticsTest {
     )
   );
 
-  @Before
+  @BeforeEach
   public void setup() {
     trial = new Trial();
   }

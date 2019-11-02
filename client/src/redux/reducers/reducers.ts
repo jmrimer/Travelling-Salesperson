@@ -1,7 +1,7 @@
 import { ActionTypes } from '../actions/types';
 import { Page } from '../../website-styling/Header';
 import {
-  createInitialMatrix,
+  createInitialMatrix, serializeJSONToHashiMap,
   serializeJSONToPath,
   serializeJSONtoTour,
   serializeJSONToTrial, serializeJSONToWisdom,
@@ -106,6 +106,11 @@ const reducer = (state = initState, action: any) => {
       return {...state, maxMutationSize: action.body};
     case ActionTypes.UPDATE_MUTATION_RATE:
       return {...state, mutationRate: action.body};
+    case ActionTypes.FETCH_STATIC_HASHI_MAP_REQUEST:
+      return {...state, loading: true};
+    case ActionTypes.FETCH_STATIC_HASHI_MAP_SUCCESS:
+      return {...state, hashiMap: serializeJSONToHashiMap(action.body), loading: false}
+
     default:
       return state;
   }

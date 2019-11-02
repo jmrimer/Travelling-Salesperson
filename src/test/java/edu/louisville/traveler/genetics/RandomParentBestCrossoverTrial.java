@@ -5,7 +5,7 @@ import edu.louisville.traveler.genetics.crossers.GeneCrosser;
 import edu.louisville.traveler.genetics.seeders.RandomPopulationSeeder;
 import edu.louisville.traveler.genetics.selectors.ParentSelector;
 import edu.louisville.traveler.genetics.selectors.RandomParentSelector;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RandomParentBestCrossoverTrial extends BaseGeneticsTest {
   long timestamp;

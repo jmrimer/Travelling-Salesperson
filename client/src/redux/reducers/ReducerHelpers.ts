@@ -132,13 +132,6 @@ export let startingMap100 =
   '99 54.347362 47.959838\n' +
   '100 59.797967 84.215827';
 
-class Point {
-  constructor(
-    public x: number = 0,
-    public y: number = 0
-  ){}
-}
-
 export const staticHashiMap = () => {
   let map: HashiPoint[] = [];
   // for (let x = 0; x < 8; x++) {
@@ -153,13 +146,6 @@ export const staticHashiMap = () => {
   map.push(new HashiPoint(1, 6, 3));
   map.push(new HashiPoint(2, 0, 2));
   map.push(new HashiPoint(3, 2, 1));
-  map.push(new HashiPoint(3, 6, 4));
-  map.push(new HashiPoint(5, 1, 3));
-  map.push(new HashiPoint(5, 5, 1));
-  map.push(new HashiPoint(6, 0, 2));
-  map.push(new HashiPoint(6, 2, 3));
-  map.push(new HashiPoint(6, 4, 3));
-  map.push(new HashiPoint(6, 6, 2));
   return map;
 };
 
@@ -228,9 +214,20 @@ export const serializeJSONToTrial = (body: any): TrialModel => {
 };
 
 export const serializeJSONToWisdom = (body: any): WisdomModel => {
-  console.log(body);
   let wisdom = new WisdomModel();
   wisdom.agreedEdges = body.agreedEdges;
   wisdom.aggregatedTour = body.aggregatedTour;
   return wisdom;
+};
+
+export const serializeJSONToHashiMap = (body: any): HashiPoint[] => {
+  let hashiPoints: HashiPoint[] = [];
+  body.islands.map((island: any) => {
+    hashiPoints.push(new HashiPoint(
+      island.coordinates.x,
+      island.coordinates.y,
+      island.population
+    ))
+  });
+  return hashiPoints;
 };

@@ -6,14 +6,15 @@ import edu.louisville.traveler.genetics.Trial;
 import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Edge;
 import edu.louisville.traveler.maps.MapHelpers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThan;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CrowdWisdomServiceTest extends BaseGeneticsTest {
   long timestamp;
@@ -65,9 +66,10 @@ public class CrowdWisdomServiceTest extends BaseGeneticsTest {
 
     for (Edge edge : wisdom.getAgreedEdges()) {
       assertTrue(
-        "Wisdom tour incorrectly separated a wisdom edge for: " + edge,
         MapHelpers.cityBefore(edge.getStart(), cycle).equals(edge.getEnd()) ||
-          MapHelpers.cityAfter(edge.getStart(), cycle).equals(edge.getEnd()));
+          MapHelpers.cityAfter(edge.getStart(), cycle).equals(edge.getEnd()),
+        "Wisdom tour incorrectly separated a wisdom edge for: " + edge);
+
     }
     System.out.println("aggregated tour weight: " + wisdom.getAggregatedTour().getWeight());
 

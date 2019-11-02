@@ -2,12 +2,12 @@ package edu.louisville.traveler.genetics;
 
 import edu.louisville.traveler.genetics.crossers.OrderedGeneCrosser;
 import edu.louisville.traveler.maps.City;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class OrderedGeneCrosserTest extends BaseGeneticsTest {
 

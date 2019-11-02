@@ -2,11 +2,11 @@ package edu.louisville.traveler.genetics;
 
 import edu.louisville.traveler.maps.Edge;
 import edu.louisville.traveler.maps.MapHelpers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BreederTest extends BaseGeneticsTest {
   @Test

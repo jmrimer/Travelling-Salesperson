@@ -1,13 +1,13 @@
 package edu.louisville.traveler.graphs;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GraphTest {
 
@@ -17,7 +17,7 @@ public class GraphTest {
   private Node node4;
   private Graph graph;
 
-  @Before
+@BeforeEach
   public void setup() {
     graph = new Graph();
     node1 = new Node(1);

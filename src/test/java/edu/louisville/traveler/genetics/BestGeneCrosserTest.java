@@ -2,20 +2,19 @@ package edu.louisville.traveler.genetics;
 
 import edu.louisville.traveler.genetics.crossers.BestGeneCrosser;
 import edu.louisville.traveler.maps.City;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BestGeneCrosserTest extends BaseGeneticsTest {
   private LivingTour parent1;
   private LivingTour parent2;
 
-  @Before
+@BeforeEach
   public void childSetup() {
     super.setup();
     List<City> cycle1 = List.of(city1, city2, city3, city4, city5, city1);

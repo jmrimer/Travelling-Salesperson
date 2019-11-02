@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
     "edu.louisville.traveler.maps",
     "edu.louisville.traveler.genetics",
     "edu.louisville.traveler.crowds",
+    "edu.louisville.traveler.hashi",
   }
 )
 public class Application {
