@@ -12,4 +12,9 @@ import java.util.List;
 @NoArgsConstructor
 public class HashiMap {
   private List<Island> islands = new ArrayList<>();
+  private int gridSize;
+
+  public HashiMap(int squareGridSize) {
+    this.gridSize = squareGridSize;
+  }
 }
