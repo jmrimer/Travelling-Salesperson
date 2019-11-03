@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 public class HashiSolverTest extends BaseHashiTest {
   @Test
   public void isSolvable() {
-    hashiSolver = new HashiSolver(hashiMapSolvable2Island);
+    hashiSolver = new HashiSolver(hashiMapSolvable_2Island);
     assertTrue(hashiSolver.isSolvable());
 
     hashiSolver = new HashiSolver(hashiMap7x7Easy);
@@ -18,7 +18,7 @@ public class HashiSolverTest extends BaseHashiTest {
 
   @Test
   public void technique_JustEnoughNeighbors() {
-    hashiSolver = new HashiSolver(hashiMapSolvable2Island);
+    hashiSolver = new HashiSolver(hashiMapSolvable_2Island);
     assertEquals(
       List.of(new Bridge(islandBottomRight, islandTopRight_Pop1)),
       hashiSolver.findSolution().getBridges()
@@ -30,6 +30,19 @@ public class HashiSolverTest extends BaseHashiTest {
       List.of(
         new Bridge(islandBottomRight, islandTopRight_Pop1),
         new Bridge(islandTopRight_Pop1, islandBottomRight)
+      ),
+      hashiSolver.findSolution().getBridges()
+    );
+
+    islandTopLeft.setPopulation(2);
+    islandBottomLeft.setPopulation(4);
+    islandBottomRight.setPopulation(2);
+    assertEquals(
+      List.of(
+        new Bridge(islandTopLeft, islandBottomLeft),
+        new Bridge(islandTopLeft, islandBottomLeft),
+        new Bridge(islandBottomLeft, islandBottomRight),
+        new Bridge(islandBottomLeft, islandBottomRight)
       ),
       hashiSolver.findSolution().getBridges()
     );

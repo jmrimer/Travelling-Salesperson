@@ -4,7 +4,8 @@ import org.junit.Before;
 
 public class BaseHashiTest {
   public HashiSolver hashiSolver;
-  public HashiMap hashiMapSolvable2Island;
+  public HashiMap hashiMapSolvable_2Island;
+  public HashiMap hashiMapSolvable_3Island;
   public HashiMap hashiMap7x7Easy;
   public HashiMap hashiMap7x7Empty;
   public HashiMap hashiMapUnsolvableSingleIsland;
@@ -19,6 +20,7 @@ public class BaseHashiTest {
   public Island islandBottomRight;
   public Island islandBottomLeft;
   public Island islandTopRight_Pop3;
+  public Island islandTopLeft;
 
   @Before
   public void setup() {
@@ -29,6 +31,7 @@ public class BaseHashiTest {
     islandTopRight_Pop3 = new Island(new Coordinates(6, 6), 3);
     islandBottomRight = new Island(new Coordinates(6, 0), 1);
     islandBottomLeft = new Island(new Coordinates(0, 0), 1);
+    islandTopLeft = new Island(new Coordinates(0, 6), 1);
 
     island_0_0_3 = new Island(new Coordinates(0, 0), 3);
     island_0_3_2 = new Island(new Coordinates(0, 3), 2);
@@ -47,9 +50,14 @@ public class BaseHashiTest {
     hashiMap_Unsolvable_IslandWithTooFewNeighbors.add(islandTopRight_Pop3);
     hashiMap_Unsolvable_IslandWithTooFewNeighbors.add(islandBottomRight);
 
-    hashiMapSolvable2Island = new HashiMap(7);
-    hashiMapSolvable2Island.add(islandTopRight_Pop1);
-    hashiMapSolvable2Island.add(islandBottomRight);
+    hashiMapSolvable_2Island = new HashiMap(7);
+    hashiMapSolvable_2Island.add(islandTopRight_Pop1);
+    hashiMapSolvable_2Island.add(islandBottomRight);
+
+    hashiMapSolvable_3Island = new HashiMap(7);
+    hashiMapSolvable_3Island.add(islandTopLeft);
+    hashiMapSolvable_3Island.add(islandBottomLeft);
+    hashiMapSolvable_3Island.add(islandBottomRight);
 
     hashiMap7x7Easy = new HashiMap(7);
     hashiMap7x7Easy.add(island_0_0_3);
