@@ -2,6 +2,9 @@ package edu.louisville.traveler.hashi;
 
 import org.junit.Before;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BaseHashiTest {
   public HashiSolver hashiSolver;
   public HashiMap hashiMapSolvable_2Island;
@@ -13,9 +16,10 @@ public class BaseHashiTest {
   public HashiMap hashiMap_Unsolvable_IslandWithTooFewNeighbors;
   public Island island_0_0_3;
   public Island island_0_3_2;
+  public Island island_2_0_2;
+  public Island island_5_2_3;
   public Island island_6_2_3;
   public Island island_6_4_3;
-  public Island island_5_2_3;
   public Island islandTopRight_Pop1;
   public Island islandBottomRight;
   public Island islandBottomLeft;
@@ -25,7 +29,7 @@ public class BaseHashiTest {
   @Before
   public void setup() {
     hashiSolver = new HashiSolver();
-    hashiMap7x7Empty = new HashiMap(7);
+    hashiMap7x7Empty = new HashiMap(7, new ArrayList<>());
 
     islandTopRight_Pop1 = new Island(new Coordinates(6, 6), 1);
     islandTopRight_Pop3 = new Island(new Coordinates(6, 6), 3);
@@ -35,42 +39,67 @@ public class BaseHashiTest {
 
     island_0_0_3 = new Island(new Coordinates(0, 0), 3);
     island_0_3_2 = new Island(new Coordinates(0, 3), 2);
+    island_2_0_2 = new Island(new Coordinates(2, 0), 2);
     island_5_2_3 = new Island(new Coordinates(5, 1), 3);
     island_6_2_3 = new Island(new Coordinates(6, 2), 3);
     island_6_4_3 = new Island(new Coordinates(6, 4), 3);
 
-    hashiMapUnsolvableSingleIsland = new HashiMap(7);
-    hashiMapUnsolvableSingleIsland.add(islandTopRight_Pop1);
+    hashiMapUnsolvableSingleIsland = new HashiMap(
+      7,
+      List.of(islandTopRight_Pop1)
+    );
 
-    hashiMap_Unsolvable_IslandWithoutNeighbor = new HashiMap(7);
-    hashiMap_Unsolvable_IslandWithoutNeighbor.add(islandTopRight_Pop1);
-    hashiMap_Unsolvable_IslandWithoutNeighbor.add(islandBottomLeft);
+    hashiMap_Unsolvable_IslandWithoutNeighbor =
+      new HashiMap(
+        7,
+        List.of(
+          islandTopRight_Pop1,
+          islandBottomLeft
+        )
+      );
 
-    hashiMap_Unsolvable_IslandWithTooFewNeighbors = new HashiMap(7);
-    hashiMap_Unsolvable_IslandWithTooFewNeighbors.add(islandTopRight_Pop3);
-    hashiMap_Unsolvable_IslandWithTooFewNeighbors.add(islandBottomRight);
+    hashiMap_Unsolvable_IslandWithTooFewNeighbors = new HashiMap(
+      7,
+      List.of(
+        islandTopRight_Pop3,
+        islandBottomRight
+      )
+    );
 
-    hashiMapSolvable_2Island = new HashiMap(7);
-    hashiMapSolvable_2Island.add(islandTopRight_Pop1);
-    hashiMapSolvable_2Island.add(islandBottomRight);
+    hashiMapSolvable_2Island = new HashiMap(
+      7,
+      List.of(
+        islandTopRight_Pop1,
+        islandBottomRight
+      )
+    );
 
-    hashiMapSolvable_3Island = new HashiMap(7);
-    hashiMapSolvable_3Island.add(islandTopLeft);
-    hashiMapSolvable_3Island.add(islandBottomLeft);
-    hashiMapSolvable_3Island.add(islandBottomRight);
+    hashiMapSolvable_3Island = new HashiMap(
+      7,
+      List.of(
+        islandTopLeft,
+        islandBottomLeft,
+        islandBottomRight
+      )
+    );
 
-    hashiMap7x7Easy = new HashiMap(7);
-    hashiMap7x7Easy.add(island_0_0_3);
-    hashiMap7x7Easy.add(island_0_3_2);
-    hashiMap7x7Easy.add(new Island(new Coordinates(1, 1), 3));
-    hashiMap7x7Easy.add(new Island(new Coordinates(1, 6), 3));
-    hashiMap7x7Easy.add(new Island(new Coordinates(2, 0), 2));
-    hashiMap7x7Easy.add(new Island(new Coordinates(3, 2), 1));
-    hashiMap7x7Easy.add(new Island(new Coordinates(3, 6), 4));
-    hashiMap7x7Easy.add(island_5_2_3);
-    hashiMap7x7Easy.add(new Island(new Coordinates(5, 5), 1));
-    hashiMap7x7Easy.add(new Island(new Coordinates(6, 0), 2));
-    hashiMap7x7Easy.add(island_6_2_3);
-    hashiMap7x7Easy.add(island_6_4_3);
-    hashiMap7x7Easy.add(new Island(new Coordinates(6, 6), 2));
-  }}
+    hashiMap7x7Easy = new HashiMap(
+      7,
+      List.of(
+        island_0_0_3,
+        island_0_3_2,
+        new Island(new Coordinates(1, 1), 3),
+        new Island(new Coordinates(1, 6), 3),
+        island_2_0_2,
+        new Island(new Coordinates(3, 2), 1),
+        new Island(new Coordinates(3, 6), 4),
+        island_5_2_3,
+        new Island(new Coordinates(5, 5), 1),
+        new Island(new Coordinates(6, 0), 2),
+        island_6_2_3,
+        island_6_4_3,
+        new Island(new Coordinates(6, 6), 2)
+      )
+    );
+  }
+}

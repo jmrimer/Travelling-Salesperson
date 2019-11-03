@@ -2,9 +2,7 @@ package edu.louisville.traveler.hashi;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class NeighborChecker {
   public static Island seekXNeighbor(List<Island> sharedX, int y) {
@@ -23,17 +21,17 @@ public class NeighborChecker {
       .orElse(null);
   }
 
-  public static List<Island> findAllNeighbors(HashiMap hashiMap, Island island) {
-    List<Island> neighbors = new ArrayList<>();
-    List<Island> sharedY = findIslandOnSameRow(hashiMap, island);
+  public static Map<Direction, Island> findAllNeighbors(HashiMap hashiMap, Island island) {
+    Map<Direction, Island> neighbors = new HashMap<>();
+        List<Island> sharedY = findIslandOnSameRow(hashiMap, island);
     List<Island> sharedX = findIslandsOnSameColumn(hashiMap, island);
 
-    neighbors.add(getLeftNeighbor(island, sharedY));
-    neighbors.add(getRightNeighbor(hashiMap, island, sharedY));
-    neighbors.add(getUpNeighbor(hashiMap, island, sharedX));
-    neighbors.add(getDownNeighbor(island, sharedX));
+    neighbors.put(Direction.NORTH, getNeighborNorth(hashiMap, island, sharedX));
+    neighbors.put(Direction.EAST, getNeighborEast(hashiMap, island, sharedY));
+    neighbors.put(Direction.SOUTH, getNeighborSouth(island, sharedX));
+    neighbors.put(Direction.WEST, getNeighborWest(island, sharedY));
 
-    neighbors.removeIf(Objects::isNull);
+    neighbors.entrySet().removeIf(entry -> entry.getValue() == null);
     return neighbors;
   }
 
@@ -57,7 +55,7 @@ public class NeighborChecker {
     return sharedY;
   }
 
-  private static Island getLeftNeighbor(Island island, List<Island> sharedY) {
+  private static Island getNeighborWest(Island island, List<Island> sharedY) {
     for (int x = island.getCoordinates().getX() - 1; x > -1; x--) {
       Island neighbor = seekYNeighbor(sharedY, x);
       if (neighbor != null) {
@@ -67,7 +65,7 @@ public class NeighborChecker {
     return null;
   }
 
-  private static Island getRightNeighbor(HashiMap hashiMap, Island island, List<Island> sharedY) {
+  private static Island getNeighborEast(HashiMap hashiMap, Island island, List<Island> sharedY) {
     for (int x = island.getCoordinates().getX() + 1; x < hashiMap.getGridSize(); x++) {
       Island neighbor = seekYNeighbor(sharedY, x);
       if (neighbor != null) {
@@ -77,7 +75,7 @@ public class NeighborChecker {
     return null;
   }
 
-  public static Island getUpNeighbor(HashiMap hashiMap, Island island, List<Island> sharedX) {
+  public static Island getNeighborNorth(HashiMap hashiMap, Island island, List<Island> sharedX) {
     for (int y = island.getCoordinates().getY() + 1; y < hashiMap.getGridSize(); y++) {
       Island neighbor = seekXNeighbor(sharedX, y);
 
@@ -88,7 +86,7 @@ public class NeighborChecker {
     return null;
   }
 
-  static Island getDownNeighbor(Island island, List<Island> sharedX) {
+  static Island getNeighborSouth(Island island, List<Island> sharedX) {
     for (int y = island.getCoordinates().getY() - 1; y > -1; y--) {
       Island neighbor = seekXNeighbor(sharedX, y);
 
