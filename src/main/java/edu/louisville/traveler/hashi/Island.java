@@ -3,7 +3,10 @@ package edu.louisville.traveler.hashi;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Data
 @AllArgsConstructor
@@ -45,6 +48,15 @@ public class Island {
     }
   }
 
+  public int neighborCount() {
+    int neighborCount = 0;
+    if (this.neighborNorth != null) neighborCount++;
+    if (this.neighborEast != null) neighborCount++;
+    if (this.neighborSouth != null) neighborCount++;
+    if (this.neighborWest != null) neighborCount++;
+    return neighborCount;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (o == this) {
@@ -61,5 +73,23 @@ public class Island {
   @Override
   public String toString() {
     return "Island at (" + this.coordinates.getX() + ", " + this.coordinates.getY() + ") with population: " + this.population;
+  }
+
+  public Island onlyNeighbor() {
+    if (this.neighborNorth != null) return neighborNorth;
+    if (this.neighborEast != null) return neighborEast;
+    if (this.neighborSouth != null) return neighborSouth;
+    if (this.neighborWest != null) return neighborWest;
+    return null;
+  }
+
+  public List<Island> getAllNeighbors() {
+    List<Island> neighbors = new ArrayList<>();
+    neighbors.add(neighborNorth);
+    neighbors.add(neighborEast);
+    neighbors.add(neighborSouth);
+    neighbors.add(neighborWest);
+    neighbors.removeIf(Objects::isNull);
+    return neighbors;
   }
 }

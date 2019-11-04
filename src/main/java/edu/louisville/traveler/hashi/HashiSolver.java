@@ -23,7 +23,11 @@ public class HashiSolver {
 
   public HashiSolution findSolution() {
     HashiSolution hashiSolution = new HashiSolution(hashiMap);
-    justEnoughNeighbors(hashiSolution);
+    try {
+      justEnoughNeighbors(hashiSolution);
+    } catch (UnsolvableHashiMap unsolvableHashiMap) {
+      unsolvableHashiMap.printStackTrace();
+    }
     hashiSolution.setComplete(checkCompleteness(hashiSolution));
     return hashiSolution;
   }
@@ -43,14 +47,59 @@ public class HashiSolver {
     return true;
   }
 
-  private void justEnoughNeighbors(HashiSolution hashiSolution) {
+  private void justEnoughNeighbors(HashiSolution hashiSolution) throws UnsolvableHashiMap {
     HashiMap hashiMap = hashiSolution.getHashiMap();
     for (Island island : hashiMap.getIslands()) {
-      if (NeighborChecker.numberOfNeighbors(hashiMap, island) == 1) {
-        for (int i = 0; i < island.getPopulation(); i++) {
-          hashiSolution.addBridge(island, NeighborChecker.onlyNeighborOf(hashiMap, island));
-        }
+      switch (island.neighborCount()) {
+        case 1:
+          connectAllBridges(hashiSolution, island, island.onlyNeighbor());
+        case 2:
+          if (island.getPopulation() == 4) {
+            connectAllBridgesToAllNeighbors(hashiSolution, island);
+          } else if (island.getPopulation() == 3) {
+            connectSingleBridgesToAllNeighbors(hashiSolution, island);
+          } else if (island.getPopulation() > 4) {
+            throw new UnsolvableHashiMap();
+          }
+        case 3:
+          if (island.getPopulation() == 6) {
+            connectAllBridgesToAllNeighbors(hashiSolution, island);
+          } else if (island.getPopulation() == 5) {
+            connectSingleBridgesToAllNeighbors(hashiSolution, island);
+          } else if (island.getPopulation() > 6) {
+            throw new UnsolvableHashiMap();
+          }
+        case 4:
+          if (island.getPopulation() == 8) {
+            connectAllBridgesToAllNeighbors(hashiSolution, island);
+          } else if (island.getPopulation() == 7) {
+            connectSingleBridgesToAllNeighbors(hashiSolution, island);
+          } else if (island.getPopulation() > 8) {
+            throw new UnsolvableHashiMap();
+          }
       }
+    }
+  }
+
+  private void connectSingleBridgesToAllNeighbors(HashiSolution hashiSolution, Island island) {
+    for (Island neighbor : island.getAllNeighbors()) {
+      hashiSolution.addBridge(island, neighbor);
+    }
+  }
+
+  private void connectAllBridgesToAllNeighbors(HashiSolution hashiSolution, Island island) {
+    System.out.println(island.getAllNeighbors());
+    for (Island neighbor : island.getAllNeighbors()) {
+      System.out.println(neighbor);
+      for (int i = 0; i < 2; i++) {
+        hashiSolution.addBridge(island, neighbor);
+      }
+    }
+  }
+
+  private void connectAllBridges(HashiSolution hashiSolution, Island island, Island neighbor) {
+    for (int i = 0; i < island.getPopulation(); i++) {
+      hashiSolution.addBridge(island, neighbor);
     }
   }
 

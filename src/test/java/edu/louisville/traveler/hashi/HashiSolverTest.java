@@ -17,7 +17,7 @@ public class HashiSolverTest extends BaseHashiTest {
   }
 
   @Test
-  public void technique_JustEnoughNeighbors() {
+  public void technique_JustEnoughNeighbors_1() {
     hashiSolver = new HashiSolver(hashiMapSolvable_2Island);
     assertEquals(
       List.of(new Bridge(islandBottomRight, islandTopRight_Pop1)),
@@ -26,6 +26,7 @@ public class HashiSolverTest extends BaseHashiTest {
 
     islandTopRight_Pop1.setPopulation(2);
     islandBottomRight.setPopulation(2);
+    hashiSolver = new HashiSolver(hashiMapSolvable_2Island);
     assertEquals(
       List.of(
         new Bridge(islandBottomRight, islandTopRight_Pop1),
@@ -33,16 +34,64 @@ public class HashiSolverTest extends BaseHashiTest {
       ),
       hashiSolver.findSolution().getBridges()
     );
+  }
 
+  @Test
+  public void technique_JustEnoughNeighbors_2Neighbors() {
     islandTopLeft.setPopulation(2);
     islandBottomLeft.setPopulation(4);
     islandBottomRight.setPopulation(2);
+    hashiSolver = new HashiSolver(hashiMapSolvable_3Island);
     assertEquals(
       List.of(
         new Bridge(islandTopLeft, islandBottomLeft),
         new Bridge(islandTopLeft, islandBottomLeft),
         new Bridge(islandBottomLeft, islandBottomRight),
         new Bridge(islandBottomLeft, islandBottomRight)
+      ),
+      hashiSolver.findSolution().getBridges()
+    );
+  }
+
+  @Test
+  public void technique_JustEnoughNeighbors_3Neighbors() {
+    island_3_6_4.setPopulation(6);
+    island_3_2_1.setPopulation(2);
+    island_1_6_3.setPopulation(2);
+    island_6_6_2.setPopulation(2);
+    hashiSolver = new HashiSolver(hashiMapSolvable_4Island_3Neighbor);
+    assertEquals(
+      List.of(
+        new Bridge(island_3_6_4, island_6_6_2),
+        new Bridge(island_3_6_4, island_6_6_2),
+        new Bridge(island_3_6_4, island_3_2_1),
+        new Bridge(island_3_6_4, island_3_2_1),
+        new Bridge(island_3_6_4, island_1_6_3),
+        new Bridge(island_3_6_4, island_1_6_3)
+      ),
+      hashiSolver.findSolution().getBridges()
+    );
+  }
+
+  @Test
+  public void technique_JustEnoughNeighbors_4Neighbors() {
+    island_3_2_1.setPopulation(2);
+    island_5_1_3.setPopulation(2);
+    island_5_5_1.setPopulation(2);
+    island_6_2_3.setPopulation(2);
+    island_5_2_8.setPopulation(8);
+    System.out.println(island_5_1_3.getAllNeighbors());
+    hashiSolver = new HashiSolver(hashiMapSolvable_5Island_4Neighbor);
+    assertEquals(
+      List.of(
+        new Bridge(island_5_2_8, island_3_2_1),
+        new Bridge(island_5_2_8, island_3_2_1),
+        new Bridge(island_5_2_8, island_5_1_3),
+        new Bridge(island_5_2_8, island_5_1_3),
+        new Bridge(island_5_2_8, island_5_5_1),
+        new Bridge(island_5_2_8, island_5_5_1),
+        new Bridge(island_5_2_8, island_6_2_3),
+        new Bridge(island_5_2_8, island_6_2_3)
       ),
       hashiSolver.findSolution().getBridges()
     );
@@ -70,7 +119,7 @@ public class HashiSolverTest extends BaseHashiTest {
     hashiSolver = new HashiSolver(hashiMap_Unsolvable_IslandWithTooFewNeighbors);
     assertFalse(hashiSolver.isSolvable());
 
-    hashiMap7x7Easy.getIslands().remove(island_5_2_3);
+    hashiMap7x7Easy.getIslands().remove(island_5_1_3);
     hashiMap7x7Easy.add(new Island(new Coordinates(4, 4), 2));
     hashiSolver = new HashiSolver(hashiMap7x7Easy);
     assertFalse(hashiSolver.isSolvable());

@@ -18,25 +18,26 @@ public class HashiSolution {
 
   public void addBridge(Island island, Island neighbor) {
     Bridge bridge = new Bridge(island, neighbor);
-
     if (isAllowableBridgeAddition(bridge)) {
       this.bridges.add(bridge);
     }
   }
 
   private boolean isAllowableBridgeAddition(Bridge bridge) {
-    return canShareAnotherBridge(bridge)
-      && hasAvailability(bridge.getIsland1())
-      && hasAvailability(bridge.getIsland2());
+    return lessThanTwoBridges(bridge)
+      && populationRemainingOn(bridge.getIsland1())
+      && populationRemainingOn(bridge.getIsland2());
   }
 
-  private boolean canShareAnotherBridge(Bridge bridge) {
+  private boolean lessThanTwoBridges(Bridge bridge) {
     return Collections.frequency(bridges, bridge) < 2;
   }
 
-  private boolean hasAvailability(Island island) {
+  private boolean populationRemainingOn(Island island) {
     List<Bridge> bridgesWithIsland = new ArrayList<>(bridges);
-    return bridgesWithIsland.stream()
-      .filter(bridge1 -> bridge1.contains(island)).count() < island.getPopulation();
+    long islandBridgeCount = bridgesWithIsland.stream()
+      .filter(bridge1 -> bridge1.contains(island))
+      .count();
+    return islandBridgeCount < island.getPopulation();
   }
 }
