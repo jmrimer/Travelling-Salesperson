@@ -24,6 +24,11 @@ public class Island {
   private int bridgeCountSouth;
   private int bridgeCountWest;
 
+  private List<Integer> constraintsNorth;
+  private List<Integer> constraintsEast;
+  private List<Integer> constraintsSouth;
+  private List<Integer> constraintsWest;
+
   public Island(Coordinates coordinates, int population) {
     this.coordinates = coordinates;
     this.population = population;
@@ -91,5 +96,20 @@ public class Island {
     neighbors.add(neighborWest);
     neighbors.removeIf(Objects::isNull);
     return neighbors;
+  }
+
+  public void setConstraints(List<Integer> constraints) {
+    if (neighborNorth != null) {
+      constraintsNorth = constraints;
+    }
+    if (neighborEast != null) {
+      constraintsEast = constraints;
+    }
+    if (neighborSouth != null) {
+      constraintsSouth = constraints;
+    }
+    if (neighborWest != null) {
+      constraintsWest = constraints;
+    }
   }
 }
