@@ -46,6 +46,11 @@ public class HashiMap {
         List<Integer> constraints = new ArrayList<>(List.of(1, 2));
         island.setConstraints(constraints);
       }
+
+      if (island.neighborCount() == 2 && island.getPopulation() == 4) {
+        List<Integer> constraints = new ArrayList<>(List.of(2));
+        island.setConstraints(constraints);
+      }
     }
   }
 
