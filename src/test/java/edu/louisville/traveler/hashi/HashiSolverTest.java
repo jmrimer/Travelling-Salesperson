@@ -2,6 +2,7 @@ package edu.louisville.traveler.hashi;
 
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -60,16 +61,28 @@ public class HashiSolverTest extends BaseHashiTest {
     island_1_6_3.setPopulation(2);
     island_6_6_2.setPopulation(2);
     hashiSolver = new HashiSolver(hashiMapSolvable_4Island_3Neighbor);
+    List<Bridge> bridges = hashiSolver.findSolution().getBridges();
+
     assertEquals(
-      List.of(
-        new Bridge(island_3_6_4, island_6_6_2),
-        new Bridge(island_3_6_4, island_6_6_2),
-        new Bridge(island_3_6_4, island_3_2_1),
-        new Bridge(island_3_6_4, island_3_2_1),
-        new Bridge(island_3_6_4, island_1_6_3),
+      2,
+      Collections.frequency(
+        bridges,
+        new Bridge(island_3_6_4, island_6_6_2)
+      )
+    );
+    assertEquals(
+      2,
+      Collections.frequency(
+        bridges,
+        new Bridge(island_3_6_4, island_3_2_1)
+      )
+    );
+    assertEquals(
+      2,
+      Collections.frequency(
+        bridges,
         new Bridge(island_3_6_4, island_1_6_3)
-      ),
-      hashiSolver.findSolution().getBridges()
+      )
     );
   }
 
@@ -80,20 +93,36 @@ public class HashiSolverTest extends BaseHashiTest {
     island_5_5_1.setPopulation(2);
     island_6_2_3.setPopulation(2);
     island_5_2_8.setPopulation(8);
-    System.out.println(island_5_1_3.getAllNeighbors());
+
     hashiSolver = new HashiSolver(hashiMapSolvable_5Island_4Neighbor);
+    List<Bridge> bridges = hashiSolver.findSolution().getBridges();
     assertEquals(
-      List.of(
-        new Bridge(island_5_2_8, island_3_2_1),
-        new Bridge(island_5_2_8, island_3_2_1),
-        new Bridge(island_5_2_8, island_5_1_3),
-        new Bridge(island_5_2_8, island_5_1_3),
-        new Bridge(island_5_2_8, island_5_5_1),
-        new Bridge(island_5_2_8, island_5_5_1),
-        new Bridge(island_5_2_8, island_6_2_3),
+      2,
+      Collections.frequency(
+        bridges,
+        new Bridge(island_5_2_8, island_3_2_1)
+      )
+    );
+    assertEquals(
+      2,
+      Collections.frequency(
+        bridges,
+        new Bridge(island_5_2_8, island_5_1_3)
+      )
+    );
+    assertEquals(
+      2,
+      Collections.frequency(
+        bridges,
+        new Bridge(island_5_2_8, island_5_5_1)
+      )
+    );
+    assertEquals(
+      2,
+      Collections.frequency(
+        bridges,
         new Bridge(island_5_2_8, island_6_2_3)
-      ),
-      hashiSolver.findSolution().getBridges()
+      )
     );
   }
 

@@ -32,25 +32,25 @@ public class HashiMapTest {
     assertEquals(
       "HashiMap constructor failed to assign northern neighbor",
       island_0_3_2,
-      island_0_0_3.getNeighborNorth()
+      island_0_0_3.getNeighbors().get(Direction.NORTH)
     );
 
     assertEquals(
       "HashiMap constructor failed to assign eastern neighbor",
       island_2_0_2,
-      island_0_0_3.getNeighborEast()
+      island_0_0_3.getNeighbors().get(Direction.EAST)
     );
 
     assertEquals(
       "HashiMap constructor failed to assign southern neighbor",
       island_0_0_3,
-      island_0_3_2.getNeighborSouth()
+      island_0_3_2.getNeighbors().get(Direction.SOUTH)
     );
 
     assertEquals(
       "HashiMap constructor failed to assign western neighbor",
       island_0_0_3,
-      island_2_0_2.getNeighborWest()
+      island_2_0_2.getNeighbors().get(Direction.WEST)
     );
   }
 
@@ -72,10 +72,10 @@ public class HashiMapTest {
       )
     );
 
-    assertEquals(List.of(2), island_0_3_2.getConstraintsSouth());
-    assertEquals(List.of(1, 2), island_0_0_3.getConstraintsNorth());
-    assertEquals(List.of(1, 2), island_0_0_3.getConstraintsEast());
-    assertEquals(List.of(1), island_2_0_1.getConstraintsWest());
+    assertEquals(List.of(2), island_0_3_2.getConstraints().get(Direction.SOUTH));
+    assertEquals(List.of(1, 2), island_0_0_3.getConstraints().get(Direction.NORTH));
+    assertEquals(List.of(1, 2), island_0_0_3.getConstraints().get(Direction.EAST));
+    assertEquals(List.of(1), island_2_0_1.getConstraints().get(Direction.WEST));
 
   }
 

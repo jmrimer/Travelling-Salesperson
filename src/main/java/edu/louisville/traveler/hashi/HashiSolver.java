@@ -82,15 +82,13 @@ public class HashiSolver {
   }
 
   private void connectSingleBridgesToAllNeighbors(HashiSolution hashiSolution, Island island) {
-    for (Island neighbor : island.getAllNeighbors()) {
+    for (Island neighbor : island.getNeighbors().values()) {
       hashiSolution.addBridge(island, neighbor);
     }
   }
 
   private void connectAllBridgesToAllNeighbors(HashiSolution hashiSolution, Island island) {
-    System.out.println(island.getAllNeighbors());
-    for (Island neighbor : island.getAllNeighbors()) {
-      System.out.println(neighbor);
+    for (Island neighbor : island.getNeighbors().values()) {
       for (int i = 0; i < 2; i++) {
         hashiSolution.addBridge(island, neighbor);
       }

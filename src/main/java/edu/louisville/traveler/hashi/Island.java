@@ -3,10 +3,7 @@ package edu.louisville.traveler.hashi;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Data
 @AllArgsConstructor
@@ -14,6 +11,7 @@ public class Island {
   private Coordinates coordinates;
   private int population;
 
+  private Map<Direction, Island> neighbors = new HashMap<>();
   private Island neighborNorth;
   private Island neighborEast;
   private Island neighborSouth;
@@ -24,6 +22,7 @@ public class Island {
   private int bridgeCountSouth;
   private int bridgeCountWest;
 
+  private Map<Direction, List<Integer>> constraints = new HashMap<>();
   private List<Integer> constraintsNorth;
   private List<Integer> constraintsEast;
   private List<Integer> constraintsSouth;
@@ -34,31 +33,11 @@ public class Island {
     this.population = population;
   }
 
-  public void acceptNeighbors(Map<Direction, Island> neighbors) {
-    for (Map.Entry<Direction, Island> entry : neighbors.entrySet()) {
-      switch (entry.getKey()) {
-        case NORTH:
-          this.neighborNorth = entry.getValue();
-          break;
-        case EAST:
-          this.neighborEast = entry.getValue();
-          break;
-        case SOUTH:
-          this.neighborSouth = entry.getValue();
-          break;
-        case WEST:
-          this.neighborWest = entry.getValue();
-          break;
-      }
-    }
-  }
-
   public int neighborCount() {
     int neighborCount = 0;
-    if (this.neighborNorth != null) neighborCount++;
-    if (this.neighborEast != null) neighborCount++;
-    if (this.neighborSouth != null) neighborCount++;
-    if (this.neighborWest != null) neighborCount++;
+    for (Island neighbor : neighbors.values()) {
+      if (neighbor != null) neighborCount++;
+    }
     return neighborCount;
   }
 
@@ -81,35 +60,17 @@ public class Island {
   }
 
   public Island onlyNeighbor() {
-    if (this.neighborNorth != null) return neighborNorth;
-    if (this.neighborEast != null) return neighborEast;
-    if (this.neighborSouth != null) return neighborSouth;
-    if (this.neighborWest != null) return neighborWest;
+    for (Island neighbor : neighbors.values()) {
+      if (neighbor != null) return neighbor;
+    }
     return null;
   }
 
-  public List<Island> getAllNeighbors() {
-    List<Island> neighbors = new ArrayList<>();
-    neighbors.add(neighborNorth);
-    neighbors.add(neighborEast);
-    neighbors.add(neighborSouth);
-    neighbors.add(neighborWest);
-    neighbors.removeIf(Objects::isNull);
-    return neighbors;
-  }
-
   public void setConstraints(List<Integer> constraints) {
-    if (neighborNorth != null) {
-      constraintsNorth = constraints;
-    }
-    if (neighborEast != null) {
-      constraintsEast = constraints;
-    }
-    if (neighborSouth != null) {
-      constraintsSouth = constraints;
-    }
-    if (neighborWest != null) {
-      constraintsWest = constraints;
+    for (Direction direction : Direction.values()) {
+      if (neighbors.get(direction) != null) {
+        this.constraints.put(direction, constraints);
+      }
     }
   }
 }

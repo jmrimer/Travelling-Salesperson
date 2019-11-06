@@ -21,7 +21,7 @@ public class HashiMap {
   private void assignNeighbors() {
     for (Island island : islands) {
       Map<Direction, Island> neighbors = NeighborChecker.findAllNeighbors(this, island);
-      island.acceptNeighbors(neighbors);
+      island.setNeighbors(neighbors);
     }
   }
 
