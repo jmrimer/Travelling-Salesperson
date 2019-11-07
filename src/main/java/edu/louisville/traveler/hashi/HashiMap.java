@@ -27,99 +27,49 @@ public class HashiMap {
 
   private void assignConstraints() {
     for (Island island : islands) {
-      if (island.neighborCount() == 1) {
-        List<Integer> constraints = new ArrayList<>();
-        if (island.getPopulation() == 1) {
-          constraints.add(1);
-        } else {
-          constraints.add(2);
-        }
-        island.setConstraints(constraints);
+      List<Integer> constraints;
+      if (isSinglePopulation(island)) {
+        constraints = getConstraintsBasedOnNeighborCount(island);
+      } else if (populationOneBelowCapacity(island)) {
+        constraints = new ArrayList<>(List.of(1, 2));
+      } else if (populationReachedCapacity(island)) {
+        constraints = new ArrayList<>(List.of(2));
+      } else {
+        constraints = new ArrayList<>(List.of(0, 1, 2));
       }
-
-      if (island.neighborCount() == 2 && island.getPopulation() == 1) {
-        List<Integer> constraints = new ArrayList<>(List.of(0, 1));
-        island.setConstraints(constraints);
-      }
-
-      if (island.neighborCount() == 2 && island.getPopulation() == 2) {
-        List<Integer> constraints = new ArrayList<>(List.of(0, 1, 2));
-        island.setConstraints(constraints);
-      }
-
-      if (island.neighborCount() == 2 && island.getPopulation() == 3) {
-        List<Integer> constraints = new ArrayList<>(List.of(1, 2));
-        island.setConstraints(constraints);
-      }
-
-      if (island.neighborCount() == 2 && island.getPopulation() == 4) {
-        List<Integer> constraints = new ArrayList<>(List.of(2));
-        island.setConstraints(constraints);
-      }
-
-      if (island.neighborCount() == 3 && island.getPopulation() == 1) {
-        List<Integer> constraints = new ArrayList<>(List.of(0, 1));
-        island.setConstraints(constraints);
-      }
-
-      if (island.neighborCount() == 3 && island.getPopulation() == 2) {
-        List<Integer> constraints = new ArrayList<>(List.of(0, 1, 2));
-        island.setConstraints(constraints);
-      }
-
-      if (island.neighborCount() == 3 && island.getPopulation() == 3) {
-        List<Integer> constraints = new ArrayList<>(List.of(0, 1, 2));
-        island.setConstraints(constraints);
-      }
-
-      if (island.neighborCount() == 3 && island.getPopulation() == 4) {
-        List<Integer> constraints = new ArrayList<>(List.of(0, 1, 2));
-        island.setConstraints(constraints);
-      }
-
-      if (island.neighborCount() == 3 && island.getPopulation() == 5) {
-        List<Integer> constraints = new ArrayList<>(List.of(1, 2));
-        island.setConstraints(constraints);
-      }
-
-      if (island.neighborCount() == 3 && island.getPopulation() == 6) {
-        List<Integer> constraints = new ArrayList<>(List.of(2));
-        island.setConstraints(constraints);
-      }
-
-      if (island.neighborCount() == 4 && island.getPopulation() == 1) {
-        List<Integer> constraints = new ArrayList<>(List.of(0, 1));
-        island.setConstraints(constraints);
-      }
-      if (island.neighborCount() == 4 && island.getPopulation() == 2) {
-        List<Integer> constraints = new ArrayList<>(List.of(0, 1, 2));
-        island.setConstraints(constraints);
-      }
-      if (island.neighborCount() == 4 && island.getPopulation() == 3) {
-        List<Integer> constraints = new ArrayList<>(List.of(0, 1, 2));
-        island.setConstraints(constraints);
-      }
-      if (island.neighborCount() == 4 && island.getPopulation() == 4) {
-        List<Integer> constraints = new ArrayList<>(List.of(0, 1, 2));
-        island.setConstraints(constraints);
-      }
-      if (island.neighborCount() == 4 && island.getPopulation() == 5) {
-        List<Integer> constraints = new ArrayList<>(List.of(0, 1, 2));
-        island.setConstraints(constraints);
-      }
-      if (island.neighborCount() == 4 && island.getPopulation() == 6) {
-        List<Integer> constraints = new ArrayList<>(List.of(0, 1, 2));
-        island.setConstraints(constraints);
-      }
-      if (island.neighborCount() == 4 && island.getPopulation() == 7) {
-        List<Integer> constraints = new ArrayList<>(List.of(1, 2));
-        island.setConstraints(constraints);
-      }
-      if (island.neighborCount() == 4 && island.getPopulation() == 8) {
-        List<Integer> constraints = new ArrayList<>(List.of(2));
-        island.setConstraints(constraints);
-      }
+      island.setConstraints(constraints);
     }
+  }
+
+  private List<Integer> getConstraintsBasedOnNeighborCount(Island island) {
+    List<Integer> constraints = new ArrayList<>();
+    if (hasSingleNeighbor(island)) {
+      constraints = new ArrayList<>(List.of(1));
+    }
+    if (hasManyNeighbors(island)) {
+      constraints = new ArrayList<>(List.of(0, 1));
+    }
+    return constraints;
+  }
+
+  private boolean populationOneBelowCapacity(Island island) {
+    return (island.neighborCount() * 2) - 1 == island.getPopulation();
+  }
+
+  private boolean populationReachedCapacity(Island island) {
+    return island.neighborCount() * 2 == island.getPopulation();
+  }
+
+  private boolean isSinglePopulation(Island island) {
+    return island.getPopulation() == 1;
+  }
+
+  private boolean hasManyNeighbors(Island island) {
+    return island.neighborCount() > 1;
+  }
+
+  private boolean hasSingleNeighbor(Island island) {
+    return island.neighborCount() == 1;
   }
 
   public void add(Island island) {

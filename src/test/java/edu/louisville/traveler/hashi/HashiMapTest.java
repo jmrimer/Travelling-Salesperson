@@ -7,8 +7,6 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class HashiMapTest {
-
-
   @Test
   public void constructorAssignsNeighbors() {
     Island islandCenter;
@@ -52,7 +50,6 @@ public class HashiMapTest {
     );
   }
 
-
   @Test
   public void constructorAssignsConstraints_1Neighbor_1Population() {
     Island islandCenter;
@@ -68,7 +65,6 @@ public class HashiMapTest {
       )
     );
 
-    assertEquals(List.of(1), islandNorth.getConstraints().get(Direction.SOUTH));
     assertEquals(List.of(1), islandCenter.getConstraints().get(Direction.NORTH));
   }
 
@@ -153,10 +149,8 @@ public class HashiMapTest {
       )
     );
 
-    assertEquals(List.of(2), islandNorth.getConstraints().get(Direction.SOUTH));
     assertEquals(List.of(1, 2), islandCenter.getConstraints().get(Direction.NORTH));
     assertEquals(List.of(1, 2), islandCenter.getConstraints().get(Direction.EAST));
-    assertEquals(List.of(1), islandEast.getConstraints().get(Direction.WEST));
   }
 
   @Test
