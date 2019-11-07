@@ -86,6 +86,39 @@ public class HashiMap {
         List<Integer> constraints = new ArrayList<>(List.of(2));
         island.setConstraints(constraints);
       }
+
+      if (island.neighborCount() == 4 && island.getPopulation() == 1) {
+        List<Integer> constraints = new ArrayList<>(List.of(0, 1));
+        island.setConstraints(constraints);
+      }
+      if (island.neighborCount() == 4 && island.getPopulation() == 2) {
+        List<Integer> constraints = new ArrayList<>(List.of(0, 1, 2));
+        island.setConstraints(constraints);
+      }
+      if (island.neighborCount() == 4 && island.getPopulation() == 3) {
+        List<Integer> constraints = new ArrayList<>(List.of(0, 1, 2));
+        island.setConstraints(constraints);
+      }
+      if (island.neighborCount() == 4 && island.getPopulation() == 4) {
+        List<Integer> constraints = new ArrayList<>(List.of(0, 1, 2));
+        island.setConstraints(constraints);
+      }
+      if (island.neighborCount() == 4 && island.getPopulation() == 5) {
+        List<Integer> constraints = new ArrayList<>(List.of(0, 1, 2));
+        island.setConstraints(constraints);
+      }
+      if (island.neighborCount() == 4 && island.getPopulation() == 6) {
+        List<Integer> constraints = new ArrayList<>(List.of(0, 1, 2));
+        island.setConstraints(constraints);
+      }
+      if (island.neighborCount() == 4 && island.getPopulation() == 7) {
+        List<Integer> constraints = new ArrayList<>(List.of(1, 2));
+        island.setConstraints(constraints);
+      }
+      if (island.neighborCount() == 4 && island.getPopulation() == 8) {
+        List<Integer> constraints = new ArrayList<>(List.of(2));
+        island.setConstraints(constraints);
+      }
     }
   }
 
