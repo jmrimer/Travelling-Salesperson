@@ -585,4 +585,52 @@ public class HashiMapTest {
     assertEquals(List.of(2), islandCenter.getConstraints().get(Direction.WEST));
   }
 
+  @Test
+  public void constructorRefinesConstraints_2Neighbors_2Population() {
+    Island islandCenter;
+    Island islandNorth;
+    Island islandNorthNeighborEast;
+
+    islandCenter = new Island(new Coordinates(2, 2), 1);
+    islandNorth = new Island(new Coordinates(2, 4), 2);
+    islandNorthNeighborEast = new Island(new Coordinates(4, 4), 2);
+
+    HashiMap hashiMap = new HashiMap(
+      7,
+      List.of(
+        islandCenter,
+        islandNorth,
+        islandNorthNeighborEast
+      )
+    );
+
+    assertEquals(List.of(1), islandCenter.getConstraints().get(Direction.NORTH));
+    assertEquals(List.of(0, 1), islandNorth.getConstraints().get(Direction.SOUTH));
+    assertEquals(List.of(2), islandNorthNeighborEast.getConstraints().get(Direction.WEST));
+  }
+
+  @Test
+  public void constructorRefinesConstraints_2Neighbors_1PopulationEach() {
+    Island islandCenter;
+    Island islandNorth;
+    Island islandNorthNeighbor;
+
+    islandCenter = new Island(new Coordinates(2, 2), 1);
+    islandNorth = new Island(new Coordinates(2, 4), 2);
+    islandNorthNeighbor = new Island(new Coordinates(4, 4), 1);
+
+    HashiMap hashiMap = new HashiMap(
+      7,
+      List.of(
+        islandCenter,
+        islandNorth,
+        islandNorthNeighbor
+      )
+    );
+
+    assertEquals(List.of(1), islandCenter.getConstraints().get(Direction.NORTH));
+    assertEquals(List.of(1), islandNorth.getConstraints().get(Direction.SOUTH));
+    assertEquals(List.of(1), islandNorth.getConstraints().get(Direction.EAST));
+  }
+
 }

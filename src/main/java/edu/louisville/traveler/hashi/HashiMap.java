@@ -15,7 +15,30 @@ public class HashiMap {
     this.islands = new ArrayList<>(islands);
     this.gridSize = squareGridSize;
     assignNeighbors();
-    assignConstraints();
+    assignInitialConstraints();
+    refineConstraintsBasedOnNeighbors();
+  }
+
+  private void refineConstraintsBasedOnNeighbors() {
+    for (Island island : this.islands) {
+      int neighborBridgeAvailability = 0;
+      for (Map.Entry<Direction, Island> entry : island.getNeighbors().entrySet()) {
+        Island neighbor = entry.getValue();
+        neighborBridgeAvailability += Math.min(neighbor.getPopulation(), 2);
+
+      }
+      if (neighborBridgeAvailability == island.getPopulation()) {
+        for (Map.Entry<Direction, Island> entry : island.getNeighbors().entrySet()) {
+          entry.getValue().setConstraints(List.of(Math.min(entry.getValue().getPopulation(), 2)));
+        }
+      }
+
+//      for (Map.Entry<Direction, List<Integer>> constraint  : island.getConstraints().entrySet()) {
+//        if (constraint.getValue().contains(2) && island.getNeighbors().get(constraint.getKey()).getPopulation() < 2) {
+//          constraint.getValue().remove(Integer.valueOf(2));
+//        }
+//      }
+    }
   }
 
   private void assignNeighbors() {
@@ -25,7 +48,7 @@ public class HashiMap {
     }
   }
 
-  private void assignConstraints() {
+  private void assignInitialConstraints() {
     for (Island island : islands) {
       List<Integer> constraints;
       if (isSinglePopulation(island)) {
@@ -57,7 +80,7 @@ public class HashiMap {
   }
 
   private boolean populationReachedCapacity(Island island) {
-    return island.neighborCount() * 2 == island.getPopulation();
+    return island.neighborCount() * 2 == island.getPopulation() ;
   }
 
   private boolean isSinglePopulation(Island island) {

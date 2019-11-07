@@ -68,8 +68,12 @@ public class Island {
 
   public void setConstraints(List<Integer> constraints) {
     for (Direction direction : Direction.values()) {
-      if (neighbors.get(direction) != null) {
-        this.constraints.put(direction, constraints);
+      Island neighbor = neighbors.get(direction);
+      if (neighbor != null) {
+        if (neighbor.getPopulation() == 1 && neighbors.size() > 1) {
+          this.constraints.put(direction, List.of(0, 1));
+        }
+        else this.constraints.put(direction, constraints);
       }
     }
   }
