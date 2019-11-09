@@ -69,7 +69,6 @@ public class HashiSolver {
         throw new UnsolvableHashiMap();
       case 2:
         if (allNeighborsAreSinglePopulation(island)) {
-
           throw new UnsolvableHashiMap();
         } else if (onlyOneNeighborIsSinglePopulation(island)) {
           if (neighbor.getPopulation() == 1) {
@@ -80,6 +79,24 @@ public class HashiSolver {
         } else {
           island.setConstraint(direction, constraint_1_2);
         }
+        break;
+      case 3:
+        if (allNeighborsAreSinglePopulation(island)) {
+          island.setConstraint(direction, constraint_1);
+        } else if (twoNeighborsAreSinglePopulation(island)) {
+          if (neighbor.getPopulation() == 1) {
+            island.setConstraint(direction, constraint_0_1);
+          } else {
+            island.setConstraint(direction, constraint_1_2);
+          }
+        } else {
+          if (neighbor.getPopulation() == 1) {
+            island.setConstraint(direction, constraint_0_1);
+          } else {
+            island.setConstraint(direction, constraint_0_1_2);
+          }
+        }
+        break;
     }
 
   }
