@@ -33,14 +33,6 @@ public class Island {
     this.population = population;
   }
 
-  public int neighborCount() {
-    int neighborCount = 0;
-    for (Island neighbor : neighbors.values()) {
-      if (neighbor != null) neighborCount++;
-    }
-    return neighborCount;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (o == this) {
@@ -57,24 +49,5 @@ public class Island {
   @Override
   public String toString() {
     return "Island at (" + this.coordinates.getX() + ", " + this.coordinates.getY() + ") with population: " + this.population;
-  }
-
-  public Island onlyNeighbor() {
-    for (Island neighbor : neighbors.values()) {
-      if (neighbor != null) return neighbor;
-    }
-    return null;
-  }
-
-  public void setConstraints(List<Integer> constraints) {
-    for (Direction direction : Direction.values()) {
-      Island neighbor = neighbors.get(direction);
-      if (neighbor != null) {
-        if (neighbor.getPopulation() == 1 && neighbors.size() > 1) {
-          this.constraints.put(direction, List.of(0, 1));
-        }
-        else this.constraints.put(direction, constraints);
-      }
-    }
   }
 }
