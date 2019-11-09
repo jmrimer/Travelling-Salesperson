@@ -115,6 +115,7 @@ public class HashiSolverTest extends BaseHashiTest {
 
     assertEquals(0, islandCenter.getAdjustedPopulation());
     assertEquals(0, islandEast.getAdjustedPopulation());
+    assertTrue(hashiSolver.isSolvable());
   }
 
   @Test
@@ -136,6 +137,8 @@ public class HashiSolverTest extends BaseHashiTest {
 
     assertEquals(0, islandCenter.getAdjustedPopulation());
     assertEquals(0, islandEast.getAdjustedPopulation());
+
+    assertTrue(hashiSolver.isSolvable());
   }
 
   @Test

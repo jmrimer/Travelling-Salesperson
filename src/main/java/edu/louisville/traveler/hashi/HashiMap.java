@@ -10,10 +10,12 @@ import java.util.Map;
 public class HashiMap {
   private List<Island> islands;
   private int gridSize;
+  private int bridgesRequired = 0;
 
   public HashiMap(int gridSize, List<Island> islands) {
     this.islands = new ArrayList<>(islands);
     this.gridSize = gridSize;
+    calculateBridgeCount();
     assignNeighbors();
   }
 
@@ -26,5 +28,18 @@ public class HashiMap {
 
   public void add(Island island) {
     this.islands.add(island);
+  }
+
+  public int getBridgesRequired() {
+    calculateBridgeCount();
+    return bridgesRequired;
+  }
+
+  private void calculateBridgeCount() {
+    bridgesRequired = 0;
+    for (Island island: islands) {
+      bridgesRequired += island.getPopulation();
+    }
+    bridgesRequired /= 2;
   }
 }
