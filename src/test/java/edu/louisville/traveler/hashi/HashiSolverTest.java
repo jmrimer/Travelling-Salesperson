@@ -148,16 +148,42 @@ public class HashiSolverTest {
   @Test
   void constructionAssignsConstraints_Root2_Triple() throws UnsolvableHashiMap {
     hashiMap = tripleNeighborEastNorthWestMap();
-    islandCenter.setPopulation(1);
+
+    islandCenter.setPopulation(2);
     islandEast.setPopulation(1);
     islandNorth.setPopulation(1);
     islandWest.setPopulation(1);
-
     hashiSolver = new HashiSolver(hashiMap);
-
     checkConstraint_0_1(Direction.EAST);
     checkConstraint_0_1(Direction.NORTH);
     checkConstraint_0_1(Direction.WEST);
+
+    islandCenter.setPopulation(2);
+    islandEast.setPopulation(2);
+    islandNorth.setPopulation(1);
+    islandWest.setPopulation(1);
+    hashiSolver = new HashiSolver(hashiMap);
+    checkConstraint_0_1_2(Direction.EAST);
+    checkConstraint_0_1(Direction.NORTH);
+    checkConstraint_0_1(Direction.WEST);
+
+    islandCenter.setPopulation(2);
+    islandEast.setPopulation(2);
+    islandNorth.setPopulation(2);
+    islandWest.setPopulation(1);
+    hashiSolver = new HashiSolver(hashiMap);
+    checkConstraint_0_1_2(Direction.EAST);
+    checkConstraint_0_1_2(Direction.NORTH);
+    checkConstraint_0_1(Direction.WEST);
+
+    islandCenter.setPopulation(2);
+    islandEast.setPopulation(2);
+    islandNorth.setPopulation(2);
+    islandWest.setPopulation(2);
+    hashiSolver = new HashiSolver(hashiMap);
+    checkConstraint_0_1_2(Direction.EAST);
+    checkConstraint_0_1_2(Direction.NORTH);
+    checkConstraint_0_1_2(Direction.WEST);
   }
 
   @Test

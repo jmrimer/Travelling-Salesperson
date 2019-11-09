@@ -76,6 +76,24 @@ public class HashiSolver {
           island.setConstraint(direction, List.of(0, 1, 2));
         }
         break;
+      case 3:
+        if (allNeighborsAreSinglePopulation(island)) {
+          island.setConstraint(direction, List.of(0, 1));
+        } else if (twoNeighborsAreSinglePopulation(island)) {
+          if (neighbor.getPopulation() == 1) {
+            island.setConstraint(direction, List.of(0, 1));
+          } else {
+            island.setConstraint(direction, List.of(0, 1, 2));
+          }
+        } else if (onlyOneNeighborIsSinglePopulation(island)) {
+          if (neighbor.getPopulation() == 1) {
+            island.setConstraint(direction, List.of(0, 1));
+          } else {
+            island.setConstraint(direction, List.of(0, 1, 2));
+          }
+        } else {
+          island.setConstraint(direction, List.of(0, 1, 2));
+        }
     }
   }
 
@@ -83,6 +101,12 @@ public class HashiSolver {
     Map<Direction, Island> neighbors = new HashMap<>(island.getNeighbors());
     neighbors.values().removeIf(neighbor -> neighbor.getPopulation() > 1);
     return neighbors.size() == 1;
+  }
+
+  private boolean twoNeighborsAreSinglePopulation(Island island) {
+    Map<Direction, Island> neighbors = new HashMap<>(island.getNeighbors());
+    neighbors.values().removeIf(neighbor -> neighbor.getPopulation() > 1);
+    return neighbors.size() == 2;
   }
 
   private boolean allNeighborsAreSinglePopulation(Island island) {
