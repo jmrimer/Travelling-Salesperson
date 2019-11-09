@@ -97,6 +97,21 @@ public class HashiSolverTest extends BaseHashiTest {
     assertThrows(UnsolvableHashiMap.class, () -> new HashiSolver(hashiMap));
   }
 
+  @Test
+  void buildsFirstBridges() throws UnsolvableHashiMap {
+    hashiMap = singleNeighborEastMap();
+    islandCenter.setPopulation(1);
+    islandEast.setPopulation(1);
+
+    hashiSolver = new HashiSolver(hashiMap);
+    hashiSolver.buildBridges();
+
+    assertEquals(
+      List.of(new Bridge(islandCenter, islandEast)),
+      hashiSolver.getBridges()
+    );
+  }
+
   private HashiMap singleNeighborEastMap() {
     return new HashiMap(
       7,
