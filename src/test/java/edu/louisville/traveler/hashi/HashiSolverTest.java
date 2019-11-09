@@ -163,14 +163,53 @@ public class HashiSolverTest extends BaseHashiTest {
   }
 
   @Test
-  void buildingBridgesDiscovers_UnsolvableMap() throws UnsolvableHashiMap {
+  void bridgeBuilderAdjustConstraintsOnEachBuild() throws UnsolvableHashiMap {
     hashiMap = doubleNeighborEastNorthMap();
     islandCenter.setPopulation(3);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(2);
     hashiSolver = new HashiSolver(hashiMap);
 
-    assertThrows(UnsolvableHashiMap.class, () -> hashiSolver.solve());
+    hashiSolver.buildBridgesFor(islandCenter);
+
+    assertThat(
+      hashiSolver.getBridges(),
+      containsInAnyOrder(List.of(
+        new Bridge(islandCenter, islandEast),
+        new Bridge(islandCenter, islandNorth)
+      ).toArray())
+    );
+
+    assertEquals(List.of(0, 1), islandCenter.getConstraints().get(Direction.NORTH));
+    assertEquals(List.of(0, 1), islandCenter.getConstraints().get(Direction.EAST));
+    assertEquals(List.of(1), islandEast.getConstraints().get(Direction.WEST));
+    assertEquals(List.of(1), islandNorth.getConstraints().get(Direction.SOUTH));
+
+
+  }
+
+  @Test
+  void bridgeBuilderThrowsErrorWhenCannotBuild() throws UnsolvableHashiMap {
+    hashiMap = doubleNeighborEastNorthMap();
+    islandCenter.setPopulation(3);
+    islandEast.setPopulation(2);
+    islandNorth.setPopulation(2);
+    hashiSolver = new HashiSolver(hashiMap);
+
+    hashiSolver.buildBridgesFor(islandCenter);
+    hashiSolver.buildBridgesFor(islandEast);
+
+    assertThat(
+      hashiSolver.getBridges(),
+      containsInAnyOrder(List.of(
+        new Bridge(islandCenter, islandEast),
+        new Bridge(islandCenter, islandEast),
+        new Bridge(islandCenter, islandNorth)
+      ).toArray())
+    );
+
+    assertThrows(UnsolvableHashiMap.class, () -> hashiSolver.buildBridgesFor(islandNorth));
+
   }
 
   private HashiMap singleNeighborEastMap() {

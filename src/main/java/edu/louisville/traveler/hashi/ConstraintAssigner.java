@@ -14,7 +14,7 @@ public class ConstraintAssigner {
   public static void assignConstraints(HashiMap hashiMap) throws UnsolvableHashiMap {
     for (Island island : hashiMap.getIslands()) {
       for (Map.Entry<Direction, Island> neighborEntry : island.getNeighbors().entrySet()) {
-        switch (island.getPopulation()) {
+        switch (island.getAdjustedPopulation()) {
           case 1:
             singlePopulationIsland(island, neighborEntry);
             break;
@@ -53,7 +53,7 @@ public class ConstraintAssigner {
     Direction direction = neighborEntry.getKey();
 
     if (oneNeighborIsSinglePopulation(island)) {
-      if (neighbor.getPopulation() == 1) {
+      if (neighbor.getAdjustedPopulation() == 1) {
         island.setConstraint(direction, constraint_1);
       } else {
         island.setConstraint(direction, constraint_2);
@@ -73,13 +73,13 @@ public class ConstraintAssigner {
         break;
       case 4:
         if (twoNeighborsAreSinglePopulation(island)) {
-          if (neighbor.getPopulation() == 1) {
+          if (neighbor.getAdjustedPopulation() == 1) {
             island.setConstraint(direction, constraint_1);
           } else {
             island.setConstraint(direction, constraint_2);
           }
         } else if (oneNeighborIsSinglePopulation(island)) {
-          if (neighbor.getPopulation() == 1) {
+          if (neighbor.getAdjustedPopulation() == 1) {
             island.setConstraint(direction, constraint_0_1);
           } else {
             island.setConstraint(direction, constraint_1_2);
@@ -99,7 +99,7 @@ public class ConstraintAssigner {
         if (twoNeighborsAreSinglePopulation(island)) {
           throw new UnsolvableHashiMap();
         } else if (oneNeighborIsSinglePopulation(island)) {
-          if (neighbor.getPopulation() == 1) {
+          if (neighbor.getAdjustedPopulation() == 1) {
             island.setConstraint(direction, constraint_1);
           } else {
             island.setConstraint(direction, constraint_2);
@@ -110,19 +110,19 @@ public class ConstraintAssigner {
         break;
       case 4:
         if (threeNeighborsAreSinglePopulation(island)) {
-          if (neighbor.getPopulation() == 1) {
+          if (neighbor.getAdjustedPopulation() == 1) {
             island.setConstraint(direction, constraint_1);
           } else {
             island.setConstraint(direction, constraint_2);
           }
         } else if (twoNeighborsAreSinglePopulation(island)) {
-          if (neighbor.getPopulation() == 1) {
+          if (neighbor.getAdjustedPopulation() == 1) {
             island.setConstraint(direction, constraint_0_1);
           } else {
             island.setConstraint(direction, constraint_1_2);
           }
         } else {
-          if (neighbor.getPopulation() == 1) {
+          if (neighbor.getAdjustedPopulation() == 1) {
             island.setConstraint(direction, constraint_0_1);
           } else {
             island.setConstraint(direction, constraint_0_1_2);
@@ -148,13 +148,13 @@ public class ConstraintAssigner {
         if (allNeighborsAreSinglePopulation(island)) {
           throw new UnsolvableHashiMap();
         } else if (twoNeighborsAreSinglePopulation(island)) {
-          if (neighbor.getPopulation() == 1) {
+          if (neighbor.getAdjustedPopulation() == 1) {
             island.setConstraint(direction, constraint_1);
           } else {
             island.setConstraint(direction, constraint_2);
           }
         } else if (oneNeighborIsSinglePopulation(island)) {
-          if (neighbor.getPopulation() == 1) {
+          if (neighbor.getAdjustedPopulation() == 1) {
             island.setConstraint(direction, constraint_0_1);
           } else {
             island.setConstraint(direction, constraint_1_2);
@@ -167,13 +167,13 @@ public class ConstraintAssigner {
         if (allNeighborsAreSinglePopulation(island)) {
           island.setConstraint(direction, constraint_1);
         } else if (threeNeighborsAreSinglePopulation(island)) {
-          if (neighbor.getPopulation() == 1) {
+          if (neighbor.getAdjustedPopulation() == 1) {
             island.setConstraint(direction, constraint_0_1);
           } else {
             island.setConstraint(direction, constraint_1_2);
           }
         } else {
-          if (neighbor.getPopulation() == 1) {
+          if (neighbor.getAdjustedPopulation() == 1) {
             island.setConstraint(direction, constraint_0_1);
           } else {
             island.setConstraint(direction, constraint_0_1_2);
@@ -191,7 +191,7 @@ public class ConstraintAssigner {
     switch (island.getNeighbors().size()) {
       case 2:
         if (oneNeighborIsSinglePopulation(island)) {
-          if (neighbor.getPopulation() == 1) {
+          if (neighbor.getAdjustedPopulation() == 1) {
             island.setConstraint(direction, constraint_1);
           } else {
             island.setConstraint(direction, constraint_2);
@@ -204,13 +204,13 @@ public class ConstraintAssigner {
         if (allNeighborsAreSinglePopulation(island)) {
           island.setConstraint(direction, constraint_1);
         } else if (twoNeighborsAreSinglePopulation(island)) {
-          if (neighbor.getPopulation() == 1) {
+          if (neighbor.getAdjustedPopulation() == 1) {
             island.setConstraint(direction, constraint_0_1);
           } else {
             island.setConstraint(direction, constraint_1_2);
           }
         } else {
-          if (neighbor.getPopulation() == 1) {
+          if (neighbor.getAdjustedPopulation() == 1) {
             island.setConstraint(direction, constraint_0_1);
           } else {
             island.setConstraint(direction, constraint_0_1_2);
@@ -218,7 +218,7 @@ public class ConstraintAssigner {
         }
         break;
       case 4:
-        if (neighbor.getPopulation() == 1) {
+        if (neighbor.getAdjustedPopulation() == 1) {
           island.setConstraint(direction, constraint_0_1);
         } else {
           island.setConstraint(direction, constraint_0_1_2);
@@ -234,7 +234,7 @@ public class ConstraintAssigner {
 
     switch (island.getNeighbors().size()) {
       case 1:
-        if (neighbor.getPopulation() >= 2) {
+        if (neighbor.getAdjustedPopulation() >= 2) {
           island.setConstraint(direction, constraint_2);
         } else {
           throw new UnsolvableHashiMap();
@@ -244,7 +244,7 @@ public class ConstraintAssigner {
         if (allNeighborsAreSinglePopulation(island)) {
           island.setConstraint(direction, constraint_1);
         } else if (oneNeighborIsSinglePopulation(island)) {
-          if (neighbor.getPopulation() == 1) {
+          if (neighbor.getAdjustedPopulation() == 1) {
             island.setConstraint(direction, constraint_0_1);
           } else {
             island.setConstraint(direction, constraint_1_2);
@@ -257,13 +257,13 @@ public class ConstraintAssigner {
         if (allNeighborsAreSinglePopulation(island)) {
           island.setConstraint(direction, constraint_0_1);
         } else if (twoNeighborsAreSinglePopulation(island)) {
-          if (neighbor.getPopulation() == 1) {
+          if (neighbor.getAdjustedPopulation() == 1) {
             island.setConstraint(direction, constraint_0_1);
           } else {
             island.setConstraint(direction, constraint_0_1_2);
           }
         } else if (oneNeighborIsSinglePopulation(island)) {
-          if (neighbor.getPopulation() == 1) {
+          if (neighbor.getAdjustedPopulation() == 1) {
             island.setConstraint(direction, constraint_0_1);
           } else {
             island.setConstraint(direction, constraint_0_1_2);
@@ -275,19 +275,19 @@ public class ConstraintAssigner {
         if (allNeighborsAreSinglePopulation(island)) {
           island.setConstraint(direction, constraint_0_1);
         } else if (threeNeighborsAreSinglePopulation(island)) {
-          if (neighbor.getPopulation() == 1) {
+          if (neighbor.getAdjustedPopulation() == 1) {
             island.setConstraint(direction, constraint_0_1);
           } else {
             island.setConstraint(direction, constraint_0_1_2);
           }
         } else if (twoNeighborsAreSinglePopulation(island)) {
-          if (neighbor.getPopulation() == 1) {
+          if (neighbor.getAdjustedPopulation() == 1) {
             island.setConstraint(direction, constraint_0_1);
           } else {
             island.setConstraint(direction, constraint_0_1_2);
           }
         } else if (oneNeighborIsSinglePopulation(island)) {
-          if (neighbor.getPopulation() == 1) {
+          if (neighbor.getAdjustedPopulation() == 1) {
             island.setConstraint(direction, constraint_0_1);
           } else {
             island.setConstraint(direction, constraint_0_1_2);
@@ -300,7 +300,7 @@ public class ConstraintAssigner {
 
   private static int getSinglePopulationNeighborCount(Island island) {
     Map<Direction, Island> neighbors = new HashMap<>(island.getNeighbors());
-    neighbors.values().removeIf(neighbor -> neighbor.getPopulation() > 1);
+    neighbors.values().removeIf(neighbor -> neighbor.getAdjustedPopulation() > 1);
     return neighbors.size();
   }
 
