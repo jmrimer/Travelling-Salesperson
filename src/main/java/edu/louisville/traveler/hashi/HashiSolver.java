@@ -97,6 +97,12 @@ public class HashiSolver {
           }
         }
         break;
+      case 4:
+        if (neighbor.getPopulation() == 1) {
+          island.setConstraint(direction, constraint_0_1);
+        } else {
+          island.setConstraint(direction, constraint_0_1_2);
+        }
     }
 
   }

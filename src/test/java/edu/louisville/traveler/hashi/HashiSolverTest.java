@@ -317,12 +317,11 @@ public class HashiSolverTest {
     checkConstraint_0_1_2(Direction.WEST);
   }
 
-  @Ignore
   @Test
   void constructionAssignsConstraints_Root3_Quadruple() throws UnsolvableHashiMap {
     hashiMap = quadrupleNeighborEastNorthWestSouthMap();
 
-    islandCenter.setPopulation(2);
+    islandCenter.setPopulation(3);
     islandEast.setPopulation(1);
     islandNorth.setPopulation(1);
     islandWest.setPopulation(1);
@@ -333,7 +332,7 @@ public class HashiSolverTest {
     checkConstraint_0_1(Direction.WEST);
     checkConstraint_0_1(Direction.SOUTH);
 
-    islandCenter.setPopulation(2);
+    islandCenter.setPopulation(3);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(1);
     islandWest.setPopulation(1);
@@ -344,7 +343,7 @@ public class HashiSolverTest {
     checkConstraint_0_1(Direction.WEST);
     checkConstraint_0_1(Direction.SOUTH);
 
-    islandCenter.setPopulation(2);
+    islandCenter.setPopulation(3);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(2);
     islandWest.setPopulation(1);
@@ -355,7 +354,7 @@ public class HashiSolverTest {
     checkConstraint_0_1(Direction.WEST);
     checkConstraint_0_1(Direction.SOUTH);
 
-    islandCenter.setPopulation(2);
+    islandCenter.setPopulation(3);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(2);
     islandWest.setPopulation(2);
@@ -366,7 +365,7 @@ public class HashiSolverTest {
     checkConstraint_0_1_2(Direction.WEST);
     checkConstraint_0_1(Direction.SOUTH);
 
-    islandCenter.setPopulation(2);
+    islandCenter.setPopulation(3);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(2);
     islandWest.setPopulation(2);
