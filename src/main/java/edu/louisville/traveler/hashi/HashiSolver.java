@@ -58,8 +58,53 @@ public class HashiSolver {
           case 4:
             quadruplePopulationIsland(island, neighborEntry);
             break;
+          case 5:
+            quintuplePopulationIsland(island, neighborEntry);
+            break;
         }
       }
+    }
+  }
+
+  private void quintuplePopulationIsland(Island island, Map.Entry<Direction, Island> neighborEntry) throws UnsolvableHashiMap {
+    Island neighbor = neighborEntry.getValue();
+    Direction direction = neighborEntry.getKey();
+
+    switch (island.getNeighbors().size()) {
+      case 3:
+        if (twoNeighborsAreSinglePopulation(island)) {
+          throw new UnsolvableHashiMap();
+        } else if (oneNeighborIsSinglePopulation(island)) {
+          if (neighbor.getPopulation() == 1) {
+            island.setConstraint(direction, constraint_1);
+          } else {
+            island.setConstraint(direction, constraint_2);
+          }
+        } else {
+            island.setConstraint(direction, constraint_1_2);
+        }
+        break;
+      case 4:
+        if (threeNeighborsAreSinglePopulation(island)) {
+          if (neighbor.getPopulation() == 1) {
+            island.setConstraint(direction, constraint_1);
+          } else {
+            island.setConstraint(direction, constraint_2);
+          }
+        } else if (twoNeighborsAreSinglePopulation(island)) {
+          if (neighbor.getPopulation() == 1) {
+            island.setConstraint(direction, constraint_0_1);
+          } else {
+            island.setConstraint(direction, constraint_1_2);
+          }
+        } else {
+          if (neighbor.getPopulation() == 1) {
+            island.setConstraint(direction, constraint_0_1);
+          } else {
+            island.setConstraint(direction, constraint_0_1_2);
+          }
+        }
+        break;
     }
   }
 
