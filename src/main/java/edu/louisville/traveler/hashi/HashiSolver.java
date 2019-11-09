@@ -94,7 +94,37 @@ public class HashiSolver {
         } else {
           island.setConstraint(direction, List.of(0, 1, 2));
         }
+      case 4:
+        if (allNeighborsAreSinglePopulation(island)) {
+          island.setConstraint(direction, List.of(0, 1));
+        } else if (threeNeighborsAreSinglePopulation(island)) {
+          if (neighbor.getPopulation() == 1) {
+            island.setConstraint(direction, List.of(0, 1));
+          } else {
+            island.setConstraint(direction, List.of(0, 1, 2));
+          }
+        } else if (twoNeighborsAreSinglePopulation(island)) {
+          if (neighbor.getPopulation() == 1) {
+            island.setConstraint(direction, List.of(0, 1));
+          } else {
+            island.setConstraint(direction, List.of(0, 1, 2));
+          }
+        } else if (onlyOneNeighborIsSinglePopulation(island)) {
+          if (neighbor.getPopulation() == 1) {
+            island.setConstraint(direction, List.of(0, 1));
+          } else {
+            island.setConstraint(direction, List.of(0, 1, 2));
+          }
+        } else {
+          island.setConstraint(direction, List.of(0, 1, 2));
+        }
     }
+  }
+
+  private boolean threeNeighborsAreSinglePopulation(Island island) {
+    Map<Direction, Island> neighbors = new HashMap<>(island.getNeighbors());
+    neighbors.values().removeIf(neighbor -> neighbor.getPopulation() > 1);
+    return neighbors.size() == 3;
   }
 
   private boolean onlyOneNeighborIsSinglePopulation(Island island) {
