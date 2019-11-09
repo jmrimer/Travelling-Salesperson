@@ -10,6 +10,7 @@ import java.util.*;
 public class Island {
   private Coordinates coordinates;
   private int population;
+  private int adjustedPopulation;
 
   private Map<Direction, Island> neighbors = new HashMap<>();
   private Island neighborNorth;
@@ -31,6 +32,16 @@ public class Island {
   public Island(Coordinates coordinates, int population) {
     this.coordinates = coordinates;
     this.population = population;
+    this.adjustedPopulation = population;
+  }
+
+  public void setPopulation(int population) {
+    this.population = population;
+    this.adjustedPopulation = population;
+  }
+
+  public void decreaseAdjustedPopulation() {
+    this.adjustedPopulation--;
   }
 
   @Override
@@ -52,6 +63,6 @@ public class Island {
   }
 
   public void setConstraint(Direction key, List<Integer> constraints) {
-    this.getConstraints().put(key, constraints);
+    this.getConstraints().put(key, new ArrayList<>(constraints));
   }
 }

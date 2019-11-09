@@ -6,7 +6,9 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 
 public class HashiSolverTest extends BaseHashiTest {
   Island islandCenter;
@@ -98,18 +100,77 @@ public class HashiSolverTest extends BaseHashiTest {
   }
 
   @Test
-  void buildsFirstBridges() throws UnsolvableHashiMap {
+  void buildsFirstBridges_1to1() throws UnsolvableHashiMap {
     hashiMap = singleNeighborEastMap();
     islandCenter.setPopulation(1);
     islandEast.setPopulation(1);
 
     hashiSolver = new HashiSolver(hashiMap);
-    hashiSolver.buildBridges();
+    hashiSolver.solve();
 
     assertEquals(
       List.of(new Bridge(islandCenter, islandEast)),
       hashiSolver.getBridges()
     );
+
+    assertEquals(0, islandCenter.getAdjustedPopulation());
+    assertEquals(0, islandEast.getAdjustedPopulation());
+  }
+
+  @Test
+  void buildsFirstBridges_2to2() throws UnsolvableHashiMap {
+    hashiMap = singleNeighborEastMap();
+    islandCenter.setPopulation(2);
+    islandEast.setPopulation(2);
+
+    hashiSolver = new HashiSolver(hashiMap);
+    hashiSolver.solve();
+
+    assertEquals(
+      List.of(
+        new Bridge(islandCenter, islandEast),
+        new Bridge(islandCenter, islandEast)
+      ),
+      hashiSolver.getBridges()
+    );
+
+    assertEquals(0, islandCenter.getAdjustedPopulation());
+    assertEquals(0, islandEast.getAdjustedPopulation());
+  }
+
+  @Test
+  void buildsFirstBridges_2_Neighbors() throws UnsolvableHashiMap {
+    hashiMap = doubleNeighborEastNorthMap();
+    islandCenter.setPopulation(3);
+    islandEast.setPopulation(2);
+    islandNorth.setPopulation(1);
+
+    hashiSolver = new HashiSolver(hashiMap);
+    hashiSolver.solve();
+
+    assertThat(
+      hashiSolver.getBridges(),
+      containsInAnyOrder(List.of(
+        new Bridge(islandCenter, islandEast),
+        new Bridge(islandCenter, islandEast),
+        new Bridge(islandCenter, islandNorth)
+      ).toArray())
+    );
+
+    assertEquals(0, islandCenter.getAdjustedPopulation());
+    assertEquals(0, islandEast.getAdjustedPopulation());
+    assertEquals(0, islandNorth.getAdjustedPopulation());
+  }
+
+  @Test
+  void buildingBridgesDiscovers_UnsolvableMap() throws UnsolvableHashiMap {
+    hashiMap = doubleNeighborEastNorthMap();
+    islandCenter.setPopulation(3);
+    islandEast.setPopulation(2);
+    islandNorth.setPopulation(2);
+    hashiSolver = new HashiSolver(hashiMap);
+
+    assertThrows(UnsolvableHashiMap.class, () -> hashiSolver.solve());
   }
 
   private HashiMap singleNeighborEastMap() {
@@ -121,4 +182,16 @@ public class HashiSolverTest extends BaseHashiTest {
       )
     );
   }
+
+  private HashiMap doubleNeighborEastNorthMap() {
+    return new HashiMap(
+      7,
+      List.of(
+        islandCenter,
+        islandEast,
+        islandNorth
+      )
+    );
+  }
+
 }
