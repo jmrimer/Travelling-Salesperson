@@ -27,6 +27,7 @@ public class HashiSolver {
       for (Map.Entry<Direction, Island> neighborEntry : island.getNeighbors().entrySet()) {
         totalNeighboringCapacity += Math.min(neighborEntry.getValue().getPopulation(), 2);
       }
+
       if (totalNeighboringCapacity < island.getPopulation()) {
         throw new UnsolvableHashiMap();
       }
@@ -54,10 +55,64 @@ public class HashiSolver {
           case 3:
             triplePopulationIsland(island, neighborEntry);
             break;
-
+          case 4:
+            quadruplePopulationIsland(island, neighborEntry);
+            break;
         }
       }
     }
+  }
+
+  private void quadruplePopulationIsland(Island island, Map.Entry<Direction, Island> neighborEntry) throws UnsolvableHashiMap {
+    Island neighbor = neighborEntry.getValue();
+    Direction direction = neighborEntry.getKey();
+
+    switch (island.getNeighbors().size()) {
+      case 2:
+        if (oneNeighborIsSinglePopulation(island)) {
+          throw new UnsolvableHashiMap();
+        } else {
+          island.setConstraint(direction, constraint_2);
+        }
+        break;
+      case 3:
+        if (allNeighborsAreSinglePopulation(island)) {
+          throw new UnsolvableHashiMap();
+        } else if (twoNeighborsAreSinglePopulation(island)) {
+          if (neighbor.getPopulation() == 1) {
+            island.setConstraint(direction, constraint_1);
+          } else {
+            island.setConstraint(direction, constraint_2);
+          }
+        } else if (oneNeighborIsSinglePopulation(island)) {
+          if (neighbor.getPopulation() == 1) {
+            island.setConstraint(direction, constraint_0_1);
+          } else {
+            island.setConstraint(direction, constraint_1_2);
+          }
+        } else {
+          island.setConstraint(direction, constraint_0_1_2);
+        }
+        break;
+      case 4:
+        if (allNeighborsAreSinglePopulation(island)) {
+          island.setConstraint(direction, constraint_1);
+        } else if (threeNeighborsAreSinglePopulation(island)) {
+          if (neighbor.getPopulation() == 1) {
+            island.setConstraint(direction, constraint_0_1);
+          } else {
+            island.setConstraint(direction, constraint_1_2);
+          }
+        } else {
+          if (neighbor.getPopulation() == 1) {
+            island.setConstraint(direction, constraint_0_1);
+          } else {
+            island.setConstraint(direction, constraint_0_1_2);
+          }
+        }
+        break;
+    }
+
   }
 
   private void triplePopulationIsland(Island island, Map.Entry<Direction, Island> neighborEntry) throws UnsolvableHashiMap {
@@ -65,12 +120,8 @@ public class HashiSolver {
     Direction direction = neighborEntry.getKey();
 
     switch (island.getNeighbors().size()) {
-      case 1:
-        throw new UnsolvableHashiMap();
       case 2:
-        if (allNeighborsAreSinglePopulation(island)) {
-          throw new UnsolvableHashiMap();
-        } else if (onlyOneNeighborIsSinglePopulation(island)) {
+        if (oneNeighborIsSinglePopulation(island)) {
           if (neighbor.getPopulation() == 1) {
             island.setConstraint(direction, constraint_1);
           } else {
@@ -123,7 +174,7 @@ public class HashiSolver {
       case 2:
         if (allNeighborsAreSinglePopulation(island)) {
           island.setConstraint(direction, constraint_1);
-        } else if (onlyOneNeighborIsSinglePopulation(island)) {
+        } else if (oneNeighborIsSinglePopulation(island)) {
           if (neighbor.getPopulation() == 1) {
             island.setConstraint(direction, constraint_0_1);
           } else {
@@ -142,7 +193,7 @@ public class HashiSolver {
           } else {
             island.setConstraint(direction, constraint_0_1_2);
           }
-        } else if (onlyOneNeighborIsSinglePopulation(island)) {
+        } else if (oneNeighborIsSinglePopulation(island)) {
           if (neighbor.getPopulation() == 1) {
             island.setConstraint(direction, constraint_0_1);
           } else {
@@ -166,7 +217,7 @@ public class HashiSolver {
           } else {
             island.setConstraint(direction, constraint_0_1_2);
           }
-        } else if (onlyOneNeighborIsSinglePopulation(island)) {
+        } else if (oneNeighborIsSinglePopulation(island)) {
           if (neighbor.getPopulation() == 1) {
             island.setConstraint(direction, constraint_0_1);
           } else {
@@ -192,7 +243,7 @@ public class HashiSolver {
     return getSinglePopulationNeighborCount(island) == 2;
   }
 
-  private boolean onlyOneNeighborIsSinglePopulation(Island island) {
+  private boolean oneNeighborIsSinglePopulation(Island island) {
     return getSinglePopulationNeighborCount(island) == 1;
   }
 
