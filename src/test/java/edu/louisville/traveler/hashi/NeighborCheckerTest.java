@@ -9,7 +9,7 @@ public class NeighborCheckerTest extends BaseHashiTest {
   public void numberOfNeighbors() {
     assertEquals(2, NeighborChecker.numberOfNeighbors(hashiMap7x7Easy, island_0_0_3));
     assertEquals(1, NeighborChecker.numberOfNeighbors(hashiMap7x7Easy, island_0_3_2));
-    assertEquals(3, NeighborChecker.numberOfNeighbors(hashiMap7x7Easy, island_6_2_3));
+    assertEquals(3, NeighborChecker.numberOfNeighbors(hashiMap7x7Easy, islandEast));
 
     Island islandTopRight = new Island(new Coordinates(6, 6), 1);
     hashiMap7x7Empty.getIslands().add(islandTopRight);

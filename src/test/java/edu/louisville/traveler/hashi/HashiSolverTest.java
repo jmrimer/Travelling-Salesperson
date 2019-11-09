@@ -18,6 +18,45 @@ public class HashiSolverTest extends BaseHashiTest {
   }
 
   @Test
+  public void connectsSingleConstraints() {
+    islandNorth.setPopulation(2);
+    islandCenter.setPopulation(2);
+    islandSouth.setPopulation(1);
+    HashiMap hashiMap = new HashiMap(
+      7,
+      List.of(
+        islandCenter,
+        islandNorth,
+        islandSouth
+      )
+    );
+
+    hashiSolver = new HashiSolver(hashiMap);
+
+    assertEquals(
+      List.of(
+        new Bridge(islandCenter, islandSouth)
+      ),
+      hashiSolver.connectSingleConstraints(islandCenter)
+    );
+
+    assertEquals(
+      0,
+      islandSouth.getConstraints().size()
+    );
+
+    assertEquals(
+      1,
+      islandCenter.getConstraints().size()
+    );
+
+    assertEquals(
+      List.of(1),
+      islandCenter.getConstraints().get(Direction.NORTH)
+    );
+  }
+
+  @Test
   public void technique_JustEnoughNeighbors_1() {
     hashiSolver = new HashiSolver(hashiMapSolvable_2Island);
     assertEquals(
@@ -57,7 +96,7 @@ public class HashiSolverTest extends BaseHashiTest {
   @Test
   public void technique_JustEnoughNeighbors_3Neighbors() {
     island_3_6_4.setPopulation(6);
-    island_3_2_1.setPopulation(2);
+    islandWest.setPopulation(2);
     island_1_6_3.setPopulation(2);
     island_6_6_2.setPopulation(2);
     hashiSolver = new HashiSolver(hashiMapSolvable_4Island_3Neighbor);
@@ -74,7 +113,7 @@ public class HashiSolverTest extends BaseHashiTest {
       2,
       Collections.frequency(
         bridges,
-        new Bridge(island_3_6_4, island_3_2_1)
+        new Bridge(island_3_6_4, islandWest)
       )
     );
     assertEquals(
@@ -88,11 +127,11 @@ public class HashiSolverTest extends BaseHashiTest {
 
   @Test
   public void technique_JustEnoughNeighbors_4Neighbors() {
-    island_3_2_1.setPopulation(2);
-    island_5_1_3.setPopulation(2);
-    island_5_5_1.setPopulation(2);
-    island_6_2_3.setPopulation(2);
-    island_5_2_8.setPopulation(8);
+    islandCenter.setPopulation(8);
+    islandNorth.setPopulation(2);
+    islandEast.setPopulation(2);
+    islandSouth.setPopulation(2);
+    islandWest.setPopulation(2);
 
     hashiSolver = new HashiSolver(hashiMapSolvable_5Island_4Neighbor);
     List<Bridge> bridges = hashiSolver.findSolution().getBridges();
@@ -100,28 +139,28 @@ public class HashiSolverTest extends BaseHashiTest {
       2,
       Collections.frequency(
         bridges,
-        new Bridge(island_5_2_8, island_3_2_1)
+        new Bridge(islandCenter, islandWest)
       )
     );
     assertEquals(
       2,
       Collections.frequency(
         bridges,
-        new Bridge(island_5_2_8, island_5_1_3)
+        new Bridge(islandCenter, islandSouth)
       )
     );
     assertEquals(
       2,
       Collections.frequency(
         bridges,
-        new Bridge(island_5_2_8, island_5_5_1)
+        new Bridge(islandCenter, islandNorth)
       )
     );
     assertEquals(
       2,
       Collections.frequency(
         bridges,
-        new Bridge(island_5_2_8, island_6_2_3)
+        new Bridge(islandCenter, islandEast)
       )
     );
   }
@@ -148,7 +187,7 @@ public class HashiSolverTest extends BaseHashiTest {
     hashiSolver = new HashiSolver(hashiMap_Unsolvable_IslandWithTooFewNeighbors);
     assertFalse(hashiSolver.isSolvable());
 
-    hashiMap7x7Easy.getIslands().remove(island_5_1_3);
+    hashiMap7x7Easy.getIslands().remove(islandSouth);
     hashiMap7x7Easy.add(new Island(new Coordinates(4, 4), 2));
     hashiSolver = new HashiSolver(hashiMap7x7Easy);
     assertFalse(hashiSolver.isSolvable());

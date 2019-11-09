@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -122,5 +126,17 @@ public class HashiSolver {
 
   private boolean hasEnoughIslands() {
     return hashiMap.getIslands().size() > 1;
+  }
+
+  public List<Bridge> connectSingleConstraints(Island island) {
+    List<Bridge> bridges = new ArrayList<>();
+    System.out.println(island.getConstraints());
+    for (Map.Entry<Direction, List<Integer>> constraint : island.getConstraints().entrySet()) {
+      if (constraint.getValue().size() == 1) {
+        bridges.add(new Bridge(island, island.getNeighbors().get(constraint.getKey())));
+      }
+    }
+    island.getConstraints().entrySet().removeIf(entry -> entry.getValue().size() == 1);
+    return bridges;
   }
 }

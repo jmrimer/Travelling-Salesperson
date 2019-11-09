@@ -19,8 +19,8 @@ public class BaseHashiTest {
   Island island_0_0_3;
   Island island_0_3_2;
   Island island_2_0_2;
-  Island island_5_1_3;
-  Island island_6_2_3;
+  Island islandSouth;
+  Island islandEast;
   Island island_6_4_3;
   Island islandTopRight_Pop1;
   Island islandBottomRight;
@@ -28,12 +28,12 @@ public class BaseHashiTest {
   Island islandTopRight_Pop3;
   Island islandTopLeft;
   List<Island> easyIslands;
-  Island island_5_5_1;
+  Island islandNorth;
   Island island_6_6_2;
   Island island_3_6_4;
-  Island island_3_2_1;
+  Island islandWest;
   Island island_1_6_3;
-  Island island_5_2_8;
+  Island islandCenter;
 
   @Before
   public void setup() {
@@ -50,11 +50,11 @@ public class BaseHashiTest {
     island_0_3_2 = new Island(new Coordinates(0, 3), 2);
     island_1_6_3 = new Island(new Coordinates(1, 6), 3);
     island_2_0_2 = new Island(new Coordinates(2, 0), 2);
-    island_5_1_3 = new Island(new Coordinates(5, 1), 3);
-    island_3_2_1 = new Island(new Coordinates(3, 2), 1);
+    islandSouth = new Island(new Coordinates(5, 1), 3);
+    islandWest = new Island(new Coordinates(3, 2), 1);
     island_3_6_4 = new Island(new Coordinates(3, 6), 4);
-    island_5_5_1 = new Island(new Coordinates(5, 5), 1);
-    island_6_2_3 = new Island(new Coordinates(6, 2), 3);
+    islandNorth = new Island(new Coordinates(5, 5), 1);
+    islandEast = new Island(new Coordinates(6, 2), 3);
     island_6_4_3 = new Island(new Coordinates(6, 4), 3);
     island_6_6_2 = new Island(new Coordinates(6, 6), 2);
     easyIslands = List.of(
@@ -63,12 +63,12 @@ public class BaseHashiTest {
       new Island(new Coordinates(1, 1), 3),
       island_1_6_3,
       island_2_0_2,
-      island_3_2_1,
+      islandWest,
       island_3_6_4,
-      island_5_1_3,
-      island_5_5_1,
+      islandSouth,
+      islandNorth,
       new Island(new Coordinates(6, 0), 2),
-      island_6_2_3,
+      islandEast,
       island_6_4_3,
       island_6_6_2
     );
@@ -116,21 +116,21 @@ public class BaseHashiTest {
       7,
       List.of(
         island_3_6_4,
-        island_3_2_1,
+        islandWest,
         island_1_6_3,
         island_6_6_2
       )
     );
 
-    island_5_2_8 = new Island(new Coordinates(5, 2), 8);
+    islandCenter = new Island(new Coordinates(5, 2), 8);
     hashiMapSolvable_5Island_4Neighbor = new HashiMap(
       7,
       List.of(
-        island_3_2_1,
-        island_5_1_3,
-        island_5_5_1,
-        island_6_2_3,
-        island_5_2_8
+        islandWest,
+        islandSouth,
+        islandNorth,
+        islandEast,
+        islandCenter
       )
     );
     hashiMap7x7Easy = new HashiMap(
