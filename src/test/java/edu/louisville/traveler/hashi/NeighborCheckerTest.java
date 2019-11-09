@@ -51,6 +51,16 @@ public class NeighborCheckerTest extends BaseHashiTest {
       neighborsFor_island_2_3,
       NeighborChecker.findAllNeighbors(hashiMap, island_2_3)
     );
+
+    Map<Direction, Island> neighborsFor_island_4_3 = new HashMap<>();
+   neighborsFor_island_4_3.put(Direction.NORTH, island_4_4);
+   neighborsFor_island_4_3.put(Direction.SOUTH, island_4_2);
+   neighborsFor_island_4_3.put(Direction.WEST, island_2_3);
+
+    assertEquals(
+      neighborsFor_island_4_3,
+      NeighborChecker.findAllNeighbors(hashiMap, island_4_3)
+    );
   }
 
 }

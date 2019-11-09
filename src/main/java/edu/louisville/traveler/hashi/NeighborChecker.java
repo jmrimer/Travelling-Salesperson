@@ -22,7 +22,6 @@ public class NeighborChecker {
   }
 
   public static Map<Direction, Island> findAllNeighbors(HashiMap hashiMap, Island island) {
-    System.out.println("hw");
     Map<Direction, Island> neighbors = new HashMap<>();
     List<Island> sharedY = findIslandOnSameRow(hashiMap, island);
     List<Island> sharedX = findIslandsOnSameColumn(hashiMap, island);
