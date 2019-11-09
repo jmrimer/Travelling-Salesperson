@@ -3,12 +3,12 @@ package edu.louisville.traveler.hashi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class HashiSolverTest extends BaseHashiTest{
+public class HashiSolverTest extends BaseHashiTest {
   Island islandCenter;
   Island islandNorth;
   Island islandEast;
@@ -19,6 +19,7 @@ public class HashiSolverTest extends BaseHashiTest{
 
   @BeforeEach
   public void setup() {
+    super.setup();
     islandCenter = new Island(new Coordinates(4, 4), 0);
     islandNorth = new Island(new Coordinates(4, 6), 0);
     islandEast = new Island(new Coordinates(6, 4), 0);
@@ -47,7 +48,53 @@ public class HashiSolverTest extends BaseHashiTest{
 
   @Test
   void constructionErrsOnMapsWithFailedConstraints() {
+    island_2_3.setPopulation(1);
+    island_2_4.setPopulation(2);
+    island_4_2.setPopulation(1);
+    island_4_3.setPopulation(2);
+    island_4_4.setPopulation(2);
 
+    List<Island> islands = List.of(
+      island_2_3,
+      island_2_4,
+      island_4_2,
+      island_4_3,
+      island_4_4
+    );
+    hashiMap = new HashiMap(7, islands);
+    try {
+      hashiSolver = new HashiSolver(hashiMap);
+    } catch (UnsolvableHashiMap unsolvableHashiMap) {
+      assertTrue(false, "Construction threw error");
+      unsolvableHashiMap.printStackTrace();
+    }
+
+    island_2_3.setPopulation(1);
+    island_3_2.setPopulation(2);
+    island_3_3.setPopulation(5);
+    island_3_4.setPopulation(1);
+    island_4_2.setPopulation(3);
+    island_4_3.setPopulation(1);
+    islands = new ArrayList<>(List.of(
+      island_2_3,
+      island_3_2,
+      island_3_3,
+      island_3_4,
+      island_4_2,
+      island_4_3
+    ));
+    hashiMap = new HashiMap(7, islands);
+    try {
+      hashiSolver = new HashiSolver(hashiMap);
+    } catch (UnsolvableHashiMap unsolvableHashiMap) {
+      assertTrue(false, "Construction threw error");
+      unsolvableHashiMap.printStackTrace();
+    }
+
+    island_5_2.setPopulation(3);
+    islands.add(island_5_2);
+    hashiMap = new HashiMap(7, islands);
+    assertThrows(UnsolvableHashiMap.class, () -> new HashiSolver(hashiMap));
   }
 
   private HashiMap singleNeighborEastMap() {
