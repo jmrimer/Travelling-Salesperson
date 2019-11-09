@@ -1,6 +1,5 @@
 package edu.louisville.traveler.hashi;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +8,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class HashiSolverTest {
+public class HashiSolverTest extends BaseHashiTest{
   Island islandCenter;
   Island islandNorth;
   Island islandEast;
@@ -48,7 +47,7 @@ public class HashiSolverTest {
 
   @Test
   void constructionErrsOnMapsWithFailedConstraints() {
-    
+
   }
 
   private HashiMap singleNeighborEastMap() {

@@ -3,11 +3,11 @@ package edu.louisville.traveler.crowds;
 import edu.louisville.traveler.genetics.BaseGeneticsTest;
 import edu.louisville.traveler.genetics.LivingTour;
 import edu.louisville.traveler.maps.Edge;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class WisdomCollectorTest extends BaseGeneticsTest {
   @Test

@@ -1,6 +1,6 @@
 package edu.louisville.traveler.graphs;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;;
 
 public class BaseGraphSearchTest {
   Graph graphFromPrompt;
@@ -18,7 +18,7 @@ public class BaseGraphSearchTest {
   Node node11;
   boolean[][] adjacencyMatrix = new boolean[11][11];
 
-  @Before
+@BeforeEach
   public void setUp() throws Exception {
     instantiateMatrix();
     graphFromPrompt = new Graph(adjacencyMatrix);

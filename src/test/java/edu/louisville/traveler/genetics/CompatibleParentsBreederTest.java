@@ -2,13 +2,13 @@
 //
 //import edu.louisville.traveler.maps.City;
 //import edu.louisville.traveler.maps.Tour;
-//import org.junit.Test;
+//import org.junit.jupiter.api.Test;
 //
 //import java.util.List;
 //
 //import static org.hamcrest.MatcherAssert.assertThat;
 //import static org.hamcrest.Matchers.lessThan;
-//import static org.junit.Assert.*;
+//import static org.junit.jupiter.api.Assertions.*;
 //
 //public class CompatibleParentsBreederTest {
 ////  @Test

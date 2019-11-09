@@ -1,17 +1,17 @@
 package edu.louisville.traveler.maps;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HamiltonPathMapperBruteForceTest extends BaseBruteForceTest {
   private HamiltonPathMapper subject;
 
-  @Before
+@BeforeEach
   public void setup() {
     subject = new HamiltonPathMapper();
   }

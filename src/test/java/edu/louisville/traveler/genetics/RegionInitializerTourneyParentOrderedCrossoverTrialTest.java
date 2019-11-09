@@ -6,7 +6,7 @@ import edu.louisville.traveler.genetics.seeders.PopulationSeeder;
 import edu.louisville.traveler.genetics.seeders.RandomRegionGroupedPolarPopulationSeeder;
 import edu.louisville.traveler.genetics.selectors.ParentSelector;
 import edu.louisville.traveler.genetics.selectors.TournamentStyleParentSelector;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RegionInitializerTourneyParentOrderedCrossoverTrialTest extends BaseGeneticsTest {
   long timestamp;

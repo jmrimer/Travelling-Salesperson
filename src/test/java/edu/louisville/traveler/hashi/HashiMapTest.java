@@ -1,10 +1,10 @@
 package edu.louisville.traveler.hashi;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HashiMapTest {
   @Test
@@ -26,27 +26,27 @@ public class HashiMapTest {
     );
 
     assertEquals(
-      "HashiMap constructor failed to assign northern neighbor",
       islandNorth,
-      islandCenter.getNeighbors().get(Direction.NORTH)
+      islandCenter.getNeighbors().get(Direction.NORTH),
+      "HashiMap constructor failed to assign northern neighbor"
     );
 
     assertEquals(
-      "HashiMap constructor failed to assign eastern neighbor",
       islandEast,
-      islandCenter.getNeighbors().get(Direction.EAST)
+      islandCenter.getNeighbors().get(Direction.EAST),
+      "HashiMap constructor failed to assign eastern neighbor"
     );
 
     assertEquals(
-      "HashiMap constructor failed to assign southern neighbor",
       islandCenter,
-      islandNorth.getNeighbors().get(Direction.SOUTH)
+      islandNorth.getNeighbors().get(Direction.SOUTH),
+      "HashiMap constructor failed to assign southern neighbor"
     );
 
     assertEquals(
-      "HashiMap constructor failed to assign western neighbor",
       islandCenter,
-      islandEast.getNeighbors().get(Direction.WEST)
+      islandEast.getNeighbors().get(Direction.WEST),
+      "HashiMap constructor failed to assign western neighbor"
     );
   }
 }

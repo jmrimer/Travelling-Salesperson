@@ -1,6 +1,6 @@
 package edu.louisville.traveler.maps;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public class BaseBruteForceTest {
   List<City> route2;
   List<City> route3;
 
-  @Before
+@BeforeEach
   public void setUp() throws Exception {
     city1 = new City(1, 0.0d, 0.0d);
     city2 = new City(2, 3.0d, 4.0d);
