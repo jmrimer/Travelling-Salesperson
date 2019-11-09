@@ -61,14 +61,55 @@ public class HashiSolverTest {
 
     hashiSolver = new HashiSolver(hashiMap);
 
-    assertEquals(
-      constraint_0_1,
-      islandCenter.getConstraints().get(Direction.EAST)
-    );
+    checkConstraint_0_1(Direction.EAST);
+    checkConstraint_0_1(Direction.NORTH);
+  }
 
+  @Test
+  void constructionAssignsConstraints_Root1_Triple() throws UnsolvableHashiMap {
+    tripleNeighborEastNorthWestMap();
+    islandCenter.setPopulation(1);
+    islandEast.setPopulation(1);
+    islandNorth.setPopulation(1);
+    islandWest.setPopulation(1);
+
+    hashiSolver = new HashiSolver(hashiMap);
+
+    checkConstraint_0_1(Direction.EAST);
+    checkConstraint_0_1(Direction.NORTH);
+    checkConstraint_0_1(Direction.WEST);
+  }
+
+  @Test
+  void constructionAssignsConstraints_Root1_Quadruple() throws UnsolvableHashiMap {
+    quadrupleNeighborEastNorthWestSouthMap();
+    islandCenter.setPopulation(1);
+    islandEast.setPopulation(1);
+    islandNorth.setPopulation(1);
+    islandWest.setPopulation(1);
+    islandSouth.setPopulation(1);
+
+    hashiSolver = new HashiSolver(hashiMap);
+
+    checkConstraint_0_1(Direction.EAST);
+    checkConstraint_0_1(Direction.NORTH);
+    checkConstraint_0_1(Direction.WEST);
+  }
+
+  private void checkConstraint_0_1(Direction direction) {
     assertEquals(
       constraint_0_1,
-      islandCenter.getConstraints().get(Direction.NORTH)
+      islandCenter.getConstraints().get(direction)
+    );
+  }
+
+  private void singleNeighborEastMap() {
+    hashiMap = new HashiMap(
+      7,
+      List.of(
+        islandCenter,
+        islandEast
+      )
     );
   }
 
@@ -83,12 +124,27 @@ public class HashiSolverTest {
     );
   }
 
-  private void singleNeighborEastMap() {
+  private void tripleNeighborEastNorthWestMap() {
     hashiMap = new HashiMap(
       7,
       List.of(
         islandCenter,
-        islandEast
+        islandEast,
+        islandNorth,
+        islandWest
+      )
+    );
+  }
+
+  private void quadrupleNeighborEastNorthWestSouthMap() {
+    hashiMap = new HashiMap(
+      7,
+      List.of(
+        islandCenter,
+        islandEast,
+        islandNorth,
+        islandWest,
+        islandSouth
       )
     );
   }
