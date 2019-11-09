@@ -50,4 +50,8 @@ public class Island {
   public String toString() {
     return "Island at (" + this.coordinates.getX() + ", " + this.coordinates.getY() + ") with population: " + this.population;
   }
+
+  public void setConstraint(Direction key, List<Integer> constraints) {
+    this.getConstraints().put(key, constraints);
+  }
 }

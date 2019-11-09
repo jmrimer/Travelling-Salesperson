@@ -36,8 +36,8 @@ public class BaseHashiTest {
   Island islandCenter;
 
   @Before
-  public void setup() {
-    hashiSolver = new HashiSolver();
+  public void setup() throws UnsolvableHashiMap {
+    hashiSolver = new HashiSolver(hashiMap7x7Easy);
     hashiMap7x7Empty = new HashiMap(7, new ArrayList<>());
 
     islandTopRight_Pop1 = new Island(new Coordinates(6, 6), 1);

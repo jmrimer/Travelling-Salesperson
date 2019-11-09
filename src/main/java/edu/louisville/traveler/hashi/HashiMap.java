@@ -11,9 +11,9 @@ public class HashiMap {
   private List<Island> islands;
   private int gridSize;
 
-  public HashiMap(int squareGridSize, List<Island> islands) {
+  public HashiMap(int gridSize, List<Island> islands) {
     this.islands = new ArrayList<>(islands);
-    this.gridSize = squareGridSize;
+    this.gridSize = gridSize;
     assignNeighbors();
   }
 
