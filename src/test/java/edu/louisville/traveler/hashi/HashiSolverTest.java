@@ -40,7 +40,7 @@ public class HashiSolverTest {
 
   @Test
   void constructionAssignsConstraints_Root1_Single() throws UnsolvableHashiMap {
-    singleNeighborEastMap();
+    hashiMap = singleNeighborEastMap();
     islandCenter.setPopulation(1);
     islandEast.setPopulation(1);
 
@@ -54,7 +54,7 @@ public class HashiSolverTest {
 
   @Test
   void constructionAssignsConstraints_Root1_Double() throws UnsolvableHashiMap {
-    doubleNeighborEastNorthMap();
+    hashiMap = doubleNeighborEastNorthMap();
     islandCenter.setPopulation(1);
     islandEast.setPopulation(1);
     islandNorth.setPopulation(1);
@@ -67,7 +67,7 @@ public class HashiSolverTest {
 
   @Test
   void constructionAssignsConstraints_Root1_Triple() throws UnsolvableHashiMap {
-    tripleNeighborEastNorthWestMap();
+    hashiMap = tripleNeighborEastNorthWestMap();
     islandCenter.setPopulation(1);
     islandEast.setPopulation(1);
     islandNorth.setPopulation(1);
@@ -82,7 +82,7 @@ public class HashiSolverTest {
 
   @Test
   void constructionAssignsConstraints_Root1_Quadruple() throws UnsolvableHashiMap {
-    quadrupleNeighborEastNorthWestSouthMap();
+    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     islandCenter.setPopulation(1);
     islandEast.setPopulation(1);
     islandNorth.setPopulation(1);
@@ -96,6 +96,100 @@ public class HashiSolverTest {
     checkConstraint_0_1(Direction.WEST);
   }
 
+  @Test
+  void constructionErrsWhenNeighborCapacityNotEnough() {
+    hashiMap = singleNeighborEastMap();
+    islandCenter.setPopulation(2);
+    islandEast.setPopulation(1);
+
+    assertThrows(UnsolvableHashiMap.class, () -> new HashiSolver(hashiMap));
+  }
+
+  @Test
+  void constructionAssignsConstraints_Root2_Single() throws UnsolvableHashiMap {
+    hashiMap = singleNeighborEastMap();
+    islandCenter.setPopulation(2);
+    islandEast.setPopulation(1);
+
+    assertThrows(UnsolvableHashiMap.class, () -> new HashiSolver(hashiMap));
+
+    islandEast.setPopulation(2);
+    hashiSolver = new HashiSolver(hashiMap);
+
+    checkConstraint2(Direction.EAST);
+  }
+
+  @Test
+  void constructionAssignsConstraints_Root2_Double() throws UnsolvableHashiMap {
+    hashiMap = doubleNeighborEastNorthMap();
+
+    islandCenter.setPopulation(2);
+    islandEast.setPopulation(1);
+    islandNorth.setPopulation(1);
+    hashiSolver = new HashiSolver(hashiMap);
+    checkConstraint1(Direction.EAST);
+    checkConstraint1(Direction.NORTH);
+
+    islandCenter.setPopulation(2);
+    islandEast.setPopulation(2);
+    islandNorth.setPopulation(1);
+    hashiSolver = new HashiSolver(hashiMap);
+    checkConstraint_0_1(Direction.NORTH);
+    checkConstraint_1_2(Direction.EAST);
+
+    islandCenter.setPopulation(2);
+    islandEast.setPopulation(2);
+    islandNorth.setPopulation(2);
+    hashiSolver = new HashiSolver(hashiMap);
+    checkConstraint_0_1_2(Direction.NORTH);
+    checkConstraint_0_1_2(Direction.EAST);
+  }
+
+  @Test
+  void constructionAssignsConstraints_Root2_Triple() throws UnsolvableHashiMap {
+    hashiMap = tripleNeighborEastNorthWestMap();
+    islandCenter.setPopulation(1);
+    islandEast.setPopulation(1);
+    islandNorth.setPopulation(1);
+    islandWest.setPopulation(1);
+
+    hashiSolver = new HashiSolver(hashiMap);
+
+    checkConstraint_0_1(Direction.EAST);
+    checkConstraint_0_1(Direction.NORTH);
+    checkConstraint_0_1(Direction.WEST);
+  }
+
+  @Test
+  void constructionAssignsConstraints_Root2_Quadruple() throws UnsolvableHashiMap {
+    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
+    islandCenter.setPopulation(1);
+    islandEast.setPopulation(1);
+    islandNorth.setPopulation(1);
+    islandWest.setPopulation(1);
+    islandSouth.setPopulation(1);
+
+    hashiSolver = new HashiSolver(hashiMap);
+
+    checkConstraint_0_1(Direction.EAST);
+    checkConstraint_0_1(Direction.NORTH);
+    checkConstraint_0_1(Direction.WEST);
+  }
+
+  private void checkConstraint1(Direction direction) {
+    assertEquals(
+      constraint_1,
+      islandCenter.getConstraints().get(direction)
+    );
+  }
+
+  private void checkConstraint2(Direction direction) {
+    assertEquals(
+      constraint_2,
+      islandCenter.getConstraints().get(direction)
+    );
+  }
+
   private void checkConstraint_0_1(Direction direction) {
     assertEquals(
       constraint_0_1,
@@ -103,8 +197,22 @@ public class HashiSolverTest {
     );
   }
 
-  private void singleNeighborEastMap() {
-    hashiMap = new HashiMap(
+  private void checkConstraint_1_2(Direction direction) {
+    assertEquals(
+      constraint_1_2,
+      islandCenter.getConstraints().get(direction)
+    );
+  }
+
+  private void checkConstraint_0_1_2(Direction direction) {
+    assertEquals(
+      constraint_0_1_2,
+      islandCenter.getConstraints().get(direction)
+    );
+  }
+
+  private HashiMap singleNeighborEastMap() {
+    return new HashiMap(
       7,
       List.of(
         islandCenter,
@@ -113,8 +221,8 @@ public class HashiSolverTest {
     );
   }
 
-  private void doubleNeighborEastNorthMap() {
-    hashiMap = new HashiMap(
+  private HashiMap doubleNeighborEastNorthMap() {
+    return new HashiMap(
       7,
       List.of(
         islandCenter,
@@ -124,8 +232,8 @@ public class HashiSolverTest {
     );
   }
 
-  private void tripleNeighborEastNorthWestMap() {
-    hashiMap = new HashiMap(
+  private HashiMap tripleNeighborEastNorthWestMap() {
+    return new HashiMap(
       7,
       List.of(
         islandCenter,
@@ -136,8 +244,8 @@ public class HashiSolverTest {
     );
   }
 
-  private void quadrupleNeighborEastNorthWestSouthMap() {
-    hashiMap = new HashiMap(
+  private HashiMap quadrupleNeighborEastNorthWestSouthMap() {
+    return new HashiMap(
       7,
       List.of(
         islandCenter,
