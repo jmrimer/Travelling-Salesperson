@@ -67,9 +67,16 @@ public class HashiSolver {
           case 7:
             septuplePopulationIsland(island, neighborEntry);
             break;
+          case 8:
+            octuplePopulationIsland(island, neighborEntry);
         }
       }
     }
+  }
+
+  private void octuplePopulationIsland(Island island, Map.Entry<Direction, Island> neighborEntry) {
+    Direction direction = neighborEntry.getKey();
+    island.setConstraint(direction, constraint_2);
   }
 
   private void septuplePopulationIsland(Island island, Map.Entry<Direction, Island> neighborEntry) {

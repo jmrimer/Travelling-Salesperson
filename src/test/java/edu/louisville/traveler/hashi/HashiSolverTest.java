@@ -656,6 +656,14 @@ public class HashiSolverTest {
   void constructionAssignsConstraints_Root7_Quadruple() throws UnsolvableHashiMap {
     hashiMap = quadrupleNeighborEastNorthWestSouthMap();
 
+
+    islandCenter.setPopulation(7);
+    islandEast.setPopulation(2);
+    islandNorth.setPopulation(2);
+    islandWest.setPopulation(1);
+    islandSouth.setPopulation(1);
+    assertThrows(UnsolvableHashiMap.class, () -> new HashiSolver(hashiMap));
+
     islandCenter.setPopulation(7);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(2);
@@ -677,6 +685,29 @@ public class HashiSolverTest {
     checkConstraint_1_2(Direction.NORTH);
     checkConstraint_1_2(Direction.WEST);
     checkConstraint_1_2(Direction.SOUTH);
+  }
+
+  @Test
+  void constructionAssignsConstraints_Root8_Quadruple() throws UnsolvableHashiMap {
+    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
+
+    islandCenter.setPopulation(8);
+    islandEast.setPopulation(2);
+    islandNorth.setPopulation(2);
+    islandWest.setPopulation(2);
+    islandSouth.setPopulation(1);
+    assertThrows(UnsolvableHashiMap.class, () -> new HashiSolver(hashiMap));
+
+    islandCenter.setPopulation(8);
+    islandEast.setPopulation(2);
+    islandNorth.setPopulation(2);
+    islandWest.setPopulation(2);
+    islandSouth.setPopulation(2);
+    hashiSolver = new HashiSolver(hashiMap);
+    checkConstraint_2(Direction.EAST);
+    checkConstraint_2(Direction.NORTH);
+    checkConstraint_2(Direction.WEST);
+    checkConstraint_2(Direction.SOUTH);
   }
 
   private void checkConstraint_1(Direction direction) {
