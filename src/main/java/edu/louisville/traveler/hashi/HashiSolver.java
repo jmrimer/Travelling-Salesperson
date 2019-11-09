@@ -61,8 +61,38 @@ public class HashiSolver {
           case 5:
             quintuplePopulationIsland(island, neighborEntry);
             break;
+          case 6:
+            sextuplePopulationIsland(island, neighborEntry);
+            break;
         }
       }
+    }
+  }
+
+  private void sextuplePopulationIsland(Island island, Map.Entry<Direction, Island> neighborEntry) {
+    Island neighbor = neighborEntry.getValue();
+    Direction direction = neighborEntry.getKey();
+
+    switch (island.getNeighbors().size()) {
+      case 3:
+        island.setConstraint(direction, constraint_2);
+        break;
+      case 4:
+        if (twoNeighborsAreSinglePopulation(island)) {
+          if (neighbor.getPopulation() == 1) {
+            island.setConstraint(direction, constraint_1);
+          } else {
+            island.setConstraint(direction, constraint_2);
+          }
+        } else if (oneNeighborIsSinglePopulation(island)) {
+          if (neighbor.getPopulation() == 1) {
+            island.setConstraint(direction, constraint_0_1);
+          } else {
+            island.setConstraint(direction, constraint_1_2);
+          }
+        } else {
+          island.setConstraint(direction, constraint_0_1_2);
+        }
     }
   }
 
@@ -81,7 +111,7 @@ public class HashiSolver {
             island.setConstraint(direction, constraint_2);
           }
         } else {
-            island.setConstraint(direction, constraint_1_2);
+          island.setConstraint(direction, constraint_1_2);
         }
         break;
       case 4:
