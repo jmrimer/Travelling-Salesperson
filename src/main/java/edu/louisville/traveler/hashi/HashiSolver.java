@@ -7,6 +7,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import static edu.louisville.traveler.hashi.HashiSolutionChecker.allBridgesBuilt;
+import static edu.louisville.traveler.hashi.HashiSolutionChecker.allIslandsConnect;
+
 @Data
 public class HashiSolver {
   private HashiMap hashiMap;
@@ -45,27 +48,43 @@ public class HashiSolver {
   }
 
   public void solve() throws UnsolvableHashiMap {
-    while (!puzzleComplete()) {
+    List<Bridge> startingBridges;
+    do {
+      startingBridges = new ArrayList<>(bridges);
       for (Island island : this.hashiMap.getIslands()) {
         verifyIslandsHaveNeighbors();
         verifyNeighborsMeetPopulationCapacity();
 
         buildBridgesFor(island);
-        if (puzzleComplete()) {
+        if (allBridgesBuilt(hashiMap, bridges)) {
           this.isSolvable = true;
           return;
         }
       }
-    }
-  }
+    } while (constraintsContinueChanging(startingBridges));
+//    todo start DFS
+    List<Island> remainingIslands = new ArrayList<>(hashiMap.getIslands());
+    remainingIslands.removeIf(island -> island.getAdjustedPopulation() > 0);
+    for (Island island : remainingIslands) {
+      HashiMap resetMap = new HashiMap(hashiMap.getGridSize(), hashiMap.getIslands());
 
-  private boolean puzzleComplete() {
-    for (Island island : this.hashiMap.getIslands()) {
-      if (island.getAdjustedPopulation() > 0) {
-        return false;
+      if (allBridgesBuilt(hashiMap, bridges) && allIslandsConnect(hashiMap, bridges)) {
+        this.isSolvable = true;
+        return;
       }
     }
-    return bridges.size() == hashiMap.getBridgesRequired();
+//    for each island
+//    #1 choose one bridge to build
+//    run [easy] constraints check [as previously done] until no change
+//    if no error, run #1: choose bridge and build
+//    if error, reset map to previous state [#backtrack]
+//    choose different bridge
+//    do until out of options for "highest level" island (i.e., tried every possible combination of every bridge option for island)
+//    if puzzle complete, break loop
+  }
+
+  private boolean constraintsContinueChanging(List<Bridge> startingBridges) {
+    return !startingBridges.equals(bridges);
   }
 
   public void buildBridgesFor(Island island) throws UnsolvableHashiMap {
