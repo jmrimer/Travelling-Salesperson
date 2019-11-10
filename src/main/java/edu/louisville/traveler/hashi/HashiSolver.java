@@ -38,7 +38,7 @@ public class HashiSolver {
 
   private void verifyIslandsHaveNeighbors() throws UnsolvableHashiMap {
     for (Island island : hashiMap.getIslands()) {
-      if (island.getNeighbors().size() == 0) {
+      if (island.getNeighbors().isEmpty() && island.getAdjustedPopulation() > 0) {
         throw new UnsolvableHashiMap();
       }
     }
@@ -46,6 +46,9 @@ public class HashiSolver {
 
   public void solve() throws UnsolvableHashiMap {
     for (Island island : this.hashiMap.getIslands()) {
+      verifyIslandsHaveNeighbors();
+      verifyNeighborsMeetPopulationCapacity();
+
       buildBridgesFor(island);
       if (puzzleComplete()) {
         this.isSolvable = true;
@@ -98,9 +101,17 @@ public class HashiSolver {
       bridges.add(new Bridge(island, neighbor));
       island.decreaseAdjustedPopulation();
       neighbor.decreaseAdjustedPopulation();
+
+      adjustNeighbors();
       ConstraintAssigner.assignConstraints(hashiMap);
     } else {
       throw new UnsolvableHashiMap();
+    }
+  }
+
+  private void adjustNeighbors() {
+    for (Island island : hashiMap.getIslands()) {
+      island.getNeighbors().values().removeIf(neighbor -> neighbor.getAdjustedPopulation() == 0);
     }
   }
 }

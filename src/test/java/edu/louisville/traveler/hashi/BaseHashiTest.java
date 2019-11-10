@@ -105,4 +105,6 @@ public class BaseHashiTest {
     island_6_5 = new Island(new Coordinates(6, 5), 0);
     island_6_6 = new Island(new Coordinates(6, 6), 0);
   }
+
+
 }

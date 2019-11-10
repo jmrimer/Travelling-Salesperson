@@ -31,6 +31,7 @@ public class HashiSolverTest extends BaseHashiTest {
 
   @Test
   void constructionErrsWhenAnyIslandWithoutNeighbors() {
+    islandCenter.setPopulation(1);
     hashiMap = new HashiMap(7, List.of(islandCenter));
     assertThrows(UnsolvableHashiMap.class, () -> new HashiSolver(hashiMap));
   }
@@ -166,13 +167,7 @@ public class HashiSolverTest extends BaseHashiTest {
 
   @Test
   void fails_1_Impossible_Neighbor() {
-    hashiMap = new HashiMap(
-      7,
-      List.of(
-        island_1_1,
-        island_2_2
-      )
-    );
+    hashiMap = singleNeighborEastMap();
 
     islandCenter.setPopulation(0);
     islandEast.setPopulation(1);
@@ -199,11 +194,9 @@ public class HashiSolverTest extends BaseHashiTest {
         new Bridge(islandCenter, islandNorth)
       ).toArray())
     );
+    checkAdjustPopulationsZero();
 
-    assertEquals(0, islandCenter.getAdjustedPopulation());
-    assertEquals(0, islandEast.getAdjustedPopulation());
-    assertEquals(0, islandNorth.getAdjustedPopulation());
-
+    hashiMap = doubleNeighborEastNorthMap();
     islandCenter.setPopulation(4);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(2);
@@ -220,10 +213,7 @@ public class HashiSolverTest extends BaseHashiTest {
         new Bridge(islandCenter, islandNorth)
       ).toArray())
     );
-
-    assertEquals(0, islandCenter.getAdjustedPopulation());
-    assertEquals(0, islandEast.getAdjustedPopulation());
-    assertEquals(0, islandNorth.getAdjustedPopulation());
+    checkAdjustPopulationsZero();
   }
 
 
@@ -244,6 +234,77 @@ public class HashiSolverTest extends BaseHashiTest {
 
   }
 
+  @Test
+  void solves_3_Feasible_Neighbors() throws UnsolvableHashiMap {
+    hashiMap = tripleNeighborEastNorthWestMap();
+    islandCenter.setPopulation(3);
+    islandEast.setPopulation(1);
+    islandNorth.setPopulation(1);
+    islandWest.setPopulation(1);
+
+    hashiSolver = new HashiSolver(hashiMap);
+    hashiSolver.solve();
+
+    assertThat(
+      hashiSolver.getBridges(),
+      containsInAnyOrder(List.of(
+        new Bridge(islandCenter, islandEast),
+        new Bridge(islandCenter, islandNorth),
+        new Bridge(islandCenter, islandWest)
+      ).toArray())
+    );
+    checkAdjustPopulationsZero();
+    assertTrue(hashiSolver.isSolvable());
+
+    hashiMap = tripleNeighborEastNorthWestMap();
+    islandCenter.setPopulation(4);
+    islandEast.setPopulation(2);
+    islandNorth.setPopulation(1);
+    islandWest.setPopulation(1);
+
+    hashiSolver = new HashiSolver(hashiMap);
+    hashiSolver.solve();
+
+    assertThat(
+      hashiSolver.getBridges(),
+      containsInAnyOrder(List.of(
+        new Bridge(islandCenter, islandEast),
+        new Bridge(islandCenter, islandEast),
+        new Bridge(islandCenter, islandNorth),
+        new Bridge(islandCenter, islandWest)
+      ).toArray())
+    );
+    checkAdjustPopulationsZero();
+  }
+
+
+  @Test
+  void fails_3_Impossible_Neighbors() throws UnsolvableHashiMap {
+    hashiMap = tripleNeighborEastNorthWestMap();
+    islandCenter.setPopulation(4);
+    islandEast.setPopulation(1);
+    islandNorth.setPopulation(1);
+    islandWest.setPopulation(1);
+    assertThrows(UnsolvableHashiMap.class, () -> new HashiSolver(hashiMap));
+
+    hashiMap = tripleNeighborEastNorthWestMap();
+    islandCenter.setPopulation(4);
+    islandEast.setPopulation(2);
+    islandNorth.setPopulation(2);
+    islandWest.setPopulation(2);
+    hashiSolver = new HashiSolver(hashiMap);
+    assertThrows(UnsolvableHashiMap.class, () -> hashiSolver.solve());
+
+  }
+
+  private void checkAdjustPopulationsZero() {
+    assertEquals(0, islandCenter.getAdjustedPopulation());
+    assertEquals(0, islandEast.getAdjustedPopulation());
+    assertEquals(0, islandNorth.getAdjustedPopulation());
+    assertEquals(0, islandWest.getAdjustedPopulation());
+    assertEquals(0, islandSouth.getAdjustedPopulation());
+  }
+
   private HashiMap singleNeighborEastMap() {
     return new HashiMap(
       7,
@@ -261,6 +322,31 @@ public class HashiSolverTest extends BaseHashiTest {
         islandCenter,
         islandEast,
         islandNorth
+      )
+    );
+  }
+
+  private HashiMap tripleNeighborEastNorthWestMap() {
+    return new HashiMap(
+      7,
+      List.of(
+        islandCenter,
+        islandEast,
+        islandNorth,
+        islandWest
+      )
+    );
+  }
+
+  private HashiMap quadrupleNeighborEastNorthWestSouthMap() {
+    return new HashiMap(
+      7,
+      List.of(
+        islandCenter,
+        islandEast,
+        islandNorth,
+        islandWest,
+        islandSouth
       )
     );
   }
