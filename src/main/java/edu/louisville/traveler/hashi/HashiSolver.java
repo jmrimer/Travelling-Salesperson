@@ -27,10 +27,10 @@ public class HashiSolver {
       int totalNeighboringCapacity = 0;
 
       for (Map.Entry<Direction, Island> neighborEntry : island.getNeighbors().entrySet()) {
-        totalNeighboringCapacity += Math.min(neighborEntry.getValue().getPopulation(), 2);
+        totalNeighboringCapacity += Math.min(neighborEntry.getValue().getAdjustedPopulation(), 2);
       }
 
-      if (totalNeighboringCapacity < island.getPopulation()) {
+      if (totalNeighboringCapacity < island.getAdjustedPopulation()) {
         throw new UnsolvableHashiMap();
       }
     }
