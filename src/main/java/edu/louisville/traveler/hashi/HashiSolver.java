@@ -63,16 +63,19 @@ public class HashiSolver {
       }
     } while (constraintsContinueChanging(startingBridges));
 //    todo start DFS
-//    List<Island> remainingIslands = new ArrayList<>(hashiMap.getIslands());
-//    remainingIslands.removeIf(island -> island.getAdjustedPopulation() > 0);
-//    for (Island island : remainingIslands) {
+
+    List<Island> remainingIslands = new ArrayList<>(hashiMap.getIslands());
+    remainingIslands.removeIf(island -> island.getAdjustedPopulation() > 0);
+
+    for (Island island : remainingIslands) {
+      attemptConnections(island, remainingIslands, new ArrayList<>());
 //      HashiMap resetMap = new HashiMap(hashiMap.getGridSize(), hashiMap.getIslands());
 //
 //      if (puzzleSolved(hashiMap, bridges)) {
 //        this.isSolvable = true;
 //        return;
 //      }
-//    }
+    }
 //    for each island
 //    #1 choose one bridge to build
 //    run [easy] constraints check [as previously done] until no change
@@ -81,6 +84,30 @@ public class HashiSolver {
 //    choose different bridge
 //    do until out of options for "highest level" island (i.e., tried every possible combination of every bridge option for island)
 //    if puzzle complete, break loop
+  }
+
+  private void attemptConnections(Island island, List<Island> remainingIslands, List<Bridge> temporaryBridges) {
+    for (Map.Entry<Direction, List<Integer>> constraint : island.getConstraints().entrySet()) {
+      Island neighbor = island.getNeighbors().get(constraint.getKey());
+      try {
+        temporaryBridges.add(buildBridge(island, neighbor));
+
+        verifyIslandsHaveNeighbors();
+        verifyNeighborsMeetPopulationCapacity();
+
+        buildBridgesFor(island);
+        remainingIslands.removeIf(isle -> isle.getAdjustedPopulation() > 0);
+
+        if (puzzleSolved(hashiMap, bridges)) {
+          this.isSolvable = true;
+          return;
+        }
+        attemptConnections(neighbor, remainingIslands, temporaryBridges);
+      } catch (UnsolvableHashiMap unsolvableHashiMap) {
+        unsolvableHashiMap.printStackTrace();
+      }
+
+    }
   }
 
   private boolean constraintsContinueChanging(List<Bridge> startingBridges) {
@@ -117,14 +144,16 @@ public class HashiSolver {
     }
   }
 
-  private void buildBridge(Island island, Island neighbor) throws UnsolvableHashiMap {
+  private Bridge buildBridge(Island island, Island neighbor) throws UnsolvableHashiMap {
     if (island.getAdjustedPopulation() >= 1 && neighbor.getAdjustedPopulation() >= 1) {
-      bridges.add(new Bridge(island, neighbor));
+      Bridge bridge = new Bridge(island, neighbor);
+      bridges.add(bridge);
       island.decreaseAdjustedPopulation();
       neighbor.decreaseAdjustedPopulation();
 
       adjustNeighbors();
       ConstraintAssigner.assignConstraints(hashiMap);
+      return bridge;
     } else {
       throw new UnsolvableHashiMap();
     }
