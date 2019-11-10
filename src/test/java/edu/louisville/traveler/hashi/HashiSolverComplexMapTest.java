@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.*;
 
 class HashiSolverComplexMapTest extends BaseHashiTest {
@@ -35,7 +37,20 @@ class HashiSolverComplexMapTest extends BaseHashiTest {
 
     hashiSolver = new HashiSolver(hashiMap);
     hashiSolver.solve();
-    System.out.println(hashiSolver.getBridges());
+    hashiSolver.getBridges().forEach(System.out::println);
+    assertThat(
+      hashiSolver.getBridges(),
+      containsInAnyOrder(List.of(
+        new Bridge(island_3_2, island_4_2),
+        new Bridge(island_4_2, island_4_3),
+        new Bridge(island_4_3, island_3_3),
+        new Bridge(island_3_3, island_3_2)
+
+      ).toArray())
+    );
+    hashiMap.getIslands().forEach(island -> assertEquals(0, island.getAdjustedPopulation()));
+    HashiSolutionChecker.allBridgesBuilt(hashiMap, hashiSolver.getBridges());
+    HashiSolutionChecker.allIslandsConnect(hashiMap, hashiSolver.getBridges());
     assertTrue(hashiSolver.isSolvable());
   }
 

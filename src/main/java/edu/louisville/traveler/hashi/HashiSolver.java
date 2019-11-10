@@ -60,6 +60,55 @@ public class HashiSolver {
   }
 
   public void solve() throws UnsolvableHashiMap {
+    connectAllCertainBridges();
+
+    if (puzzleSolved(hashiMap, bridges)) {
+      isSolvable = true;
+      return;
+    }
+
+    for (Island island : hashiMap.getIslands()) {
+      connectByTrialAndError(island);
+      if (puzzleSolved(hashiMap, bridges)) {
+        isSolvable = true;
+        return;
+      }
+    }
+      if (puzzleSolved(hashiMap, bridges)) {
+        isSolvable = true;
+        return;
+      }
+  }
+
+  private void connectByTrialAndError(Island island) {
+    for (Map.Entry<Direction, List<Integer>> constraint : island.getConstraints().entrySet()) {
+      List<Bridge> bridgesBeforeChanges = new ArrayList<>(bridges);
+      HashiMap hashiMapBeforeChanges = hashiMap.clone();
+
+      try {
+        Island neighbor = island.getNeighbors().get(constraint.getKey());
+        if (neighbor != null) {
+          buildBridge(island, neighbor);
+
+          checkFailuresAndUpdateMap();
+          connectAllCertainBridges();
+
+          if (puzzleSolved(hashiMap, bridges)) {
+            this.isSolvable = true;
+            return;
+          }
+
+          connectByTrialAndError(neighbor);
+        }
+      } catch (UnsolvableHashiMap unsolvableHashiMap) {
+        bridges = new ArrayList<>(bridgesBeforeChanges);
+        hashiMap = hashiMapBeforeChanges;
+
+      }
+    }
+  }
+
+  private void connectAllCertainBridges() throws UnsolvableHashiMap {
     List<Bridge> startingBridges;
     do {
       startingBridges = new ArrayList<>(bridges);
@@ -70,54 +119,6 @@ public class HashiSolver {
         if (checkIfComplete()) return;
       }
     } while (constraintsContinueChanging(startingBridges));
-
-//    todo start DFS
-    for (Island island : hashiMap.getIslands()) {
-      List<Bridge> bridgesBeforeChanges = new ArrayList<>(bridges);
-      HashiMap hashiMapBeforeChanges = hashiMap.clone();
-
-      Iterator<Map.Entry<Direction, List<Integer>>> constraintIterator =
-        island.getConstraints().entrySet().iterator();
-      while (constraintIterator.hasNext()) {
-        Map.Entry<Direction, List<Integer>> constraint = constraintIterator.next();
-        Island neighbor = island.getNeighbors().get(constraint.getKey());
-
-        try {
-          buildBridge(island, neighbor);
-
-          checkFailuresAndUpdateMap();
-
-          connect(neighbor);
-        } catch (UnsolvableHashiMap unsolvableHashiMap) {
-          bridges = new ArrayList<>(bridgesBeforeChanges);
-          hashiMap = hashiMapBeforeChanges;
-        }
-      }
-      }
-
-    if (puzzleSolved(hashiMap, bridges)) {
-      isSolvable = true;
-    }
-  }
-
-  private void connect(Island island) {
-    List<Bridge> bridgesBeforeChanges = new ArrayList<>(bridges);
-    HashiMap hashiMapBeforeChanges = hashiMap.clone();
-
-    for (Map.Entry<Direction, List<Integer>> constraint : island.getConstraints().entrySet()) {
-      Island neighbor = island.getNeighbors().get(constraint.getKey());
-
-      try {
-        buildBridge(island, neighbor);
-
-        checkFailuresAndUpdateMap();
-
-        connect(neighbor);
-      } catch (UnsolvableHashiMap unsolvableHashiMap) {
-        bridges = new ArrayList<>(bridgesBeforeChanges);
-        hashiMap = hashiMapBeforeChanges;
-      }
-    }
   }
 
   private boolean checkIfComplete() {
@@ -178,8 +179,8 @@ public class HashiSolver {
   }
 
   private void adjustNeighbors() {
-    for (Island island : hashiMap.getIslands()) {
-      island.getNeighbors().values().removeIf(neighbor -> neighbor.getAdjustedPopulation() == 0);
-    }
+//    for (Island island : hashiMap.getIslands()) {
+//      island.getNeighbors().values().removeIf(neighbor -> neighbor.getAdjustedPopulation() == 0);
+//    }
   }
 }

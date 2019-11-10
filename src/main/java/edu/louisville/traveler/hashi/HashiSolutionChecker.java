@@ -70,9 +70,6 @@ public class HashiSolutionChecker {
   }
 
   public static boolean puzzleSolved(HashiMap hashiMap, List<Bridge> bridges) {
-//    System.out.println("b" + allBridgesBuilt(hashiMap, bridges));
-//    System.out.println("c" + allIslandsConnect(hashiMap, bridges));
-
     return allBridgesBuilt(hashiMap, bridges) && allIslandsConnect(hashiMap, bridges);
   }
 }
