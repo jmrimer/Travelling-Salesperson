@@ -19,10 +19,10 @@ public class HashiSolver {
   public HashiSolver(HashiMap hashiMap) throws UnsolvableHashiMap {
     this.hashiMap = hashiMap;
     this.bridges = new ArrayList<>();
-    runChecksAndUpdateConstraints();
+    checkFailuresAndUpdateMap();
   }
 
-  private void runChecksAndUpdateConstraints() throws UnsolvableHashiMap {
+  private void checkFailuresAndUpdateMap() throws UnsolvableHashiMap {
     checkForInstantFailure();
     adjustMap();
   }
@@ -65,7 +65,7 @@ public class HashiSolver {
       startingBridges = new ArrayList<>(bridges);
 
       for (Island island : this.hashiMap.getIslands()) {
-        runChecksAndUpdateConstraints();
+        checkFailuresAndUpdateMap();
         buildBridgesFor(island);
         if (checkIfComplete()) return;
       }
@@ -73,60 +73,52 @@ public class HashiSolver {
 
 //    todo start DFS
     for (Island island : hashiMap.getIslands()) {
-      List<Bridge> temporaryBridges = new ArrayList<>();
-      Island islandBeforeChanges = new Island(island.getCoordinates(), island.getPopulation());
-      islandBeforeChanges.setAdjustedPopulation(island.getPopulation());
-      islandBeforeChanges.setConstraints(island.getConstraints());
-      islandBeforeChanges.setNeighbors(island.getNeighbors());
+      List<Bridge> bridgesBeforeChanges = new ArrayList<>(bridges);
+      Island islandBeforeChanges = island.clone();
 
-      try {
-        for (Map.Entry<Direction, List<Integer>> constraint : island.getConstraints().entrySet()) {
-          Island neighbor = island.getNeighbors().get(constraint.getKey());
-
-          Bridge temporaryBridge = buildBridge(island, neighbor);
-          temporaryBridges.add(temporaryBridge);
-
-          runChecksAndUpdateConstraints();
-
-          temporaryBridges.addAll(connect(neighbor, new ArrayList<>()));
-//        connect constraint
-//        if puzzle not broken
-//          grab neighbor
-//          attempt same
-
+      for (Map.Entry<Direction, List<Integer>> constraint : island.getConstraints().entrySet()) {
+        Island neighbor = island.getNeighbors().get(constraint.getKey());
+        if (neighbor == null) {
+          continue;
         }
-      } catch (UnsolvableHashiMap unsolvableHashiMap) {
-        bridges.removeAll(temporaryBridges);
-        island = islandBeforeChanges;
+
+        try {
+          buildBridge(island, neighbor);
+
+          checkFailuresAndUpdateMap();
+
+          connect(neighbor);
+        } catch (UnsolvableHashiMap unsolvableHashiMap) {
+          bridges = new ArrayList<>(bridgesBeforeChanges);
+          island = islandBeforeChanges;
+        }
       }
     }
 
     if (puzzleSolved(hashiMap, bridges)) {
       isSolvable = true;
     }
-//    for each island
-//    #1 choose one bridge to build
-//    run [easy] constraints check [as previously done] until no change
-//    if no error, run #1: choose bridge and build
-//    if error, reset map to previous state [#backtrack]
-//    choose different bridge
-//    do until out of options for "highest level" island (i.e., tried every possible combination of every bridge option for island)
-//    if puzzle complete, break loop
   }
 
-  private List<Bridge> connect(Island island, List<Bridge> temporaryBridges) {
+  private void connect(Island island) {
+    List<Bridge> bridgesBeforeChanges = new ArrayList<>(bridges);
+    Island islandBeforeChanges = island.clone();
+//    if (island.getAdjustedPopulation() == 0 || island.getConstraints().size() == 0) {
+//      return;
+//    }
+
     try {
       for (Map.Entry<Direction, List<Integer>> constraint : island.getConstraints().entrySet()) {
         Island neighbor = island.getNeighbors().get(constraint.getKey());
 
-        if (neighbor != null) {
-          Bridge temporaryBridge = buildBridge(island, neighbor);
-          temporaryBridges.add(temporaryBridge);
+        buildBridge(island, neighbor);
 
-          runChecksAndUpdateConstraints();
+        checkFailuresAndUpdateMap();
 
-          temporaryBridges.addAll(connect(neighbor, temporaryBridges));
-        }
+        checkForInstantFailure();
+        adjustMap();
+
+        connect(neighbor);
 //        connect constraint
 //        if puzzle not broken
 //          grab neighbor
@@ -134,9 +126,10 @@ public class HashiSolver {
 
       }
     } catch (UnsolvableHashiMap unsolvableHashiMap) {
-      bridges.removeAll(temporaryBridges);
+//        backtrack
+      bridges = new ArrayList<>(bridgesBeforeChanges);
+      island = islandBeforeChanges;
     }
-    return temporaryBridges;
   }
 
   private boolean checkIfComplete() {
@@ -189,7 +182,7 @@ public class HashiSolver {
       island.decreaseAdjustedPopulation();
       neighbor.decreaseAdjustedPopulation();
 
-      runChecksAndUpdateConstraints();
+      checkFailuresAndUpdateMap();
       return bridge;
     } else {
       throw new UnsolvableHashiMap();

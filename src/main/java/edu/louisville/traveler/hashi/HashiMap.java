@@ -42,4 +42,16 @@ public class HashiMap {
     }
     bridgesRequired /= 2;
   }
+
+  public HashiMap clone() {
+    List<Island> cloneIslands = new ArrayList<>();
+    for (Island island : islands) {
+      cloneIslands.add(island.clone());
+    }
+    HashiMap clone = new HashiMap(
+      gridSize,
+      cloneIslands
+    );
+    return clone;
+  }
 }
