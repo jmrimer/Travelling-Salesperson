@@ -8,6 +8,58 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HashiSolutionCheckerTest extends BaseHashiTest {
   @Test
+  void puzzleSolved() {
+    hashiMap = singleNeighborEastMap();
+    islandCenter.setPopulation(1);
+    islandEast.setPopulation(1);
+    List<Bridge> bridges = List.of(
+      new Bridge(islandCenter, islandEast)
+    );
+    islandCenter.decreaseAdjustedPopulation();
+    islandEast.decreaseAdjustedPopulation();
+    assertTrue(HashiSolutionChecker.puzzleSolved(hashiMap, bridges));
+
+    hashiMap = singleNeighborEastMap();
+    islandCenter.setPopulation(2);
+    islandEast.setPopulation(2);
+    bridges = List.of(
+      new Bridge(islandCenter, islandEast),
+      new Bridge(islandCenter, islandEast)
+    );
+    islandCenter.decreaseAdjustedPopulation();
+    islandCenter.decreaseAdjustedPopulation();
+    islandEast.decreaseAdjustedPopulation();
+    islandEast.decreaseAdjustedPopulation();
+    assertTrue(HashiSolutionChecker.puzzleSolved(hashiMap, bridges));
+
+
+    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
+    islandCenter.setPopulation(4);
+    islandEast.setPopulation(1);
+    islandNorth.setPopulation(1);
+    islandWest.setPopulation(1);
+    islandSouth.setPopulation(1);
+
+    bridges = List.of(
+      new Bridge(islandCenter, islandEast),
+      new Bridge(islandCenter, islandNorth),
+      new Bridge(islandCenter, islandWest),
+      new Bridge(islandCenter, islandSouth)
+    );
+
+    islandCenter.decreaseAdjustedPopulation();
+    islandCenter.decreaseAdjustedPopulation();
+    islandCenter.decreaseAdjustedPopulation();
+    islandCenter.decreaseAdjustedPopulation();
+    islandEast.decreaseAdjustedPopulation();
+    islandNorth.decreaseAdjustedPopulation();
+    islandWest.decreaseAdjustedPopulation();
+    islandSouth.decreaseAdjustedPopulation();
+
+    assertTrue(HashiSolutionChecker.puzzleSolved(hashiMap, bridges));
+  }
+
+  @Test
   void determinesIfAllIslandsConnect() {
     hashiMap = singleNeighborEastMap();
     List<Bridge> bridges = List.of(
@@ -40,7 +92,7 @@ class HashiSolutionCheckerTest extends BaseHashiTest {
     bridges = List.of(
       new Bridge(islandNorth, islandEast),
       new Bridge(islandCenter, islandNorth),
-      new Bridge(islandCenter,islandWest)
+      new Bridge(islandCenter, islandWest)
     );
     assertTrue(HashiSolutionChecker.allIslandsConnect(hashiMap, bridges));
   }

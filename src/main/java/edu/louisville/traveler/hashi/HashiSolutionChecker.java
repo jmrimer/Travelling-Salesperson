@@ -9,11 +9,16 @@ import java.util.stream.Collectors;
 public class HashiSolutionChecker {
 
   public static boolean allIslandsConnect(HashiMap hashiMap, List<Bridge> bridges) {
-    List<Bridge> uniqueBridges = bridges.stream().distinct().collect(Collectors.toList());
-    Island island = hashiMap.getIslands().get(0);
+    int requiredConnections = hashiMap.getIslands().size() - 1;
+    Island startingIsland = hashiMap.getIslands().get(0);
+    List<Bridge> uniqueBridges =
+      bridges
+        .stream()
+        .distinct()
+        .collect(Collectors.toList());
 
-    List<Bridge> connectedBridges = new ArrayList<>(connect(island, uniqueBridges, new ArrayList<>()));
-    return connectedBridges.size() == hashiMap.getIslands().size() - 1;
+    int actualConnections = connect(startingIsland, uniqueBridges, new ArrayList<>()).size();
+    return actualConnections == requiredConnections;
   }
 
   private static List<Bridge> connect(
@@ -22,22 +27,20 @@ public class HashiSolutionChecker {
     List<Bridge> connectedBridges
   ) {
     List<Bridge> remainingBridges = new ArrayList<>(uniqueBridges);
-    List<Bridge> bridgesThatIncludeIsland =
+    List<Bridge> bridgesFromIsland =
       uniqueBridges
         .stream()
         .filter(
           bridge -> bridge.contains(island))
         .collect(Collectors.toList());
 
-    if (bridgesThatIncludeIsland.size() == 0) {
+    if (bridgesFromIsland.size() == 0) {
       return connectedBridges;
     }
 
-    connectedBridges.addAll(bridgesThatIncludeIsland);
-    remainingBridges.removeAll(bridgesThatIncludeIsland);
-
-    List<Island> connectedIslands = getConnectedIslands(island, bridgesThatIncludeIsland);
-    for (Island connectedIsland : connectedIslands) {
+    connectedBridges.addAll(bridgesFromIsland);
+    remainingBridges.removeAll(bridgesFromIsland);
+    for (Island connectedIsland : connectedIslands(island, bridgesFromIsland)) {
       connect(connectedIsland, remainingBridges, connectedBridges);
     }
 
@@ -45,9 +48,9 @@ public class HashiSolutionChecker {
   }
 
   @NotNull
-  private static List<Island> getConnectedIslands(Island island, List<Bridge> bridgesThatIncludeIsland) {
+  private static List<Island> connectedIslands(Island island, List<Bridge> bridgesFromIsland) {
     List<Island> connectedIslands = new ArrayList<>();
-    for (Bridge connectedBridge : bridgesThatIncludeIsland) {
+    for (Bridge connectedBridge : bridgesFromIsland) {
       if (connectedBridge.getIsland1().equals(island)) {
         connectedIslands.add(connectedBridge.getIsland2());
       } else {
@@ -64,5 +67,12 @@ public class HashiSolutionChecker {
       }
     }
     return bridges.size() == hashiMap.getBridgesRequired();
+  }
+
+  public static boolean puzzleSolved(HashiMap hashiMap, List<Bridge> bridges) {
+//    System.out.println("b" + allBridgesBuilt(hashiMap, bridges));
+//    System.out.println("c" + allIslandsConnect(hashiMap, bridges));
+
+    return allBridgesBuilt(hashiMap, bridges) && allIslandsConnect(hashiMap, bridges);
   }
 }

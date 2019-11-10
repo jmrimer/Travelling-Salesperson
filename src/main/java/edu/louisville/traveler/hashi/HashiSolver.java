@@ -7,8 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static edu.louisville.traveler.hashi.HashiSolutionChecker.allBridgesBuilt;
-import static edu.louisville.traveler.hashi.HashiSolutionChecker.allIslandsConnect;
+import static edu.louisville.traveler.hashi.HashiSolutionChecker.*;
 
 @Data
 public class HashiSolver {
@@ -56,23 +55,24 @@ public class HashiSolver {
         verifyNeighborsMeetPopulationCapacity();
 
         buildBridgesFor(island);
-        if (allBridgesBuilt(hashiMap, bridges)) {
+
+        if (puzzleSolved(hashiMap, bridges)) {
           this.isSolvable = true;
           return;
         }
       }
     } while (constraintsContinueChanging(startingBridges));
 //    todo start DFS
-    List<Island> remainingIslands = new ArrayList<>(hashiMap.getIslands());
-    remainingIslands.removeIf(island -> island.getAdjustedPopulation() > 0);
-    for (Island island : remainingIslands) {
-      HashiMap resetMap = new HashiMap(hashiMap.getGridSize(), hashiMap.getIslands());
-
-      if (allBridgesBuilt(hashiMap, bridges) && allIslandsConnect(hashiMap, bridges)) {
-        this.isSolvable = true;
-        return;
-      }
-    }
+//    List<Island> remainingIslands = new ArrayList<>(hashiMap.getIslands());
+//    remainingIslands.removeIf(island -> island.getAdjustedPopulation() > 0);
+//    for (Island island : remainingIslands) {
+//      HashiMap resetMap = new HashiMap(hashiMap.getGridSize(), hashiMap.getIslands());
+//
+//      if (puzzleSolved(hashiMap, bridges)) {
+//        this.isSolvable = true;
+//        return;
+//      }
+//    }
 //    for each island
 //    #1 choose one bridge to build
 //    run [easy] constraints check [as previously done] until no change
