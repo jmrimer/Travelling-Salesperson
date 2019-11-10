@@ -45,14 +45,16 @@ public class HashiSolver {
   }
 
   public void solve() throws UnsolvableHashiMap {
-    for (Island island : this.hashiMap.getIslands()) {
-      verifyIslandsHaveNeighbors();
-      verifyNeighborsMeetPopulationCapacity();
+    while (!puzzleComplete()) {
+      for (Island island : this.hashiMap.getIslands()) {
+        verifyIslandsHaveNeighbors();
+        verifyNeighborsMeetPopulationCapacity();
 
-      buildBridgesFor(island);
-      if (puzzleComplete()) {
-        this.isSolvable = true;
-        return;
+        buildBridgesFor(island);
+        if (puzzleComplete()) {
+          this.isSolvable = true;
+          return;
+        }
       }
     }
   }
