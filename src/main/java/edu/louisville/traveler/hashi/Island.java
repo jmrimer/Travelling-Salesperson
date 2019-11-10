@@ -40,6 +40,14 @@ public class Island {
     this.adjustedPopulation = population;
   }
 
+  public void setNeighbors(Map<Direction, Island> neighbors) {
+    this.neighbors = new HashMap<>(neighbors);
+  }
+
+  public void setConstraints(Map<Direction, List<Integer>> constraints) {
+    this.constraints = new HashMap<>(constraints);
+  }
+
   public void decreaseAdjustedPopulation() {
     this.adjustedPopulation--;
   }
@@ -64,5 +72,13 @@ public class Island {
 
   public void setConstraint(Direction key, List<Integer> constraints) {
     this.getConstraints().put(key, new ArrayList<>(constraints));
+  }
+
+  public Island clone() {
+    Island clone = new Island(coordinates, population);
+    clone.setNeighbors(neighbors);
+    clone.setConstraints(constraints);
+    clone.setAdjustedPopulation(adjustedPopulation);
+    return clone;
   }
 }

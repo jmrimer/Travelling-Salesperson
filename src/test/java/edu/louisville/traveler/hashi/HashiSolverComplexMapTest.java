@@ -35,6 +35,7 @@ class HashiSolverComplexMapTest extends BaseHashiTest {
 
     hashiSolver = new HashiSolver(hashiMap);
     hashiSolver.solve();
+    System.out.println(hashiSolver.getBridges());
     assertTrue(hashiSolver.isSolvable());
   }
 
