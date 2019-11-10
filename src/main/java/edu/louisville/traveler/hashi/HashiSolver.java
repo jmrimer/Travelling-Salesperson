@@ -74,13 +74,13 @@ public class HashiSolver {
 //    todo start DFS
     for (Island island : hashiMap.getIslands()) {
       List<Bridge> bridgesBeforeChanges = new ArrayList<>(bridges);
-      Island islandBeforeChanges = island.clone();
+      HashiMap hashiMapBeforeChanges = hashiMap.clone();
 
-      for (Map.Entry<Direction, List<Integer>> constraint : island.getConstraints().entrySet()) {
+      Iterator<Map.Entry<Direction, List<Integer>>> constraintIterator =
+        island.getConstraints().entrySet().iterator();
+      while (constraintIterator.hasNext()) {
+        Map.Entry<Direction, List<Integer>> constraint = constraintIterator.next();
         Island neighbor = island.getNeighbors().get(constraint.getKey());
-        if (neighbor == null) {
-          continue;
-        }
 
         try {
           buildBridge(island, neighbor);
@@ -90,10 +90,10 @@ public class HashiSolver {
           connect(neighbor);
         } catch (UnsolvableHashiMap unsolvableHashiMap) {
           bridges = new ArrayList<>(bridgesBeforeChanges);
-          island = islandBeforeChanges;
+          hashiMap = hashiMapBeforeChanges;
         }
       }
-    }
+      }
 
     if (puzzleSolved(hashiMap, bridges)) {
       isSolvable = true;
@@ -102,33 +102,21 @@ public class HashiSolver {
 
   private void connect(Island island) {
     List<Bridge> bridgesBeforeChanges = new ArrayList<>(bridges);
-    Island islandBeforeChanges = island.clone();
-//    if (island.getAdjustedPopulation() == 0 || island.getConstraints().size() == 0) {
-//      return;
-//    }
+    HashiMap hashiMapBeforeChanges = hashiMap.clone();
 
-    try {
-      for (Map.Entry<Direction, List<Integer>> constraint : island.getConstraints().entrySet()) {
-        Island neighbor = island.getNeighbors().get(constraint.getKey());
+    for (Map.Entry<Direction, List<Integer>> constraint : island.getConstraints().entrySet()) {
+      Island neighbor = island.getNeighbors().get(constraint.getKey());
 
+      try {
         buildBridge(island, neighbor);
 
         checkFailuresAndUpdateMap();
 
-        checkForInstantFailure();
-        adjustMap();
-
         connect(neighbor);
-//        connect constraint
-//        if puzzle not broken
-//          grab neighbor
-//          attempt same
-
+      } catch (UnsolvableHashiMap unsolvableHashiMap) {
+        bridges = new ArrayList<>(bridgesBeforeChanges);
+        hashiMap = hashiMapBeforeChanges;
       }
-    } catch (UnsolvableHashiMap unsolvableHashiMap) {
-//        backtrack
-      bridges = new ArrayList<>(bridgesBeforeChanges);
-      island = islandBeforeChanges;
     }
   }
 
