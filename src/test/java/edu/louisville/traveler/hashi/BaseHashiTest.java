@@ -2,6 +2,8 @@ package edu.louisville.traveler.hashi;
 
 import org.junit.jupiter.api.BeforeEach;
 
+import java.util.List;
+
 public class BaseHashiTest {
   public Island island_0_0;
   public Island island_0_1;
@@ -53,8 +55,21 @@ public class BaseHashiTest {
   public Island island_6_5;
   public Island island_6_6;
 
+  public Island islandCenter;
+  public Island islandNorth;
+  public Island islandEast;
+  public Island islandSouth;
+  public Island islandWest;
+  public HashiMap hashiMap;
+
   @BeforeEach
   public void setup() {
+    islandCenter = new Island(new Coordinates(4, 4), 0);
+    islandNorth = new Island(new Coordinates(4, 6), 0);
+    islandEast = new Island(new Coordinates(6, 4), 0);
+    islandSouth = new Island(new Coordinates(4, 2), 0);
+    islandWest = new Island(new Coordinates(2, 4), 0);
+
     island_0_0 = new Island(new Coordinates(0, 0), 0);
     island_0_1 = new Island(new Coordinates(0, 1), 0);
     island_0_2 = new Island(new Coordinates(0, 2), 0);
@@ -106,5 +121,50 @@ public class BaseHashiTest {
     island_6_6 = new Island(new Coordinates(6, 6), 0);
   }
 
+  public HashiMap singleNeighborEastMap() {
+    return new HashiMap(
+      7,
+      List.of(
+        islandCenter,
+        islandEast
+      )
+    );
+  }
+
+  public HashiMap doubleNeighborEastNorthMap() {
+    return new HashiMap(
+      7,
+      List.of(
+        islandCenter,
+        islandEast,
+        islandNorth
+      )
+    );
+  }
+
+  public HashiMap tripleNeighborEastNorthWestMap() {
+    return new HashiMap(
+      7,
+      List.of(
+        islandCenter,
+        islandEast,
+        islandNorth,
+        islandWest
+      )
+    );
+  }
+
+  public HashiMap quadrupleNeighborEastNorthWestSouthMap() {
+    return new HashiMap(
+      7,
+      List.of(
+        islandCenter,
+        islandEast,
+        islandNorth,
+        islandWest,
+        islandSouth
+      )
+    );
+  }
 
 }

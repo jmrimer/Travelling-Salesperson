@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ConstraintAssignerTest {
   Island islandCenter;
@@ -21,6 +20,52 @@ public class ConstraintAssignerTest {
   private List<Integer> constraint_1_2 = List.of(1, 2);
   private List<Integer> constraint_0_1_2 = List.of(0, 1, 2);
 
+  @BeforeEach
+  public void setup() {
+    islandCenter = new Island(new Coordinates(4, 4), 0);
+    islandNorth = new Island(new Coordinates(4, 6), 0);
+    islandEast = new Island(new Coordinates(6, 4), 0);
+    islandSouth = new Island(new Coordinates(4, 2), 0);
+    islandWest = new Island(new Coordinates(2, 4), 0);
+  }
+
+  @Test
+  void removeConstraintsWhenAdjustedPopulation0() throws UnsolvableHashiMap {
+    hashiMap = singleNeighborEastMap();
+    islandCenter.setPopulation(1);
+    islandEast.setPopulation(1);
+
+    ConstraintAssigner.assignConstraints(hashiMap);
+
+    assertEquals(
+      constraint_1,
+      islandCenter.getConstraints().get(Direction.EAST)
+    );
+
+    islandCenter.decreaseAdjustedPopulation();
+    ConstraintAssigner.assignConstraints(hashiMap);
+    assertTrue(islandCenter.getConstraints().isEmpty());
+  }
+
+  @Test
+  void neighborWithAdjustPopulation0ClearsConstraintsForDirection() throws UnsolvableHashiMap {
+    hashiMap = singleNeighborEastMap();
+    islandCenter.setPopulation(1);
+    islandEast.setPopulation(1);
+
+    ConstraintAssigner.assignConstraints(hashiMap);
+
+    assertEquals(
+      constraint_1,
+      islandCenter.getConstraints().get(Direction.EAST)
+    );
+
+    islandEast.decreaseAdjustedPopulation();
+    ConstraintAssigner.assignConstraints(hashiMap);
+    assertTrue(islandEast.getConstraints().isEmpty());
+    assertTrue(islandCenter.getConstraints().isEmpty());
+  }
+
   @Test
   void constructionAssignsConstraints_Root1_Single() throws UnsolvableHashiMap {
     hashiMap = singleNeighborEastMap();
@@ -33,15 +78,6 @@ public class ConstraintAssignerTest {
       constraint_1,
       islandCenter.getConstraints().get(Direction.EAST)
     );
-  }
-
-  @BeforeEach
-  public void setup() {
-    islandCenter = new Island(new Coordinates(4, 4), 0);
-    islandNorth = new Island(new Coordinates(4, 6), 0);
-    islandEast = new Island(new Coordinates(6, 4), 0);
-    islandSouth = new Island(new Coordinates(4, 2), 0);
-    islandWest = new Island(new Coordinates(2, 4), 0);
   }
 
   @Test
@@ -127,6 +163,13 @@ public class ConstraintAssignerTest {
     ConstraintAssigner.assignConstraints(hashiMap);
     checkConstraint_0_1_2(Direction.NORTH);
     checkConstraint_0_1_2(Direction.EAST);
+
+    islandCenter.setAdjustedPopulation(1);
+    islandEast.setAdjustedPopulation(0);
+    islandNorth.setAdjustedPopulation(1);
+    ConstraintAssigner.assignConstraints(hashiMap);
+    checkConstraint_1(Direction.NORTH);
+    assertEquals(1, islandCenter.getConstraints().size());
   }
 
   @Test
@@ -667,13 +710,12 @@ public class ConstraintAssignerTest {
 
   @Test
   void constructionAssignsConstraints_Root8_Quadruple() throws UnsolvableHashiMap {
-    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
-
     islandCenter.setPopulation(8);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(2);
     islandWest.setPopulation(2);
     islandSouth.setPopulation(1);
+    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     assertThrows(UnsolvableHashiMap.class, () -> new HashiSolver(hashiMap));
 
     islandCenter.setPopulation(8);
@@ -681,6 +723,7 @@ public class ConstraintAssignerTest {
     islandNorth.setPopulation(2);
     islandWest.setPopulation(2);
     islandSouth.setPopulation(2);
+    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     ConstraintAssigner.assignConstraints(hashiMap);
     checkConstraint_2(Direction.EAST);
     checkConstraint_2(Direction.NORTH);
