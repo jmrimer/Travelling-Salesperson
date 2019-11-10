@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public class HashiSolutionChecker {
 
   public static boolean allIslandsConnect(HashiMap hashiMap, List<Bridge> bridges) {
-    int requiredConnections = hashiMap.getIslands().size() - 1;
+    int requiredConnections = hashiMap.getIslands().size();
     Island startingIsland = hashiMap.getIslands().get(0);
     List<Bridge> uniqueBridges =
       bridges
@@ -17,8 +17,22 @@ public class HashiSolutionChecker {
         .distinct()
         .collect(Collectors.toList());
 
-    int actualConnections = connect(startingIsland, uniqueBridges, new ArrayList<>()).size();
+    int actualConnections =
+      getIslandsFromBridges(
+        connect(startingIsland, uniqueBridges, new ArrayList<>())
+      ).size();
+
     return actualConnections == requiredConnections;
+  }
+
+  private static List<Island> getIslandsFromBridges(List<Bridge> bridges) {
+    List<Island> connectedIslands = new ArrayList<>();
+    bridges.stream().forEach(bridge -> {
+      connectedIslands.add(bridge.getIsland1());
+      connectedIslands.add(bridge.getIsland2());
+    });
+
+    return connectedIslands.stream().distinct().collect(Collectors.toList());
   }
 
   private static List<Bridge> connect(

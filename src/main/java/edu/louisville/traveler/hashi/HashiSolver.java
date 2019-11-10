@@ -74,10 +74,8 @@ public class HashiSolver {
         return;
       }
     }
-      if (puzzleSolved(hashiMap, bridges)) {
-        isSolvable = true;
-        return;
-      }
+
+    isSolvable = puzzleSolved(hashiMap, bridges);
   }
 
   private void connectByTrialAndError(Island island) {

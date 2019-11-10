@@ -49,8 +49,8 @@ class HashiSolverComplexMapTest extends BaseHashiTest {
       ).toArray())
     );
     hashiMap.getIslands().forEach(island -> assertEquals(0, island.getAdjustedPopulation()));
-    HashiSolutionChecker.allBridgesBuilt(hashiMap, hashiSolver.getBridges());
-    HashiSolutionChecker.allIslandsConnect(hashiMap, hashiSolver.getBridges());
+    assertTrue(HashiSolutionChecker.allBridgesBuilt(hashiSolver.getHashiMap(), hashiSolver.getBridges()));
+    assertTrue(HashiSolutionChecker.allIslandsConnect(hashiSolver.getHashiMap(), hashiSolver.getBridges()));
     assertTrue(hashiSolver.isSolvable());
   }
 

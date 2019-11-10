@@ -95,6 +95,25 @@ class HashiSolutionCheckerTest extends BaseHashiTest {
       new Bridge(islandCenter, islandWest)
     );
     assertTrue(HashiSolutionChecker.allIslandsConnect(hashiMap, bridges));
+
+    hashiMap = new HashiMap(
+      7,
+      List.of(
+        island_3_2,
+        island_3_3,
+        island_4_2,
+        island_4_3
+      )
+    );
+
+    bridges = List.of(
+      new Bridge(island_3_2, island_4_2),
+      new Bridge(island_4_2, island_4_3),
+      new Bridge(island_4_3, island_3_3),
+      new Bridge(island_3_3, island_3_2)
+
+    );
+    assertTrue(HashiSolutionChecker.allIslandsConnect(hashiMap, bridges));
   }
 
   @Test
