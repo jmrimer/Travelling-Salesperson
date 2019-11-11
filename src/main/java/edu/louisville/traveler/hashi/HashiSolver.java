@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static edu.louisville.traveler.hashi.HashiSolutionChecker.*;
 
@@ -72,8 +73,13 @@ public class HashiSolver {
   }
 
   private void connectViaDepthFirstSearch() {
+    List<Island> remainingIslands =
+      hashiMap.getIslands()
+        .stream()
+        .filter(island -> island.getAdjustedPopulation() > 0)
+        .collect(Collectors.toList());
     List<Coordinates> coordinates = new ArrayList<>();
-    for (Island island : hashiMap.getIslands()) {
+    for (Island island : remainingIslands) {
       coordinates.add(island.getCoordinates());
     }
 
