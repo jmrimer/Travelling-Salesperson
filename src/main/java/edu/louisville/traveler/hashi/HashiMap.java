@@ -71,6 +71,6 @@ public class HashiMap {
 
   @Override
   public String toString() {
-    return "HashiMap with " + islands.size() + " islands, total population " + startingPopulation + ", remaining population " + getRemainingPopulation();
+    return "HashiMap with " + islands.size() + " islands, total population " + calculatePopulation() + ", remaining population " + getRemainingPopulation();
   }
 }

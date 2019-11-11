@@ -7,28 +7,50 @@ import java.util.Map;
 public class CertaintyConnector {
   public static List<Bridge> connect(HashiMap hashiMap) {
     List<Bridge> bridges = new ArrayList<>();
-    List<Bridge> startingBridges;
 
     do {
-      startingBridges = new ArrayList<>(bridges);
-
       for (Island island : hashiMap.getIslands()) {
-        try {
-          ConstraintAssigner.assignConstraints(hashiMap);
-        } catch (UnsolvableHashiMap unsolvableHashiMap) {
-          return bridges;
-        }
-
-        try {
-          bridges.addAll(buildBridgesFor(island));
-        } catch (UnsolvableHashiMap unsolvableHashiMap) {
-          return bridges;
-        }
+        if (prepareMapCausedError(hashiMap)) return bridges;
+        if (buildingBridgesCausedError(bridges, island)) return bridges;
       }
-
-    } while (constraintsContinueChanging(startingBridges, bridges));
+    } while (singleConstraintsExist(hashiMap));
 
     return bridges;
+  }
+
+  private static boolean singleConstraintsExist(HashiMap hashiMap) {
+    try {
+      ConstraintAssigner.assignConstraints(hashiMap);
+    } catch (UnsolvableHashiMap unsolvableHashiMap) {
+      return false;
+    }
+
+    for (Island island : hashiMap.getIslands()) {
+      for (List<Integer> constraint : island.getConstraints().values()) {
+        if (constraint.size() == 1 || !constraint.contains(0)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private static boolean buildingBridgesCausedError(List<Bridge> bridges, Island island) {
+    try {
+      bridges.addAll(buildBridgesFor(island));
+    } catch (UnsolvableHashiMap unsolvableHashiMap) {
+      return true;
+    }
+    return false;
+  }
+
+  private static boolean prepareMapCausedError(HashiMap hashiMap) {
+    try {
+      ConstraintAssigner.assignConstraints(hashiMap);
+    } catch (UnsolvableHashiMap unsolvableHashiMap) {
+      return true;
+    }
+    return false;
   }
 
   public static List<Bridge> buildBridgesFor(Island island) throws UnsolvableHashiMap {
@@ -52,7 +74,7 @@ public class CertaintyConnector {
         return bridges;
       }
       if (constraint.getValue().contains(1) && !constraint.getValue().contains(0)) {
-        buildBridge(island, neighbor);
+        bridges.add(buildBridge(island, neighbor));
       }
     }
     return bridges;
@@ -85,12 +107,5 @@ public class CertaintyConnector {
     } else {
       throw new UnsolvableHashiMap();
     }
-  }
-
-  private static boolean constraintsContinueChanging(
-    List<Bridge> startingBridges,
-    List<Bridge> bridges
-  ) {
-    return !startingBridges.equals(bridges);
   }
 }

@@ -12,6 +12,7 @@ public class ConstraintAssigner {
   private static List<Integer> constraint_0_1_2 = List.of(0, 1, 2);
 
   public static void assignConstraints(HashiMap hashiMap) throws UnsolvableHashiMap {
+
     for (Island island : hashiMap.getIslands()) {
       if (clearAllConstraintsIfCompleted(island)) continue;
 
