@@ -1,6 +1,7 @@
 package edu.louisville.traveler.hashi;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -84,6 +85,7 @@ public class HashiSolverSimpleMapTest extends BaseHashiTest {
     assertThrows(UnsolvableHashiMap.class, () -> new HashiSolver(hashiMap));
   }
 
+  @Disabled
   @Test
   void bridgeBuilderAdjustConstraintsOnEachBuild() throws UnsolvableHashiMap {
     hashiMap = doubleNeighborEastNorthMap();

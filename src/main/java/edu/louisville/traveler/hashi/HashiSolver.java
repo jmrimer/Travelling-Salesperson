@@ -141,17 +141,24 @@ public class HashiSolver {
   }
 
   public void buildBridgesFor(Island island) throws UnsolvableHashiMap {
+    Map.Entry<Direction, List<Integer>> constraint = null;
     for (Map.Entry<Direction, List<Integer>> constraintEntry : island.getConstraints().entrySet()) {
       List<Integer> constraints = constraintEntry.getValue();
-      Direction direction = constraintEntry.getKey();
-      Island neighbor = island.getNeighbors().get(direction);
-
       if (constraints.size() == 1) {
-        buildBridgesForSingleConstraints(island, constraintEntry);
-        continue;
+        constraint = constraintEntry;
       }
-
       if (constraints.contains(1) && !constraints.contains(0)) {
+        constraint = constraintEntry;
+      }
+    }
+    if (constraint != null) {
+      Direction direction = constraint.getKey();
+      Island neighbor = island.getNeighbors().get(direction);
+      if (constraint.getValue().size() == 1) {
+        buildBridgesForSingleConstraints(island, constraint);
+        return;
+      }
+      if (constraint.getValue().contains(1) && !constraint.getValue().contains(0)) {
         buildBridge(island, neighbor);
       }
     }

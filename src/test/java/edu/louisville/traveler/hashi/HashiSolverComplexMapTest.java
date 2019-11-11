@@ -14,12 +14,6 @@ class HashiSolverComplexMapTest extends BaseHashiTest {
   HashiMap hashiMap;
   HashiSolver hashiSolver;
 
-  @BeforeEach
-  public void setup() {
-    System.out.println("hw");
-    super.setup();
-  }
-
   @Test
   void Solves_Complex_4_Island() throws UnsolvableHashiMap {
     island_3_2.setPopulation(2);
