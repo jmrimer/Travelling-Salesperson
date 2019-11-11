@@ -67,6 +67,12 @@ public class HashiSolver {
       return;
     }
 
+    connectViaDepthFirstSearch();
+
+    isSolvable = puzzleSolved(hashiMap, bridges);
+  }
+
+  private void connectViaDepthFirstSearch() {
     for (Island island : hashiMap.getIslands()) {
       connectByTrialAndError(island);
       if (puzzleSolved(hashiMap, bridges)) {
@@ -74,8 +80,6 @@ public class HashiSolver {
         return;
       }
     }
-
-    isSolvable = puzzleSolved(hashiMap, bridges);
   }
 
   private void connectByTrialAndError(Island island) {
@@ -85,23 +89,20 @@ public class HashiSolver {
 
       try {
         Island neighbor = island.getNeighbors().get(constraint.getKey());
-        if (neighbor != null) {
-          buildBridge(island, neighbor);
+        buildBridge(island, neighbor);
 
-          checkFailuresAndUpdateMap();
-          connectAllCertainBridges();
+        checkFailuresAndUpdateMap();
+        connectAllCertainBridges();
 
-          if (puzzleSolved(hashiMap, bridges)) {
-            this.isSolvable = true;
-            return;
-          }
-
-          connectByTrialAndError(neighbor);
+        if (puzzleSolved(hashiMap, bridges)) {
+          this.isSolvable = true;
+          return;
         }
+
+        connectByTrialAndError(neighbor);
       } catch (UnsolvableHashiMap unsolvableHashiMap) {
         bridges = new ArrayList<>(bridgesBeforeChanges);
         hashiMap = hashiMapBeforeChanges;
-
       }
     }
   }
@@ -116,6 +117,7 @@ public class HashiSolver {
         buildBridgesFor(island);
         if (checkIfComplete()) return;
       }
+
     } while (constraintsContinueChanging(startingBridges));
   }
 
@@ -132,17 +134,13 @@ public class HashiSolver {
   }
 
   public void buildBridgesFor(Island island) throws UnsolvableHashiMap {
-    Iterator<Map.Entry<Direction, List<Integer>>> constraintIterator = island.getConstraints().entrySet().iterator();
-
-    while (constraintIterator.hasNext()) {
-      Map.Entry<Direction, List<Integer>> constraintEntry = constraintIterator.next();
-
+    for (Map.Entry<Direction, List<Integer>> constraintEntry : island.getConstraints().entrySet()) {
       List<Integer> constraints = constraintEntry.getValue();
       Direction direction = constraintEntry.getKey();
       Island neighbor = island.getNeighbors().get(direction);
 
       if (constraints.size() == 1) {
-        buildBridgesForSingleConstraints(island, constraintEntry, constraintIterator);
+        buildBridgesForSingleConstraints(island, constraintEntry);
         continue;
       }
 
@@ -152,16 +150,22 @@ public class HashiSolver {
     }
   }
 
-  private void buildBridgesForSingleConstraints(Island island, Map.Entry<Direction, List<Integer>> constraintEntry, Iterator<Map.Entry<Direction, List<Integer>>> constraintIterator) throws UnsolvableHashiMap {
-    List<Integer> constraint = constraintEntry.getValue();
+  private void buildBridgesForSingleConstraints(
+    Island island,
+    Map.Entry<Direction, List<Integer>> constraintEntry
+  ) throws UnsolvableHashiMap {
     Island neighbor = island.getNeighbors().get(constraintEntry.getKey());
+    List<Integer> constraint = constraintEntry.getValue();
+    Integer numberOfBridges = constraint.get(0);
 
-    for (int i = 0; i < constraint.get(0); i++) {
+    for (int i = 0; i < numberOfBridges; i++) {
       buildBridge(island, neighbor);
     }
   }
 
-  private Bridge buildBridge(Island island, Island neighbor) throws UnsolvableHashiMap {
+  private void buildBridge(Island island, Island neighbor) throws UnsolvableHashiMap {
+    System.out.println(island.getAdjustedPopulation());
+    System.out.println(neighbor.getAdjustedPopulation());
     if (island.getAdjustedPopulation() >= 1 && neighbor.getAdjustedPopulation() >= 1) {
       Bridge bridge = new Bridge(island, neighbor);
       bridges.add(bridge);
@@ -170,7 +174,6 @@ public class HashiSolver {
       neighbor.decreaseAdjustedPopulation();
 
       checkFailuresAndUpdateMap();
-      return bridge;
     } else {
       throw new UnsolvableHashiMap();
     }

@@ -62,12 +62,18 @@ public class Island {
       return false;
     }
 
-    return this.coordinates.equals(((Island) o).getCoordinates()) && this.population == ((Island) o).getPopulation();
+    return
+      this.coordinates.equals(((Island) o).getCoordinates())
+        && this.population == ((Island) o).getPopulation()
+        && this.adjustedPopulation == ((Island) o).getAdjustedPopulation();
   }
 
   @Override
   public String toString() {
-    return "Island at (" + this.coordinates.getX() + ", " + this.coordinates.getY() + ") with population: " + this.population;
+    return
+      "Island at (" + this.coordinates.getX() + ", " + this.coordinates.getY()
+        + ") with total population: " + this.population
+        + " and remaining population " + this.getAdjustedPopulation();
   }
 
   public void setConstraint(Direction key, List<Integer> constraints) {

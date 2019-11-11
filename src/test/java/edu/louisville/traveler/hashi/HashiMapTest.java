@@ -66,6 +66,7 @@ public class HashiMapTest extends BaseHashiTest {
     hashiMap.getIslands().get(0).setPopulation(3);
     hashiMap.getIslands().get(1).decreaseAdjustedPopulation();
     assertEquals(3, hashiMap.getIslands().get(0).getPopulation());
+    assertEquals(3, islandCenter.getPopulation());
     assertEquals(1, clone.getIslands().get(0).getPopulation());
 
     hashiMap = clone;
