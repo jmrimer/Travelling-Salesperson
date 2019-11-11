@@ -1,5 +1,6 @@
 package edu.louisville.traveler.hashi;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -111,9 +112,9 @@ public class HashiSolverSimpleMapTest extends BaseHashiTest {
 
   @Test
   void solves_1_Feasible_Neighbor() throws UnsolvableHashiMap {
-    hashiMap = singleNeighborEastMap();
     islandCenter.setPopulation(1);
     islandEast.setPopulation(1);
+    hashiMap = singleNeighborEastMap();
 
     hashiSolver = new HashiSolver(hashiMap);
     hashiSolver.solve();
@@ -127,9 +128,9 @@ public class HashiSolverSimpleMapTest extends BaseHashiTest {
     assertEquals(0, islandEast.getAdjustedPopulation());
     assertTrue(hashiSolver.isSolvable());
 
-    hashiMap = singleNeighborEastMap();
     islandCenter.setPopulation(2);
     islandEast.setPopulation(2);
+    hashiMap = singleNeighborEastMap();
 
     hashiSolver = new HashiSolver(hashiMap);
     hashiSolver.solve();
@@ -161,10 +162,10 @@ public class HashiSolverSimpleMapTest extends BaseHashiTest {
 
   @Test
   void solves_2_Feasible_Neighbors() throws UnsolvableHashiMap {
-    hashiMap = doubleNeighborEastNorthMap();
     islandCenter.setPopulation(3);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(1);
+    hashiMap = doubleNeighborEastNorthMap();
 
     hashiSolver = new HashiSolver(hashiMap);
     hashiSolver.solve();
@@ -179,10 +180,10 @@ public class HashiSolverSimpleMapTest extends BaseHashiTest {
     );
     checkAdjustPopulationsZero();
 
-    hashiMap = doubleNeighborEastNorthMap();
     islandCenter.setPopulation(4);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(2);
+    hashiMap = doubleNeighborEastNorthMap();
 
     hashiSolver = new HashiSolver(hashiMap);
     hashiSolver.solve();
@@ -202,11 +203,11 @@ public class HashiSolverSimpleMapTest extends BaseHashiTest {
 
   @Test
   void fails_2_Impossible_Neighbors() throws UnsolvableHashiMap {
-    hashiMap = doubleNeighborEastNorthMap();
 
     islandCenter.setPopulation(3);
     islandEast.setPopulation(1);
     islandNorth.setPopulation(1);
+    hashiMap = doubleNeighborEastNorthMap();
     assertThrows(UnsolvableHashiMap.class, () -> new HashiSolver(hashiMap));
 
     islandCenter.setPopulation(3);
@@ -219,11 +220,11 @@ public class HashiSolverSimpleMapTest extends BaseHashiTest {
 
   @Test
   void solves_3_Feasible_Neighbors() throws UnsolvableHashiMap {
-    hashiMap = tripleNeighborEastNorthWestMap();
     islandCenter.setPopulation(3);
     islandEast.setPopulation(1);
     islandNorth.setPopulation(1);
     islandWest.setPopulation(1);
+    hashiMap = tripleNeighborEastNorthWestMap();
 
     hashiSolver = new HashiSolver(hashiMap);
     hashiSolver.solve();
@@ -239,11 +240,11 @@ public class HashiSolverSimpleMapTest extends BaseHashiTest {
     checkAdjustPopulationsZero();
     assertTrue(hashiSolver.isSolvable());
 
-    hashiMap = tripleNeighborEastNorthWestMap();
     islandCenter.setPopulation(4);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(1);
     islandWest.setPopulation(1);
+    hashiMap = tripleNeighborEastNorthWestMap();
 
     hashiSolver = new HashiSolver(hashiMap);
     hashiSolver.solve();
@@ -262,18 +263,18 @@ public class HashiSolverSimpleMapTest extends BaseHashiTest {
 
   @Test
   void fails_3_Impossible_Neighbors() throws UnsolvableHashiMap {
-    hashiMap = tripleNeighborEastNorthWestMap();
     islandCenter.setPopulation(4);
     islandEast.setPopulation(1);
     islandNorth.setPopulation(1);
     islandWest.setPopulation(1);
+    hashiMap = tripleNeighborEastNorthWestMap();
     assertThrows(UnsolvableHashiMap.class, () -> new HashiSolver(hashiMap));
 
-    hashiMap = tripleNeighborEastNorthWestMap();
     islandCenter.setPopulation(4);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(2);
     islandWest.setPopulation(2);
+    hashiMap = tripleNeighborEastNorthWestMap();
     hashiSolver = new HashiSolver(hashiMap);
     assertThrows(UnsolvableHashiMap.class, () -> hashiSolver.solve());
 
@@ -282,12 +283,12 @@ public class HashiSolverSimpleMapTest extends BaseHashiTest {
   @Test
   void solves_4_Feasible_Neighbors() throws UnsolvableHashiMap {
 //    Root 4
-    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     islandCenter.setPopulation(4);
     islandEast.setPopulation(1);
     islandNorth.setPopulation(1);
     islandWest.setPopulation(1);
     islandSouth.setPopulation(1);
+    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
 
     hashiSolver = new HashiSolver(hashiMap);
     hashiSolver.solve();
@@ -305,12 +306,12 @@ public class HashiSolverSimpleMapTest extends BaseHashiTest {
     assertTrue(hashiSolver.isSolvable());
 
 //  Root 5
-    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     islandCenter.setPopulation(5);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(1);
     islandWest.setPopulation(1);
     islandSouth.setPopulation(1);
+    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
 
     hashiSolver = new HashiSolver(hashiMap);
     hashiSolver.solve();
@@ -329,12 +330,12 @@ public class HashiSolverSimpleMapTest extends BaseHashiTest {
     assertTrue(hashiSolver.isSolvable());
 
 //  Root 6
-    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     islandCenter.setPopulation(6);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(2);
     islandWest.setPopulation(1);
     islandSouth.setPopulation(1);
+    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
 
     hashiSolver = new HashiSolver(hashiMap);
     hashiSolver.solve();
@@ -353,12 +354,12 @@ public class HashiSolverSimpleMapTest extends BaseHashiTest {
     checkAdjustPopulationsZero();
     assertTrue(hashiSolver.isSolvable());
 
-    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     islandCenter.setPopulation(7);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(2);
     islandWest.setPopulation(2);
     islandSouth.setPopulation(1);
+    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
 
     hashiSolver = new HashiSolver(hashiMap);
     hashiSolver.solve();
@@ -378,12 +379,12 @@ public class HashiSolverSimpleMapTest extends BaseHashiTest {
     checkAdjustPopulationsZero();
     assertTrue(hashiSolver.isSolvable());
 
-    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     islandCenter.setPopulation(8);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(2);
     islandWest.setPopulation(2);
     islandSouth.setPopulation(2);
+    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
 
     hashiSolver = new HashiSolver(hashiMap);
     hashiSolver.solve();
@@ -408,30 +409,30 @@ public class HashiSolverSimpleMapTest extends BaseHashiTest {
 
   @Test
   void fails_4_Impossible_Neighbors() throws UnsolvableHashiMap {
-    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     islandCenter.setPopulation(5);
     islandEast.setPopulation(1);
     islandNorth.setPopulation(1);
     islandWest.setPopulation(1);
     islandSouth.setPopulation(1);
+    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     assertThrows(UnsolvableHashiMap.class, () -> new HashiSolver(hashiMap));
 
-    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     islandCenter.setPopulation(3);
     islandEast.setPopulation(1);
     islandNorth.setPopulation(1);
     islandWest.setPopulation(1);
     islandSouth.setPopulation(1);
+    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     hashiSolver = new HashiSolver(hashiMap);
     assertThrows(UnsolvableHashiMap.class, () -> hashiSolver.solve());
 
 
-    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     islandCenter.setPopulation(4);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(1);
     islandWest.setPopulation(1);
     islandSouth.setPopulation(1);
+    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     assertThrows(UnsolvableHashiMap.class, () -> hashiSolver.solve());
   }
 

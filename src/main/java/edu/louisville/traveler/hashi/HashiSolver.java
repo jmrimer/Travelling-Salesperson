@@ -22,13 +22,25 @@ public class HashiSolver {
     checkFailuresAndUpdateMap();
   }
 
+  public void solve() throws UnsolvableHashiMap {
+    connectAllCertainBridges();
+
+    if (puzzleSolved(hashiMap, bridges)) {
+      isSolvable = true;
+      return;
+    }
+
+    connectViaDepthFirstSearch();
+
+    isSolvable = puzzleSolved(hashiMap, bridges);
+  }
+
   private void checkFailuresAndUpdateMap() throws UnsolvableHashiMap {
     checkForInstantFailure();
     adjustMap();
   }
 
   private void adjustMap() throws UnsolvableHashiMap {
-    adjustNeighbors();
     ConstraintAssigner.assignConstraints(hashiMap);
   }
 
@@ -57,19 +69,6 @@ public class HashiSolver {
         throw new UnsolvableHashiMap();
       }
     }
-  }
-
-  public void solve() throws UnsolvableHashiMap {
-    connectAllCertainBridges();
-
-    if (puzzleSolved(hashiMap, bridges)) {
-      isSolvable = true;
-      return;
-    }
-
-    connectViaDepthFirstSearch();
-
-    isSolvable = puzzleSolved(hashiMap, bridges);
   }
 
   private void connectViaDepthFirstSearch() {
@@ -191,12 +190,6 @@ public class HashiSolver {
       checkFailuresAndUpdateMap();
     } else {
       throw new UnsolvableHashiMap();
-    }
-  }
-
-  private void adjustNeighbors() {
-    for (Island island : hashiMap.getIslands()) {
-      island.getNeighbors().values().removeIf(neighbor -> neighbor.getAdjustedPopulation() == 0);
     }
   }
 }

@@ -16,6 +16,7 @@ class HashiSolverComplexMapTest extends BaseHashiTest {
 
   @BeforeEach
   public void setup() {
+    System.out.println("hw");
     super.setup();
   }
 

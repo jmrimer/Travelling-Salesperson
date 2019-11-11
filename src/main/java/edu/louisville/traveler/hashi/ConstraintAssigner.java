@@ -38,6 +38,8 @@ public class ConstraintAssigner {
             break;
           case 8:
             octuplePopulationIsland(island, neighborEntry);
+          default:
+            island.getConstraints().clear();
         }
       }
     }
