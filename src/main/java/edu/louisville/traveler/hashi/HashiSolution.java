@@ -33,4 +33,15 @@ public class HashiSolution {
     this.bridges.add(bridge);
     this.updateMap();
   }
+
+  public boolean isSolvedByAddingBridges(List<Bridge> bridges) throws UnsolvableHashiMap {
+    List<Bridge> checkBridges = new ArrayList<>(this.bridges);
+    checkBridges.addAll(bridges);
+    this.updateMap();
+    return HashiSolutionChecker.puzzleSolved(this.hashiMap, checkBridges);
+  }
+
+  public void removeBridge(Bridge bridge) {
+    this.bridges.remove(bridge);
+  }
 }

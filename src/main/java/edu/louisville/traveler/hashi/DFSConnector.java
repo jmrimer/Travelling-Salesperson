@@ -1,45 +1,62 @@
 package edu.louisville.traveler.hashi;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import static edu.louisville.traveler.hashi.HashiSolutionChecker.puzzleSolved;
+import java.util.Map;
 
 public class DFSConnector {
-  public static List<Bridge> connect(HashiMap hashiMap) {
+  public static void connect(HashiSolution hashiSolution) {
+    HashiMap hashiMap = hashiSolution.getHashiMap();
     List<Bridge> bridges = new ArrayList<>();
-    List<Island> remainingIslands = getRemainingUnconnectedIsland(hashiMap);
-    List<Coordinates> coordinates = getCoordinatesOfIslands(remainingIslands); // used to avoid orphan islands from backtracking
-    Island island = remainingIslands.get(0);
-    bridges.addAll(connectByTrialAndError(island));
+    hashiMap.getIslandContraints().get(0);
+    Island island = hashiMap.getIslands().get(0);
+    connectByTrialAndError(island, hashiSolution);
 
-    return bridges;
   }
 
-  private static List<Bridge> connectByTrialAndError(Island island) {
+  private static void connectByTrialAndError(
+    Island root,
+    HashiSolution hashiSolution
+  ) {
+
+
     List<Bridge> bridges = new ArrayList<>();
 
-    return bridges;
-  }
+    for (Map.Entry<Direction, List<Integer>> constraint : root.getConstraints().entrySet()) {
+      Island neighbor = root.getNeighbors().get(constraint.getKey());
+      Bridge bridge = new Bridge(root, neighbor);
 
-  private static List<Coordinates> getCoordinatesOfIslands(List<Island> remainingIslands) {
-    List<Coordinates> coordinates = new ArrayList<>();
+      try {
+        bridges.add(bridge);
+        hashiSolution.addBridge(bridge);
+      } catch (UnsolvableHashiMap unsolvableHashiMap) {
+        unsolvableHashiMap.printStackTrace();
+        bridges.remove(bridge);
+        hashiSolution.removeBridge(bridge);
+      }
 
-    for (Island island : remainingIslands) {
-      coordinates.add(island.getCoordinates());
+      CertaintyConnector.connect(hashiSolution.getHashiMap()).forEach(
+        bridge1 -> {
+          try {
+            bridges.add(bridge1);
+            hashiSolution.addBridge(bridge1);
+          } catch (UnsolvableHashiMap unsolvableHashiMap) {
+            unsolvableHashiMap.printStackTrace();
+          }
+        }
+      );
+
+      if (HashiSolutionChecker.puzzleSolved(hashiSolution.getHashiMap(), hashiSolution.getBridges())) {
+        return;
+      }
+
+      connectByTrialAndError(neighbor, hashiSolution);
     }
-    return coordinates;
-  }
-
-  @NotNull
-  private static List<Island> getRemainingUnconnectedIsland(HashiMap hashiMap) {
-    return hashiMap.getIslands()
-      .stream()
-      .filter(island -> island.getAdjustedPopulation() > 0)
-      .collect(Collectors.toList());
+//    attempt to traverse branch
+//    if fail state, backtrack
+//    if allowed state, check certainty
+//    if fail state, backtrack
+//    if allowed and complete, end
+//    if allowed and incomplete, take next available island and recurse
   }
 }

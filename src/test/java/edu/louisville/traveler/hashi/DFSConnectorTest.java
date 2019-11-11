@@ -25,9 +25,13 @@ class DFSConnectorTest extends BaseHashiTest{
         island_4_3
       )
     );
+    HashiSolution hashiSolution = new HashiSolution(hashiMap);
 
+    connect(hashiSolution);
+    List<Bridge> bridges = hashiSolution.getBridges();
+    assertEquals(4, bridges.size());
     assertThat(
-      connect(hashiMap),
+      bridges,
       containsInAnyOrder(List.of(
         new Bridge(island_3_2, island_4_2),
         new Bridge(island_4_2, island_4_3),

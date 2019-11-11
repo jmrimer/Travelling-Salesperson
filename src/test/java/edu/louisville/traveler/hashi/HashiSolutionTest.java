@@ -2,13 +2,12 @@ package edu.louisville.traveler.hashi;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class HashiSolutionTest extends BaseHashiTest {
-  //  adding a bridge updates the map constraints
-//  backtracking happens accurately
   @Test
   void updateMap_AdjustsConstraints() throws UnsolvableHashiMap {
     hashiMap = doubleNeighborEastNorthMap();
@@ -53,6 +52,4 @@ class HashiSolutionTest extends BaseHashiTest {
     assertEquals(0, islandEast.getAdjustedPopulation());
     assertEquals(1, islandCenter.getConstraints().size());
   }
-
-
 }
