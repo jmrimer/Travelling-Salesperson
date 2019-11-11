@@ -13,7 +13,11 @@ public class ConstraintAssigner {
 
   public static void assignConstraints(HashiMap hashiMap) throws UnsolvableHashiMap {
     for (Island island : hashiMap.getIslands()) {
+      if (clearAllConstraintsIfCompleted(island)) continue;
+
       for (Map.Entry<Direction, Island> neighborEntry : island.getNeighbors().entrySet()) {
+        if (clearDirectionConstraintsIfNeighborCompleted(island, neighborEntry)) continue;
+
         switch (island.getAdjustedPopulation()) {
           case 1:
             singlePopulationIsland(island, neighborEntry);
@@ -38,11 +42,25 @@ public class ConstraintAssigner {
             break;
           case 8:
             octuplePopulationIsland(island, neighborEntry);
-          default:
-            island.getConstraints().clear();
         }
       }
     }
+  }
+
+  private static boolean clearDirectionConstraintsIfNeighborCompleted(Island island, Map.Entry<Direction, Island> neighborEntry) {
+    if (neighborEntry.getValue().getAdjustedPopulation() == 0) {
+      island.getConstraints().remove(neighborEntry.getKey());
+      return true;
+    }
+    return false;
+  }
+
+  private static boolean clearAllConstraintsIfCompleted(Island island) {
+    if (island.getAdjustedPopulation() == 0) {
+      island.getConstraints().clear();
+      return true;
+    }
+    return false;
   }
 
   private static void octuplePopulationIsland(Island island, Map.Entry<Direction, Island> neighborEntry) {
