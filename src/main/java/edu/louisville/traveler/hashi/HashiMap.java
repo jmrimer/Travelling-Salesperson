@@ -73,4 +73,20 @@ public class HashiMap {
   public String toString() {
     return "HashiMap with " + islands.size() + " islands, total population " + calculatePopulation() + ", remaining population " + getRemainingPopulation();
   }
+
+  public List<Constraint> getAllConstraints() {
+    List<Constraint> constraints = new ArrayList<>();
+    for (Island island : islands) {
+      for (Map.Entry<Direction, List<Integer>> constraint : island.getConstraints().entrySet()) {
+        constraints.add(
+          new Constraint(
+            island,
+            constraint.getKey(),
+            constraint.getValue()
+          )
+        );
+      }
+    }
+    return constraints;
+  }
 }

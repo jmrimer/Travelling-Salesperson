@@ -1,62 +1,113 @@
 package edu.louisville.traveler.hashi;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 public class DFSConnector {
   public static void connect(HashiSolution hashiSolution) {
     HashiMap hashiMap = hashiSolution.getHashiMap();
-    List<Bridge> bridges = new ArrayList<>();
-    hashiMap.getIslandContraints().get(0);
-    Island island = hashiMap.getIslands().get(0);
-    connectByTrialAndError(island, hashiSolution);
 
-  }
+    if (assigningConstraintThrowsError(hashiMap)) return;
 
-  private static void connectByTrialAndError(
-    Island root,
-    HashiSolution hashiSolution
-  ) {
+    List<Constraint> untestedConstraints = hashiMap.getAllConstraints();
+    Iterator<Constraint> constraintIterator = hashiMap.getAllConstraints().iterator();
+    while (constraintIterator.hasNext()) {
+      HashiMap hashiMapClone = hashiMap.clone();
+      Constraint constraint = constraintIterator.next();
+      constraintIterator.remove();
 
+      connectByTrialAndError(constraint, untestedConstraints, hashiSolution);
 
-    List<Bridge> bridges = new ArrayList<>();
-
-    for (Map.Entry<Direction, List<Integer>> constraint : root.getConstraints().entrySet()) {
-      Island neighbor = root.getNeighbors().get(constraint.getKey());
-      Bridge bridge = new Bridge(root, neighbor);
-
-      try {
-        bridges.add(bridge);
-        hashiSolution.addBridge(bridge);
-      } catch (UnsolvableHashiMap unsolvableHashiMap) {
-        unsolvableHashiMap.printStackTrace();
-        bridges.remove(bridge);
-        hashiSolution.removeBridge(bridge);
-      }
-
-      CertaintyConnector.connect(hashiSolution.getHashiMap()).forEach(
-        bridge1 -> {
-          try {
-            bridges.add(bridge1);
-            hashiSolution.addBridge(bridge1);
-          } catch (UnsolvableHashiMap unsolvableHashiMap) {
-            unsolvableHashiMap.printStackTrace();
-          }
-        }
-      );
-
-      if (HashiSolutionChecker.puzzleSolved(hashiSolution.getHashiMap(), hashiSolution.getBridges())) {
+      if (HashiSolutionChecker.puzzleSolved(
+        hashiSolution.getHashiMap(),
+        hashiSolution.getBridges())
+      ) {
         return;
       }
 
-      connectByTrialAndError(neighbor, hashiSolution);
+      hashiSolution.setHashiMap(hashiMapClone);
+      if (assigningConstraintThrowsError(hashiMap)) return;
     }
+  }
+
+  private static boolean assigningConstraintThrowsError(HashiMap hashiMap) {
+    try {
+      ConstraintAssigner.assignConstraints(hashiMap);
+    } catch (UnsolvableHashiMap unsolvableHashiMap) {
+      unsolvableHashiMap.printStackTrace();
+      return true;
+    }
+    return false;
+  }
+
+  private static void connectByTrialAndError(
+    Constraint constraint,
+    List<Constraint> untestedConstraints,
+    HashiSolution hashiSolution
+  ) {
+    Island startingIsland = constraint.getStartingIsland();
+    Island neighbor = startingIsland.getNeighbors().get(constraint.getDirectionToNeighbor());
+    List<Integer> possibleConnections = constraint.getPossibleConnections();
+    Direction direction = constraint.getDirectionToNeighbor();
+    int bridgesToBuild = possibleConnections.get(0);
+
+    HashiMap mutatingHashiMap = hashiSolution.getHashiMap();
+    HashiMap hashiMapClone = mutatingHashiMap.clone();
+    Bridge bridge = new Bridge(startingIsland, neighbor);
+    for (Integer connection : possibleConnections) {
+      switch (connection) {
+        case 0:
+          startingIsland.getConstraints().remove(direction);
+
+          List<Bridge> addBridges = CertaintyConnector.connect(mutatingHashiMap);
+          List<Bridge> bridgesAdded = new ArrayList<>();
+          for (Bridge addBridge : addBridges) {
+            try {
+              bridgesAdded.add(addBridge);
+              hashiSolution.addBridge(addBridge);
+            } catch (UnsolvableHashiMap unsolvableHashiMap) {
+              unsolvableHashiMap.printStackTrace();
+              hashiSolution.removeBridges(bridgesAdded);
+              hashiSolution.setHashiMap(hashiMapClone);
+              break;
+            }
+          }
+          if (HashiSolutionChecker.puzzleSolved(mutatingHashiMap, hashiSolution.getBridges())) {
+            return;
+          }
+
+          break;
+        case 1:
+          try {
+            hashiSolution.addBridge(bridge);
+          } catch (UnsolvableHashiMap unsolvableHashiMap) {
+            unsolvableHashiMap.printStackTrace();
+            hashiSolution.removeBridge(bridge);
+            hashiSolution.setHashiMap(hashiMapClone);
+            continue;
+          }
+          break;
+        case 2:
+          try {
+            hashiSolution.addBridge(bridge);
+            hashiSolution.addBridge(bridge);
+
+          } catch (UnsolvableHashiMap unsolvableHashiMap) {
+            unsolvableHashiMap.printStackTrace();
+            hashiSolution.removeBridge(bridge);
+            hashiSolution.setHashiMap(hashiMapClone);
+            continue;
+          }
+          break;
+      }
+      startingIsland.setConstraint(direction, List.of(connection));
+    }
+  }
 //    attempt to traverse branch
 //    if fail state, backtrack
 //    if allowed state, check certainty
 //    if fail state, backtrack
 //    if allowed and complete, end
 //    if allowed and incomplete, take next available island and recurse
-  }
 }

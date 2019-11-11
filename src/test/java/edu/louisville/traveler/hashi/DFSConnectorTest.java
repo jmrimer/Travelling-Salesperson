@@ -25,6 +25,7 @@ class DFSConnectorTest extends BaseHashiTest{
         island_4_3
       )
     );
+
     HashiSolution hashiSolution = new HashiSolution(hashiMap);
 
     connect(hashiSolution);

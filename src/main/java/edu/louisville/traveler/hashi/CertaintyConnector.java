@@ -10,8 +10,8 @@ public class CertaintyConnector {
 
     do {
       for (Island island : hashiMap.getIslands()) {
-        if (prepareMapCausedError(hashiMap)) return bridges;
         if (buildingBridgesCausedError(bridges, island)) return bridges;
+        if (prepareMapCausedError(hashiMap)) return bridges;
       }
     } while (singleConstraintsExist(hashiMap));
 

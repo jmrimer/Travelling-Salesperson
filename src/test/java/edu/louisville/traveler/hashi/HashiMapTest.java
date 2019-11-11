@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HashiMapTest extends BaseHashiTest {
@@ -73,4 +75,26 @@ public class HashiMapTest extends BaseHashiTest {
     assertEquals(1, hashiMap.getIslands().get(0).getPopulation());
     assertEquals(1, hashiMap.getIslands().get(1).getAdjustedPopulation());
   }
+
+  @Test
+  void getAllConstraints() throws UnsolvableHashiMap {
+    islandCenter.setPopulation(1);
+    islandEast.setPopulation(1);
+
+    hashiMap = new HashiMap(
+      7,
+      List.of(islandCenter, islandEast)
+    );
+
+    ConstraintAssigner.assignConstraints(hashiMap);
+
+    assertThat(
+      hashiMap.getAllConstraints(),
+      containsInAnyOrder(List.of(
+        new Constraint(islandCenter,Direction.EAST,List.of(1)),
+        new Constraint(islandEast,Direction.WEST,List.of(1))
+      ).toArray())
+    );
+  }
+
 }

@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class Constraint {
-  Direction direction;
-  List<Integer> possibleConnections;
+  private Island startingIsland;
+  private Direction directionToNeighbor;
+  private List<Integer> possibleConnections;
 }

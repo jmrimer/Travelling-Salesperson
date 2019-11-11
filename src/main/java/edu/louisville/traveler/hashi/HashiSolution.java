@@ -44,4 +44,8 @@ public class HashiSolution {
   public void removeBridge(Bridge bridge) {
     this.bridges.remove(bridge);
   }
+
+  public void removeBridges(List<Bridge> bridgesAdded) {
+    this.bridges.removeAll(bridgesAdded);
+  }
 }
