@@ -78,7 +78,9 @@ public class HashiSolver {
         .stream()
         .filter(island -> island.getAdjustedPopulation() > 0)
         .collect(Collectors.toList());
+
     List<Coordinates> coordinates = new ArrayList<>();
+
     for (Island island : remainingIslands) {
       coordinates.add(island.getCoordinates());
     }
