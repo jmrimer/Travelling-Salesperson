@@ -73,8 +73,15 @@ public class HashiSolver {
   }
 
   private void connectViaDepthFirstSearch() {
+    List<Coordinates> coordinates = new ArrayList<>();
     for (Island island : hashiMap.getIslands()) {
+      coordinates.add(island.getCoordinates());
+    }
+
+    for (Coordinates coords : coordinates) {
+      Island island = getIslandFrom(coords);
       connectByTrialAndError(island);
+
       if (puzzleSolved(hashiMap, bridges)) {
         isSolvable = true;
         return;
@@ -100,6 +107,7 @@ public class HashiSolver {
         }
 
         connectByTrialAndError(neighbor);
+
       } catch (UnsolvableHashiMap unsolvableHashiMap) {
         bridges = new ArrayList<>(bridgesBeforeChanges);
         hashiMap = hashiMapBeforeChanges;
@@ -150,6 +158,15 @@ public class HashiSolver {
     }
   }
 
+  private Island getIslandFrom(Coordinates coords) {
+    for (Island island : hashiMap.getIslands()) {
+      if (island.getCoordinates().equals(coords)) {
+        return island;
+      }
+    }
+    return null;
+  }
+
   private void buildBridgesForSingleConstraints(
     Island island,
     Map.Entry<Direction, List<Integer>> constraintEntry
@@ -164,8 +181,6 @@ public class HashiSolver {
   }
 
   private void buildBridge(Island island, Island neighbor) throws UnsolvableHashiMap {
-    System.out.println(island.getAdjustedPopulation());
-    System.out.println(neighbor.getAdjustedPopulation());
     if (island.getAdjustedPopulation() >= 1 && neighbor.getAdjustedPopulation() >= 1) {
       Bridge bridge = new Bridge(island, neighbor);
       bridges.add(bridge);
@@ -180,8 +195,8 @@ public class HashiSolver {
   }
 
   private void adjustNeighbors() {
-//    for (Island island : hashiMap.getIslands()) {
-//      island.getNeighbors().values().removeIf(neighbor -> neighbor.getAdjustedPopulation() == 0);
-//    }
+    for (Island island : hashiMap.getIslands()) {
+      island.getNeighbors().values().removeIf(neighbor -> neighbor.getAdjustedPopulation() == 0);
+    }
   }
 }
