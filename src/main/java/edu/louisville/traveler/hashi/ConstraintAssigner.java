@@ -88,7 +88,7 @@ public class ConstraintAssigner {
     Island neighbor = neighborEntry.getValue();
     Direction direction = neighborEntry.getKey();
 
-    switch (island.getNeighbors().size()) {
+    switch (availableNeighborCount(island)) {
       case 3:
         island.setConstraint(direction, constraint_2);
         break;
@@ -115,7 +115,7 @@ public class ConstraintAssigner {
     Island neighbor = neighborEntry.getValue();
     Direction direction = neighborEntry.getKey();
 
-    switch (island.getNeighbors().size()) {
+    switch (availableNeighborCount(island)) {
       case 3:
         if (twoNeighborsAreSinglePopulation(island)) {
           throw new UnsolvableHashiMap();
@@ -157,7 +157,7 @@ public class ConstraintAssigner {
     Island neighbor = neighborEntry.getValue();
     Direction direction = neighborEntry.getKey();
 
-    switch (island.getNeighbors().size()) {
+    switch (availableNeighborCount(island)) {
       case 2:
         if (oneNeighborIsSinglePopulation(island)) {
           throw new UnsolvableHashiMap();
@@ -209,7 +209,7 @@ public class ConstraintAssigner {
     Island neighbor = neighborEntry.getValue();
     Direction direction = neighborEntry.getKey();
 
-    switch (island.getNeighbors().size()) {
+    switch (availableNeighborCount(island)) {
       case 2:
         if (oneNeighborIsSinglePopulation(island)) {
           if (neighbor.getAdjustedPopulation() == 1) {
@@ -253,7 +253,7 @@ public class ConstraintAssigner {
     Island neighbor = neighborEntry.getValue();
     Direction direction = neighborEntry.getKey();
 
-    switch (island.getNeighbors().size()) {
+    switch (availableNeighborCount(island)) {
       case 1:
         if (neighbor.getAdjustedPopulation() >= 2) {
           island.setConstraint(direction, constraint_2);
@@ -338,18 +338,21 @@ public class ConstraintAssigner {
   }
 
   private static boolean allNeighborsAreSinglePopulation(Island island) {
-    return getSinglePopulationNeighborCount(island) == island.getNeighbors().size();
-  }
-
-  private static boolean singleNeighbor(Island island) {
-    return island.getNeighbors().size() == 1;
+    return getSinglePopulationNeighborCount(island) == availableNeighborCount(island);
   }
 
   private static void singlePopulationIsland(Island island, Map.Entry<Direction, Island> neighborEntry) {
-    if (singleNeighbor(island)) {
+    if (availableNeighborCount(island) == 1) {
       island.setConstraint(neighborEntry.getKey(), constraint_1);
-    } else if (island.getNeighbors().size() > 1) {
+    } else if (availableNeighborCount(island) > 1) {
       island.setConstraint(neighborEntry.getKey(), constraint_0_1);
     }
+  }
+
+  private static int availableNeighborCount(Island island) {
+    return (int) island.getNeighbors().values()
+      .stream()
+      .filter(island1 -> island1.getAdjustedPopulation() > 0)
+      .count();
   }
 }

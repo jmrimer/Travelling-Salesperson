@@ -3,6 +3,7 @@ package edu.louisville.traveler.hashi;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,7 +14,14 @@ public class DFSConnector {
     List<Bridge> bridges = new ArrayList<>();
     List<Island> remainingIslands = getRemainingUnconnectedIsland(hashiMap);
     List<Coordinates> coordinates = getCoordinatesOfIslands(remainingIslands); // used to avoid orphan islands from backtracking
+    Island island = remainingIslands.get(0);
+    bridges.addAll(connectByTrialAndError(island));
 
+    return bridges;
+  }
+
+  private static List<Bridge> connectByTrialAndError(Island island) {
+    List<Bridge> bridges = new ArrayList<>();
 
     return bridges;
   }

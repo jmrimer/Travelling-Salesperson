@@ -163,6 +163,13 @@ public class ConstraintAssignerTest {
     ConstraintAssigner.assignConstraints(hashiMap);
     checkConstraint_0_1_2(Direction.NORTH);
     checkConstraint_0_1_2(Direction.EAST);
+
+    islandCenter.setAdjustedPopulation(1);
+    islandEast.setAdjustedPopulation(0);
+    islandNorth.setAdjustedPopulation(1);
+    ConstraintAssigner.assignConstraints(hashiMap);
+    checkConstraint_1(Direction.NORTH);
+    assertEquals(1, islandCenter.getConstraints().size());
   }
 
   @Test
