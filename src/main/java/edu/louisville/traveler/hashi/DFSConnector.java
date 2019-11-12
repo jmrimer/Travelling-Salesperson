@@ -8,7 +8,6 @@ public class DFSConnector {
   public static void connect(HashiSolution hashiSolution) {
     HashiMap hashiMap = hashiSolution.getHashiMap();
     List<Bridge> bridges = new ArrayList<>();
-    hashiMap.getIslandContraints().get(0);
     Island island = hashiMap.getIslands().get(0);
     connectByTrialAndError(island, hashiSolution);
 
