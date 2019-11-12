@@ -10,21 +10,55 @@ public class ConfigurationGenerator {
       int connections = 0;
       connections += northConnection;
       if (connections > island.getAdjustedPopulation()) {
-        
+        break;
       }
       if (connections == island.getAdjustedPopulation()) {
         configurations.add(
           new Configuration(northConnection, 0, 0, 0)
         );
+        break;
+      }
+
+      for (Integer eastConnection : island.getConstraints().get(Direction.EAST)) {
+        connections += eastConnection;
+        if (connections > island.getAdjustedPopulation()) {
+          break;
+        }
+        if (connections == island.getAdjustedPopulation()) {
+          configurations.add(
+            new Configuration(northConnection, eastConnection, 0, 0)
+          );
+          break;
+        }
+
+        for (Integer southConnection : island.getConstraints().get(Direction.SOUTH)) {
+          connections += southConnection;
+          if (connections > island.getAdjustedPopulation()) {
+            break;
+          }
+          if (connections == island.getAdjustedPopulation()) {
+            configurations.add(
+              new Configuration(northConnection, eastConnection, southConnection, 0)
+            );
+            break;
+          }
+
+          for (Integer westConnection : island.getConstraints().get(Direction.WEST)) {
+            connections += westConnection;
+            if (connections > island.getAdjustedPopulation()) {
+              break;
+            }
+            if (connections == island.getAdjustedPopulation()) {
+              configurations.add(
+                new Configuration(northConnection, eastConnection, southConnection, westConnection)
+              );
+              break;
+            }
+
+          }
+        }
       }
     }
-//    for each north possibility
-//    if == adjustedpop, done
-//    if greater than, do not
-//    if less than, get each other direction
-//
-//    for
-
-    return null;
+    return configurations;
   }
 }
