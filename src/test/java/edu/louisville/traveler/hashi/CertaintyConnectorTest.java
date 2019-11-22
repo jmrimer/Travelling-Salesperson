@@ -4,9 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static edu.louisville.traveler.hashi.CertaintyConnector.connect;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CertaintyConnectorTest extends BaseHashiTest {
@@ -16,7 +16,7 @@ class CertaintyConnectorTest extends BaseHashiTest {
     islandCenter.setPopulation(0);
     islandEast.setPopulation(1);
 
-    assertTrue(connect(hashiMap).isEmpty());
+    assertTrue(CertaintyConnector.connect(hashiMap).isEmpty());
 
     island_3_2.setPopulation(2);
     island_3_3.setPopulation(2);
@@ -31,28 +31,31 @@ class CertaintyConnectorTest extends BaseHashiTest {
         island_4_3
       )
     );
-    assertTrue(connect(hashiMap).isEmpty());
+    assertTrue(CertaintyConnector.connect(hashiMap).isEmpty());
   }
 
   @Test
-  void connects_1_CertainNeighbor() {
+  void connects_1_Neighbor_to_Population_1() {
     hashiMap = singleNeighborEastMap();
     islandCenter.setPopulation(1);
     islandEast.setPopulation(1);
 
     assertThat(
-      connect(hashiMap),
+      CertaintyConnector.connect(hashiMap),
       containsInAnyOrder(List.of(
         new Bridge(islandCenter, islandEast)
       ).toArray())
     );
+  }
 
+  @Test
+  void connects_1_Neighbor_to_Population_2() {
     hashiMap = singleNeighborEastMap();
     islandCenter.setPopulation(2);
     islandEast.setPopulation(2);
 
     assertThat(
-      connect(hashiMap),
+      CertaintyConnector.connect(hashiMap),
       containsInAnyOrder(List.of(
         new Bridge(islandCenter, islandEast),
         new Bridge(islandCenter, islandEast)
@@ -61,28 +64,31 @@ class CertaintyConnectorTest extends BaseHashiTest {
   }
 
   @Test
-  void connects_2_CertainNeighbors() {
+  void connects_2_Neighbors_to_Population_3() {
     hashiMap = doubleNeighborEastNorthMap();
     islandCenter.setPopulation(3);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(1);
 
     assertThat(
-      connect(hashiMap),
+      CertaintyConnector.connect(hashiMap),
       containsInAnyOrder(List.of(
         new Bridge(islandCenter, islandEast),
         new Bridge(islandCenter, islandEast),
         new Bridge(islandCenter, islandNorth)
       ).toArray())
     );
+  }
 
+  @Test
+  void connects_2_Neighbors_to_Population_4() {
     hashiMap = doubleNeighborEastNorthMap();
     islandCenter.setPopulation(4);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(2);
 
     assertThat(
-      connect(hashiMap),
+      CertaintyConnector.connect(hashiMap),
       containsInAnyOrder(List.of(
         new Bridge(islandCenter, islandEast),
         new Bridge(islandCenter, islandEast),
@@ -93,7 +99,7 @@ class CertaintyConnectorTest extends BaseHashiTest {
   }
 
   @Test
-  void connects_3_CertainNeighbors() {
+  void connects_3_Neighbors_to_Population_3() {
     hashiMap = tripleNeighborEastNorthWestMap();
     islandCenter.setPopulation(3);
     islandEast.setPopulation(1);
@@ -101,14 +107,17 @@ class CertaintyConnectorTest extends BaseHashiTest {
     islandWest.setPopulation(1);
 
     assertThat(
-      connect(hashiMap),
+      CertaintyConnector.connect(hashiMap),
       containsInAnyOrder(List.of(
         new Bridge(islandCenter, islandEast),
         new Bridge(islandCenter, islandNorth),
         new Bridge(islandCenter, islandWest)
       ).toArray())
     );
+  }
 
+  @Test
+  void connects_3_Neighbors_to_Population_4() {
     hashiMap = tripleNeighborEastNorthWestMap();
     islandCenter.setPopulation(4);
     islandEast.setPopulation(2);
@@ -116,7 +125,7 @@ class CertaintyConnectorTest extends BaseHashiTest {
     islandWest.setPopulation(1);
 
     assertThat(
-      connect(hashiMap),
+      CertaintyConnector.connect(hashiMap),
       containsInAnyOrder(List.of(
         new Bridge(islandCenter, islandEast),
         new Bridge(islandCenter, islandEast),
@@ -127,7 +136,7 @@ class CertaintyConnectorTest extends BaseHashiTest {
   }
 
   @Test
-  void connects_4_CertainNeighbors() {
+  void connects_4_Neighbors_to_Population_4() {
     hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     islandCenter.setPopulation(4);
     islandEast.setPopulation(1);
@@ -136,7 +145,7 @@ class CertaintyConnectorTest extends BaseHashiTest {
     islandSouth.setPopulation(1);
 
     assertThat(
-      connect(hashiMap),
+      CertaintyConnector.connect(hashiMap),
       containsInAnyOrder(List.of(
         new Bridge(islandCenter, islandEast),
         new Bridge(islandCenter, islandNorth),
@@ -144,7 +153,10 @@ class CertaintyConnectorTest extends BaseHashiTest {
         new Bridge(islandCenter, islandSouth)
       ).toArray())
     );
+  }
 
+  @Test
+  void connects_4_Neighbors_to_Population_5() {
     hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     islandCenter.setPopulation(5);
     islandEast.setPopulation(2);
@@ -153,7 +165,7 @@ class CertaintyConnectorTest extends BaseHashiTest {
     islandSouth.setPopulation(1);
 
     assertThat(
-      connect(hashiMap),
+      CertaintyConnector.connect(hashiMap),
       containsInAnyOrder(List.of(
         new Bridge(islandCenter, islandEast),
         new Bridge(islandCenter, islandEast),
@@ -162,7 +174,10 @@ class CertaintyConnectorTest extends BaseHashiTest {
         new Bridge(islandCenter, islandSouth)
       ).toArray())
     );
+  }
 
+  @Test
+  void connects_4_Neighbors_to_Population_6() {
     hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     islandCenter.setPopulation(6);
     islandEast.setPopulation(2);
@@ -170,8 +185,10 @@ class CertaintyConnectorTest extends BaseHashiTest {
     islandWest.setPopulation(1);
     islandSouth.setPopulation(1);
 
+    List<Bridge> bridges = CertaintyConnector.connect(hashiMap);
+    assertEquals(6, bridges.size());
     assertThat(
-      connect(hashiMap),
+      bridges,
       containsInAnyOrder(List.of(
         new Bridge(islandCenter, islandEast),
         new Bridge(islandCenter, islandEast),
@@ -181,7 +198,10 @@ class CertaintyConnectorTest extends BaseHashiTest {
         new Bridge(islandCenter, islandSouth)
       ).toArray())
     );
+  }
 
+  @Test
+  void connects_4_Neighbors_to_Population_7() {
     hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     islandCenter.setPopulation(7);
     islandEast.setPopulation(2);
@@ -189,8 +209,10 @@ class CertaintyConnectorTest extends BaseHashiTest {
     islandWest.setPopulation(2);
     islandSouth.setPopulation(1);
 
+    List<Bridge> bridges = CertaintyConnector.connect(hashiMap);
+    assertEquals(7, bridges.size());
     assertThat(
-      connect(hashiMap),
+      bridges,
       containsInAnyOrder(List.of(
         new Bridge(islandCenter, islandEast),
         new Bridge(islandCenter, islandEast),
@@ -201,7 +223,10 @@ class CertaintyConnectorTest extends BaseHashiTest {
         new Bridge(islandCenter, islandSouth)
       ).toArray())
     );
+  }
 
+  @Test
+  void connects_4_Neighbors_to_Population_8() {
     hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     islandCenter.setPopulation(8);
     islandEast.setPopulation(2);
@@ -210,7 +235,7 @@ class CertaintyConnectorTest extends BaseHashiTest {
     islandSouth.setPopulation(2);
 
     assertThat(
-      connect(hashiMap),
+      CertaintyConnector.connect(hashiMap),
       containsInAnyOrder(List.of(
         new Bridge(islandCenter, islandEast),
         new Bridge(islandCenter, islandEast),
@@ -224,8 +249,9 @@ class CertaintyConnectorTest extends BaseHashiTest {
     );
   }
 
+
   @Test
-  void connects_5_CertainNeighbors_ComplexMap() {
+  void connects_5_Neighbors_to_ComplexMap() {
     island_2_3.setPopulation(1);
     island_3_2.setPopulation(2);
     island_3_3.setPopulation(4);
@@ -244,7 +270,7 @@ class CertaintyConnectorTest extends BaseHashiTest {
     );
 
     assertThat(
-      connect(hashiMap),
+      CertaintyConnector.connect(hashiMap),
       containsInAnyOrder(List.of(
         new Bridge(island_3_3, island_2_3),
         new Bridge(island_3_3, island_3_2),

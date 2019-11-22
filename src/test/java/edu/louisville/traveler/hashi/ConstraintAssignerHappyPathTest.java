@@ -7,7 +7,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ConstraintAssignerTest {
+public class ConstraintAssignerHappyPathTest {
   Island islandCenter;
   Island islandNorth;
   Island islandEast;

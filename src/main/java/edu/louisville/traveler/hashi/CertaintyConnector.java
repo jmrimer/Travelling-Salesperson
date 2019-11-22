@@ -18,6 +18,70 @@ public class CertaintyConnector {
     return bridges;
   }
 
+  private static List<Bridge> buildBridgesFor(Island island) throws UnsolvableHashiMap {
+    Map.Entry<Direction, List<Integer>> constraint = extractMandatoryConstraint(island);
+    return exists(constraint) ? buildMandatoryBridges(island, constraint) : new ArrayList<>();
+  }
+
+  private static List<Bridge> buildMandatoryBridges(Island island, Map.Entry<Direction, List<Integer>> constraint) throws UnsolvableHashiMap {
+    List<Bridge> bridges = new ArrayList<>();
+
+    Direction direction = constraint.getKey();
+    Island neighbor = island.getNeighbors().get(direction);
+    Integer numberOfBridges = constraint.getValue().get(0);
+
+    if (isSingleConstraint(constraint)) {
+      bridges.addAll(
+        buildBridges(island, neighbor, numberOfBridges)
+      );
+    } else if (requiresAtLeastOneBridge(constraint)) {
+      bridges.add(buildBridge(island, neighbor));
+    }
+
+    return bridges;
+  }
+
+  private static Map.Entry<Direction, List<Integer>> extractMandatoryConstraint(Island island) {
+    Map.Entry<Direction, List<Integer>> constraint = null;
+    for (Map.Entry<Direction, List<Integer>> constraintEntry : island.getConstraints().entrySet()) {
+      List<Integer> constraints = constraintEntry.getValue();
+      if (constraints.size() == 1) {
+        constraint = constraintEntry;
+      }
+      if (constraints.contains(1) && !constraints.contains(0)) {
+        constraint = constraintEntry;
+      }
+    }
+    return constraint;
+  }
+
+  private static List<Bridge> buildBridges(
+    Island island,
+    Island neighbor,
+    int numberOfBridges
+  ) throws UnsolvableHashiMap {
+    List<Bridge> bridges = new ArrayList<>();
+
+    for (int i = 0; i < numberOfBridges; i++) {
+      bridges.add(buildBridge(island, neighbor));
+    }
+
+    return bridges;
+  }
+
+  private static Bridge buildBridge(Island island, Island neighbor) throws UnsolvableHashiMap {
+    if (island.getAdjustedPopulation() >= 1 && neighbor.getAdjustedPopulation() >= 1) {
+      Bridge bridge = new Bridge(island, neighbor);
+
+      island.decreaseAdjustedPopulation();
+      neighbor.decreaseAdjustedPopulation();
+
+      return bridge;
+    } else {
+      throw new UnsolvableHashiMap();
+    }
+  }
+
   private static boolean singleConstraintsExist(HashiMap hashiMap) {
     try {
       ConstraintAssigner.assignConstraints(hashiMap);
@@ -53,59 +117,19 @@ public class CertaintyConnector {
     return false;
   }
 
-  public static List<Bridge> buildBridgesFor(Island island) throws UnsolvableHashiMap {
-    List<Bridge> bridges = new ArrayList<>();
-
-    Map.Entry<Direction, List<Integer>> constraint = null;
-    for (Map.Entry<Direction, List<Integer>> constraintEntry : island.getConstraints().entrySet()) {
-      List<Integer> constraints = constraintEntry.getValue();
-      if (constraints.size() == 1) {
-        constraint = constraintEntry;
-      }
-      if (constraints.contains(1) && !constraints.contains(0)) {
-        constraint = constraintEntry;
-      }
-    }
-    if (constraint != null) {
-      Direction direction = constraint.getKey();
-      Island neighbor = island.getNeighbors().get(direction);
-      if (constraint.getValue().size() == 1) {
-        bridges.addAll(buildBridgesForSingleConstraints(island, constraint));
-        return bridges;
-      }
-      if (constraint.getValue().contains(1) && !constraint.getValue().contains(0)) {
-        bridges.add(buildBridge(island, neighbor));
-      }
-    }
-    return bridges;
+  private static boolean requiresAtLeastOneBridge(Map.Entry<Direction, List<Integer>> constraint) {
+    return constraint.getValue().contains(1) && !constraint.getValue().contains(0);
   }
 
-  private static List<Bridge> buildBridgesForSingleConstraints(
-    Island island,
-    Map.Entry<Direction, List<Integer>> constraintEntry
-  ) throws UnsolvableHashiMap {
-    List<Bridge> bridges = new ArrayList<>();
-
-    Island neighbor = island.getNeighbors().get(constraintEntry.getKey());
-    List<Integer> constraint = constraintEntry.getValue();
-    Integer numberOfBridges = constraint.get(0);
-
-    for (int i = 0; i < numberOfBridges; i++) {
-      bridges.add(buildBridge(island, neighbor));
-    }
-    return bridges;
+  private static boolean isSingleConstraint(Map.Entry<Direction, List<Integer>> constraint) {
+    return constraint.getValue().size() == 1;
   }
 
-  private static Bridge buildBridge(Island island, Island neighbor) throws UnsolvableHashiMap {
-    if (island.getAdjustedPopulation() >= 1 && neighbor.getAdjustedPopulation() >= 1) {
-      Bridge bridge = new Bridge(island, neighbor);
+  private static boolean exists(Map.Entry<Direction, List<Integer>> constraint) {
+    return constraint != null;
+  }
 
-      island.decreaseAdjustedPopulation();
-      neighbor.decreaseAdjustedPopulation();
+  public static void connect(HashiSolution hashiSolution) {
 
-      return bridge;
-    } else {
-      throw new UnsolvableHashiMap();
-    }
   }
 }
