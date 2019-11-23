@@ -2,11 +2,7 @@ package edu.louisville.traveler.hashi;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ConstraintAssignerSadPathTest extends BaseHashiTest {
   @Test
@@ -20,7 +16,6 @@ class ConstraintAssignerSadPathTest extends BaseHashiTest {
 
     assertThrows(UnsolvableHashiMap.class, () -> ConstraintAssigner.assignConstraints(hashiSolution));
   }
-
 
   @Test
   void population_3_Neighbor_2_LowPopulation() {

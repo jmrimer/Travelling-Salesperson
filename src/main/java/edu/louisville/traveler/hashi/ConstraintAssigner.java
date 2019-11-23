@@ -60,7 +60,7 @@ public class ConstraintAssigner {
     for (Island neighbor : island.getNeighbors().values()) {
       availableBridgeCapacity += neighbor.getAdjustedPopulation();
     }
-    return availableBridgeCapacity >= island.getAdjustedPopulation();
+    return availableBridgeCapacity < island.getAdjustedPopulation();
   }
 
   private static boolean clearDirectionConstraintsIfNeighborCompleted(Island island, Map.Entry<Direction, Island> neighborEntry) {

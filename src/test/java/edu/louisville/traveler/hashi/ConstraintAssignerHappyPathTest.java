@@ -7,27 +7,12 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ConstraintAssignerHappyPathTest {
-  Island islandCenter;
-  Island islandNorth;
-  Island islandEast;
-  Island islandSouth;
-  Island islandWest;
-  HashiMap hashiMap;
+public class ConstraintAssignerHappyPathTest  extends BaseHashiTest {
   private List<Integer> constraint_1 = List.of(1);
   private List<Integer> constraint_2 = List.of(2);
   private List<Integer> constraint_0_1 = List.of(0, 1);
   private List<Integer> constraint_1_2 = List.of(1, 2);
   private List<Integer> constraint_0_1_2 = List.of(0, 1, 2);
-
-  @BeforeEach
-  public void setup() {
-    islandCenter = new Island(new Coordinates(4, 4), 0);
-    islandNorth = new Island(new Coordinates(4, 6), 0);
-    islandEast = new Island(new Coordinates(6, 4), 0);
-    islandSouth = new Island(new Coordinates(4, 2), 0);
-    islandWest = new Island(new Coordinates(2, 4), 0);
-  }
 
   @Test
   void removeConstraintsWhenAdjustedPopulation0() throws UnsolvableHashiMap {
@@ -43,6 +28,7 @@ public class ConstraintAssignerHappyPathTest {
     );
 
     islandCenter.decreaseAdjustedPopulation();
+    islandEast.decreaseAdjustedPopulation();
     ConstraintAssigner.assignConstraints(hashiMap);
     assertTrue(islandCenter.getConstraints().isEmpty());
   }
@@ -60,8 +46,12 @@ public class ConstraintAssignerHappyPathTest {
       islandCenter.getConstraints().get(Direction.EAST)
     );
 
+    islandCenter.decreaseAdjustedPopulation();
     islandEast.decreaseAdjustedPopulation();
-    ConstraintAssigner.assignConstraints(hashiMap);
+    hashiSolution = new HashiSolution(hashiMap);
+    NeighborFinder.assignToIslands_AllAvailable(hashiSolution);
+
+    ConstraintAssigner.assignConstraints(hashiSolution);
     assertTrue(islandEast.getConstraints().isEmpty());
     assertTrue(islandCenter.getConstraints().isEmpty());
   }
@@ -710,52 +700,6 @@ public class ConstraintAssignerHappyPathTest {
     assertEquals(
       constraint_0_1_2,
       islandCenter.getConstraints().get(direction)
-    );
-  }
-
-  private HashiMap singleNeighborEastMap() {
-    return new HashiMap(
-      7,
-      List.of(
-        islandCenter,
-        islandEast
-      )
-    );
-  }
-
-  private HashiMap doubleNeighborEastNorthMap() {
-    return new HashiMap(
-      7,
-      List.of(
-        islandCenter,
-        islandEast,
-        islandNorth
-      )
-    );
-  }
-
-  private HashiMap tripleNeighborEastNorthWestMap() {
-    return new HashiMap(
-      7,
-      List.of(
-        islandCenter,
-        islandEast,
-        islandNorth,
-        islandWest
-      )
-    );
-  }
-
-  private HashiMap quadrupleNeighborEastNorthWestSouthMap() {
-    return new HashiMap(
-      7,
-      List.of(
-        islandCenter,
-        islandEast,
-        islandNorth,
-        islandWest,
-        islandSouth
-      )
     );
   }
 }

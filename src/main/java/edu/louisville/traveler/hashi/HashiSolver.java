@@ -34,9 +34,16 @@ public class HashiSolver {
     }
 
 
-//    do {
-//
-//    } while (singleConstraintsExist());
+    boolean continueLoop = true;
+    do {
+      try {
+        CertaintyConnector.connect(hashiSolution);
+        continueLoop = singleConstraintsExist();
+      } catch (UnsolvableHashiMap unsolvableHashiMap) {
+        isSolvable = false;
+        return;
+      }
+    } while (continueLoop);
 //    bridges.addAll(CertaintyConnector.connect(hashiMap));
 //
 //    if (puzzleSolved(hashiMap, bridges)) {
