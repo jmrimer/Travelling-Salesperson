@@ -6,6 +6,25 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ConstraintAssignerSadPathTest extends BaseHashiTest {
   @Test
+  void throwsErrorWhenNeighborCapacityNotEnough() {
+    hashiMap = singleNeighborEastMap();
+
+    islandCenter.setPopulation(2);
+    islandEast.setPopulation(1);
+    hashiSolution = new HashiSolution(hashiMap);
+    NeighborFinder.assignToIslands_AllAvailable(hashiSolution);
+
+    assertThrows(UnsolvableHashiMap.class, () -> ConstraintAssigner.assignConstraints(hashiSolution));
+
+    islandCenter.setPopulation(3);
+    islandEast.setPopulation(8);
+    hashiSolution = new HashiSolution(hashiMap);
+    NeighborFinder.assignToIslands_AllAvailable(hashiSolution);
+
+    assertThrows(UnsolvableHashiMap.class, () -> ConstraintAssigner.assignConstraints(hashiSolution));
+  }
+
+  @Test
   void population_2_Neighbor_1_LowPopulation() {
     hashiMap = singleNeighborEastMap();
     islandCenter.setPopulation(2);

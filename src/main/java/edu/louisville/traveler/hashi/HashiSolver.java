@@ -33,17 +33,22 @@ public class HashiSolver {
       return;
     }
 
-
-    boolean continueLoop = true;
     do {
       try {
         CertaintyConnector.connect(hashiSolution);
-        continueLoop = singleConstraintsExist();
+        if (puzzleSolved(hashiMap, bridges)) {
+          isSolvable = true;
+          return;
+        }
+
+        NeighborFinder.assignToIslands_AllAvailable(hashiSolution);
+        ConstraintAssigner.assignConstraints(hashiSolution);
       } catch (UnsolvableHashiMap unsolvableHashiMap) {
         isSolvable = false;
         return;
       }
-    } while (continueLoop);
+    } while (singleConstraintsExist());
+    
 //    bridges.addAll(CertaintyConnector.connect(hashiMap));
 //
 //    if (puzzleSolved(hashiMap, bridges)) {
@@ -56,10 +61,7 @@ public class HashiSolver {
 //    isSolvable = puzzleSolved(hashiMap, bridges);
   }
 
-  private boolean singleConstraintsExist() throws UnsolvableHashiMap {
-    NeighborFinder.assignToIslands_AllAvailable(hashiSolution);
-    ConstraintAssigner.assignConstraints(hashiSolution);
-
+  private boolean singleConstraintsExist() {
     for (Island island : hashiMap.getIslands()) {
       for (List<Integer> constraint : island.getConstraints().values()) {
         if (constraint.size() == 1 || !constraint.contains(0)) {
