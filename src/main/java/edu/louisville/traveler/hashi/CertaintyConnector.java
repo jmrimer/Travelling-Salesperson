@@ -18,9 +18,15 @@ public class CertaintyConnector {
     return bridges;
   }
 
-  public static List<Bridge> connect(HashiSolution hashiSolution) {
+  public static void connect(HashiSolution hashiSolution) throws UnsolvableHashiMap {
+    List<Bridge> bridges = hashiSolution.getBridges();
+    HashiMap hashiMap = hashiSolution.getHashiMap();
 
-    return new ArrayList<>();
+    for (Island island : hashiMap.getIslands()) {
+      NeighborFinder.assignToIslands_AllAvailable(hashiSolution);
+      ConstraintAssigner.assignConstraints(hashiMap);
+      bridges.addAll(buildBridgesFor(island));
+    }
   }
 
   private static List<Bridge> buildBridgesFor(Island island) throws UnsolvableHashiMap {

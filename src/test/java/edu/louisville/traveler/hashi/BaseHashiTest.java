@@ -61,6 +61,7 @@ public class BaseHashiTest {
   public Island islandSouth;
   public Island islandWest;
   public HashiMap hashiMap;
+  HashiSolution hashiSolution;
 
   @BeforeEach
   public void setup() {

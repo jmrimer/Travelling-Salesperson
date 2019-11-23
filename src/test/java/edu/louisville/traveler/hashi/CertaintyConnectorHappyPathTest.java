@@ -35,13 +35,16 @@ class CertaintyConnectorHappyPathTest extends BaseHashiTest {
   }
 
   @Test
-  void connects_1_Neighbor_to_Population_1() {
+  void connects_1_Neighbor_to_Population_1() throws UnsolvableHashiMap {
     hashiMap = singleNeighborEastMap();
     islandCenter.setPopulation(1);
     islandEast.setPopulation(1);
+    hashiSolution = new HashiSolution(hashiMap);
+
+    CertaintyConnector.connect(hashiSolution);
 
     assertThat(
-      CertaintyConnector.connect(hashiMap),
+      hashiSolution.getBridges(),
       containsInAnyOrder(List.of(
         new Bridge(islandCenter, islandEast)
       ).toArray())
@@ -49,13 +52,16 @@ class CertaintyConnectorHappyPathTest extends BaseHashiTest {
   }
 
   @Test
-  void connects_1_Neighbor_to_Population_2() {
+  void connects_1_Neighbor_to_Population_2() throws UnsolvableHashiMap {
     hashiMap = singleNeighborEastMap();
     islandCenter.setPopulation(2);
     islandEast.setPopulation(2);
+    hashiSolution = new HashiSolution(hashiMap);
+
+    CertaintyConnector.connect(hashiSolution);
 
     assertThat(
-      CertaintyConnector.connect(hashiMap),
+      hashiSolution.getBridges(),
       containsInAnyOrder(List.of(
         new Bridge(islandCenter, islandEast),
         new Bridge(islandCenter, islandEast)
@@ -64,14 +70,17 @@ class CertaintyConnectorHappyPathTest extends BaseHashiTest {
   }
 
   @Test
-  void connects_2_Neighbors_to_Population_3() {
+  void connects_2_Neighbors_to_Population_3() throws UnsolvableHashiMap {
     hashiMap = doubleNeighborEastNorthMap();
     islandCenter.setPopulation(3);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(1);
+    hashiSolution = new HashiSolution(hashiMap);
+
+    CertaintyConnector.connect(hashiSolution);
 
     assertThat(
-      CertaintyConnector.connect(hashiMap),
+      hashiSolution.getBridges(),
       containsInAnyOrder(List.of(
         new Bridge(islandCenter, islandEast),
         new Bridge(islandCenter, islandEast),
@@ -81,14 +90,17 @@ class CertaintyConnectorHappyPathTest extends BaseHashiTest {
   }
 
   @Test
-  void connects_2_Neighbors_to_Population_4() {
+  void connects_2_Neighbors_to_Population_4() throws UnsolvableHashiMap {
     hashiMap = doubleNeighborEastNorthMap();
     islandCenter.setPopulation(4);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(2);
+    hashiSolution = new HashiSolution(hashiMap);
+
+    CertaintyConnector.connect(hashiSolution);
 
     assertThat(
-      CertaintyConnector.connect(hashiMap),
+      hashiSolution.getBridges(),
       containsInAnyOrder(List.of(
         new Bridge(islandCenter, islandEast),
         new Bridge(islandCenter, islandEast),
@@ -99,15 +111,18 @@ class CertaintyConnectorHappyPathTest extends BaseHashiTest {
   }
 
   @Test
-  void connects_3_Neighbors_to_Population_3() {
+  void connects_3_Neighbors_to_Population_3() throws UnsolvableHashiMap {
     hashiMap = tripleNeighborEastNorthWestMap();
     islandCenter.setPopulation(3);
     islandEast.setPopulation(1);
     islandNorth.setPopulation(1);
     islandWest.setPopulation(1);
+    hashiSolution = new HashiSolution(hashiMap);
+
+    CertaintyConnector.connect(hashiSolution);
 
     assertThat(
-      CertaintyConnector.connect(hashiMap),
+      hashiSolution.getBridges(),
       containsInAnyOrder(List.of(
         new Bridge(islandCenter, islandEast),
         new Bridge(islandCenter, islandNorth),
@@ -117,15 +132,18 @@ class CertaintyConnectorHappyPathTest extends BaseHashiTest {
   }
 
   @Test
-  void connects_3_Neighbors_to_Population_4() {
+  void connects_3_Neighbors_to_Population_4() throws UnsolvableHashiMap {
     hashiMap = tripleNeighborEastNorthWestMap();
     islandCenter.setPopulation(4);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(1);
     islandWest.setPopulation(1);
+    hashiSolution = new HashiSolution(hashiMap);
+
+    CertaintyConnector.connect(hashiSolution);
 
     assertThat(
-      CertaintyConnector.connect(hashiMap),
+      hashiSolution.getBridges(),
       containsInAnyOrder(List.of(
         new Bridge(islandCenter, islandEast),
         new Bridge(islandCenter, islandEast),
@@ -136,16 +154,19 @@ class CertaintyConnectorHappyPathTest extends BaseHashiTest {
   }
 
   @Test
-  void connects_4_Neighbors_to_Population_4() {
+  void connects_4_Neighbors_to_Population_4() throws UnsolvableHashiMap {
     hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     islandCenter.setPopulation(4);
     islandEast.setPopulation(1);
     islandNorth.setPopulation(1);
     islandWest.setPopulation(1);
     islandSouth.setPopulation(1);
+    hashiSolution = new HashiSolution(hashiMap);
+
+    CertaintyConnector.connect(hashiSolution);
 
     assertThat(
-      CertaintyConnector.connect(hashiMap),
+      hashiSolution.getBridges(),
       containsInAnyOrder(List.of(
         new Bridge(islandCenter, islandEast),
         new Bridge(islandCenter, islandNorth),
@@ -156,16 +177,19 @@ class CertaintyConnectorHappyPathTest extends BaseHashiTest {
   }
 
   @Test
-  void connects_4_Neighbors_to_Population_5() {
+  void connects_4_Neighbors_to_Population_5() throws UnsolvableHashiMap {
     hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     islandCenter.setPopulation(5);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(1);
     islandWest.setPopulation(1);
     islandSouth.setPopulation(1);
+    hashiSolution = new HashiSolution(hashiMap);
+
+    CertaintyConnector.connect(hashiSolution);
 
     assertThat(
-      CertaintyConnector.connect(hashiMap),
+      hashiSolution.getBridges(),
       containsInAnyOrder(List.of(
         new Bridge(islandCenter, islandEast),
         new Bridge(islandCenter, islandEast),
@@ -177,7 +201,7 @@ class CertaintyConnectorHappyPathTest extends BaseHashiTest {
   }
 
   @Test
-  void connects_4_Neighbors_to_Population_6() {
+  void connects_4_Neighbors_to_Population_6() throws UnsolvableHashiMap {
     hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     islandCenter.setPopulation(6);
     islandEast.setPopulation(2);
@@ -185,7 +209,11 @@ class CertaintyConnectorHappyPathTest extends BaseHashiTest {
     islandWest.setPopulation(1);
     islandSouth.setPopulation(1);
 
-    List<Bridge> bridges = CertaintyConnector.connect(hashiMap);
+    hashiSolution = new HashiSolution(hashiMap);
+
+    CertaintyConnector.connect(hashiSolution);
+    List<Bridge> bridges = hashiSolution.getBridges();
+
     assertEquals(6, bridges.size());
     assertThat(
       bridges,
@@ -201,15 +229,18 @@ class CertaintyConnectorHappyPathTest extends BaseHashiTest {
   }
 
   @Test
-  void connects_4_Neighbors_to_Population_7() {
+  void connects_4_Neighbors_to_Population_7() throws UnsolvableHashiMap {
     hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     islandCenter.setPopulation(7);
     islandEast.setPopulation(2);
     islandNorth.setPopulation(2);
     islandWest.setPopulation(2);
     islandSouth.setPopulation(1);
+    hashiSolution = new HashiSolution(hashiMap);
 
-    List<Bridge> bridges = CertaintyConnector.connect(hashiMap);
+    CertaintyConnector.connect(hashiSolution);
+    List<Bridge> bridges = hashiSolution.getBridges();
+
     assertEquals(7, bridges.size());
     assertThat(
       bridges,
@@ -226,7 +257,7 @@ class CertaintyConnectorHappyPathTest extends BaseHashiTest {
   }
 
   @Test
-  void connects_4_Neighbors_to_Population_8() {
+  void connects_4_Neighbors_to_Population_8() throws UnsolvableHashiMap {
     hashiMap = quadrupleNeighborEastNorthWestSouthMap();
     islandCenter.setPopulation(8);
     islandEast.setPopulation(2);
@@ -234,8 +265,12 @@ class CertaintyConnectorHappyPathTest extends BaseHashiTest {
     islandWest.setPopulation(2);
     islandSouth.setPopulation(2);
 
+    hashiSolution = new HashiSolution(hashiMap);
+
+    CertaintyConnector.connect(hashiSolution);
+
     assertThat(
-      CertaintyConnector.connect(hashiMap),
+      hashiSolution.getBridges(),
       containsInAnyOrder(List.of(
         new Bridge(islandCenter, islandEast),
         new Bridge(islandCenter, islandEast),
@@ -247,42 +282,5 @@ class CertaintyConnectorHappyPathTest extends BaseHashiTest {
         new Bridge(islandCenter, islandSouth)
       ).toArray())
     );
-  }
-
-
-  @Test
-  void connects_5_Neighbors_to_ComplexMap() {
-    island_2_3.setPopulation(1);
-    island_3_2.setPopulation(2);
-    island_3_3.setPopulation(4);
-    island_3_4.setPopulation(1);
-    island_4_2.setPopulation(1);
-    island_5_3.setPopulation(1);
-    hashiMap = new HashiMap(
-      7,
-      List.of(island_2_3,
-        island_3_2,
-        island_3_3,
-        island_3_4,
-        island_4_2,
-        island_5_3
-      )
-    );
-
-    assertThat(
-      CertaintyConnector.connect(hashiMap),
-      containsInAnyOrder(List.of(
-        new Bridge(island_3_3, island_2_3),
-        new Bridge(island_3_3, island_3_2),
-        new Bridge(island_3_3, island_3_4),
-        new Bridge(island_3_3, island_5_3),
-        new Bridge(island_3_2, island_4_2)
-      ).toArray())
-    );
-  }
-
-  @Test
-  void connectsOnlyCertainNeighborsInComplexMap() {
-
   }
 }
