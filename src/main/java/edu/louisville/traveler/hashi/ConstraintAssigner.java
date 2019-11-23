@@ -11,14 +11,17 @@ public class ConstraintAssigner {
   private static List<Integer> constraint_1_2 = List.of(1, 2);
   private static List<Integer> constraint_0_1_2 = List.of(0, 1, 2);
 
-  public static void assignConstraints(HashiSolution hashiSolution) {
-
+  public static void assignConstraints(HashiSolution hashiSolution) throws UnsolvableHashiMap {
+    assignConstraints(hashiSolution.getHashiMap());
   }
 
   public static void assignConstraints(HashiMap hashiMap) throws UnsolvableHashiMap {
-
     for (Island island : hashiMap.getIslands()) {
       if (clearAllConstraintsIfCompleted(island)) continue;
+
+      if (neighborsCannotSupportPopulation(island)) {
+        throw new UnsolvableHashiMap();
+      }
 
       for (Map.Entry<Direction, Island> neighborEntry : island.getNeighbors().entrySet()) {
         if (clearDirectionConstraintsIfNeighborCompleted(island, neighborEntry)) continue;
@@ -50,6 +53,14 @@ public class ConstraintAssigner {
         }
       }
     }
+  }
+
+  private static boolean neighborsCannotSupportPopulation(Island island) {
+    int availableBridgeCapacity = 0;
+    for (Island neighbor : island.getNeighbors().values()) {
+      availableBridgeCapacity += neighbor.getAdjustedPopulation();
+    }
+    return availableBridgeCapacity >= island.getAdjustedPopulation();
   }
 
   private static boolean clearDirectionConstraintsIfNeighborCompleted(Island island, Map.Entry<Direction, Island> neighborEntry) {

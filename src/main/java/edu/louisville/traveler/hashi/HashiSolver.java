@@ -12,28 +12,55 @@ import static edu.louisville.traveler.hashi.HashiSolutionChecker.*;
 
 @Data
 public class HashiSolver {
+  private HashiSolution hashiSolution;
   private HashiMap hashiMap;
   private List<Bridge> bridges;
   private boolean isSolvable = false;
 
-
-  public HashiSolver(HashiMap hashiMap) throws UnsolvableHashiMap {
-    this.hashiMap = hashiMap;
-    this.bridges = new ArrayList<>();
-    checkFailuresAndUpdateMap();
+  public HashiSolver(HashiMap hashiMap) {
+    this.hashiSolution = new HashiSolution(hashiMap);
+    this.hashiMap = hashiSolution.getHashiMap();
+    this.bridges = hashiSolution.getBridges();
   }
 
   public void solve() {
-    bridges.addAll(CertaintyConnector.connect(hashiMap));
-
-    if (puzzleSolved(hashiMap, bridges)) {
-      isSolvable = true;
+    try {
+      verifyIslandsHaveNeighbors();
+      NeighborFinder.assignToIslands_AllAvailable(hashiSolution);
+      ConstraintAssigner.assignConstraints(hashiSolution);
+    } catch (UnsolvableHashiMap unsolvableHashiMap) {
+      isSolvable = false;
       return;
     }
 
-    connectViaDepthFirstSearch();
 
-    isSolvable = puzzleSolved(hashiMap, bridges);
+//    do {
+//
+//    } while (singleConstraintsExist());
+//    bridges.addAll(CertaintyConnector.connect(hashiMap));
+//
+//    if (puzzleSolved(hashiMap, bridges)) {
+//      isSolvable = true;
+//      return;
+//    }
+//
+//    connectViaDepthFirstSearch();
+//
+//    isSolvable = puzzleSolved(hashiMap, bridges);
+  }
+
+  private boolean singleConstraintsExist() throws UnsolvableHashiMap {
+    NeighborFinder.assignToIslands_AllAvailable(hashiSolution);
+    ConstraintAssigner.assignConstraints(hashiSolution);
+
+    for (Island island : hashiMap.getIslands()) {
+      for (List<Integer> constraint : island.getConstraints().values()) {
+        if (constraint.size() == 1 || !constraint.contains(0)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   private void checkFailuresAndUpdateMap() throws UnsolvableHashiMap {

@@ -34,56 +34,6 @@ public class HashiSolverSimpleMapTest extends BaseHashiTest {
     assertThrows(UnsolvableHashiMap.class, () -> new HashiSolver(hashiMap));
   }
 
-  @Test
-  void constructionErrsOnMapsWithFailedConstraints() {
-    island_2_3.setPopulation(1);
-    island_2_4.setPopulation(2);
-    island_4_2.setPopulation(1);
-    island_4_3.setPopulation(2);
-    island_4_4.setPopulation(2);
-
-    List<Island> islands = List.of(
-      island_2_3,
-      island_2_4,
-      island_4_2,
-      island_4_3,
-      island_4_4
-    );
-    hashiMap = new HashiMap(7, islands);
-    try {
-      hashiSolver = new HashiSolver(hashiMap);
-    } catch (UnsolvableHashiMap unsolvableHashiMap) {
-      assertTrue(false, "Construction threw error");
-      unsolvableHashiMap.printStackTrace();
-    }
-
-    island_2_3.setPopulation(1);
-    island_3_2.setPopulation(2);
-    island_3_3.setPopulation(5);
-    island_3_4.setPopulation(1);
-    island_4_2.setPopulation(3);
-    island_4_3.setPopulation(1);
-    islands = new ArrayList<>(List.of(
-      island_2_3,
-      island_3_2,
-      island_3_3,
-      island_3_4,
-      island_4_2,
-      island_4_3
-    ));
-    hashiMap = new HashiMap(7, islands);
-    try {
-      hashiSolver = new HashiSolver(hashiMap);
-    } catch (UnsolvableHashiMap unsolvableHashiMap) {
-      assertTrue(false, "Construction threw error");
-      unsolvableHashiMap.printStackTrace();
-    }
-
-    island_5_2.setPopulation(3);
-    islands.add(island_5_2);
-    hashiMap = new HashiMap(7, islands);
-    assertThrows(UnsolvableHashiMap.class, () -> new HashiSolver(hashiMap));
-  }
 
   @Test
   void solves_1_Feasible_Neighbor() throws UnsolvableHashiMap {

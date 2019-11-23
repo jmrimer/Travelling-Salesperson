@@ -15,6 +15,9 @@ public class HashiSolution {
     this.bridges = new ArrayList<>();
   }
 
+  public void setBridges(List<Bridge> bridges) {
+    this.bridges = new ArrayList<>(bridges);
+  }
 
   public void updateMap() throws UnsolvableHashiMap {
     for (Island island : hashiMap.getIslands()) {

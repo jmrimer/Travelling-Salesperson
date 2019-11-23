@@ -14,41 +14,148 @@ class ConstraintAssignerSadPathTest extends BaseHashiTest {
     hashiMap = singleNeighborEastMap();
     islandCenter.setPopulation(2);
     islandEast.setPopulation(1);
+    hashiSolution = new HashiSolution(hashiMap);
 
-    assertThrows(UnsolvableHashiMap.class, () -> new HashiSolver(hashiMap));
+    NeighborFinder.assignToIslands_AllAvailable(hashiSolution);
+
+    assertThrows(UnsolvableHashiMap.class, () -> ConstraintAssigner.assignConstraints(hashiSolution));
+  }
+
+
+  @Test
+  void population_3_Neighbor_2_LowPopulation() {
+    hashiMap = doubleNeighborEastNorthMap();
+
+    islandCenter.setPopulation(3);
+    islandEast.setPopulation(1);
+    islandNorth.setPopulation(1);
+    hashiSolution = new HashiSolution(hashiMap);
+    NeighborFinder.assignToIslands_AllAvailable(hashiSolution);
+
+    assertThrows(UnsolvableHashiMap.class, () -> ConstraintAssigner.assignConstraints(hashiSolution));
   }
 
   @Test
-  public void roadsPreventNeighbors() {
-    island_0_1.setPopulation(2);
-    island_2_0.setPopulation(2);
-    island_2_2.setPopulation(4);
-    island_4_1.setPopulation(3);
-    island_4_2.setPopulation(3);
+  void population_4_Neighbor_2_LowPopulation() {
+    hashiMap = doubleNeighborEastNorthMap();
 
-    HashiMap hashiMap = new HashiMap(7, List.of(
-      island_0_1,
-      island_2_0,
-      island_2_2,
-      island_4_1,
-      island_4_2
-    ));
+    islandCenter.setPopulation(4);
+    islandEast.setPopulation(2);
+    islandNorth.setPopulation(1);
+    hashiSolution = new HashiSolution(hashiMap);
+    NeighborFinder.assignToIslands_AllAvailable(hashiSolution);
 
-    List<Bridge> bridges = List.of(
-      new Bridge(island_2_0, island_2_2),
-      new Bridge(island_2_0, island_2_2),
-      new Bridge(island_2_2, island_4_2),
-      new Bridge(island_2_2, island_4_2)
-    );
-
-    HashiSolution hashiSolution = new HashiSolution(hashiMap);
-    hashiSolution.setBridges(bridges);
-    Map<Direction, Island> expectedNeighbor = new HashMap<>();
-    expectedNeighbor.put(Direction.NORTH, island_4_2);
-
-    ConstraintAssigner.assignConstraints(hashiSolution);
-
-    assertEquals(expectedNeighbor, island_4_1.getNeighbors());
+    assertThrows(UnsolvableHashiMap.class, () -> ConstraintAssigner.assignConstraints(hashiSolution));
   }
 
+  @Test
+  void population_4_Neighbor_3_LowPopulation() {
+    hashiMap = tripleNeighborEastNorthWestMap();
+
+    islandCenter.setPopulation(4);
+    islandEast.setPopulation(1);
+    islandNorth.setPopulation(1);
+    islandWest.setPopulation(1);
+    hashiSolution = new HashiSolution(hashiMap);
+    NeighborFinder.assignToIslands_AllAvailable(hashiSolution);
+
+    assertThrows(UnsolvableHashiMap.class, () -> ConstraintAssigner.assignConstraints(hashiSolution));
+  }
+
+  @Test
+  void population_5_Neighbor_2_LowPopulation() {
+    hashiMap = doubleNeighborEastNorthMap();
+    islandCenter.setPopulation(5);
+    islandEast.setPopulation(2);
+    islandNorth.setPopulation(2);
+    hashiSolution = new HashiSolution(hashiMap);
+    NeighborFinder.assignToIslands_AllAvailable(hashiSolution);
+
+    assertThrows(UnsolvableHashiMap.class, () -> ConstraintAssigner.assignConstraints(hashiSolution));
+  }
+
+  @Test
+  void population_5_Neighbor_3_LowPopulation() {
+    hashiMap = tripleNeighborEastNorthWestMap();
+
+    islandCenter.setPopulation(5);
+    islandEast.setPopulation(2);
+    islandNorth.setPopulation(1);
+    islandWest.setPopulation(1);
+    hashiSolution = new HashiSolution(hashiMap);
+    NeighborFinder.assignToIslands_AllAvailable(hashiSolution);
+
+    assertThrows(UnsolvableHashiMap.class, () -> ConstraintAssigner.assignConstraints(hashiSolution));
+  }
+
+  @Test
+  void population_5_Neighbor_4_LowPopulation() {
+    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
+    islandCenter.setPopulation(5);
+    islandEast.setPopulation(1);
+    islandNorth.setPopulation(1);
+    islandWest.setPopulation(1);
+    islandSouth.setPopulation(1);
+    hashiSolution = new HashiSolution(hashiMap);
+    NeighborFinder.assignToIslands_AllAvailable(hashiSolution);
+
+    assertThrows(UnsolvableHashiMap.class, () -> ConstraintAssigner.assignConstraints(hashiSolution));
+  }
+
+  @Test
+  void population_6_Neighbor_3_LowPopulation() {
+    hashiMap = tripleNeighborEastNorthWestMap();
+
+    islandCenter.setPopulation(6);
+    islandEast.setPopulation(2);
+    islandNorth.setPopulation(2);
+    islandWest.setPopulation(1);
+    hashiSolution = new HashiSolution(hashiMap);
+    NeighborFinder.assignToIslands_AllAvailable(hashiSolution);
+
+    assertThrows(UnsolvableHashiMap.class, () -> ConstraintAssigner.assignConstraints(hashiSolution));
+  }
+
+  @Test
+  void population_6_Neighbor_4_LowPopulation() {
+    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
+
+    islandCenter.setPopulation(6);
+    islandEast.setPopulation(2);
+    islandNorth.setPopulation(1);
+    islandWest.setPopulation(1);
+    islandSouth.setPopulation(1);
+    hashiSolution = new HashiSolution(hashiMap);
+    NeighborFinder.assignToIslands_AllAvailable(hashiSolution);
+
+    assertThrows(UnsolvableHashiMap.class, () -> ConstraintAssigner.assignConstraints(hashiSolution));
+  }
+
+  @Test
+  void population_7_Neighbor_4_LowPopulation() {
+    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
+    islandCenter.setPopulation(7);
+    islandEast.setPopulation(2);
+    islandNorth.setPopulation(2);
+    islandWest.setPopulation(1);
+    islandSouth.setPopulation(1);
+    hashiSolution = new HashiSolution(hashiMap);
+    NeighborFinder.assignToIslands_AllAvailable(hashiSolution);
+
+    assertThrows(UnsolvableHashiMap.class, () -> ConstraintAssigner.assignConstraints(hashiSolution));
+  }
+
+  @Test
+  void population_8_Neighbor_4_LowPopulation() {
+    islandCenter.setPopulation(8);
+    islandEast.setPopulation(2);
+    islandNorth.setPopulation(2);
+    islandWest.setPopulation(2);
+    islandSouth.setPopulation(1);
+    hashiMap = quadrupleNeighborEastNorthWestSouthMap();
+    hashiSolution = new HashiSolution(hashiMap);
+    NeighborFinder.assignToIslands_AllAvailable(hashiSolution);
+
+    assertThrows(UnsolvableHashiMap.class, () -> ConstraintAssigner.assignConstraints(hashiSolution));
+  }
 }
