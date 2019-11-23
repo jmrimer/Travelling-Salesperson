@@ -39,7 +39,7 @@ public class HashiMap {
 
   private void assignNeighbors() {
     for (Island island : islands) {
-      Map<Direction, Island> neighbors = NeighborChecker.findAllNeighbors(this, island);
+      Map<Direction, Island> neighbors = NeighborFinder.findNeighbors(this, island);
       island.setNeighbors(neighbors);
     }
   }

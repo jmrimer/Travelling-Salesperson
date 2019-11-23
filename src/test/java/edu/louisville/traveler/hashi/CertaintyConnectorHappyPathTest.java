@@ -9,7 +9,7 @@ import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInA
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class CertaintyConnectorTest extends BaseHashiTest {
+class CertaintyConnectorHappyPathTest extends BaseHashiTest {
   @Test
   void returnsEmpty_No_CertainNeighbors() {
     hashiMap = singleNeighborEastMap();

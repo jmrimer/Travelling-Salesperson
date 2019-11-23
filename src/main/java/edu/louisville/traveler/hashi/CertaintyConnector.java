@@ -18,12 +18,20 @@ public class CertaintyConnector {
     return bridges;
   }
 
+  public static List<Bridge> connect(HashiSolution hashiSolution) {
+
+    return new ArrayList<>();
+  }
+
   private static List<Bridge> buildBridgesFor(Island island) throws UnsolvableHashiMap {
     Map.Entry<Direction, List<Integer>> constraint = extractMandatoryConstraint(island);
     return exists(constraint) ? buildMandatoryBridges(island, constraint) : new ArrayList<>();
   }
 
-  private static List<Bridge> buildMandatoryBridges(Island island, Map.Entry<Direction, List<Integer>> constraint) throws UnsolvableHashiMap {
+  private static List<Bridge> buildMandatoryBridges(
+    Island island, Map.Entry<Direction,
+    List<Integer>> constraint
+  ) throws UnsolvableHashiMap {
     List<Bridge> bridges = new ArrayList<>();
 
     Direction direction = constraint.getKey();
@@ -127,9 +135,5 @@ public class CertaintyConnector {
 
   private static boolean exists(Map.Entry<Direction, List<Integer>> constraint) {
     return constraint != null;
-  }
-
-  public static void connect(HashiSolution hashiSolution) {
-
   }
 }

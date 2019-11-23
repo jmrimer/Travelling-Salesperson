@@ -11,6 +11,10 @@ public class ConstraintAssigner {
   private static List<Integer> constraint_1_2 = List.of(1, 2);
   private static List<Integer> constraint_0_1_2 = List.of(0, 1, 2);
 
+  public static void assignConstraints(HashiSolution hashiSolution) {
+
+  }
+
   public static void assignConstraints(HashiMap hashiMap) throws UnsolvableHashiMap {
 
     for (Island island : hashiMap.getIslands()) {
@@ -62,190 +66,6 @@ public class ConstraintAssigner {
       return true;
     }
     return false;
-  }
-
-  private static void octuplePopulationIsland(Island island, Map.Entry<Direction, Island> neighborEntry) {
-    Direction direction = neighborEntry.getKey();
-    island.setConstraint(direction, constraint_2);
-  }
-
-  private static void septuplePopulationIsland(Island island, Map.Entry<Direction, Island> neighborEntry) {
-    Island neighbor = neighborEntry.getValue();
-    Direction direction = neighborEntry.getKey();
-
-    if (oneNeighborIsSinglePopulation(island)) {
-      if (neighbor.getAdjustedPopulation() == 1) {
-        island.setConstraint(direction, constraint_1);
-      } else {
-        island.setConstraint(direction, constraint_2);
-      }
-    } else {
-      island.setConstraint(direction, constraint_1_2);
-    }
-  }
-
-  private static void sextuplePopulationIsland(Island island, Map.Entry<Direction, Island> neighborEntry) {
-    Island neighbor = neighborEntry.getValue();
-    Direction direction = neighborEntry.getKey();
-
-    switch (availableNeighborCount(island)) {
-      case 3:
-        island.setConstraint(direction, constraint_2);
-        break;
-      case 4:
-        if (twoNeighborsAreSinglePopulation(island)) {
-          if (neighbor.getAdjustedPopulation() == 1) {
-            island.setConstraint(direction, constraint_1);
-          } else {
-            island.setConstraint(direction, constraint_2);
-          }
-        } else if (oneNeighborIsSinglePopulation(island)) {
-          if (neighbor.getAdjustedPopulation() == 1) {
-            island.setConstraint(direction, constraint_0_1);
-          } else {
-            island.setConstraint(direction, constraint_1_2);
-          }
-        } else {
-          island.setConstraint(direction, constraint_0_1_2);
-        }
-    }
-  }
-
-  private static void quintuplePopulationIsland(Island island, Map.Entry<Direction, Island> neighborEntry) throws UnsolvableHashiMap {
-    Island neighbor = neighborEntry.getValue();
-    Direction direction = neighborEntry.getKey();
-
-    switch (availableNeighborCount(island)) {
-      case 3:
-        if (twoNeighborsAreSinglePopulation(island)) {
-          throw new UnsolvableHashiMap();
-        } else if (oneNeighborIsSinglePopulation(island)) {
-          if (neighbor.getAdjustedPopulation() == 1) {
-            island.setConstraint(direction, constraint_1);
-          } else {
-            island.setConstraint(direction, constraint_2);
-          }
-        } else {
-          island.setConstraint(direction, constraint_1_2);
-        }
-        break;
-      case 4:
-        if (threeNeighborsAreSinglePopulation(island)) {
-          if (neighbor.getAdjustedPopulation() == 1) {
-            island.setConstraint(direction, constraint_1);
-          } else {
-            island.setConstraint(direction, constraint_2);
-          }
-        } else if (twoNeighborsAreSinglePopulation(island)) {
-          if (neighbor.getAdjustedPopulation() == 1) {
-            island.setConstraint(direction, constraint_0_1);
-          } else {
-            island.setConstraint(direction, constraint_1_2);
-          }
-        } else {
-          if (neighbor.getAdjustedPopulation() == 1) {
-            island.setConstraint(direction, constraint_0_1);
-          } else {
-            island.setConstraint(direction, constraint_0_1_2);
-          }
-        }
-        break;
-    }
-  }
-
-  private static void quadruplePopulationIsland(Island island, Map.Entry<Direction, Island> neighborEntry) throws UnsolvableHashiMap {
-    Island neighbor = neighborEntry.getValue();
-    Direction direction = neighborEntry.getKey();
-
-    switch (availableNeighborCount(island)) {
-      case 2:
-        if (oneNeighborIsSinglePopulation(island)) {
-          throw new UnsolvableHashiMap();
-        } else {
-          island.setConstraint(direction, constraint_2);
-        }
-        break;
-      case 3:
-        if (allNeighborsAreSinglePopulation(island)) {
-          throw new UnsolvableHashiMap();
-        } else if (twoNeighborsAreSinglePopulation(island)) {
-          if (neighbor.getAdjustedPopulation() == 1) {
-            island.setConstraint(direction, constraint_1);
-          } else {
-            island.setConstraint(direction, constraint_2);
-          }
-        } else if (oneNeighborIsSinglePopulation(island)) {
-          if (neighbor.getAdjustedPopulation() == 1) {
-            island.setConstraint(direction, constraint_0_1);
-          } else {
-            island.setConstraint(direction, constraint_1_2);
-          }
-        } else {
-          island.setConstraint(direction, constraint_0_1_2);
-        }
-        break;
-      case 4:
-        if (allNeighborsAreSinglePopulation(island)) {
-          island.setConstraint(direction, constraint_1);
-        } else if (threeNeighborsAreSinglePopulation(island)) {
-          if (neighbor.getAdjustedPopulation() == 1) {
-            island.setConstraint(direction, constraint_0_1);
-          } else {
-            island.setConstraint(direction, constraint_1_2);
-          }
-        } else {
-          if (neighbor.getAdjustedPopulation() == 1) {
-            island.setConstraint(direction, constraint_0_1);
-          } else {
-            island.setConstraint(direction, constraint_0_1_2);
-          }
-        }
-        break;
-    }
-
-  }
-
-  private static void triplePopulationIsland(Island island, Map.Entry<Direction, Island> neighborEntry) {
-    Island neighbor = neighborEntry.getValue();
-    Direction direction = neighborEntry.getKey();
-
-    switch (availableNeighborCount(island)) {
-      case 2:
-        if (oneNeighborIsSinglePopulation(island)) {
-          if (neighbor.getAdjustedPopulation() == 1) {
-            island.setConstraint(direction, constraint_1);
-          } else {
-            island.setConstraint(direction, constraint_2);
-          }
-        } else {
-          island.setConstraint(direction, constraint_1_2);
-        }
-        break;
-      case 3:
-        if (allNeighborsAreSinglePopulation(island)) {
-          island.setConstraint(direction, constraint_1);
-        } else if (twoNeighborsAreSinglePopulation(island)) {
-          if (neighbor.getAdjustedPopulation() == 1) {
-            island.setConstraint(direction, constraint_0_1);
-          } else {
-            island.setConstraint(direction, constraint_1_2);
-          }
-        } else {
-          if (neighbor.getAdjustedPopulation() == 1) {
-            island.setConstraint(direction, constraint_0_1);
-          } else {
-            island.setConstraint(direction, constraint_0_1_2);
-          }
-        }
-        break;
-      case 4:
-        if (neighbor.getAdjustedPopulation() == 1) {
-          island.setConstraint(direction, constraint_0_1);
-        } else {
-          island.setConstraint(direction, constraint_0_1_2);
-        }
-    }
-
   }
 
   private static void doublePopulationIsland(Island island, Map.Entry<Direction, Island> neighborEntry) throws
@@ -319,6 +139,190 @@ public class ConstraintAssigner {
     }
   }
 
+  private static void triplePopulationIsland(Island island, Map.Entry<Direction, Island> neighborEntry) {
+    Island neighbor = neighborEntry.getValue();
+    Direction direction = neighborEntry.getKey();
+
+    switch (availableNeighborCount(island)) {
+      case 2:
+        if (oneNeighborIsSinglePopulation(island)) {
+          if (neighbor.getAdjustedPopulation() == 1) {
+            island.setConstraint(direction, constraint_1);
+          } else {
+            island.setConstraint(direction, constraint_2);
+          }
+        } else {
+          island.setConstraint(direction, constraint_1_2);
+        }
+        break;
+      case 3:
+        if (allNeighborsAreSinglePopulation(island)) {
+          island.setConstraint(direction, constraint_1);
+        } else if (twoNeighborsAreSinglePopulation(island)) {
+          if (neighbor.getAdjustedPopulation() == 1) {
+            island.setConstraint(direction, constraint_0_1);
+          } else {
+            island.setConstraint(direction, constraint_1_2);
+          }
+        } else {
+          if (neighbor.getAdjustedPopulation() == 1) {
+            island.setConstraint(direction, constraint_0_1);
+          } else {
+            island.setConstraint(direction, constraint_0_1_2);
+          }
+        }
+        break;
+      case 4:
+        if (neighbor.getAdjustedPopulation() == 1) {
+          island.setConstraint(direction, constraint_0_1);
+        } else {
+          island.setConstraint(direction, constraint_0_1_2);
+        }
+    }
+
+  }
+
+  private static void quadruplePopulationIsland(Island island, Map.Entry<Direction, Island> neighborEntry) throws UnsolvableHashiMap {
+    Island neighbor = neighborEntry.getValue();
+    Direction direction = neighborEntry.getKey();
+
+    switch (availableNeighborCount(island)) {
+      case 2:
+        if (oneNeighborIsSinglePopulation(island)) {
+          throw new UnsolvableHashiMap();
+        } else {
+          island.setConstraint(direction, constraint_2);
+        }
+        break;
+      case 3:
+        if (allNeighborsAreSinglePopulation(island)) {
+          throw new UnsolvableHashiMap();
+        } else if (twoNeighborsAreSinglePopulation(island)) {
+          if (neighbor.getAdjustedPopulation() == 1) {
+            island.setConstraint(direction, constraint_1);
+          } else {
+            island.setConstraint(direction, constraint_2);
+          }
+        } else if (oneNeighborIsSinglePopulation(island)) {
+          if (neighbor.getAdjustedPopulation() == 1) {
+            island.setConstraint(direction, constraint_0_1);
+          } else {
+            island.setConstraint(direction, constraint_1_2);
+          }
+        } else {
+          island.setConstraint(direction, constraint_0_1_2);
+        }
+        break;
+      case 4:
+        if (allNeighborsAreSinglePopulation(island)) {
+          island.setConstraint(direction, constraint_1);
+        } else if (threeNeighborsAreSinglePopulation(island)) {
+          if (neighbor.getAdjustedPopulation() == 1) {
+            island.setConstraint(direction, constraint_0_1);
+          } else {
+            island.setConstraint(direction, constraint_1_2);
+          }
+        } else {
+          if (neighbor.getAdjustedPopulation() == 1) {
+            island.setConstraint(direction, constraint_0_1);
+          } else {
+            island.setConstraint(direction, constraint_0_1_2);
+          }
+        }
+        break;
+    }
+
+  }
+
+  private static void quintuplePopulationIsland(Island island, Map.Entry<Direction, Island> neighborEntry) throws UnsolvableHashiMap {
+    Island neighbor = neighborEntry.getValue();
+    Direction direction = neighborEntry.getKey();
+
+    switch (availableNeighborCount(island)) {
+      case 3:
+        if (twoNeighborsAreSinglePopulation(island)) {
+          throw new UnsolvableHashiMap();
+        } else if (oneNeighborIsSinglePopulation(island)) {
+          if (neighbor.getAdjustedPopulation() == 1) {
+            island.setConstraint(direction, constraint_1);
+          } else {
+            island.setConstraint(direction, constraint_2);
+          }
+        } else {
+          island.setConstraint(direction, constraint_1_2);
+        }
+        break;
+      case 4:
+        if (threeNeighborsAreSinglePopulation(island)) {
+          if (neighbor.getAdjustedPopulation() == 1) {
+            island.setConstraint(direction, constraint_1);
+          } else {
+            island.setConstraint(direction, constraint_2);
+          }
+        } else if (twoNeighborsAreSinglePopulation(island)) {
+          if (neighbor.getAdjustedPopulation() == 1) {
+            island.setConstraint(direction, constraint_0_1);
+          } else {
+            island.setConstraint(direction, constraint_1_2);
+          }
+        } else {
+          if (neighbor.getAdjustedPopulation() == 1) {
+            island.setConstraint(direction, constraint_0_1);
+          } else {
+            island.setConstraint(direction, constraint_0_1_2);
+          }
+        }
+        break;
+    }
+  }
+
+  private static void sextuplePopulationIsland(Island island, Map.Entry<Direction, Island> neighborEntry) {
+    Island neighbor = neighborEntry.getValue();
+    Direction direction = neighborEntry.getKey();
+
+    switch (availableNeighborCount(island)) {
+      case 3:
+        island.setConstraint(direction, constraint_2);
+        break;
+      case 4:
+        if (twoNeighborsAreSinglePopulation(island)) {
+          if (neighbor.getAdjustedPopulation() == 1) {
+            island.setConstraint(direction, constraint_1);
+          } else {
+            island.setConstraint(direction, constraint_2);
+          }
+        } else if (oneNeighborIsSinglePopulation(island)) {
+          if (neighbor.getAdjustedPopulation() == 1) {
+            island.setConstraint(direction, constraint_0_1);
+          } else {
+            island.setConstraint(direction, constraint_1_2);
+          }
+        } else {
+          island.setConstraint(direction, constraint_0_1_2);
+        }
+    }
+  }
+
+  private static void septuplePopulationIsland(Island island, Map.Entry<Direction, Island> neighborEntry) {
+    Island neighbor = neighborEntry.getValue();
+    Direction direction = neighborEntry.getKey();
+
+    if (oneNeighborIsSinglePopulation(island)) {
+      if (neighbor.getAdjustedPopulation() == 1) {
+        island.setConstraint(direction, constraint_1);
+      } else {
+        island.setConstraint(direction, constraint_2);
+      }
+    } else {
+      island.setConstraint(direction, constraint_1_2);
+    }
+  }
+
+  private static void octuplePopulationIsland(Island island, Map.Entry<Direction, Island> neighborEntry) {
+    Direction direction = neighborEntry.getKey();
+    island.setConstraint(direction, constraint_2);
+  }
+
   private static int getSinglePopulationNeighborCount(Island island) {
     Map<Direction, Island> neighbors = new HashMap<>(island.getNeighbors());
     neighbors.values().removeIf(neighbor -> neighbor.getAdjustedPopulation() > 1);
@@ -349,10 +353,24 @@ public class ConstraintAssigner {
     }
   }
 
+//  private static void setAllConstraints(Island island, List<Integer> constraint) {
+//    HashMap<Direction, Island> availableNeighbors = new HashMap<>();
+//    for (Map.Entry<Direction, Island> neighbor : island.getNeighbors().entrySet()) {
+//      if (neighbor.getValue().getAdjustedPopulation() > 0 && noBridgeCrosses(island, neighbor.getValue(), hashiMap)) {
+//        availableNeighbors.put(neighbor.getKey(), neighbor.getValue());
+//      }
+//    }
+//
+//    island.getConstraints().clear();
+//    for (Map.Entry<Direction, Island> availableNeighbor : availableNeighbors.entrySet()) {
+//      island.getConstraints().put(availableNeighbor.getKey(), constraint);
+//    }
+//  }
+
   private static int availableNeighborCount(Island island) {
     return (int) island.getNeighbors().values()
       .stream()
-      .filter(island1 -> island1.getAdjustedPopulation() > 0)
+      .filter(neighbor -> neighbor.getAdjustedPopulation() > 0)
       .count();
   }
 }
