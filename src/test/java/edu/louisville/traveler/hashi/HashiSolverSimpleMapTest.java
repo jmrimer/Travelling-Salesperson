@@ -152,6 +152,31 @@ public class HashiSolverSimpleMapTest extends BaseHashiTest {
     assertTrue(hashiSolver.isSolvable());
   }
 
+  @Test
+  void solves_simple_5_Island() {
+    island_2_3.setPopulation(1);
+    island_3_2.setPopulation(2);
+    island_3_3.setPopulation(4);
+    island_3_4.setPopulation(1);
+    island_4_2.setPopulation(1);
+    island_5_3.setPopulation(1);
+    hashiMap = new HashiMap(
+      7,
+      List.of(
+        island_2_3,
+        island_3_2,
+        island_3_3,
+        island_3_4,
+        island_4_2,
+        island_5_3
+      )
+    );
+
+    hashiSolver = new HashiSolver(hashiMap);
+    hashiSolver.solve();
+    assertTrue(hashiSolver.isSolvable());
+  }
+
   private void checkAdjustPopulationsZero() {
     assertEquals(0, islandCenter.getAdjustedPopulation());
     assertEquals(0, islandEast.getAdjustedPopulation());

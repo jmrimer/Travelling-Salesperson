@@ -15,7 +15,7 @@ class HashiSolverComplexMapTest extends BaseHashiTest {
   HashiSolver hashiSolver;
 
   @Test
-  void Solves_Complex_4_Island() throws UnsolvableHashiMap {
+  void Solves_Complex_4_Island() {
     island_3_2.setPopulation(2);
     island_3_3.setPopulation(2);
     island_4_2.setPopulation(2);
@@ -32,7 +32,10 @@ class HashiSolverComplexMapTest extends BaseHashiTest {
 
     hashiSolver = new HashiSolver(hashiMap);
     hashiSolver.solve();
-    hashiSolver.getBridges().forEach(System.out::println);
+    assertTrue(hashiSolver.isSolvable());
+
+    assertEquals(4, hashiSolver.getBridges().size());
+
     assertThat(
       hashiSolver.getBridges(),
       containsInAnyOrder(List.of(
@@ -49,9 +52,43 @@ class HashiSolverComplexMapTest extends BaseHashiTest {
 
     assertTrue(HashiSolutionChecker.allBridgesBuilt(hashiSolver.getHashiMap(), hashiSolver.getBridges()));
     assertTrue(HashiSolutionChecker.allIslandsConnect(hashiSolver.getHashiMap(), hashiSolver.getBridges()));
-    assertTrue(hashiSolver.isSolvable());
   }
 
+  @Test
+  void connects_5_Neighbors_to_ComplexMap() {
+    island_2_3.setPopulation(1);
+    island_3_2.setPopulation(2);
+    island_3_3.setPopulation(4);
+    island_3_4.setPopulation(1);
+    island_4_2.setPopulation(1);
+    island_5_3.setPopulation(1);
+    hashiMap = new HashiMap(
+      7,
+      List.of(island_2_3,
+        island_3_2,
+        island_3_3,
+        island_3_4,
+        island_4_2,
+        island_5_3
+      )
+    );
+
+    assertThat(
+      CertaintyConnector.connect(hashiMap),
+      containsInAnyOrder(List.of(
+        new Bridge(island_3_3, island_2_3),
+        new Bridge(island_3_3, island_3_2),
+        new Bridge(island_3_3, island_3_4),
+        new Bridge(island_3_3, island_5_3),
+        new Bridge(island_3_2, island_4_2)
+      ).toArray())
+    );
+  }
+
+  @Test
+  void connectsOnlyCertainNeighborsInComplexMap() {
+
+  }
 
   @Test
   void Fails_Simple_6_Island() throws UnsolvableHashiMap {
@@ -72,34 +109,11 @@ class HashiSolverComplexMapTest extends BaseHashiTest {
         island_4_3
       )
     );
-
     hashiSolver = new HashiSolver(hashiMap);
-    assertThrows(UnsolvableHashiMap.class, () -> hashiSolver.solve());
-  }
 
-  @Test
-  void Solves_Simple_5_Island() throws UnsolvableHashiMap {
-    island_2_3.setPopulation(1);
-    island_3_2.setPopulation(2);
-    island_3_3.setPopulation(4);
-    island_3_4.setPopulation(1);
-    island_4_2.setPopulation(1);
-    island_5_3.setPopulation(1);
-    hashiMap = new HashiMap(
-      7,
-      List.of(
-        island_2_3,
-        island_3_2,
-        island_3_3,
-        island_3_4,
-        island_4_2,
-        island_5_3
-      )
-    );
-
-    hashiSolver = new HashiSolver(hashiMap);
     hashiSolver.solve();
-    assertTrue(hashiSolver.isSolvable());
+
+    assertFalse(hashiSolver.isSolvable());
   }
 
   @Disabled

@@ -18,7 +18,7 @@ public class HashiMap {
     this.gridSize = gridSize;
     startingPopulation = calculatePopulation();
     calculateBridgeCount();
-    assignNeighbors();
+//    assignNeighbors();
   }
 
   public int getRemainingPopulation() {
