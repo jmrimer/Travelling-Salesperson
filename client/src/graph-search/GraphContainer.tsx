@@ -134,7 +134,6 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = {
   postBFS: fetchShortestPathUsingBFS,
   postDFS: fetchShortestPathUsingDFS,
-  toggleMatrix: toggleMatrix
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(styled(GraphContainer)`

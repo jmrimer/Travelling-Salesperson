@@ -41,17 +41,21 @@ describe('reducers', () => {
         {
           generation: 1,
           parents: [
-            {route: [
+            {
+              route: [
                 {name: '1', latitude: 1, longitude: 1},
                 {name: '2', latitude: 2, longitude: 2},
                 {name: '3', latitude: 3, longitude: 3},
-              ], weight: 0},
+              ], weight: 0
+            },
           ],
-          children: [{route: [
+          children: [{
+            route: [
               {name: '1', latitude: 1, longitude: 1},
               {name: '3', latitude: 3, longitude: 3},
               {name: '2', latitude: 2, longitude: 2},
-            ], weight: 0}]
+            ], weight: 0
+          }]
         },
       ]
     };
@@ -64,8 +68,7 @@ describe('reducers', () => {
       0,
       [
         new TourModel([city1, city2, city3], 0)
-      ],
-      []
+      ]
     );
 
     let gen1 = new GenerationModel(
@@ -73,10 +76,8 @@ describe('reducers', () => {
       [
         new TourModel([city1, city2, city3], 0)
       ],
-      [
-        new TourModel([city1, city3, city2], 0)
-      ]
     );
+
     let expectedTrial = new TrialModel([gen0, gen1]);
 
     expect(serializeJSONToTrial(trialJSON)).toEqual(expectedTrial);

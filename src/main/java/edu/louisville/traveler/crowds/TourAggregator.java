@@ -10,8 +10,6 @@ import java.util.stream.Collectors;
 
 public class TourAggregator {
   public static LivingTour aggregate(Map map, List<Edge> edges) {
-//    get heuristic path
-//    insert WOAC edges
     ClosestEdgeInserter closestEdgeInserter = new ClosestEdgeInserter();
     Tour tour = closestEdgeInserter.generateTour(map.getCities());
 
@@ -21,7 +19,9 @@ public class TourAggregator {
     fuseWisdomWithHeuristicTour(edges, cityHunks);
     route = flatten(cityHunks);
 
-    route.add(route.get(0));
+    if (!route.isEmpty()) {
+      route.add(route.get(0));
+    }
     return new LivingTour(route);
   }
 
@@ -32,8 +32,8 @@ public class TourAggregator {
 //      assert endHunk != null;
 //      assert startHunk != null;
 //      if (hunks.indexOf(startHunk) < hunks.indexOf(endHunk)) {
-        fuse(startHunk, endHunk, edge);
-        hunks.remove(endHunk);
+      fuse(startHunk, endHunk, edge);
+      hunks.remove(endHunk);
 //      } else {
 //        endHunk.addAll(startHunk);
 //        hunks.remove(startHunk);

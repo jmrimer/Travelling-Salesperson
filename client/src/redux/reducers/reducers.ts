@@ -1,11 +1,12 @@
 import { ActionTypes } from '../actions/types';
 import { Page } from '../../website-styling/Header';
 import {
-  createInitialMatrix, serializeJSONToHashiMap,
+  createInitialMatrix,
   serializeJSONToPath,
   serializeJSONtoTour,
-  serializeJSONToTrial, serializeJSONToWisdom,
-  startingMap4, staticHashiMap,
+  serializeJSONToTrial,
+  serializeJSONToWisdom,
+  startingMap4,
   textFromBody,
   toggleMatrix,
   translateCoordinateTextToGraphReadyPoints
@@ -20,7 +21,7 @@ const initState = {
   shortestDFSPath: null,
   adjacencyMatrix: createInitialMatrix(),
   points: translateCoordinateTextToGraphReadyPoints(startingMap4),
-  currentPage: Page.HASHI_SOLVER,
+  currentPage: Page.BRUTE_FORCE,
   currentGeneration: 0,
   startingPopulation: 32,
   populationCap: 32,
@@ -32,7 +33,6 @@ const initState = {
   crowdSize: 20,
   agreementThreshold: 90,
   wisdom: new WisdomModel(),
-  hashiMap: staticHashiMap(),
 };
 
 function incrementGeneration(current: number, max: number) {
@@ -106,10 +106,6 @@ const reducer = (state = initState, action: any) => {
       return {...state, maxMutationSize: action.body};
     case ActionTypes.UPDATE_MUTATION_RATE:
       return {...state, mutationRate: action.body};
-    case ActionTypes.FETCH_STATIC_HASHI_MAP_REQUEST:
-      return {...state, loading: true};
-    case ActionTypes.FETCH_STATIC_HASHI_MAP_SUCCESS:
-      return {...state, hashiMap: serializeJSONToHashiMap(action.body), loading: false}
 
     default:
       return state;

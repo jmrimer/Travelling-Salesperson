@@ -6,6 +6,7 @@ import edu.louisville.traveler.genetics.Trial;
 import edu.louisville.traveler.maps.City;
 import edu.louisville.traveler.maps.Edge;
 import edu.louisville.traveler.maps.MapHelpers;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileWriter;
@@ -21,6 +22,7 @@ public class CrowdWisdomServiceTest extends BaseGeneticsTest {
   FileWriter csvWriter;
 
   @Test
+  @Ignore("Test used to examine many trials for analysis in report.")
   public void run30() throws IOException {
     for (int i = 0; i < 30; i++) {
       timestamp = System.currentTimeMillis();
@@ -33,7 +35,7 @@ public class CrowdWisdomServiceTest extends BaseGeneticsTest {
 
   @Test
   public void returnsWisdomWithPopulatedCrowdsAndAggregatedTour() {
-    totalGenerations = 256;
+    totalGenerations = 8;
 
     WisdomRequestModel wisdomRequestModel = new WisdomRequestModel(
       map100,
@@ -73,15 +75,18 @@ public class CrowdWisdomServiceTest extends BaseGeneticsTest {
     }
     System.out.println("aggregated tour weight: " + wisdom.getAggregatedTour().getWeight());
 
-    long end = System.currentTimeMillis();
-    long duration = end - start;
-    try {
-      String row = timestamp + "," + livingTour.getWeight() + "," + wisdom.getAgreedEdges().size() + "," + duration;
-      csvWriter.append(row).append("\n");
-      csvWriter.flush();
-      csvWriter.close();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    /*
+      Used to collect long run results for many trials
+    */
+//    long end = System.currentTimeMillis();
+//    long duration = end - start;
+//    try {
+//      String row = timestamp + "," + livingTour.getWeight() + "," + wisdom.getAgreedEdges().size() + "," + duration;
+//      csvWriter.append(row).append("\n");
+//      csvWriter.flush();
+//      csvWriter.close();
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
   }
 }
